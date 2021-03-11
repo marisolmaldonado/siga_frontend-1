@@ -10,7 +10,7 @@ export const environment = {
     production: false,
     STORAGE_URL: URL + 'storage/',
     API_URL_AUTHENTICATION: URL + 'v1/authentication/',
-    API_URL_IGNUG: URL + 'v1/ignug/',
+    API_URL_APP: URL + 'v1/app/',
     API_URL_ATTENDANCE: URL + 'v1/attendance/',
     API_URL_JOB_BOARD: URL + 'v1/job_board/',
     API_URL_WEB: URL + 'v1/web/',
@@ -20,10 +20,6 @@ export const environment = {
     CLIENT_ID: '2',
     CLIENT_SECRET: 'aWutjlzle2OXOovBeCMR8aHY4h2CKM6B1Il87rW4',
     GRANT_TYPE: 'password',
-
-    APP_ACRONYM: 'IGNUG',
-    APP_NAME: 'SISTEMA DE GESTIÓN ACADÉMICO - ADMINISTRATIVO',
-    APP_VERSION: '1.2.1'
 };
 
 /*

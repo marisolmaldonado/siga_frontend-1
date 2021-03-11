@@ -47,8 +47,6 @@ export class AppLoginComponent implements OnInit, OnDestroy {
         this.roles = [];
         this.institutions = [];
         this.user = {};
-        this.appName = environment.APP_NAME;
-        this.appAcronym = environment.APP_ACRONYM;
     }
 
     ngOnInit(): void {
