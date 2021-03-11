@@ -89,9 +89,6 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     onLoggedin() {
         this.msgs = [];
         const credentials = {
-            client_id: environment.CLIENT_ID,
-            client_secret: environment.CLIENT_SECRET,
-            grant_type: environment.GRANT_TYPE,
             username: this.formLogin.controls['username'].value,
             password: this.formLogin.controls['password'].value
         };
@@ -100,15 +97,16 @@ export class AppLoginComponent implements OnInit, OnDestroy {
             response => {
                 localStorage.setItem('token', JSON.stringify(response));
                 this.authService.resetAttempts(credentials.username).subscribe(response => {
-
+                    this.getUser();
                 }, error => {
+                    this._spinner.hide();
                     this.msgs = [{
                         severity: 'error',
                         summary: error.error.msg.summary,
                         detail: error.error.msg.detail,
                     }];
                 });
-                this.getUser();
+
             }, error => {
                 this._spinner.hide();
                 this.authService.removeLogin();

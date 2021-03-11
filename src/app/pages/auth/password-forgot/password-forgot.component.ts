@@ -16,35 +16,38 @@ export class PasswordForgotComponent implements OnInit {
     msgs: Message[];
     formPasswordReset: FormGroup;
     flagPasswordReset: boolean;
+
     constructor(private _authService: AuthService,
                 private _spinner: NgxSpinnerService,
                 private _router: Router,
                 private _fb: FormBuilder,
                 private _confirmationService: ConfirmationService) {
     }
-    
+
     ngOnInit(): void {
         this.buildFormPasswordReset();
     }
-    
+
     buildFormPasswordReset() {
         this.formPasswordReset = this._fb.group({
             username: ['', Validators.required]
         });
     }
-    
-    onSubmitForgotPassword(event: Event) {
+
+    onSubmitForgotPassword(event: Event, grecaptcha) {
         event.preventDefault();
         if (this.formPasswordReset.valid) {
-            this.forgotPassword();
+            this.forgotPassword(grecaptcha);
         } else {
             this.formPasswordReset.markAllAsTouched();
         }
     }
-    
-    forgotPassword() {
+
+    forgotPassword(grecaptcha) {
         this._spinner.show();
         this._authService.forgotPassword(this.formPasswordReset.controls['username'].value).subscribe(response => {
+            this.flagPasswordReset = false;
+            grecaptcha.reset();
             this.msgs = [{
                 severity: 'info',
                 summary: response['msg']['summary'],
@@ -52,6 +55,8 @@ export class PasswordForgotComponent implements OnInit {
             }];
             this._spinner.hide();
         }, error => {
+            this.flagPasswordReset = false;
+            grecaptcha.reset();
             this._spinner.hide();
             this.msgs = [{
                 severity: 'error',

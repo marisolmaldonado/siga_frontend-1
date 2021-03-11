@@ -13,6 +13,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {MessageModule} from 'primeng/message';
 import {DropdownModule} from 'primeng/dropdown';
 import {ConfirmationService, MessageService} from 'primeng/api';
+import {CaptchaModule} from 'primeng/captcha';
 
 // My Components
 import {AppNotfoundComponent} from './app.notfound.component';
@@ -25,7 +26,7 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {UserUnlockComponent} from './user-unlock/user-unlock.component';
 import {UnlockComponent} from './unlock/unlock.component';
 import {AppUnderMaintenanceComponent} from './app.under-maintenance.component';
-import {CaptchaModule} from 'primeng/captcha';
+
 
 @NgModule({
     imports: [

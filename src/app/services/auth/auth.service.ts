@@ -17,8 +17,15 @@ export class AuthService {
     constructor(private _http: HttpClient, private router: Router) {
     }
 
-    login(credentials: any, params = new HttpParams()) {
+    login(userCredentials: any, params = new HttpParams()) {
         const url = URL + 'oauth/token';
+        const credentials = {
+            client_id: environment.CLIENT_ID,
+            client_secret: environment.CLIENT_SECRET,
+            grant_type: environment.GRANT_TYPE,
+            username: userCredentials.username,
+            password: userCredentials.password
+        };
         return this._http.post(url, credentials, {params});
     }
 

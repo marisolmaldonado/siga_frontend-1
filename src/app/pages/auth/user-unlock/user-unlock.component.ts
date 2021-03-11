@@ -34,26 +34,30 @@ export class UserUnlockComponent implements OnInit {
         });
     }
 
-    onSubmitForgotPassword(event: Event) {
+    onSubmitForgotPassword(event: Event,grecaptcha) {
         event.preventDefault();
         if (this.formPasswordReset.valid) {
-            this.forgotPassword();
+            this.forgotPassword(grecaptcha);
         } else {
             this.formPasswordReset.markAllAsTouched();
         }
     }
 
-    forgotPassword() {
+    forgotPassword(grecaptcha) {
         this._spinner.show();
         this._authService.userUnlock(this.formPasswordReset.controls['username'].value).subscribe(response => {
+            this._spinner.hide();
+            this.flagPasswordReset=false;
+                grecaptcha.reset();
             this.msgs = [{
                 severity: 'info',
                 summary: response['msg']['summary'],
                 detail: response['msg']['detail']
             }];
-            this._spinner.hide();
         }, error => {
             this._spinner.hide();
+            this.flagPasswordReset=false;
+            grecaptcha.reset();
             this.msgs = [{
                 severity: 'error',
                 summary: error.error.msg.summary,

@@ -58,9 +58,9 @@ export class InterceptorService implements HttpInterceptor {
                 this._router.navigate(['/auth/login']);
             }
 
-            if (error.status === 403) {
-                this._router.navigate(['/auth/login']);
-            }
+            // if (error.status === 403) {
+            //     this._router.navigate(['/auth/login']);
+            // }
             return throwError(error);
         }));
     }
