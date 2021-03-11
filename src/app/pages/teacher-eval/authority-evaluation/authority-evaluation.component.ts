@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadcrumbService } from '../../../shared/breadcrumb.service';
 import { MessageService } from 'primeng/api';
-import { IgnugService } from '../../../services/ignug/ignug.service';
+import { AppService } from '../../../services/app/app.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TeacherEvalService } from '../../../services/teacher-eval/teacher-eval.service';
@@ -40,7 +40,7 @@ export class AuthorityEvaluationComponent implements OnInit {
     private _teacherEvalService: TeacherEvalService,
     private _messageService: MessageService,
     private _translate: TranslateService,
-    private _ignugService: IgnugService,
+    private _ignugService: AppService,
   ) {
     this._breadcrumbService.setItems([
       { label: 'authorityEvaluations' }

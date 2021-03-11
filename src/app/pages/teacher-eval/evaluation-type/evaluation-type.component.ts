@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {EvaluationType} from '../../../models/teacher-eval/evaluation-type';
 import {TeacherEvalService} from '../../../services/teacher-eval/teacher-eval.service';
 import { BreadcrumbService } from '../../../shared/breadcrumb.service';
-import { IgnugService } from '../../../services/ignug/ignug.service';
+import { AppService } from '../../../services/app/app.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService,  MessageService, SelectItem } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';

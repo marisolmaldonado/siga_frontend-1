@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {environment} from '../../../../environments/environment';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ConfirmationService, Message} from 'primeng/api';
-import {IgnugService} from '../../../services/ignug/ignug.service';
+import {AppService} from '../../../services/app/app.service';
 import {AuthService} from '../../../services/auth/auth.service';
 import {Permission, Role, System, User} from '../../../models/auth/models.index';
 import {Institution} from '../../../models/ignug/institution';
@@ -38,7 +38,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
 
     constructor(private authService: AuthService,
-                private ignugService: IgnugService,
+                private ignugService: AppService,
                 private _spinner: NgxSpinnerService,
                 private router: Router,
                 private _fb: FormBuilder,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TeacherEvalService } from '../../../services/teacher-eval/teacher-eval.service';
 import { BreadcrumbService } from '../../../shared/breadcrumb.service';
-import { IgnugService } from '../../../services/ignug/ignug.service';
+import { AppService } from '../../../services/app/app.service';
 import { Evaluation } from '../../../models/teacher-eval/evaluation';
 import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -34,7 +34,7 @@ export class EvaluationComponent implements OnInit {
   filteredTeachers: any[];
 
   constructor(private _teacherEvalService: TeacherEvalService,
-    private _ignugService: IgnugService,
+    private _ignugService: AppService,
     private _messageService: MessageService,
     private _fb: FormBuilder,
     private _translate: TranslateService,

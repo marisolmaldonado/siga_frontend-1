@@ -10,7 +10,7 @@ import {BreadcrumbService} from '../../../shared/services/breadcrumb.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {HttpParams} from '@angular/common/http';
 import {Institution} from '../../../models/ignug/institution';
-import {IgnugService} from '../../../services/ignug/ignug.service';
+import {AppService} from '../../../services/app/app.service';
 
 @Component({
     selector: 'app-user',
@@ -40,7 +40,7 @@ export class UserComponent implements OnInit {
                 private confirmationService: ConfirmationService,
                 private breadcrumbService: BreadcrumbService,
                 private _authService: AuthService,
-                private _ignugService: IgnugService,
+                private _ignugService: AppService,
                 private _spinnerService: NgxSpinnerService,
                 private _fb: FormBuilder,
     ) {

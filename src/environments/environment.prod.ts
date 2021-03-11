@@ -5,7 +5,7 @@ export const environment = {
     production: true,
     STORAGE_URL: URL + 'storage/',
     API_URL_AUTHENTICATION: URL + 'api/authentication/',
-    API_URL_IGNUG: URL + 'api/ignug/',
+    API_URL_APP: URL + 'api/app/',
     API_URL_ATTENDANCE: URL + 'api/attendance/',
     API_URL_JOB_BOARD: URL + 'api/job_board/',
     API_URL_WEB: URL + 'api/web/',

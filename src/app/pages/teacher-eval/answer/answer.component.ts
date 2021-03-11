@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Answer } from '../../../models/teacher-eval/answer';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TeacherEvalService } from '../../../services/teacher-eval/teacher-eval.service';
-import { IgnugService } from '../../../services/ignug/ignug.service';
+import { AppService } from '../../../services/app/app.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -29,7 +29,7 @@ export class AnswerComponent implements OnInit {
         private _confirmationService: ConfirmationService,
         private _spinnerService: NgxSpinnerService,
         private _teacherEvalService: TeacherEvalService,
-        private _ignugService: IgnugService,
+        private _ignugService: AppService,
         private _messageService: MessageService,
         private _translate: TranslateService,
     ) {
