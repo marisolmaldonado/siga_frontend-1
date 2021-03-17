@@ -1,6 +1,6 @@
 <div class="layout-footer">
     <div class="logo-text">
-        <img src="../../../../assets/layout/images/logo-mirage@2x.png" alt="mirage-layout" />
+        <img [src]="STORAGE_URL+institution.logo" alt="mirage-layout"/>
         <div class="text">
             <h1 class="hide">&reg;{{institution.name}}</h1>
             <span> &copy;{{system.date| date:"y"}} Todos los derechos reservados.

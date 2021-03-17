@@ -36,6 +36,9 @@ import { AssignPermissionRoleComponent } from './assign-permission-role/assign-p
 import {TreeModule} from 'primeng/tree';
 import {AccordionModule} from 'primeng/accordion';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
+import { ProfileComponent } from './profile/profile.component';
+import {SharedModule} from "../shared/shared.module";
+import {CardModule} from "primeng/card";
 
 @NgModule({
     imports: [
@@ -68,13 +71,16 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
         TabViewModule,
         TreeModule,
         AccordionModule,
-        OverlayPanelModule
+        OverlayPanelModule,
+        SharedModule,
+        CardModule
     ],
     declarations: [
         UserComponent,
         PermissionRoleComponent,
         AdministrationComponent,
-        AssignPermissionRoleComponent
+        AssignPermissionRoleComponent,
+        ProfileComponent,
     ],
     providers: [ConfirmationService, MessageService]
 })

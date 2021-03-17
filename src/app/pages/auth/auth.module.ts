@@ -26,6 +26,8 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {UserUnlockComponent} from './user-unlock/user-unlock.component';
 import {UnlockComponent} from './unlock/unlock.component';
 import {AppUnderMaintenanceComponent} from './app.under-maintenance.component';
+import {SecurityQuestionComponent} from "./security-question/security-question.component";
+import {CheckboxModule} from "primeng/checkbox";
 
 
 @NgModule({
@@ -43,6 +45,7 @@ import {AppUnderMaintenanceComponent} from './app.under-maintenance.component';
         TooltipModule,
         AutoCompleteModule,
         CaptchaModule,
+        CheckboxModule,
     ],
     declarations: [
         AppNotfoundComponent,
@@ -52,7 +55,8 @@ import {AppUnderMaintenanceComponent} from './app.under-maintenance.component';
         PasswordForgotComponent,
         UserUnlockComponent,
         UnlockComponent,
-        AppUnderMaintenanceComponent
+        AppUnderMaintenanceComponent,
+        SecurityQuestionComponent
     ],
     providers: [ConfirmationService, MessageService]
 })

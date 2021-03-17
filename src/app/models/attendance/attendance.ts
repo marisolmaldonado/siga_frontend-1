@@ -1,5 +1,5 @@
 import {User} from '../auth/models.index';
-import {State} from '../ignug/models.index';
+import {State} from '../app/models.index';
 import {Task, Workday} from './models.index';
 
 export interface Attendance {

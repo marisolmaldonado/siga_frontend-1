@@ -1,8 +1,8 @@
-import {State} from '../ignug/models.index';
-import {SchoolPeriodo} from '../ignug/models.index';
+import {State} from '../app/models.index';
+import {SchoolPeriodo} from '../app/models.index';
 import {EvaluationType} from '../teacher-eval/models.index';
-import {Catalogue} from '../ignug/models.index';
-import {Teacher} from '../ignug/models.index';
+import {Catalogue} from '../app/models.index';
+import {Teacher} from '../app/models.index';
 
 export interface Evaluation{
     id?: number;

@@ -1,3 +1,11 @@
+<p-fileUpload name="files[]" (uploadHandler)="onUpload($event)" customUpload="true"
+              multiple="multiple" accept="application/pdf" maxFileSize="1000000">
+    <ng-template pTemplate="content">
+        <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+        </ul>
+    </ng-template>
+</p-fileUpload>
 <p-toast position="top-center"></p-toast>
 <p-overlayPanel #opSearchUser [showCloseIcon]="true">
     <ng-template pTemplate>

@@ -37,7 +37,7 @@ export class PasswordResetComponent implements OnInit {
             token: [this._activatedRoute.snapshot.queryParams.token, Validators.required],
             username: [this._activatedRoute.snapshot.queryParams.username, Validators.required],
             password: ['', [Validators.required, Validators.minLength(6)]],
-            password_confirm: ['', [Validators.required, Validators.minLength(6)]],
+            password_confirmation: ['', [Validators.required, Validators.minLength(6)]],
         });
     }
     
@@ -55,7 +55,7 @@ export class PasswordResetComponent implements OnInit {
             this._spinner.show();
             const credentials = {
                 password: this.formPasswordReset.controls['password'].value,
-                password_confirm: this.formPasswordReset.controls['password_confirm'].value,
+                password_confirmation: this.formPasswordReset.controls['password_confirmation'].value,
                 token: this.formPasswordReset.controls['token'].value,
             };
             this._authService.resetPassword(credentials).subscribe(
@@ -78,6 +78,6 @@ export class PasswordResetComponent implements OnInit {
     }
     
     checkPasswords() {
-        return this.formPasswordReset.controls['password'].value === this.formPasswordReset.controls['password_confirm'].value;
+        return this.formPasswordReset.controls['password'].value === this.formPasswordReset.controls['password_confirmation'].value;
     }
 }

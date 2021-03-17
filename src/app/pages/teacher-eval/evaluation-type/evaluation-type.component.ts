@@ -8,7 +8,7 @@ import { ConfirmationService,  MessageService, SelectItem } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Catalogue } from 'src/app/models/ignug/catalogue';
+import { Catalogue } from 'src/app/models/app/catalogue';
 
 @Component({
   selector: 'app-evaluation-type',

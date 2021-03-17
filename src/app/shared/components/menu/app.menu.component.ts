@@ -3,7 +3,7 @@ import {AppMainComponent} from '../main/app.main.component';
 import {Permission, System} from '../../../models/auth/models.index';
 import {AuthService} from '../../../services/auth/auth.service';
 import {environment} from '../../../../environments/environment';
-import {Institution} from "../../../models/ignug/institution";
+import {Institution} from "../../../models/app/institution";
 
 
 @Component({

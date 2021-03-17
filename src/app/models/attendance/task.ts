@@ -1,4 +1,4 @@
-import {Catalogue, Observation, State} from '../ignug/models.index';
+import {Catalogue, Observation, State} from '../app/models.index';
 import {Attendance} from './models.index';
 
 export interface Task {

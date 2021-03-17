@@ -1,4 +1,4 @@
-import {State} from '../ignug/models.index';
+import {State} from './/models.index';
 
 export interface Catalogue {
     id?: number;

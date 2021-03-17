@@ -1,4 +1,4 @@
-import {State} from '../ignug/models.index';
+import {State} from '../app/models.index';
 
 export interface Module {
     id?: number;

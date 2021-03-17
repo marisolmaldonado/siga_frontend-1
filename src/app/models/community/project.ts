@@ -1,4 +1,4 @@
-import {Catalogue, Career, SchoolPeriodo} from '../ignug/models.index';
+import {Catalogue, Career, SchoolPeriodo} from '../app/models.index';
 import {Participant, Objective, BeneficiaryInstitution, StakeHolder, Activity} from '../community/models.index';
 
 export interface Project {

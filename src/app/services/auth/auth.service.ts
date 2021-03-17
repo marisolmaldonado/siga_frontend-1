@@ -105,6 +105,11 @@ export class AuthService {
         return this._http.delete(url, {params});
     }
 
+    uploadAvatar(data: FormData, params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'users/avatars';
+        return this._http.post(url, data, {params});
+    }
+
     changePassword(url: string, data: any, params = new HttpParams()) {
         url = environment.API_URL_AUTHENTICATION + url;
         return this._http.put(url, data, {params});
@@ -118,5 +123,6 @@ export class AuthService {
         localStorage.removeItem('isLoggedin');
         localStorage.removeItem('token');
         localStorage.removeItem('system');
+        localStorage.removeItem('keepSession');
     }
 }

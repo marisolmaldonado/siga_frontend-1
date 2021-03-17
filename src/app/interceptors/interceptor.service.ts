@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {tryCatch} from 'rxjs/internal-compatibility';
 import {URL} from '../../environments/environment';
-import {Institution} from '../models/ignug/institution';
+import {Institution} from '../models/app/institution';
 import {User} from '../models/auth/user';
 import {Role} from '../models/auth/role';
 

@@ -10,7 +10,7 @@ import {User, Role} from '../../../models/auth/models.index';
 import {Event, Col} from '../../../models/setting/models.index';
 import * as moment from 'moment';
 import {environment} from '../../../../environments/environment';
-import {Institution} from '../../../models/ignug/institution';
+import {Institution} from '../../../models/app/institution';
 import {HttpParams} from '@angular/common/http';
 import * as fileSaver from 'file-saver';
 

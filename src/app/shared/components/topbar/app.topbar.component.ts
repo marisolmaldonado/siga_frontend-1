@@ -5,7 +5,7 @@ import {Permission, Role, User} from "../../../models/auth/models.index";
 import {AuthService} from "../../../services/auth/auth.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {environment} from "../../../../environments/environment";
-import {Institution} from "../../../models/ignug/institution";
+import {Institution} from "../../../models/app/institution";
 
 
 @Component({
@@ -102,6 +102,7 @@ export class AppTopBarComponent {
         this.appMain.megaMenuMobileClick = true;
         this.activeItem = this.activeItem === index ? null : index;
     }
+
     logOut() {
         this._spinner.show();
         this._authService.logout().subscribe(response => {

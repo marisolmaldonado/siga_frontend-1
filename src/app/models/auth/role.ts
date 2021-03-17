@@ -1,4 +1,4 @@
-import {Catalogue} from '../ignug/catalogue';
+import {Catalogue} from '../app/catalogue';
 import {Permission, User} from './models.index';
 
 export interface Role {

@@ -1,4 +1,4 @@
-import {Catalogue, Image, State} from '../ignug/models.index';
+import {Catalogue, Image, State} from '../app/models.index';
 
 export interface Route {
     id?: number;

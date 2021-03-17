@@ -1,5 +1,5 @@
-import {Catalogue, Institution} from '../ignug/models.index';
-import {Image} from '../ignug/models.index';
+import {Catalogue, Institution} from '../app/models.index';
+import {Image} from '../app/models.index';
 import {Role} from './models.index';
 import {Attendance} from '../attendance/attendance';
 
@@ -13,7 +13,7 @@ export interface User {
     username?: string;
     password?: string;
     new_password?: string;
-    password_confirm?: string;
+    password_confirmation?: string;
     ethnic_origin?: Catalogue;
     location?: Catalogue;
     identification_type?: Catalogue;
@@ -23,7 +23,6 @@ export interface User {
     birthdate?: Date;
     email?: string;
     images?: Image[];
-    // avatar?: Image;
     avatar?: string;
     roles?: Role[];
     role?: Role;

@@ -5,12 +5,13 @@ import {User} from '../../../models/auth/user';
 import {Col} from '../../../models/setting/col';
 import {Condition} from '../../../models/setting/condition';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ConfirmationService, Message, MessageService, TreeNode} from 'primeng/api';
+import {ConfirmationService, Message, MessageService} from 'primeng/api';
 import {BreadcrumbService} from '../../../shared/services/breadcrumb.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {HttpParams} from '@angular/common/http';
-import {Institution} from '../../../models/ignug/institution';
+import {Institution} from '../../../models/app/institution';
 import {AppService} from '../../../services/app/app.service';
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-user',
@@ -35,6 +36,8 @@ export class UserComponent implements OnInit {
     flagUser: boolean;
     msgs: Message[];
     institution: Institution;
+    uploadedFiles: any[] = [];
+    API_URL_AUTHENTICATION: string;
 
     constructor(private messageService: MessageService,
                 private confirmationService: ConfirmationService,
@@ -59,6 +62,7 @@ export class UserComponent implements OnInit {
             email: {maxlength: 50},
         };
         this.institution = JSON.parse(localStorage.getItem('institution')) as Institution;
+        this.API_URL_AUTHENTICATION = environment.API_URL_AUTHENTICATION + 'upload'
     }
 
     ngOnInit() {
@@ -196,11 +200,21 @@ export class UserComponent implements OnInit {
                 accept: () => {
                     this.users = this.users.filter(element => !this.selectedUsers.includes(element));
                     this.selectedUsers = null;
-                    this.messageService.add({severity: 'success', summary: 'Successful', detail: 'Deleted', life: 3000});
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'Deleted',
+                        life: 3000
+                    });
                 }
             });
         } else {
-            this.messageService.add({severity: 'error', summary: 'Debe seleccionar al menos un registro', detail: 'Deleted', life: 3000});
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Debe seleccionar al menos un registro',
+                detail: 'Deleted',
+                life: 3000
+            });
         }
     }
 
@@ -239,7 +253,12 @@ export class UserComponent implements OnInit {
 
     search(event, inputSearch) {
         if (inputSearch.length > 0 && event.key !== 'Backspace') {
-            this.conditions = [{field: this.selectedCol.field, logic_operator: 'ilike', match_mode: 'contains', value: inputSearch}];
+            this.conditions = [{
+                field: this.selectedCol.field,
+                logic_operator: 'ilike',
+                match_mode: 'contains',
+                value: inputSearch
+            }];
             this.getUsers();
         } else if (inputSearch.length === 0) {
             this.conditions = null;
@@ -319,5 +338,22 @@ export class UserComponent implements OnInit {
         }, error => {
             this._spinnerService.hide();
         });
+    }
+
+    onUpload(event) {
+        const form = new FormData();
+        for (let file of event.files) {
+            this.uploadedFiles.push(file);
+            form.append('files[]', file);
+        }
+        // form.append('project', JSON.stringify(this.project));
+
+        this._ignugService.post('upload', form).subscribe(response => {
+            this._spinnerService.hide();
+            this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+        }, error => {
+            this._spinnerService.hide();
+        });
+
     }
 }

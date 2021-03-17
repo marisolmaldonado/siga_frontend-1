@@ -1,5 +1,5 @@
-import {Addreess} from '../ignug/address';
-import {State} from '../ignug/state';
+import {Addreess} from '../app/address';
+import {State} from '../app/state';
 
 export interface BeneficiaryInstitution {
     id?:number;

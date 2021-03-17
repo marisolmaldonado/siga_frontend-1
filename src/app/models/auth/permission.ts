@@ -1,4 +1,4 @@
-import {Institution, State} from '../ignug/models.index';
+import {Institution, State} from '../app/models.index';
 import {Role, Route, Shortcut} from './models.index';
 
 export interface Permission {

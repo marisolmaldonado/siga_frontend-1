@@ -1,4 +1,4 @@
-import {Catalogue, State} from '../ignug/models.index';
+import {Catalogue, State} from './/models.index';
 
 export interface Career {
     id?: number;

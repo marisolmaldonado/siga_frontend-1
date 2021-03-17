@@ -12,7 +12,7 @@ import {Attendance, Workday, Task} from '../../../models/attendance/models.index
 import {User, Role} from '../../../models/auth/models.index';
 import {Event, Col} from '../../../models/setting/models.index';
 import * as moment from 'moment';
-import {Institution} from '../../../models/ignug/institution';
+import {Institution} from '../../../models/app/institution';
 import {environment} from '../../../../environments/environment';
 import {Moment} from 'moment';
 import {element} from 'protractor';

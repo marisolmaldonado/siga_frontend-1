@@ -71,6 +71,9 @@
                                 </small>
                             </div>
                         </div>
+                        <div class="login-input-wrapper">
+                            <p-checkbox formControlName="keep_session" [binary]="true" label="Mantener Sesión"></p-checkbox>
+                        </div>
                         <div class="buttons">
                             <button id="login" name="login" type="submit" pButton label="Continuar"
                                     icon="pi pi-arrow-right"></button>
@@ -169,31 +172,31 @@
                                 </small>
                             </div>
                             <small id="new_password3Help" class="p-invalid"
-                                   *ngIf="formChangePassword.controls['new_password'].value !== formChangePassword.controls['password_confirm'].value">
+                                   *ngIf="formChangePassword.controls['new_password'].value !== formChangePassword.controls['password_confirmation'].value">
                                 Passwords not match.
                             </small>
                         </div>
                         <div class="login-input-wrapper">
-                            <label for="password_confirm">Confirmar Contraseña:</label>
-                            <input type="password" pPassword id="password_confirm" name="password_confirm"
-                                   formControlName="password_confirm"
+                            <label for="password_confirmation">Confirmar Contraseña:</label>
+                            <input type="password" pPassword id="password_confirmation" name="password_confirmation"
+                                   formControlName="password_confirmation"
                                    placeholder="Ingrese mínimo 6 caracteres" [feedback]="false"
                                    [showPassword]="flagShowPassword"/>
                             <i (click)="flagShowPassword=!flagShowPassword" class="pi"
                                [ngClass]="{'pi-eye-slash':flagShowPassword,'pi-eye':!flagShowPassword}"
                                [pTooltip]="flagShowPassword?'Ocultar Contraseña':'Mostrar Contraseña'"></i>
-                            <div *ngIf="formChangePassword.get('password_confirm').errors && formChangePassword.get('password_confirm').touched">
+                            <div *ngIf="formChangePassword.get('password_confirmation').errors && formChangePassword.get('password_confirmation').touched">
                                 <small id="password_confirm1Help" class="p-invalid"
-                                       *ngIf="formChangePassword.get('password_confirm').hasError('required')">
+                                       *ngIf="formChangePassword.get('password_confirmation').hasError('required')">
                                     PasswordConfirm is required.
                                 </small>
                                 <small id="password_confirm2Help" class="p-invalid"
-                                       *ngIf="formChangePassword.get('password_confirm').hasError('minlength')">
+                                       *ngIf="formChangePassword.get('password_confirmation').hasError('minlength')">
                                     PasswordConfirm minlength is 6.
                                 </small>
                             </div>
                             <small id="password_confirm3Help" class="p-invalid"
-                                   *ngIf="formChangePassword.controls['new_password'].value != formChangePassword.controls['password_confirm'].value">
+                                   *ngIf="formChangePassword.controls['new_password'].value != formChangePassword.controls['password_confirmation'].value">
                                 Passwords not match.
                             </small>
                         </div>

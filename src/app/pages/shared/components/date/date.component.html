@@ -1,0 +1,25 @@
+<div class="p-d-flex p-flex-md-row">
+    <p-dropdown id="year" [options]="years" [formControl]="year" placeholder="Año"
+                [virtualScroll]="true"
+                [itemSize]="40"
+                (onChange)="updateValue();calculateTotalDays()"></p-dropdown>
+    <p-dropdown id="month"
+                [options]="months"
+                [formControl]="month"
+                placeholder="Mes"
+                class="p-ml-2"
+                (onChange)="calculateTotalDays();updateValue()">
+        <ng-template pTemplate="selectedItem">
+            <div>{{month.value|months}}</div>
+        </ng-template>
+        <ng-template let-month pTemplate="item">
+            <div>{{month.value|months}}</div>
+        </ng-template>
+    </p-dropdown>
+    <p-dropdown id="day"
+                [options]="days"
+                [formControl]="day"
+                placeholder="Día"
+                class="p-ml-2"
+                (onChange)="updateValue()"></p-dropdown>
+</div>

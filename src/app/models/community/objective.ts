@@ -1,4 +1,4 @@
-import {Catalogue, State} from '../ignug/models.index';
+import {Catalogue, State} from '../app/models.index';
 
 export interface Objective {
     id?:number;

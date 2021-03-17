@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {environment} from '../../../../environments/environment';
 import {System} from "../../../models/auth/models.index";
-import {Institution} from "../../../models/ignug/institution";
+import {Institution} from "../../../models/app/institution";
 
 @Component({
     selector: 'app-footer',

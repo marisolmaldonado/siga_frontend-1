@@ -1,5 +1,5 @@
-import {State} from '../ignug/models.index';
-import {Catalogue} from '../ignug/models.index';
+import {State} from '../app/models.index';
+import {Catalogue} from '../app/models.index';
 import {EvaluationType} from '../teacher-eval/models.index';
 
 export interface Question {

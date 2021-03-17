@@ -1,4 +1,4 @@
-import {State, Catalogue, Observation} from '../ignug/models.index';
+import {State, Catalogue, Observation} from '../app/models.index';
 import {Attendance} from './models.index';
 
 export interface Workday {

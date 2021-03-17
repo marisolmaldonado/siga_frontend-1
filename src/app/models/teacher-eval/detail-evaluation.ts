@@ -1,5 +1,5 @@
 import { Evaluation } from '../teacher-eval/models.index'
-import {State} from '../ignug/models.index';
+import {State} from '../app/models.index';
 
 export interface DetailEvaluation {
     id?: number;

@@ -6,7 +6,7 @@ import {environment} from '../../../environments/environment';
 import {ROLES} from '../../../environments/catalogues';
 import {AuthService} from '../../services/auth/auth.service';
 import {User} from '../../models/auth/user';
-import {Institution} from '../../models/ignug/institution';
+import {Institution} from '../../models/app/institution';
 import {Message} from 'primeng/api';
 import {NgxSpinnerService} from 'ngx-spinner';
 import * as moment from 'moment';
@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
 
     showBirthdate() {
         if (!localStorage.getItem('birthdate')) {
-            if (this.user.birthdate && this.user.birthdate.toString().substr(5, 5) === moment().format('MM-DD')) {
+            if (this.user && this.user.birthdate && this.user.birthdate.toString().substr(5, 5) === moment().format('MM-DD')) {
                 this.randomNumber = Math.floor(Math.random() * (5 - 1) + 1);
                 localStorage.setItem('birthdate', 'true');
                 this.flagBirhday = true;

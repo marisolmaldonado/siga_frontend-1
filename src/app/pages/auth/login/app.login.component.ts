@@ -7,7 +7,7 @@ import {ConfirmationService, Message} from 'primeng/api';
 import {AppService} from '../../../services/app/app.service';
 import {AuthService} from '../../../services/auth/auth.service';
 import {Permission, Role, System, User} from '../../../models/auth/models.index';
-import {Institution} from '../../../models/ignug/institution';
+import {Institution} from '../../../models/app/institution';
 import {Subscription} from 'rxjs';
 import {element} from "protractor";
 
@@ -33,8 +33,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     flagShowPasswordReset: boolean;
     STORAGE_URL: string = environment.STORAGE_URL;
     flagChangePassword: boolean;
-    appName: string;
-    appAcronym: string;
+
     private subscription: Subscription;
 
     constructor(private authService: AuthService,
@@ -47,6 +46,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
         this.roles = [];
         this.institutions = [];
         this.user = {};
+        this.verifySession();
     }
 
     ngOnInit(): void {
@@ -63,18 +63,19 @@ export class AppLoginComponent implements OnInit, OnDestroy {
         this.formLogin = this._fb.group({
             username: ['', Validators.required],
             password: ['', Validators.required],
+            keep_session: [false],
         });
     }
 
     buildFormChangePassword() {
         this.formChangePassword = this._fb.group({
             new_password: ['', [Validators.required, Validators.minLength(6)]],
-            password_confirm: ['', [Validators.required, Validators.minLength(6)]],
+            password_confirmation: ['', [Validators.required, Validators.minLength(6)]],
         });
     }
 
     checkPasswords() {
-        return this.formChangePassword.controls['new_password'].value === this.formChangePassword.controls['password_confirm'].value;
+        return this.formChangePassword.controls['new_password'].value === this.formChangePassword.controls['password_confirmation'].value;
     }
 
     buildFormInstitutionRole() {
@@ -184,7 +185,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
         if (this.checkPasswords()) {
             this.user.password = this.formLogin.controls['password'].value;
             this.user.new_password = this.formChangePassword.controls['new_password'].value;
-            this.user.password_confirm = this.formChangePassword.controls['password_confirm'].value;
+            this.user.password_confirmation = this.formChangePassword.controls['password_confirmation'].value;
             this._spinner.show();
             this.authService.changePassword('auth/change_password', {user: this.user}).subscribe(
                 response => {
@@ -234,6 +235,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
         localStorage.setItem('isLoggedin', 'true');
         localStorage.setItem('institution', JSON.stringify(this.formInstitutionRole.controls['institution'].value));
         localStorage.setItem('role', JSON.stringify(this.formInstitutionRole.controls['role'].value));
+        this.keepSession();
         this.router.navigate(['/dashboard']);
     }
 
@@ -295,5 +297,15 @@ export class AppLoginComponent implements OnInit, OnDestroy {
         }, error => {
             this._spinner.hide();
         }));
+    }
+
+    keepSession() {
+        localStorage.setItem('keepSession', JSON.stringify(this.formLogin.controls['keep_session'].value));
+    }
+
+    verifySession() {
+        if (localStorage.getItem('keepSession') == 'true') {
+            this.router.navigate(['/dashboard']);
+        }
     }
 }

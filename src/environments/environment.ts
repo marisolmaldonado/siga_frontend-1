@@ -17,8 +17,8 @@ export const environment = {
     API_URL_TEACHER_EVAL: URL + 'v1/teacher_eval/',
     API_URL_COMMUNITY: URL + 'v1/community/',
 
-    CLIENT_ID: '2',
-    CLIENT_SECRET: 'aWutjlzle2OXOovBeCMR8aHY4h2CKM6B1Il87rW4',
+    CLIENT_ID: '1',
+    CLIENT_SECRET: 'll4JiAtXas6vxheC0RFWMIe9Pn6hPGrQBv6ZP6th',
     GRANT_TYPE: 'password',
 };
 

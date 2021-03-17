@@ -34,7 +34,6 @@ import {BreadcrumbService} from './shared/services/breadcrumb.service';
 import {MenuService} from './shared/services/app.menu.service';
 import {InterceptorService} from "./interceptors/interceptor.service";
 
-
 @NgModule({
     imports: [
         BrowserModule,
@@ -48,7 +47,7 @@ import {InterceptorService} from "./interceptors/interceptor.service";
         CalendarModule,
         CheckboxModule,
         RadioButtonModule,
-        InputSwitchModule
+        InputSwitchModule,
     ],
     declarations: [
         AppBlankComponent,

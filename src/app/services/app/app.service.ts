@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Router} from '@angular/router';
 
@@ -19,7 +19,7 @@ export class AppService {
             .set('X-Requested-With', 'XMLHttpRequest')
             .append('Content-Type', 'application/json')
             .append('Accept', 'application/json');
-         // .append('Authorization', 'Bearer ' + localStorage.getItem('accessToken').replace('"', ''));
+        // .append('Authorization', 'Bearer ' + localStorage.getItem('accessToken').replace('"', ''));
         url = environment.API_URL_APP + url;
         return this._http.get(url, {headers: this.headers});
     }
@@ -54,10 +54,19 @@ export class AppService {
         return this._http.delete(url, {headers: this.headers});
     }
 
-    upload(url: string, data: any) {
-        url = environment.API_URL_APP + url;
-        this.headers = new HttpHeaders(); // .set('Authorization', 'Bearer ' + localStorage.getItem('accessToken').replace('"', ''));
-        return this._http.post(url, data, {headers: this.headers});
+    uploadFiles(data: FormData,params = new HttpParams()) {
+        const url = environment.API_URL_APP + 'files';
+        return this._http.post(url, data, {params});
     }
-    
+
+    uploadImages(data: FormData,params = new HttpParams()) {
+        const url = environment.API_URL_APP + 'images';
+        return this._http.post(url, data, {params});
+    }
+
+    getCatalogues(params = new HttpParams()) {
+        const url = environment.API_URL_APP + 'catalogues';
+        return this._http.get(url, {params});
+    }
+
 }

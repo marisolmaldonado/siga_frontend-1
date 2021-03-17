@@ -1,5 +1,5 @@
-import {Catalogue} from '../ignug/catalogue'
-import { State } from '../ignug/state';
+import {Catalogue} from '../app/catalogue'
+import { State } from '../app/state';
 
 export interface EvaluationType {
     id?: number;
