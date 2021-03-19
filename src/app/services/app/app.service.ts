@@ -69,4 +69,12 @@ export class AppService {
         return this._http.get(url, {params});
     }
 
+    getLocations(params = new HttpParams()) {
+        const url = environment.API_URL_APP + 'locations';
+        return this._http.get(url, {params});
+    }
+    getCountries(params = new HttpParams()) {
+        const url = environment.API_URL_APP + 'countries';
+        return this._http.get(url, {params});
+    }
 }

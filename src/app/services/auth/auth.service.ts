@@ -13,8 +13,10 @@ import {Log} from '../../models/log';
 
 export class AuthService {
     log: Log;
+    urlAvatar: string;
 
     constructor(private _http: HttpClient, private router: Router) {
+        this.urlAvatar = environment.STORAGE_URL;
     }
 
     login(userCredentials: any, params = new HttpParams()) {
@@ -124,5 +126,12 @@ export class AuthService {
         localStorage.removeItem('token');
         localStorage.removeItem('system');
         localStorage.removeItem('keepSession');
+    }
+
+    setUrlAvatar(url: string) {
+        this.urlAvatar = environment.STORAGE_URL + url;
+    }
+    getUrlAvatar() {
+        return this.urlAvatar;
     }
 }

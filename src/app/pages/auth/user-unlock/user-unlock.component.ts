@@ -4,6 +4,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ConfirmationService, Message} from 'primeng/api';
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-user-unlock',
@@ -16,12 +17,13 @@ export class UserUnlockComponent implements OnInit {
     msgs: Message[];
     formPasswordReset: FormGroup;
     flagPasswordReset: boolean;
-
+    SITE_KEY:string;
     constructor(private _authService: AuthService,
                 private _spinner: NgxSpinnerService,
                 private _router: Router,
                 private _fb: FormBuilder,
                 private _confirmationService: ConfirmationService) {
+        this.SITE_KEY = environment.SITE_KEY;
     }
 
     ngOnInit(): void {
@@ -48,7 +50,7 @@ export class UserUnlockComponent implements OnInit {
         this._authService.userUnlock(this.formPasswordReset.controls['username'].value).subscribe(response => {
             this._spinner.hide();
             this.flagPasswordReset=false;
-                grecaptcha.reset();
+               // grecaptcha.reset();
             this.msgs = [{
                 severity: 'info',
                 summary: response['msg']['summary'],

@@ -8,8 +8,8 @@
             <div class="login-panel-content">
                 <div class="logo">
                     <div *ngIf="institutions.length===0">
-                        <h3>{{appName}}</h3>
-                        <h2>{{appAcronym}}</h2>
+                        <h3>{{system.name}}</h3>
+                        <h2>{{system.acronym}}</h2>
                         <img src="assets/layout/images/login/login.png" alt="mirage-layout"/>
                     </div>
                     <div *ngIf="flagChangePassword">
@@ -25,9 +25,9 @@
                         </p>
                     </div>
                     <div *ngIf="(institutions.length>1 || roles.length>1) && !flagChangePassword">
-                        <h1 *ngIf="formInstitutionRole.get('institution').errors">
+                        <h1 *ngIf="institutionField().errors">
                             Seleccione su Institución</h1>
-                        <img *ngIf="!formInstitutionRole.get('institution').errors"
+                        <img *ngIf="!institutionField().errors"
                              [src]="STORAGE_URL+formInstitutionRole.controls['institution'].value['logo']"
                              alt="mirage-layout"/>
                         <p>
@@ -46,33 +46,27 @@
                                    placeholder="Número de cédula Ej. 0504172422"
                                    maxlength="13"
                                    formControlName="username"/>
-                            <i class="pi pi-user" pTooltip="Número de cédula Ej. 0504172422"></i>
-                            <div *ngIf="formLogin.get('username').errors && formLogin.get('username').touched">
-                                <small *ngIf="formLogin.get('username').hasError('required')"
-                                       id="usernameHelp" class="p-invalid">
-                                    Usuario es obligatorio.
+                            <div *ngIf="usernameField().errors && usernameField().touched">
+                                <small *ngIf="usernameField().hasError('required')"
+                                       id="usernameHelp" class="p-error">
+                                    El campo es obligatorio.
                                 </small>
                             </div>
                         </div>
                         <div class="login-input-wrapper">
                             <label for="password">Contraseña:</label>
-                            <input id="password" name="password" type="password" placeholder=""
-                                   pPassword
-                                   formControlName="password"
-                                   [feedback]="false"
-                                   [showPassword]="flagShowPassword"/>
-                            <i (click)="flagShowPassword=!flagShowPassword"
-                               [class]="flagShowPassword?'pi pi-eye-slash':'pi pi-eye'"
-                               [pTooltip]="flagShowPassword?'Ocultar Contraseña':'Mostrar Contraseña'"></i>
-                            <div *ngIf="formLogin.get('password').errors && formLogin.get('password').touched">
-                                <small *ngIf="formLogin.get('password').hasError('required')"
-                                       id="passwordHelp" class="p-invalid">
-                                    Contraseña es obligatorio.
+                            <p-password id="password" name="password" formControlName="password"
+                                        [feedback]="false" class="p-ml-2"
+                                        [toggleMask]="true">
+                            </p-password>
+                            <p-checkbox formControlName="keep_session" [binary]="true" class="p-ml-6"
+                                        label="Mantener sesión activa"></p-checkbox>
+                            <div *ngIf="passwordField().errors && passwordField().touched">
+                                <small *ngIf="passwordField().hasError('required')"
+                                       id="passwordHelp" class="p-error">
+                                    El campo es obligatorio.
                                 </small>
                             </div>
-                        </div>
-                        <div class="login-input-wrapper">
-                            <p-checkbox formControlName="keep_session" [binary]="true" label="Mantener Sesión"></p-checkbox>
                         </div>
                         <div class="buttons">
                             <button id="login" name="login" type="submit" pButton label="Continuar"
@@ -121,10 +115,10 @@
                                     </div>
                                 </ng-template>
                             </p-dropdown>
-                            <div *ngIf="formInstitutionRole.get('institution').errors && formInstitutionRole.get('institution').touched">
-                                <small id="institutionHelp" class="p-invalid"
-                                       *ngIf="formInstitutionRole.get('institution').hasError('required')">
-                                    Institution is required.
+                            <div *ngIf="institutionField().errors && institutionField().touched">
+                                <small id="institutionHelp" class="p-error"
+                                       *ngIf="institutionField().hasError('required')">
+                                    El campo es requerido.
                                 </small>
                             </div>
                         </div>
@@ -133,10 +127,10 @@
                             <p-dropdown id="role" name="role" formControlName="role" [options]="roles"
                                         placeholder="Seleccione..." optionLabel="name"
                                         [style]="{'width':'100%'}" (onChange)="getPermissions()"></p-dropdown>
-                            <div *ngIf="formInstitutionRole.get('role').errors && formInstitutionRole.get('role').touched">
-                                <small id="roleHelp" class="p-invalid"
-                                       *ngIf="formInstitutionRole.get('role').hasError('required')">
-                                    Role is required.
+                            <div *ngIf="roleField().errors && roleField().touched">
+                                <small id="roleHelp" class="p-error"
+                                       *ngIf="roleField().hasError('required')">
+                                    EL campo es requerido.
                                 </small>
                             </div>
                         </div>
@@ -153,27 +147,41 @@
                     <form [formGroup]="formChangePassword" (ngSubmit)="onSubmitChangePassword($event)">
                         <div class="login-input-wrapper">
                             <label for="new_password">Nueva Contraseña:</label>
-                            <input type="password" pPassword id="new_password" name="new_password"
-                                   formControlName="new_password"
-                                   placeholder="Ingrese mínimo 6 caracteres"
-                                   [feedback]="false"
-                                   [showPassword]="flagShowPassword"/>
-                            <i (click)="flagShowPassword=!flagShowPassword" class="pi"
-                               [ngClass]="{'pi-eye-slash':flagShowPassword,'pi-eye':!flagShowPassword}"
-                               [pTooltip]="flagShowPassword?'Ocultar Contraseña':'Mostrar Contraseña'"></i>
-                            <div *ngIf="formChangePassword.get('new_password').errors && formChangePassword.get('new_password').touched">
-                                <small id="new_passwor1Help" class="p-invalid"
-                                       *ngIf="formChangePassword.get('new_password').hasError('required')">
-                                    NewPassword is Required.
+                                                        <input type="password" pPassword id="new_password" name="new_password"
+                                                               formControlName="new_password"
+                                                               placeholder="Ingrese mínimo 6 caracteres"
+                                                               [feedback]="false"
+                                                               [showPassword]="flagShowPassword"/>
+
+<!--                            <p-password id="new_password" name="new_password" formControlName="new_password"-->
+<!--                                        [toggleMask]="true">-->
+<!--                                <ng-template pTemplate="header">-->
+<!--                                    <h6>Pick a password</h6>-->
+<!--                                </ng-template>-->
+<!--                                <ng-template pTemplate="footer">-->
+<!--                                    <p-divider></p-divider>-->
+<!--                                    <p class="p-mt-2">Suggestions</p>-->
+<!--                                    <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">-->
+<!--                                        <li>At least one lowercase</li>-->
+<!--                                        <li>At least one uppercase</li>-->
+<!--                                        <li>At least one numeric</li>-->
+<!--                                        <li>Minimum 8 characters</li>-->
+<!--                                    </ul>-->
+<!--                                </ng-template>-->
+<!--                            </p-password>-->
+                            <div *ngIf="newPasswordField().errors && newPasswordField().touched">
+                                <small id="new_passwor1Help" class="p-error"
+                                       *ngIf="newPasswordField().hasError('required')">
+                                    El campo es requerido.
                                 </small>
-                                <small id="new_password2Help" class="p-invalid"
-                                       *ngIf="formChangePassword.get('new_password').hasError('minlength')">
+                                <small id="new_password2Help" class="p-error"
+                                       *ngIf="newPasswordField().hasError('minlength')">
                                     NewPassword minlength is 6.
                                 </small>
                             </div>
-                            <small id="new_password3Help" class="p-invalid"
-                                   *ngIf="formChangePassword.controls['new_password'].value !== formChangePassword.controls['password_confirmation'].value">
-                                Passwords not match.
+                            <small id="new_password3Help" class="p-error"
+                                   *ngIf="newPasswordField().value !== newPasswordField().value">
+                                Las contraseñas no coinciden.
                             </small>
                         </div>
                         <div class="login-input-wrapper">
@@ -185,19 +193,20 @@
                             <i (click)="flagShowPassword=!flagShowPassword" class="pi"
                                [ngClass]="{'pi-eye-slash':flagShowPassword,'pi-eye':!flagShowPassword}"
                                [pTooltip]="flagShowPassword?'Ocultar Contraseña':'Mostrar Contraseña'"></i>
-                            <div *ngIf="formChangePassword.get('password_confirmation').errors && formChangePassword.get('password_confirmation').touched">
-                                <small id="password_confirm1Help" class="p-invalid"
-                                       *ngIf="formChangePassword.get('password_confirmation').hasError('required')">
-                                    PasswordConfirm is required.
+                            <div *ngIf="passwordConfirmationField().errors && passwordConfirmationField().touched">
+                                <small id="password_confirm1Help" class="p-error"
+                                       *ngIf="passwordConfirmationField().hasError('required')">
+                                    El campo es requerido.
                                 </small>
-                                <small id="password_confirm2Help" class="p-invalid"
-                                       *ngIf="formChangePassword.get('password_confirmation').hasError('minlength')">
-                                    PasswordConfirm minlength is 6.
+                                <small id="password_confirm2Help" class="p-error"
+                                       *ngIf="passwordConfirmationField().hasError('minlength')">
+                                    Mínimo de caracteres
+                                    es {{passwordConfirmationField().errors.minlength.requiredLength}}.
                                 </small>
                             </div>
-                            <small id="password_confirm3Help" class="p-invalid"
-                                   *ngIf="formChangePassword.controls['new_password'].value != formChangePassword.controls['password_confirmation'].value">
-                                Passwords not match.
+                            <small id="password_confirm3Help" class="p-error"
+                                   *ngIf="newPasswordField().value != passwordConfirmationField().value">
+                                Las contraseñas no coinciden.
                             </small>
                         </div>
                         <div class="buttons">

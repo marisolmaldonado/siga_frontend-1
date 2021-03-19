@@ -1,20 +1,24 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {environment} from '../../../../environments/environment';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {Subscription} from 'rxjs';
 import {ConfirmationService, Message} from 'primeng/api';
-import {AppService} from '../../../services/app/app.service';
+import {environment} from '../../../../environments/environment';
 import {AuthService} from '../../../services/auth/auth.service';
 import {Permission, Role, System, User} from '../../../models/auth/models.index';
 import {Institution} from '../../../models/app/institution';
-import {Subscription} from 'rxjs';
-import {element} from "protractor";
+
 
 @Component({
     selector: 'app-login',
     templateUrl: './app.login.component.html',
-    styleUrls: ['./login.component.scss']
+    styleUrls: ['./login.component.scss'],
+    styles: [`
+        :host ::ng-deep .p-password input {
+            width: 15rem
+        }
+    `]
 })
 export class AppLoginComponent implements OnInit, OnDestroy {
     dark: boolean;
@@ -36,16 +40,16 @@ export class AppLoginComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
 
-    constructor(private authService: AuthService,
-                private ignugService: AppService,
+    constructor(private _authService: AuthService,
                 private _spinner: NgxSpinnerService,
-                private router: Router,
+                private _router: Router,
                 private _fb: FormBuilder,
                 private _confirmationService: ConfirmationService) {
         this.subscription = new Subscription();
         this.roles = [];
         this.institutions = [];
         this.user = {};
+        this.system = JSON.parse(localStorage.getItem('system'));
         this.verifySession();
     }
 
@@ -92,10 +96,10 @@ export class AppLoginComponent implements OnInit, OnDestroy {
             password: this.formLogin.controls['password'].value
         };
         this._spinner.show();
-        this.subscription.add(this.authService.login(credentials).subscribe(
+        this.subscription.add(this._authService.login(credentials).subscribe(
             response => {
                 localStorage.setItem('token', JSON.stringify(response));
-                this.authService.resetAttempts(credentials.username).subscribe(response => {
+                this._authService.resetAttempts(credentials.username).subscribe(response => {
                     this.getUser();
                 }, error => {
                     this._spinner.hide();
@@ -108,9 +112,9 @@ export class AppLoginComponent implements OnInit, OnDestroy {
 
             }, error => {
                 this._spinner.hide();
-                this.authService.removeLogin();
+                this._authService.removeLogin();
                 if (error.status === 401) {
-                    this.authService.attempts(credentials.username).subscribe(response => {
+                    this._authService.attempts(credentials.username).subscribe(response => {
                         this.msgs = [{
                             severity: 'error',
                             summary: response['msg']['summary'],
@@ -134,7 +138,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     }
 
     getUser() {
-        this.subscription.add(this.authService.getUser(this.formLogin.controls['username'].value).subscribe(
+        this.subscription.add(this._authService.getUser(this.formLogin.controls['username'].value).subscribe(
             response => {
                 this._spinner.hide();
                 let errors = false;
@@ -187,7 +191,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
             this.user.new_password = this.formChangePassword.controls['new_password'].value;
             this.user.password_confirmation = this.formChangePassword.controls['password_confirmation'].value;
             this._spinner.show();
-            this.authService.changePassword('auth/change_password', {user: this.user}).subscribe(
+            this._authService.changePassword('auth/change_password', {user: this.user}).subscribe(
                 response => {
                     this._spinner.hide();
                     this.flagChangePassword = false;
@@ -236,7 +240,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
         localStorage.setItem('institution', JSON.stringify(this.formInstitutionRole.controls['institution'].value));
         localStorage.setItem('role', JSON.stringify(this.formInstitutionRole.controls['role'].value));
         this.keepSession();
-        this.router.navigate(['/dashboard']);
+        this._router.navigate(['/dashboard']);
     }
 
     resetFormInstitutionRole() {
@@ -247,7 +251,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     }
 
     getRoles() {
-        this.subscription.add(this.authService.post('users/roles', {
+        this.subscription.add(this._authService.post('users/roles', {
             institution: this.formInstitutionRole.controls['institution'].value['id'],
             user: this.user.id
         }).subscribe(response => {
@@ -273,7 +277,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
 
     getPermissions() {
         this._spinner.show();
-        this.subscription.add(this.authService.post('users/permissions', {
+        this.subscription.add(this._authService.post('users/permissions', {
             role: this.formInstitutionRole.controls['role'].value['id'],
             institution: this.formInstitutionRole.controls['institution'].value['id']
         }).subscribe(response => {
@@ -305,7 +309,35 @@ export class AppLoginComponent implements OnInit, OnDestroy {
 
     verifySession() {
         if (localStorage.getItem('keepSession') == 'true') {
-            this.router.navigate(['/dashboard']);
+            this._router.navigate(['/dashboard']);
         }
+    }
+
+    usernameField(){
+        return this.formLogin.get('username');
+    }
+
+    passwordField(){
+        return this.formLogin.get('password');
+    }
+
+    keepSessionField(){
+        return this.formLogin.get('keep_session');
+    }
+
+    newPasswordField(){
+        return this.formChangePassword.get('new_password');
+    }
+
+    passwordConfirmationField(){
+        return this.formChangePassword.get('password_confirmation');
+    }
+
+    institutionField(){
+        return this.formInstitutionRole.get('institution');
+    }
+
+    roleField(){
+        return this.formInstitutionRole.get('role');
     }
 }

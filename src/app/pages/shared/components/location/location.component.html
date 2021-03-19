@@ -1,0 +1,38 @@
+<p-toast></p-toast>
+<div class="p-d-flex p-flex-md-row">
+    <p-autoComplete [formControl]="country" [suggestions]="filteredCountries" (completeMethod)="filterCountry($event)"
+                    field="name" [dropdown]="true" (onSelect)="updateValue();loadProvinces()" placeholder="País">
+        <ng-template let-country pTemplate="item">
+            <div class="country-item">
+                <div>{{country.name}}</div>
+            </div>
+        </ng-template>
+    </p-autoComplete>
+
+    <p-autoComplete [formControl]="province" [suggestions]="filteredProvinces" (completeMethod)="filterProvince($event)"
+                    field="name" [dropdown]="true" (onSelect)="updateValue();loadCantons()" class="p-ml-2" placeholder="Provincia">
+        <ng-template let-province pTemplate="item">
+            <div class="country-item">
+                <div>{{province.name}}</div>
+            </div>
+        </ng-template>
+    </p-autoComplete>
+
+    <p-autoComplete [formControl]="canton" [suggestions]="filteredCantons" (completeMethod)="filterCanton($event)"
+                    field="name" [dropdown]="true" class="p-ml-2" placeholder="Cantón" (onSelect)="updateValue();loadParishes()">
+        <ng-template let-canton pTemplate="item">
+            <div class="country-item">
+                <div>{{canton.name}}</div>
+            </div>
+        </ng-template>
+    </p-autoComplete>
+
+    <p-autoComplete [formControl]="parish" [suggestions]="filteredParishes" (completeMethod)="filterParish($event)"
+                    field="name" [dropdown]="true" class="p-ml-2" placeholder="Parroquia" (onSelect)="updateValue();">
+        <ng-template let-parish pTemplate="item">
+            <div class="country-item">
+                <div>{{parish.name}}</div>
+            </div>
+        </ng-template>
+    </p-autoComplete>
+</div>

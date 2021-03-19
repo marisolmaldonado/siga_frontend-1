@@ -17,9 +17,12 @@ export const environment = {
     API_URL_TEACHER_EVAL: URL + 'v1/teacher_eval/',
     API_URL_COMMUNITY: URL + 'v1/community/',
 
+    SYSTEM_ID: 1,
     CLIENT_ID: '1',
-    CLIENT_SECRET: 'll4JiAtXas6vxheC0RFWMIe9Pn6hPGrQBv6ZP6th',
+    CLIENT_SECRET: 'zerBNPTPvZWRRJbCciFZ7b8bDbSq70OCIERCxkag',
     GRANT_TYPE: 'password',
+
+    SITE_KEY:'6LcY8xAaAAAAAOTR95-UJ_zAeP9OWYPhlWg4_iFC',
 };
 
 /*

@@ -9,7 +9,7 @@ import {HttpParams} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {BreadcrumbService} from "../../../shared/services/breadcrumb.service";
 import {NgxSpinnerService} from "ngx-spinner";
-import {PrimeNGConfig, Message, MessageService} from 'primeng/api';
+import {MessageService} from 'primeng/api';
 import {AuthService} from "../../../services/auth/auth.service";
 
 
@@ -31,6 +31,7 @@ export class ProfileComponent implements OnInit {
     STORAGE_URL: string;
     urlAvatar: string;
     uploadedFiles: any[];
+    text: string;
 
     constructor(private _formBuilder: FormBuilder,
                 private _authService: AuthService,
@@ -155,20 +156,22 @@ export class ProfileComponent implements OnInit {
         }
     }
 
-    updateProfile(){
+    updateProfile() {
         console.log(this.formProfile.value);
         // this._authService.update('users/profile',{this.formProfile.value})
     }
-    onUpload(event, avatar, imgAvatar) {
+
+    onUploadAvatar(event, avatar) {
         const form = new FormData();
         form.append('file', event.files[0]);
         this._spinnerService.show();
         this._authService.uploadAvatar(form).subscribe(response => {
             this._spinnerService.hide();
             this.user.avatar = response['data'];
-            avatar.clear();
+            this._authService.setUrlAvatar(this.user.avatar + '?rand=' + Math.random());
+            avatar.src = this._authService.getUrlAvatar();
             localStorage.setItem('user', JSON.stringify(this.user));
-            window.location.reload();
+            avatar.clear();
             this._messageService.add({severity: 'success', summary: 'Archivo subido', detail: 'Correctamente'});
         }, error => {
             this._spinnerService.hide();

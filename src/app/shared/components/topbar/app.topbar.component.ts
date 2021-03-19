@@ -25,7 +25,7 @@ export class AppTopBarComponent {
     urlAvatar: string;
 
     constructor(public appMain: AppMainComponent,
-                private _authService: AuthService,
+                public _authService: AuthService,
                 private _router: Router,
                 private _spinner: NgxSpinnerService) {
         this.role = JSON.parse(localStorage.getItem('role'));
@@ -82,19 +82,19 @@ export class AppTopBarComponent {
     getUrlAvatar() {
         if (this.user) {
             if (this.user.avatar) {
-                this.urlAvatar = this.STORAGE_URL + this.user.avatar;
+                this.urlAvatar = this.user.avatar;
             } else {
                 if (this.user.sex) {
-                    // if (this.user.sex.code === TYPE_SEXS.MALE) {
                     if (this.user.sex.code === 'MALE') {
-                        this.urlAvatar = this.STORAGE_URL + 'avatars/male.png';
+                        this.urlAvatar = 'avatars/male.png';
                     } else {
-                        this.urlAvatar = this.STORAGE_URL + 'avatars/famale.png';
+                        this.urlAvatar = 'avatars/famale.png';
                     }
                 } else {
-                    this.urlAvatar = this.STORAGE_URL + 'avatars/anonymous.png';
+                    this.urlAvatar = 'avatars/anonymous.png';
                 }
             }
+            this._authService.setUrlAvatar(this.urlAvatar);
         }
     }
 

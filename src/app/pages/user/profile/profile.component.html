@@ -1,13 +1,15 @@
 <p-toast></p-toast>
+
 <div class="p-grid">
     <div class="p-lg-6 p-md-12">
         <p-card header="Datos Personales">
             <form [formGroup]="formProfile" (ngSubmit)="onSubmit($event)">
                 <div class="p-fluid p-formgrid p-grid">
                     <div class="p-field p-lg-3 p-md-2 p-sm-12">
-                        <img #imgAvatar [src]="urlAvatar" alt="avatar" style="border-radius: 50%;" width="80"/>
+                        <img #imgAvatar [src]="_authService.getUrlAvatar()" alt="avatar" style="border-radius: 50%;"
+                             width="80"/>
                         <p-fileUpload #avatar mode="basic" name="files[]"
-                                      (uploadHandler)="onUpload($event,avatar,imgAvatar)"
+                                      (uploadHandler)="onUploadAvatar($event,avatar)"
                                       customUpload="true" accept="image/*"
                                       maxFileSize="51200" [auto]="true"
                                       chooseIcon="pi pi-upload"
@@ -250,28 +252,31 @@
                     </div>
                 </div>
                 <div class="p-fluid p-formgrid p-grid">
-                    <div class="p-field p-lg-6 p-md-6 p-sm-12">
+                    <div class="p-field p-lg-4 p-md-4 p-sm-12">
                         <label for="birthdate">Fecha de Nacimiento:</label>
                         <app-date id="birthdate" name="birthdate" formControlName="birthdate"></app-date>
                         <div *ngIf="birthdateField().errors && (birthdateField().untouched|| birthdateField().touched)">
                             <small id="birthdate-help-1" class="p-error"
                                    *ngIf="birthdateField().hasError('required')">
-                                El campo es requerido.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="p-field p-lg-6 p-md-6 p-sm-12">
-                        <label for="birthdate">Dirección:</label>
-                        <app-location-address id="location" name="location"
-                                              formControlName="location"></app-location-address>
-                        <div *ngIf="locationField().errors && (locationField().untouched|| locationField().touched)">
-                            <small id="location-help-1" class="p-error"
-                                   *ngIf="locationField().hasError('required')">
-                                El campo es requerido.
+                                Todos los campo son requeridos.
                             </small>
                         </div>
                     </div>
                 </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-lg-12 p-md-12 p-sm-12">
+                        <label for="birthdate">Dirección:</label>
+                        <app-location id="location" name="location"
+                                      formControlName="location"></app-location>
+                        <div *ngIf="locationField().errors && (locationField().untouched|| locationField().touched)">
+                            <small id="location-help-1" class="p-error"
+                                   *ngIf="locationField().hasError('required')">
+                                Todos los campo son requeridos.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
                 <hr>
                 <div class="p-fluid p-formgrid p-grid">
                     <div class="p-field p-lg-8 p-md-12 p-sm-12">
@@ -285,4 +290,11 @@
         </p-card>
     </div>
 </div>
+<div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-lg-12 p-md-12 p-sm-12">
+        <p-editor [(ngModel)]="text" [style]="{'height':'320px'}"></p-editor>
+        <p>Value: {{text || 'empty'}}</p>
+    </div>
+</div>
+
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

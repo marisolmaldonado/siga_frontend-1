@@ -39,6 +39,7 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import { ProfileComponent } from './profile/profile.component';
 import {SharedModule} from "../shared/shared.module";
 import {CardModule} from "primeng/card";
+import {EditorModule} from "primeng/editor";
 
 @NgModule({
     imports: [
@@ -73,7 +74,8 @@ import {CardModule} from "primeng/card";
         AccordionModule,
         OverlayPanelModule,
         SharedModule,
-        CardModule
+        CardModule,
+        EditorModule
     ],
     declarations: [
         UserComponent,
