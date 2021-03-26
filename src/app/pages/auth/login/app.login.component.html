@@ -43,6 +43,7 @@
                         <div class="login-input-wrapper">
                             <label for="username">Usuario:</label>
                             <input id="username" name="username" pInputText
+                                   autocomplete="off"
                                    placeholder="Número de cédula Ej. 0504172422"
                                    maxlength="13"
                                    formControlName="username"/>
@@ -70,7 +71,7 @@
                         </div>
                         <div class="buttons">
                             <button id="login" name="login" type="submit" pButton label="Continuar"
-                                    icon="pi pi-arrow-right"></button>
+                                    icon="pi pi-arrow-right" [disabled]="formLogin.invalid"></button>
                             <button pButton [routerLink]="['/auth/user-unlock']" label="Desbloquear Usuario"
                                     icon="pi pi-unlock"
                                     class="secondary-button p-ml-2" pTooltip="Haga click para desbloquear su usuario">

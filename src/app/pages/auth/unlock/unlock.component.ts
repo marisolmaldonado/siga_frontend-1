@@ -5,7 +5,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../../services/auth/auth.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ActivatedRoute, Router} from '@angular/router';
-import {delay} from 'rxjs/operators';
 
 @Component({
     selector: 'app-password-reset',

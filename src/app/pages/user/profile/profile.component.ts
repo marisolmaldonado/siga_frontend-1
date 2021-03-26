@@ -11,6 +11,7 @@ import {BreadcrumbService} from "../../../shared/services/breadcrumb.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {MessageService} from 'primeng/api';
 import {AuthService} from "../../../services/auth/auth.service";
+import Echo from "laravel-echo";
 
 
 @Component({
@@ -57,6 +58,10 @@ export class ProfileComponent implements OnInit {
         this.getCatalogueBloodTypes();
         this.getProfile();
         this.getUrlAvatar();
+    }
+
+    ngOnDestroy(){
+
     }
 
     buildFormProfile() {

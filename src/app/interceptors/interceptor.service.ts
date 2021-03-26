@@ -24,6 +24,9 @@ export class InterceptorService implements HttpInterceptor {
         let headers = new HttpHeaders();
         let params = req.params;
         if (localStorage.getItem('token')) {
+            if (localStorage.getItem('socketID')) {
+                headers = headers.append('X-Socket-ID', localStorage.getItem('socketID'));
+            }
             headers = headers.append('Accept', 'application/json')
                 .append('Authorization', 'Bearer ' + (JSON.parse(localStorage.getItem('token')) as Token).access_token);
             if (!req.params.has('page')) {

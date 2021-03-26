@@ -19,10 +19,16 @@ export const environment = {
 
     SYSTEM_ID: 1,
     CLIENT_ID: '1',
-    CLIENT_SECRET: 'zerBNPTPvZWRRJbCciFZ7b8bDbSq70OCIERCxkag',
+    CLIENT_SECRET: 'Mu2Y8xrDRwtDKxyz3pbazxpcEA5ljp8fJYDUpTYi',
     GRANT_TYPE: 'password',
 
-    SITE_KEY:'6LcY8xAaAAAAAOTR95-UJ_zAeP9OWYPhlWg4_iFC',
+    SITE_KEY: '6LcY8xAaAAAAAOTR95-UJ_zAeP9OWYPhlWg4_iFC',
+
+    PUSHER_KEY: 'ASD1234FG',
+    PUSHER_HOST: 'laravel-dev-backend.test',
+    PUSHER_CLUSTER: 'mt1',
+    PUSHER_PORT: '6001',
+    PUSHER_URL: URL + 'api/broadcasting/auth',
 };
 
 /*

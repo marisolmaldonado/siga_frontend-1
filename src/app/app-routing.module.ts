@@ -7,6 +7,7 @@ import {AppBlankComponent} from './shared/components/blank/app.blank.component';
 
 // Application Guards
 import {AuthGuard} from './shared/guards/auth.guard';
+import {ChatComponent} from "./pages/shared/components/chat/chat.component";
 
 @NgModule({
     imports: [
@@ -15,6 +16,10 @@ import {AuthGuard} from './shared/guards/auth.guard';
                 path: '', component: AppMainComponent,
                 children: [
                     {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
+                    {
+                        path: 'chat',
+                        component:ChatComponent
+                    },
                     {
                         path: 'dashboard',
                         loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),

@@ -59,6 +59,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <li #calendar class="topbar-item"
                     [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === calendar}">
                     <a href="#" (click)="appMain.onTopbarItemClick($event,calendar)">
@@ -70,6 +71,29 @@
                         </li>
                         <li class="calendar">
                             <p-calendar [inline]="true"></p-calendar>
+                        </li>
+                    </ul>
+                </li>
+
+                <li #chat class="topbar-item"
+                    [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === chat}">
+                    <a href="#" (click)="appMain.onTopbarItemClick($event,chat)">
+                        <i class="pi pi-send p-text-secondary" pBadge style="font-size: 2rem" value="2"
+                           severity="danger"></i>
+                    </a>
+                    <ul class="fadeInDown">
+                        <li class="layout-submenu-header">
+                            <h1>Chat</h1>
+                            <span>Tienes nuevos mensajes</span>
+                        </li>
+                        <li class="layout-submenu-item">
+                            <img src="../../../../assets/layout/images/topbar/avatar-cayla.png" alt="mirage-layout"
+                                 width="35"/>
+                            <div class="menu-text">
+                                <p>Override the digital divide</p>
+                                <span>Cayla Brister</span>
+                            </div>
+                            <i class="pi pi-external-link"></i>
                         </li>
                     </ul>
                 </li>
@@ -213,7 +237,8 @@
                                 <img src="../../../../assets/layout/images/topbar/asset-bars.svg" alt="mirage-layout"/>
                             </div>
                             <div class="profile">
-                                <img [src]="_authService.urlAvatar" alt="avatar" style="border-radius: 50%;" width="40"/>
+                                <img [src]="_authService.urlAvatar" alt="avatar" style="border-radius: 50%;"
+                                     width="40"/>
                                 <h1>{{user.first_name}} {{user.first_lastname}}</h1>
                                 <span>{{role.name}}</span>
                             </div>
@@ -278,7 +303,8 @@
                                 <img src="../../../../assets/layout/images/topbar/asset-bars.svg" alt="mirage-layout"/>
                             </div>
                             <div class="profile">
-                                <img [src]="_authService.urlAvatar" alt="avatar" style="border-radius: 50%;" width="40"/>
+                                <img [src]="_authService.urlAvatar" alt="avatar" style="border-radius: 50%;"
+                                     width="40"/>
                                 <h3>{{user.first_name}} {{user.first_lastname}}</h3>
                                 <span>{{role.name}}</span>
                             </div>

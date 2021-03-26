@@ -1,0 +1,23 @@
+<p-toast key="myKey1" position="top-center"></p-toast>
+{{chatService.users.length}}
+<p-orderList [value]="chatService.users" [(selection)]="selectedUser" (selectionChange)="selectUser()"
+             class="p-text-left"
+             filterBy="first_name,second_name,first_lastname,second_lastname"
+             header="Contactos">
+    <ng-template let-user pTemplate="item">
+        <div>
+            <div style="font-size:14px;float:left;margin:15px 5px 0 0">
+                <p-avatar
+                        [label]="user.first_name?.substr(0,1)"
+                        styleClass="p-mr-2"
+                        size="xlarge"
+                        shape="circle">
+                </p-avatar>
+            </div>
+            <div style="font-size:14px;float:left;margin:15px 5px 0 0">
+                {{user.first_name + ' ' + user.second_name + ' ' + user.first_lastname + ' ' + user.second_lastname}}
+                <p class="p-text-secondary">{{user.first_name}}</p>
+            </div>
+        </div>
+    </ng-template>
+</p-orderList>

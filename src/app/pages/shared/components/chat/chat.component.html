@@ -1,0 +1,43 @@
+<div class="p-grid">
+    <div class="p-lg-3 p-md-3 p-sm-12">
+        <p-panel header="Usuarios">
+            <button pButton *ngIf="!isJoin" class="p-button-danger" (click)="leaveChat()" icon="pi pi-power-off"></button>
+            <button pButton *ngIf="isJoin" (click)="joinChat()" icon="pi pi-sign-in"></button>
+            <app-user-list></app-user-list>
+        </p-panel>
+    </div>
+    <div class="p-lg-9 p-md-9 p-sm-12">
+        <p-panel header="Chat" >
+            <div *ngIf="chatService.selectedUser!=null">
+                <p-avatar
+                        [label]="chatService.selectedUser?.first_name?.substr(0,1)"
+                        styleClass="p-mr-2"
+                        size="xlarge"
+                        shape="circle"
+                ></p-avatar>
+                {{chatService.selectedUser?.first_name}} {{chatService.selectedUser?.first_lastname}}
+                <hr>
+                <app-chat-body></app-chat-body>
+            </div>
+
+            <p-messages severity="info" *ngIf="chatService.selectedUser==null">
+                <ng-template pTemplate>
+                    <img src="assets/layout/images/pages/chat/background.png"/>
+                    <div class="p-ml-2">Comienza a chatear.</div>
+                </ng-template>
+            </p-messages>
+        </p-panel>
+        <div class="p-inputgroup" *ngIf="chatService.selectedUser!=null">
+            <button #inputMessage type="button" pButton pRipple
+                    [icon]="flagIconInputMessage=='standby'?'pi pi-comment':flagIconInputMessage=='writing'?'pi pi-pencil':'pi pi-spin pi-spinner'"
+                    styleClass="p-button-info"></button>
+            <input pInputText [formControl]="message" (keyup.enter)="sendDirectMessage()">
+            <button type="button" pButton pRipple icon="pi pi-send" styleClass="p-button-danger"
+                    (click)="sendDirectMessage()"></button>
+        </div>
+    </div>
+</div>
+
+<div >
+
+</div>
