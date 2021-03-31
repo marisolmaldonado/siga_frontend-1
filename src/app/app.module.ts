@@ -33,6 +33,7 @@ import {AppBlankComponent} from './shared/components/blank/app.blank.component';
 import {BreadcrumbService} from './shared/services/breadcrumb.service';
 import {MenuService} from './shared/services/app.menu.service';
 import {InterceptorService} from "./interceptors/interceptor.service";
+import {SharedModule} from "./pages/shared/shared.module";
 
 @NgModule({
     imports: [
@@ -42,6 +43,7 @@ import {InterceptorService} from "./interceptors/interceptor.service";
         AppCodeModule,
         HttpClientModule,
         BrowserAnimationsModule,
+        SharedModule,
         NgxSpinnerModule,
         // Primeng Modules
         CalendarModule,
