@@ -1,225 +1,70 @@
-<div class="login-body" [ngClass]="{'layout-dark': dark, 'layout-light': !dark}">
-    <div class="login-content">
-        <div class="night-switch">
-            <p-button styleClass="dark-switch" icon="pi pi-circle-on" (click)="dark = true"></p-button>
-            <p-button styleClass="light-switch" icon="pi pi-circle-off" (click)="dark = false"></p-button>
-        </div>
-        <div class="login-panel">
-            <div class="login-panel-content">
-                <div class="logo">
-                    <div *ngIf="institutions.length===0">
-                        <h3>{{system.name}}</h3>
-                        <h2>{{system.acronym}}</h2>
-                        <img src="assets/layout/images/login/login.png" alt="mirage-layout"/>
-                    </div>
-                    <div *ngIf="flagChangePassword">
-                        <img src="assets/layout/images/login/password_change.png" alt="mirage-layout"/>
-                        <h1>Por favor, cambie su contraseña</h1>
-                    </div>
-                    <div *ngIf="institutions.length===1 && roles.length===1 && !flagChangePassword">
-                        <img [src]="STORAGE_URL+institutions[0]['logo']" alt="mirage-layout"/>
-                        <p>
-                            <b>{{formInstitutionRole.controls['institution'].value['denomination']}}
-                                {{formInstitutionRole.controls['institution'].value['name']}}
-                            </b>
-                        </p>
-                    </div>
-                    <div *ngIf="(institutions.length>1 || roles.length>1) && !flagChangePassword">
-                        <h1 *ngIf="institutionField().errors">
-                            Seleccione su Institución</h1>
-                        <img *ngIf="!institutionField().errors"
-                             [src]="STORAGE_URL+formInstitutionRole.controls['institution'].value['logo']"
-                             alt="mirage-layout"/>
-                        <p>
-                            <b>{{formInstitutionRole.controls['institution'].value['denomination']}}
-                                {{formInstitutionRole.controls['institution'].value['name']}}
-                            </b>
-                        </p>
+<div class="p-grid">
+    <div class="p-col-lg-7">
+        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item img-1 min-vh-100 active">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 class="font-weight-bold">La más potente del mercado</h5>
+                        <a class="text-muted text-decoration-none">Visita nuestra tienda</a>
                     </div>
                 </div>
-                <!-- Formulario login -->
-                <div *ngIf="institutions.length==0" class="forms">
-                    <form [formGroup]="formLogin" (ngSubmit)="onSubmitLogin($event)">
-                        <div class="login-input-wrapper">
-                            <label for="username">Usuario:</label>
-                            <input id="username" name="username" pInputText
-                                   placeholder="Número de cédula Ej. 0504172422"
-                                   maxlength="13"
-                                   formControlName="username"/>
-                            <div *ngIf="usernameField().errors && usernameField().touched">
-                                <small *ngIf="usernameField().hasError('required')"
-                                       id="usernameHelp" class="p-error">
-                                    El campo es obligatorio.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="login-input-wrapper">
-                            <label for="password">Contraseña:</label>
-                            <p-password id="password" name="password" formControlName="password"
-                                        [feedback]="false" class="p-ml-2"
-                                        [toggleMask]="true">
-                            </p-password>
-                            <p-checkbox formControlName="keep_session" [binary]="true" class="p-ml-6"
-                                        label="Mantener sesión activa"></p-checkbox>
-                            <div *ngIf="passwordField().errors && passwordField().touched">
-                                <small *ngIf="passwordField().hasError('required')"
-                                       id="passwordHelp" class="p-error">
-                                    El campo es obligatorio.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="buttons">
-                            <button id="login" name="login" type="submit" pButton label="Continuar"
-                                    icon="pi pi-arrow-right"></button>
-                            <button pButton [routerLink]="['/auth/user-unlock']" label="Desbloquear Usuario"
-                                    icon="pi pi-unlock"
-                                    class="secondary-button p-ml-2" pTooltip="Haga click para desbloquear su usuario">
-                            </button>
-                            <button pButton [routerLink]="['/auth/password-forgot']" label="¿Olvidó su contraseña?"
-                                    icon="pi pi-key"
-                                    class="secondary-button p-ml-2" pTooltip="Haga click si olvidó su contraseña">
-                            </button>
-                        </div>
-                        <p-messages [value]="msgs"></p-messages>
-                    </form>
-                </div>
-
-                <!-- Seleccionar Institutcion -->
-                <div class="forms" *ngIf="institutions.length>0 && !flagChangePassword">
-                    <form [formGroup]="formInstitutionRole" (ngSubmit)="onSubmitContinue($event)">
-                        <div class="login-input-wrapper">
-                            <button id="usernameDisabled" name="usernameDisabled" pButton type="button"
-                                    [label]="user.first_name+ ' ' + user.second_name+ ' ' + user.first_lastname + ' ' + user.second_lastname"
-                                    class="p-button-raised p-button-lg p-text-uppercase" iconPos="right"
-                                    icon="pi pi-chevron-circle-down" style="width: 100%;"
-                                    (click)="resetFormInstitutionRole()"></button>
-                        </div>
-                        <div class="login-input-wrapper">
-                            <label for="institution">Institución:</label>
-                            <p-dropdown id="institution" name="institution" formControlName="institution"
-                                        [options]="institutions" optionLabel="name" placeholder="Seleccione..."
-                                        [style]="{'width':'100%'}" (onChange)="getRoles()">
-                                <ng-template pTemplate="selectedItem">
-                                    <div class="country-item country-item-value"
-                                         *ngIf="formInstitutionRole.controls['institution']">
-                                        <img [src]="STORAGE_URL+formInstitutionRole.controls['institution'].value['logo']"
-                                             style="height: 24px;position:absolute"/>
-                                        <div class="p-ml-6">{{formInstitutionRole.controls['institution'].value['name']}}</div>
-                                    </div>
-                                </ng-template>
-                                <ng-template let-item pTemplate="item">
-                                    <div class="country-item">
-                                        <img [src]="STORAGE_URL+item.logo"
-                                             style="height:20px;position:absolute"/>
-                                        <div class="p-ml-6">{{item.short_name}}</div>
-                                    </div>
-                                </ng-template>
-                            </p-dropdown>
-                            <div *ngIf="institutionField().errors && institutionField().touched">
-                                <small id="institutionHelp" class="p-error"
-                                       *ngIf="institutionField().hasError('required')">
-                                    El campo es requerido.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="login-input-wrapper" *ngIf="roles.length>0">
-                            <label for="role">Rol:</label>
-                            <p-dropdown id="role" name="role" formControlName="role" [options]="roles"
-                                        placeholder="Seleccione..." optionLabel="name"
-                                        [style]="{'width':'100%'}" (onChange)="getPermissions()"></p-dropdown>
-                            <div *ngIf="roleField().errors && roleField().touched">
-                                <small id="roleHelp" class="p-error"
-                                       *ngIf="roleField().hasError('required')">
-                                    EL campo es requerido.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="buttons">
-                            <button id="goToLogin" name="goToLogin" type="button" pButton label="Regresar"
-                                    icon="pi pi-arrow-left" (click)="resetFormInstitutionRole()"></button>
-                        </div>
-                        <p-messages [value]="msgs"></p-messages>
-                    </form>
-                </div>
-
-                <!-- Formulario cambiar contraseña -->
-                <div class="forms" *ngIf="flagChangePassword">
-                    <form [formGroup]="formChangePassword" (ngSubmit)="onSubmitChangePassword($event)">
-                        <div class="login-input-wrapper">
-                            <label for="new_password">Nueva Contraseña:</label>
-                                                        <input type="password" pPassword id="new_password" name="new_password"
-                                                               formControlName="new_password"
-                                                               placeholder="Ingrese mínimo 6 caracteres"
-                                                               [feedback]="false"
-                                                               [showPassword]="flagShowPassword"/>
-
-<!--                            <p-password id="new_password" name="new_password" formControlName="new_password"-->
-<!--                                        [toggleMask]="true">-->
-<!--                                <ng-template pTemplate="header">-->
-<!--                                    <h6>Pick a password</h6>-->
-<!--                                </ng-template>-->
-<!--                                <ng-template pTemplate="footer">-->
-<!--                                    <p-divider></p-divider>-->
-<!--                                    <p class="p-mt-2">Suggestions</p>-->
-<!--                                    <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">-->
-<!--                                        <li>At least one lowercase</li>-->
-<!--                                        <li>At least one uppercase</li>-->
-<!--                                        <li>At least one numeric</li>-->
-<!--                                        <li>Minimum 8 characters</li>-->
-<!--                                    </ul>-->
-<!--                                </ng-template>-->
-<!--                            </p-password>-->
-                            <div *ngIf="newPasswordField().errors && newPasswordField().touched">
-                                <small id="new_passwor1Help" class="p-error"
-                                       *ngIf="newPasswordField().hasError('required')">
-                                    El campo es requerido.
-                                </small>
-                                <small id="new_password2Help" class="p-error"
-                                       *ngIf="newPasswordField().hasError('minlength')">
-                                    Mínimo de caracteres
-                                    es {{newPasswordField().errors.minlength.requiredLength}}.
-                                </small>
-                            </div>
-                            <small id="new_password3Help" class="p-error"
-                                   *ngIf="newPasswordField().value !== newPasswordField().value">
-                                Las contraseñas no coinciden.
-                            </small>
-                        </div>
-                        <div class="login-input-wrapper">
-                            <label for="password_confirmation">Confirmar Contraseña:</label>
-                            <input type="password" pPassword id="password_confirmation" name="password_confirmation"
-                                   formControlName="password_confirmation"
-                                   placeholder="Ingrese mínimo 6 caracteres" [feedback]="false"
-                                   [showPassword]="flagShowPassword"/>
-                            <i (click)="flagShowPassword=!flagShowPassword" class="pi"
-                               [ngClass]="{'pi-eye-slash':flagShowPassword,'pi-eye':!flagShowPassword}"
-                               [pTooltip]="flagShowPassword?'Ocultar Contraseña':'Mostrar Contraseña'"></i>
-                            <div *ngIf="passwordConfirmationField().errors && passwordConfirmationField().touched">
-                                <small id="password_confirm1Help" class="p-error"
-                                       *ngIf="passwordConfirmationField().hasError('required')">
-                                    El campo es requerido.
-                                </small>
-                                <small id="password_confirm2Help" class="p-error"
-                                       *ngIf="passwordConfirmationField().hasError('minlength')">
-                                    Mínimo de caracteres
-                                    es {{passwordConfirmationField().errors.minlength.requiredLength}}.
-                                </small>
-                            </div>
-                            <small id="password_confirm3Help" class="p-error"
-                                   *ngIf="newPasswordField().value != passwordConfirmationField().value">
-                                Las contraseñas no coinciden.
-                            </small>
-                        </div>
-                        <div class="buttons">
-                            <button id="changePassword" name="changePassword" type="submit" pButton
-                                    label="Cambiar Contraseña"
-                                    icon="pi pi-key"></button>
-                        </div>
-                        <p-messages [value]="msgs"></p-messages>
-                    </form>
+                <div class="carousel-item img-2 min-vh-100">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 class="font-weight-bold">Descubre la nueva generación</h5>
+                        <a class="text-muted text-decoration-none">Visita nuestra tienda</a>
+                    </div>
                 </div>
             </div>
+            <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
-        <div class="desert"></div>
+    </div>
+    <div class="p-col-lg-5">
+        <div class="px-lg-5 pt-lg-4 pb-lg-3 p-4 mb-auto w-100">
+            <img src="Logo.svg" class="img-fluid"/>
+        </div>
+        <div class="align-self-center w-100 px-lg-5 py-lg-4 p-4">
+            <h1 class="font-weight-bold mb-4">Bienvenido de vuelta</h1>
+            <form class="mb-5">
+                <div class="mb-4">
+                    <label for="exampleInputEmail1" class="form-label font-weight-bold">Email</label>
+                    <input type="email" class="form-control bg-dark-x border-0" id="exampleInputEmail1"
+                           placeholder="Ingresa tu email" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-4">
+                    <label for="exampleInputPassword1" class="form-label font-weight-bold">Contraseña</label>
+                    <input type="password" class="form-control bg-dark-x border-0 mb-2"
+                           placeholder="Ingresa tu contraseña" id="exampleInputPassword1">
+                    <a href="" id="emailHelp" class="form-text text-muted text-decoration-none">¿Has olvidado tu
+                        contraseña?</a>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+            </form>
+
+            <p class="font-weight-bold text-center text-muted">O inicia sesión con</p>
+            <div class="d-flex justify-content-around">
+                <button type="button" class="btn btn-outline-light flex-grow-1 mr-2"><i
+                        class="fab fa-google lead mr-2"></i> Google
+                </button>
+                <button type="button" class="btn btn-outline-light flex-grow-1 ml-2"><i
+                        class="fab fa-facebook-f lead mr-2"></i> Facebook
+                </button>
+            </div>
+        </div>
+        <div class="text-center px-lg-5 pt-lg-3 pb-lg-4 p-4 mt-auto w-100">
+            <p class="d-inline-block mb-0">¿Todavia no tienes una cuenta?</p> <a href=""
+                                                                                 class="text-light font-weight-bold text-decoration-none">Crea
+            una ahora</a>
+        </div>
     </div>
 </div>

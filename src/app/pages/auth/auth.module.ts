@@ -26,9 +26,10 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {UserUnlockComponent} from './user-unlock/user-unlock.component';
 import {UnlockComponent} from './unlock/unlock.component';
 import {AppUnderMaintenanceComponent} from './app.under-maintenance.component';
-import {SecurityQuestionComponent} from "./security-question/security-question.component";
-import {CheckboxModule} from "primeng/checkbox";
-
+import {SecurityQuestionComponent} from './security-question/security-question.component';
+import {CheckboxModule} from 'primeng/checkbox';
+import { ChangePasswordComponent } from './login/change-password/change-password.component';
+import { SelectInstitutionRoleComponent } from './login/select-institution-role/select-institution-role.component';
 
 @NgModule({
     imports: [
@@ -56,7 +57,9 @@ import {CheckboxModule} from "primeng/checkbox";
         UserUnlockComponent,
         UnlockComponent,
         AppUnderMaintenanceComponent,
-        SecurityQuestionComponent
+        SecurityQuestionComponent,
+        ChangePasswordComponent,
+        SelectInstitutionRoleComponent
     ],
     providers: [ConfirmationService, MessageService]
 })

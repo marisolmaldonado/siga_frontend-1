@@ -60,6 +60,8 @@
         "no-redundant-jsdoc": true,
         "no-switch-case-fall-through": true,
         "no-var-requires": false,
+        "no-string-literal": false,
+        "no-shadowed-variable": false,
         "object-literal-key-quotes": [
             true,
             "as-needed"

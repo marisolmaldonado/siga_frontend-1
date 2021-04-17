@@ -5,6 +5,7 @@ import {Attendance} from '../attendance/attendance';
 
 export interface User {
     id?: number;
+    full_name?: string;
     first_name?: string;
     second_name?: string;
     first_lastname?: string;

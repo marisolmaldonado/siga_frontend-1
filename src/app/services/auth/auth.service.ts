@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {Role, User} from '../../models/auth/models.index';
+import {Role, System, User} from '../../models/auth/models.index';
 import {Router} from '@angular/router';
 import {SYSTEMS} from '../../../environments/catalogues';
 import {URL} from '../../../environments/environment';
 import {Log} from '../../models/log';
+import {Institution} from "../../models/app/institution";
 
 @Injectable({
     providedIn: 'root'
@@ -14,8 +15,10 @@ import {Log} from '../../models/log';
 export class AuthService {
     log: Log;
     urlAvatar: string;
+    auth: User;
+    institutions: Institution[];
 
-    constructor(private _http: HttpClient, private router: Router) {
+    constructor(private httpClient: HttpClient, private router: Router) {
         this.urlAvatar = environment.STORAGE_URL;
     }
 
@@ -28,58 +31,58 @@ export class AuthService {
             username: userCredentials.username,
             password: userCredentials.password
         };
-        return this._http.post(url, credentials, {params});
+        return this.httpClient.post(url, credentials, {params});
     }
 
     attempts(username: string, params = new HttpParams()) {
         const url = environment.API_URL_AUTHENTICATION + 'auth/attempts/' + username;
-        return this._http.get(url, {params});
+        return this.httpClient.get(url, {params});
     }
 
     resetAttempts(username: string, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/reset_attempts/' + username;
-        return this._http.get(url, {params});
+        const url = environment.API_URL_AUTHENTICATION + 'auth/reset-attempts/' + username;
+        return this.httpClient.get(url, {params});
     }
 
     forgotPassword(username: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/forgot_password';
-        return this._http.post(url, {username}, {params});
+        const url = environment.API_URL_AUTHENTICATION + 'auth/forgot-password';
+        return this.httpClient.post(url, {username}, {params});
     }
 
     resetPassword(credentials: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/reset_password';
-        return this._http.post(url, credentials, {params});
+        const url = environment.API_URL_AUTHENTICATION + 'auth/reset-password';
+        return this.httpClient.post(url, credentials, {params});
     }
 
     userUnlock(username: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/user_unlock';
-        return this._http.post(url, {username}, {params});
+        const url = environment.API_URL_AUTHENTICATION + 'auth/user-unlock';
+        return this.httpClient.post(url, {username}, {params});
     }
 
     transctionalCode(username: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/transactional_code/' + username;
-        return this._http.get(url, {params});
+        const url = environment.API_URL_AUTHENTICATION + 'auth/transactional-code/' + username;
+        return this.httpClient.get(url, {params});
     }
 
     unlock(credentials: any, params = new HttpParams()) {
         const url = environment.API_URL_AUTHENTICATION + 'auth/unlock';
-        return this._http.post(url, credentials, {params});
+        return this.httpClient.post(url, credentials, {params});
     }
 
     getUser(username: string, params = new HttpParams()) {
         const url = environment.API_URL_AUTHENTICATION + 'users/' + username;
-        return this._http.get(url, {params});
+        return this.httpClient.get(url, {params});
     }
 
     logout(params = new HttpParams()) {
         const url = environment.API_URL_AUTHENTICATION + 'auth/logout';
-        return this._http.get(url, {params});
+        return this.httpClient.get(url, {params});
     }
 
     logoutAll(params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/logout_all?user_id=' + (JSON.parse(localStorage.getItem('user')) as User).id;
+        const url = environment.API_URL_AUTHENTICATION + 'auth/logout-all?user_id=' + (JSON.parse(localStorage.getItem('user')) as User).id;
         const role = (JSON.parse(localStorage.getItem('role')) as Role).code;
-        return this._http.get(url, {params}).subscribe(response => {
+        return this.httpClient.get(url, {params}).subscribe(response => {
             this.removeLogin();
             this.router.navigate(['/auth/login-' + role]);
         }, error => {
@@ -89,32 +92,32 @@ export class AuthService {
 
     get(url: string, params = new HttpParams()) {
         url = environment.API_URL_AUTHENTICATION + url;
-        return this._http.get(url, {params});
+        return this.httpClient.get(url, {params});
     }
 
     post(url: string, data: any, params = new HttpParams()) {
         url = environment.API_URL_AUTHENTICATION + url;
-        return this._http.post(url, data, {params});
+        return this.httpClient.post(url, data, {params});
     }
 
     update(url: string, data: any, params = new HttpParams()) {
         url = environment.API_URL_AUTHENTICATION + url;
-        return this._http.put(url, data, {params});
+        return this.httpClient.put(url, data, {params});
     }
 
     delete(url: string, params = new HttpParams()) {
         url = environment.API_URL_AUTHENTICATION + url;
-        return this._http.delete(url, {params});
+        return this.httpClient.delete(url, {params});
     }
 
     uploadAvatar(data: FormData, params = new HttpParams()) {
         const url = environment.API_URL_AUTHENTICATION + 'users/avatars';
-        return this._http.post(url, data, {params});
+        return this.httpClient.post(url, data, {params});
     }
 
-    changePassword(url: string, data: any, params = new HttpParams()) {
-        url = environment.API_URL_AUTHENTICATION + url;
-        return this._http.put(url, data, {params});
+    changePassword(data: any, params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'auth/change-password';
+        return this.httpClient.put(url, data, {params});
     }
 
     removeLogin() {
@@ -122,7 +125,6 @@ export class AuthService {
         localStorage.removeItem('role');
         localStorage.removeItem('institution');
         localStorage.removeItem('permissions');
-        localStorage.removeItem('isLoggedin');
         localStorage.removeItem('token');
         localStorage.removeItem('system');
         localStorage.removeItem('keepSession');
@@ -131,7 +133,44 @@ export class AuthService {
     setUrlAvatar(url: string) {
         this.urlAvatar = environment.STORAGE_URL + url;
     }
+
     getUrlAvatar() {
         return this.urlAvatar;
+    }
+
+    getAuth(): User {
+        return localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')) : null;
+    }
+
+    setAuth(user: User) {
+        localStorage.setItem('auth', JSON.stringify(user));
+    }
+
+    getSystem(): System {
+        return localStorage.getItem('system') ? JSON.parse(localStorage.getItem('system')) : null;
+    }
+
+    setSystem(system) {
+        localStorage.setItem('system', JSON.stringify(system));
+    }
+
+    setToken(token) {
+        localStorage.setItem('token', JSON.stringify(token));
+    }
+
+    getToken(token) {
+        return localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
+    }
+
+    setInstitution(institution) {
+        localStorage.setItem('institution', JSON.stringify(institution));
+    }
+
+    setRole(role) {
+        localStorage.setItem('role', JSON.stringify(role));
+    }
+
+    setKeepSession(keepSession) {
+        localStorage.setItem('keepSession', JSON.stringify(keepSession));
     }
 }

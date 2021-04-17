@@ -30,7 +30,7 @@ export class AuthGuard implements CanActivate {
         this.role = localStorage.getItem('role') === null ? null : JSON.parse(localStorage.getItem('role')) as Role;
         this.authPermissions = localStorage.getItem('permissions') === null ? null :
             JSON.parse(localStorage.getItem('permissions')) as Permission[];
-        if (this.user && this.role && this.authPermissions && localStorage.getItem('isLoggedin') === 'true') {
+        if (this.user && this.role && this.authPermissions) {
             if (requestURL === '/dashboard' || requestURL === '/') {
                 return true;
             }

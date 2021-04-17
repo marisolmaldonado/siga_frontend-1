@@ -1,0 +1,68 @@
+<div class="logo">
+    <h1 *ngIf="!institutionField.valid">
+        Seleccione su Institución
+    </h1>
+    <img *ngIf="institutionField.valid" [src]="institutionField.value['log']"
+         alt="logo"/>
+    <h3 *ngIf="institutionField.valid">
+        <b>{{institutionField.value['denomination']}}
+            {{institutionField?.value['name']}}
+        </b>
+    </h3>
+</div>
+<div class="forms">
+    <form [formGroup]="formInstitutionRole" (ngSubmit)="onSubmitContinue($event)">
+        <div class="login-input-wrapper">
+            <button id="usernameDisabled" name="usernameDisabled" pButton type="button"
+                    [label]="auth?.first_name+ ' ' + auth?.second_name+ ' ' + auth?.first_lastname + ' ' + auth?.second_lastname"
+                    class="p-button-raised p-button-lg p-text-uppercase" iconPos="right"
+                    icon="pi pi-chevron-circle-down" style="width: 100%;">
+            </button>
+        </div>
+        <div class="login-input-wrapper">
+            <label for="institution">Institución:</label>
+            <p-dropdown id="institution" name="institution" formControlName="institution"
+                        [options]="institutions" optionLabel="name" placeholder="Seleccione..."
+                        [style]="{'width':'100%'}" (onChange)="getRoles()">
+                <ng-template pTemplate="selectedItem">
+                    <div class="country-item country-item-value"
+                         *ngIf="institutionField">
+                        <img [src]="institutionField.value['logo']"
+                             style="height: 24px;position:absolute"/>
+                        <div class="p-ml-6">{{institutionField.value['name']}}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    <div class="country-item">
+                        <img [src]="item.logo"
+                             style="height:20px;position:absolute"/>
+                        <div class="p-ml-6">{{item.short_name}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+            <div *ngIf="institutionField.errors && institutionField.touched">
+                <small id="institutionHelp" class="p-error"
+                       *ngIf="institutionField.hasError('required')">
+                    El campo es requerido.
+                </small>
+            </div>
+        </div>
+        <div class="login-input-wrapper" *ngIf="roles?.length>0">
+            <label for="role">Rol:</label>
+            <p-dropdown id="role" name="role" formControlName="role" [options]="roles"
+                        placeholder="Seleccione..." optionLabel="name"
+                        [style]="{'width':'100%'}" (onChange)="getPermissions()"></p-dropdown>
+            <div *ngIf="roleField.errors && roleField.touched">
+                <small id="roleHelp" class="p-error"
+                       *ngIf="roleField.hasError('required')">
+                    EL campo es requerido.
+                </small>
+            </div>
+        </div>
+        <div class="buttons">
+            <button id="goToLogin" name="goToLogin" type="button" pButton label="Regresar"
+                    icon="pi pi-arrow-left" (click)="resetFormInstitutionRole()"></button>
+        </div>
+        <p-messages [value]="msgs"></p-messages>
+    </form>
+</div>
