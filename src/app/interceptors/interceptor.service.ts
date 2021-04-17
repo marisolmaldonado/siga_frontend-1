@@ -33,10 +33,6 @@ export class InterceptorService implements HttpInterceptor {
                 params = params.append('institution',
                     (JSON.parse(localStorage.getItem('institution')) as Institution).id.toString());
             }
-            if (localStorage.getItem('user')) {
-                params = params.append('user',
-                    (JSON.parse(localStorage.getItem('user')) as User).id.toString());
-            }
             if (localStorage.getItem('role')) {
                 params = params.append('role',
                     (JSON.parse(localStorage.getItem('role')) as Role).id.toString());

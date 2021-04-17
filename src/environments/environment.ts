@@ -2,27 +2,26 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-
-// export const URL = 'http://192.168.0.184:8000/';
-export const URL = 'http://laravel-dev-backend.test/';
+export const URL_API = 'http://siga_backend.test/v1/';
+export const URL = 'http://siga_backend.test/';
 
 export const environment = {
     production: false,
-    STORAGE_URL: URL + 'storage/',
-    API_URL_AUTHENTICATION: URL + 'v1/authentication/',
-    API_URL_APP: URL + 'v1/app/',
-    API_URL_ATTENDANCE: URL + 'v1/attendance/',
-    API_URL_JOB_BOARD: URL + 'v1/job_board/',
-    API_URL_WEB: URL + 'v1/web/',
-    API_URL_TEACHER_EVAL: URL + 'v1/teacher_eval/',
-    API_URL_COMMUNITY: URL + 'v1/community/',
+    STORAGE_URL: 'http://siga_backend.test/storage/',
+    API_URL_AUTHENTICATION: URL_API + 'authentication/',
+    API_URL_APP: URL_API + 'app/',
+    API_URL_ATTENDANCE: URL_API + 'attendance/',
+    API_URL_JOB_BOARD: URL_API + 'job_board/',
+    API_URL_WEB: URL_API + 'web/',
+    API_URL_TEACHER_EVAL: URL_API + 'teacher_eval/',
+    API_URL_COMMUNITY: URL_API + 'community/',
 
     SYSTEM_ID: 1,
     CLIENT_ID: '1',
-    CLIENT_SECRET: 'zerBNPTPvZWRRJbCciFZ7b8bDbSq70OCIERCxkag',
+    CLIENT_SECRET: 'LbLOTFYhvMKCOXtuYTBhnbjBQoYqyxTZsEbXjZgo',
     GRANT_TYPE: 'password',
 
-    SITE_KEY:'6LcY8xAaAAAAAOTR95-UJ_zAeP9OWYPhlWg4_iFC',
+    SITE_KEY: '6LcY8xAaAAAAAOTR95-UJ_zAeP9OWYPhlWg4_iFC',
 };
 
 /*

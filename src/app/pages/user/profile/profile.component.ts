@@ -11,6 +11,8 @@ import {BreadcrumbService} from "../../../shared/services/breadcrumb.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {MessageService} from 'primeng/api';
 import {AuthService} from "../../../services/auth/auth.service";
+import {Institution} from "../../../models/app/institution";
+import {Role} from "../../../models/auth/role";
 
 
 @Component({
@@ -27,11 +29,18 @@ export class ProfileComponent implements OnInit {
     catalogueGenders: Catalogue[];
     catalogueEthnicOrigins: Catalogue[];
     catalogueBloodTypes: Catalogue[];
-    user: User;
+    catalogueCivilStatus: Catalogue[];
+    auth: User;
+    authInstitution: Institution;
+    authRole: Role;
     STORAGE_URL: string;
     urlAvatar: string;
     uploadedFiles: any[];
     text: string;
+    dialogRoles: boolean;
+    dialogInstitutions: boolean;
+    dialogAuth: boolean;
+    dialogAuthPassword: boolean;
 
     constructor(private _formBuilder: FormBuilder,
                 private _authService: AuthService,
@@ -43,7 +52,10 @@ export class ProfileComponent implements OnInit {
             {label: 'Dashboard', routerLink: '/dashboard'},
             {label: 'Mi Perfil'},
         ]);
-        this.user = JSON.parse(localStorage.getItem('user'));
+        this.auth = JSON.parse(localStorage.getItem('user'));
+        this.authInstitution = JSON.parse(localStorage.getItem('institution'));
+        this.authInstitution = JSON.parse(localStorage.getItem('institution'));
+        this.authRole = JSON.parse(localStorage.getItem('role'));
         this.STORAGE_URL = environment.STORAGE_URL;
         this.uploadedFiles = [];
     }
@@ -55,15 +67,17 @@ export class ProfileComponent implements OnInit {
         this.getCatalogueGenders();
         this.getCatalogueEthnicOrigins();
         this.getCatalogueBloodTypes();
-        this.getProfile();
+        this.getCatalogueCivilStatus();
+        this.setProfile();
         this.getUrlAvatar();
     }
 
     buildFormProfile() {
         this.formProfile = this._formBuilder.group({
             id: [],
+            username: [{value: null, disabled: true}],
             identification_type: ['', Validators.required],
-            identification: ['', [
+            identification: [{value: null, disabled: true}, [
                 Validators.required,
                 Validators.minLength(UserValidators.identification().minlength),
                 Validators.maxLength(UserValidators.identification().maxlength)]],
@@ -96,12 +110,15 @@ export class ProfileComponent implements OnInit {
             ethnic_origin: ['', Validators.required],
             location: ['', Validators.required],
             blood_type: ['', Validators.required],
+            civil_status: ['', Validators.required],
+            address: ['', Validators.required],
+            phone: ['', Validators.required],
             birthdate: ['', [
                 Validators.required,
                 DateValidators.valid]],
-            password: [''],
-            password_old: [''],
-            password_confirmation: [''],
+            password: ['', Validators.required],
+            password_old: ['', Validators.required],
+            password_confirmation: ['', Validators.required],
             institutions: [''],
             roles: [''],
         })
@@ -142,13 +159,19 @@ export class ProfileComponent implements OnInit {
         });
     }
 
-    getProfile() {
-        this.formProfile.patchValue(this.user);
+    getCatalogueCivilStatus() {
+        const params = new HttpParams().append('type', 'CIVIL_STATUS');
+        this._appService.getCatalogues(params).subscribe(response => {
+            this.catalogueCivilStatus = response['data'];
+        });
+    }
+
+    setProfile() {
+        this.formProfile.patchValue(this.auth);
     }
 
     onSubmit(event: Event) {
         event.preventDefault();
-        console.log(this.formProfile.valid);
         if (this.formProfile.valid) {
             this.updateProfile();
         } else {
@@ -161,16 +184,22 @@ export class ProfileComponent implements OnInit {
         // this._authService.update('users/profile',{this.formProfile.value})
     }
 
+    updateAuth() {
+        if (this.emailField().valid && this.phoneField().valid) {
+
+        }
+    }
+
     onUploadAvatar(event, avatar) {
         const form = new FormData();
         form.append('file', event.files[0]);
         this._spinnerService.show();
         this._authService.uploadAvatar(form).subscribe(response => {
             this._spinnerService.hide();
-            this.user.avatar = response['data'];
-            this._authService.setUrlAvatar(this.user.avatar + '?rand=' + Math.random());
+            this.auth.avatar = response['data'];
+            this._authService.setUrlAvatar(this.auth.avatar + '?rand=' + Math.random());
             avatar.src = this._authService.getUrlAvatar();
-            localStorage.setItem('user', JSON.stringify(this.user));
+            localStorage.setItem('user', JSON.stringify(this.auth));
             avatar.clear();
             this._messageService.add({severity: 'success', summary: 'Archivo subido', detail: 'Correctamente'});
         }, error => {
@@ -180,12 +209,12 @@ export class ProfileComponent implements OnInit {
     }
 
     getUrlAvatar() {
-        if (this.user) {
-            if (this.user.avatar) {
-                this.urlAvatar = this.STORAGE_URL + this.user.avatar;
+        if (this.auth) {
+            if (this.auth.avatar) {
+                this.urlAvatar = this.STORAGE_URL + this.auth.avatar;
             } else {
-                if (this.user.sex) {
-                    if (this.user.sex.code === 'MALE') {
+                if (this.auth.sex) {
+                    if (this.auth.sex.code === 'MALE') {
                         this.urlAvatar = this.STORAGE_URL + 'avatars/male.png';
                     } else {
                         this.urlAvatar = this.STORAGE_URL + 'avatars/famale.png';
@@ -195,6 +224,22 @@ export class ProfileComponent implements OnInit {
                 }
             }
         }
+    }
+
+    openModalAuth() {
+        this.dialogAuth = true;
+    }
+
+    openModalRoles() {
+        this.dialogRoles = true;
+    }
+
+    openModalInstitutions() {
+        this.dialogInstitutions = true;
+    }
+
+    openModalAuthPassword() {
+        this.dialogAuthPassword = true;
     }
 
     identificationTypeField() {
@@ -215,6 +260,10 @@ export class ProfileComponent implements OnInit {
 
     secondNameField() {
         return this.formProfile.get('second_name');
+    }
+
+    phoneField() {
+        return this.formProfile.get('phone');
     }
 
     emailField() {
@@ -249,8 +298,23 @@ export class ProfileComponent implements OnInit {
         return this.formProfile.get('gender');
     }
 
+    civilStatusField() {
+        return this.formProfile.get('civil_status');
+    }
+
+    addressField() {
+        return this.formProfile.get('address');
+    }
+
     locationField() {
         return this.formProfile.get('location');
     }
 
+    rolesField() {
+        return this.formProfile.get('roles');
+    }
+
+    institutionsField() {
+        return this.formProfile.get('institutions');
+    }
 }

@@ -12,6 +12,11 @@ import {LocationAddressComponent} from "./components/location-address/location-a
 import {LocationComponent} from "./components/location/location.component";
 import {AutoCompleteModule} from "primeng/autocomplete";
 import {ToastModule} from "primeng/toast";
+import {InputTextModule} from "primeng/inputtext";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {ButtonModule} from "primeng/button";
+import {FieldsetModule} from "primeng/fieldset";
+import {TooltipModule} from "primeng/tooltip";
 
 // My Components
 @NgModule({
@@ -22,6 +27,11 @@ import {ToastModule} from "primeng/toast";
         DropdownModule,
         AutoCompleteModule,
         ToastModule,
+        InputTextModule,
+        InputTextareaModule,
+        ButtonModule,
+        FieldsetModule,
+        TooltipModule,
     ],
     declarations: [
         DateComponent,

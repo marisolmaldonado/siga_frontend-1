@@ -36,6 +36,6 @@ export class AppComponent implements OnInit {
     getSystem() {
         this._authService.get('systems/' + environment.SYSTEM_ID).subscribe(response => {
             localStorage.setItem('system', JSON.stringify(response['data']));
-        })
+        });
     }
 }

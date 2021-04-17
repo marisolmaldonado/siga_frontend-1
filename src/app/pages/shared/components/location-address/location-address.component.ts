@@ -1,7 +1,8 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
 import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
-import {SelectItem} from "primeng/api";
-import * as moment from 'moment';
+import {MessageService} from "primeng/api";
+import {Addreess} from "../../../../models/app/models.index";
+import {AppService} from "../../../../services/app/app.service";
 
 @Component({
     selector: 'app-location-address',
@@ -17,105 +18,49 @@ import * as moment from 'moment';
 })
 
 export class LocationAddressComponent implements OnInit, ControlValueAccessor {
-    days: SelectItem[];
-    months: SelectItem[];
-    years: SelectItem[];
-    value: string;
-    onChange: (value: string) => void;
+    formAddress: FormGroup;
+    main_street: FormControl;
+    secondary_street: FormControl;
+    number: FormControl;
+    post_code: FormControl;
+    sector: FormControl;
+    indications: FormControl;
+    latitude: FormControl;
+    longitude: FormControl;
+    value: Addreess;
+    onChange: (value: Addreess) => void;
     onTouch: () => void;
     isDisabled: boolean;
-    year: FormControl;
-    month: FormControl;
-    day: FormControl;
 
-    constructor(private _formBuilder: FormBuilder) {
+    constructor(private _formBuilder: FormBuilder, private _appService: AppService, private _messageService: MessageService) {
+
     }
 
     ngOnInit(): void {
-        this.buildFormDate();
-        this.generateYears();
-        this.generateMonths();
-        this.generateDays(31);
+        this.buildFormAddress();
     }
 
-    buildFormDate() {
-        this.year = this._formBuilder.control('', Validators.required);
-        this.month = this._formBuilder.control('', Validators.required);
-        this.day = this._formBuilder.control('', Validators.required);
-    }
-
-    generateDays(totalDays: number) {
-        this.days = [];
-        for (let i = 1; i <= totalDays; i++) {
-            this.days.push({label: (i < 10 ? '0' : '') + i, value: (i < 10 ? '0' : '') + i});
-        }
-    }
-
-    generateMonths() {
-        this.months = [];
-        for (let i = 1; i <= 12; i++) {
-            this.months.push({label: i.toString(), value: (i < 10 ? '0' : '') + i});
-        }
-    }
-
-    generateYears() {
-        this.years = [];
-        const currentYear = parseInt(moment().format('YYYY'));
-        for (let i = currentYear; i >= (currentYear - 100); i--) {
-            this.years.push({label: i.toString(), value: i});
-        }
-    }
-
-    calculateTotalDays() {
-        if (this.month.valid) {
-            switch (this.month.value) {
-                case '01':
-                    this.generateDays(31);
-                    break;
-                case '02':
-                    this.generateDays(this.validateLeapYear(this.year.value) ? 29 : 28);
-                    break;
-                case '03':
-                    this.generateDays(31);
-                    break;
-                case '04':
-                    this.generateDays(30);
-                    break;
-                case '05':
-                    this.generateDays(31);
-                    break;
-                case '06':
-                    this.generateDays(30);
-                    break;
-                case '07':
-                    this.generateDays(31);
-                    break;
-                case '08':
-                    this.generateDays(31);
-                    break;
-                case '09':
-                    this.generateDays(30);
-                    break;
-                case '10':
-                    this.generateDays(31);
-                    break;
-                case '11':
-                    this.generateDays(30);
-                    break;
-                case '12':
-                    this.generateDays(31);
-                    break;
-            }
-        }
-    }
-
-    validateLeapYear(year: string) {
-        console.log(year);
-        if (year === '' || year === null) {
-            return false;
-        }
-        const yearInt = parseInt(year);
-        return ((yearInt % 4 == 0) && (yearInt % 100 != 0)) || (yearInt % 400 == 0);
+    buildFormAddress() {
+        this.formAddress = this._formBuilder.group({
+            'main_street': ['', Validators.required],
+            'secondary_street': ['', Validators.required],
+            'number': [null],
+            'post_code': [null],
+            'sector': ['',Validators.required],
+            'indications': [null],
+            'latitude': [null],
+            'longitude': [null]
+        });
+        /*
+        this.main_street = this._formBuilder.control('', Validators.required);
+        this.secondary_street = this._formBuilder.control('', Validators.required);
+        this.number = this._formBuilder.control('', Validators.required);
+        this.post_code = this._formBuilder.control('', Validators.required);
+        this.sector = this._formBuilder.control('', Validators.required);
+        this.indications = this._formBuilder.control('', Validators.required);
+        this.latitude = this._formBuilder.control('', Validators.required);
+        this.longitude = this._formBuilder.control('', Validators.required);
+        */
     }
 
     registerOnChange(fn: any): void {
@@ -130,19 +75,28 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
         this.isDisabled = isDisabled;
     }
 
-    writeValue(value: string): void {
+    writeValue(value: Addreess): void {
+        console.log(value);
         this.value = value;
         if (this.value) {
-            const [year, month, day] = this.value.split('-');
-            this.year.setValue(year);
-            this.month.setValue(month);
-            this.day.setValue(day);
+            /*
+            this.main_street.setValue(this.value.main_street);
+            this.secondary_street.setValue(this.value.secondary_street);
+            this.number.setValue(this.value.main_street);
+            this.post_code.setValue(this.value.main_street);
+            this.sector.setValue(this.value.main_street);
+            this.indications.setValue(this.value.indications);
+            this.latitude.setValue(this.value.main_street);
+            this.longitude.setValue(this.value.main_street);
+             */
+            this.formAddress.patchValue(this.value);
         }
     }
 
     updateValue(): void {
-        if (this.year.valid && this.month.valid && this.day.valid) {
-            this.value = `${this.year.value}-${this.month.value}-${this.day.value}`
+        console.log(this.value);
+        if (this.formAddress.valid) {
+            this.value = this.formAddress.value;
             this.onChange(this.value);
         }
     }

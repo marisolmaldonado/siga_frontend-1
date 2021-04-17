@@ -146,7 +146,7 @@
                                pKeyFilter="alphanum"
                                class="p-text-uppercase"
                                [maxlength]="validatorsOptions.identification.maxlength"
-                               formControlName="identification" autofocus/>
+                               formControlName="identification"/>
                         <div *ngIf="form.get('identification').errors && form.get('identification').touched">
                             <small id="identification1Help" class="p-invalid"
                                    *ngIf="form.get('identification').hasError('required')">

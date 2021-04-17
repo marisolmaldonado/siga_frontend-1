@@ -176,7 +176,8 @@
                                 </small>
                                 <small id="new_password2Help" class="p-error"
                                        *ngIf="newPasswordField().hasError('minlength')">
-                                    NewPassword minlength is 6.
+                                    Mínimo de caracteres
+                                    es {{newPasswordField().errors.minlength.requiredLength}}.
                                 </small>
                             </div>
                             <small id="new_password3Help" class="p-error"

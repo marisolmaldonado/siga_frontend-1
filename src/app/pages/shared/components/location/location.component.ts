@@ -81,7 +81,6 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
 
     loadProvinces() {
         this.provinces = this.locations.find(element => element.id === this.country.value.id)['children'];
-
     }
 
     loadCantons() {
@@ -102,6 +101,13 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
             }
         }
 
+        if (filtered.length === 0) {
+            this._messageService.add({
+                severity: 'error',
+                summary: 'No existen paises disponibles',
+                detail: 'Comuníquese con el administrador!'
+            });
+        }
         this.filteredCountries = filtered;
     }
 
@@ -185,7 +191,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
 
     updateValue(): void {
         console.log(this.parish);
-        if (this.country.valid && this.province.valid && this.canton.valid,this.parish.valid) {
+        if (this.country.valid && this.province.valid && this.canton.valid, this.parish.valid) {
             this.value = this.parish.value.id
             this.onChange(this.value);
         }

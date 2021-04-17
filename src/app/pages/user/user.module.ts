@@ -13,6 +13,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {MessageModule} from 'primeng/message';
 import {DropdownModule} from 'primeng/dropdown';
 import {ConfirmationService, MessageService} from 'primeng/api';
+import {SkeletonModule} from 'primeng/skeleton';
 
 // My Components
 import {TooltipModule} from 'primeng/tooltip';
@@ -40,6 +41,8 @@ import { ProfileComponent } from './profile/profile.component';
 import {SharedModule} from "../shared/shared.module";
 import {CardModule} from "primeng/card";
 import {EditorModule} from "primeng/editor";
+import {DividerModule} from "primeng/divider";
+import { ChangePasswordComponent } from './shared/change-password/change-password.component';
 
 @NgModule({
     imports: [
@@ -55,7 +58,6 @@ import {EditorModule} from "primeng/editor";
         DropdownModule,
         TooltipModule,
         AutoCompleteModule,
-
         ToastModule,
         ToolbarModule,
         FileUploadModule,
@@ -75,7 +77,9 @@ import {EditorModule} from "primeng/editor";
         OverlayPanelModule,
         SharedModule,
         CardModule,
-        EditorModule
+        EditorModule,
+        SkeletonModule,
+        DividerModule,
     ],
     declarations: [
         UserComponent,
@@ -83,6 +87,7 @@ import {EditorModule} from "primeng/editor";
         AdministrationComponent,
         AssignPermissionRoleComponent,
         ProfileComponent,
+        ChangePasswordComponent,
     ],
     providers: [ConfirmationService, MessageService]
 })

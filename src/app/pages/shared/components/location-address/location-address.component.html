@@ -1,25 +1,74 @@
-<div class="p-d-flex p-flex-md-row">
-    <p-dropdown id="year" [options]="years" [formControl]="year" placeholder="Año"
-                [virtualScroll]="true"
-                [itemSize]="20"
-                (onChange)="updateValue();calculateTotalDays()"></p-dropdown>
-    <p-dropdown id="month"
-                [options]="months"
-                [formControl]="month"
-                placeholder="Mes"
-                class="p-ml-2"
-                (onChange)="calculateTotalDays();updateValue()">
-        <ng-template pTemplate="selectedItem">
-            <div>{{month.value|months}}</div>
-        </ng-template>
-        <ng-template let-month pTemplate="item">
-            <div>{{month.value|months}}</div>
-        </ng-template>
-    </p-dropdown>
-    <p-dropdown id="day"
-                [options]="days"
-                [formControl]="day"
-                placeholder="Día"
-                class="p-ml-2"
-                (onChange)="updateValue()"></p-dropdown>
-</div>
+<p-toast></p-toast>
+
+<form [formGroup]="formAddress" class="p-mt-5">
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+    <span class="p-float-label">
+            <input id="sector-input" type="text" pInputText formControlName="sector" (keypress)="updateValue()"/>
+            <label for="sector-input">Sector</label>
+        </span>
+        </div>
+    </div>
+    <div class="p-fluid p-formgrid p-grid p-mt-3">
+        <div class="p-field p-col">
+        <span class="p-float-label">
+            <input id="main-street-input" type="text" pInputText formControlName="main_street"
+                   (keypress)="updateValue()"/>
+            <label for="main-street-input">Calle Principal</label>
+        </span>
+        </div>
+        <div class="p-field p-col">
+        <span class="p-float-label">
+            <input id="secondary-street-input" type="text" pInputText formControlName="secondary_street"
+                   (keypress)="updateValue()"/>
+            <label for="secondary-street-input">Calle Secundaria</label>
+        </span>
+        </div>
+    </div>
+    <p-fieldset legend="Detalle dirección (opcional)" [toggleable]="true" [collapsed]="true">
+        <div class="p-fluid p-formgrid p-grid p-mt-3">
+            <div class="p-field p-col">
+    <span class="p-float-label">
+        <textarea id="indications-input" pInputTextarea formControlName="indications"
+                  autoResize="autoResize" (keypress)="updateValue()"></textarea>
+            <label for="indications-input">Indicaciones (opcional)</label>
+        </span>
+            </div>
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid p-mt-3">
+            <div class="p-field p-col">
+    <span class="p-float-label">
+            <input id="number-input" type="text" pInputText formControlName="number" (keypress)="updateValue()"/>
+            <label for="number-input">Número de casa/departamento (opcional)</label>
+        </span>
+            </div>
+            <div class="p-field p-col">
+                <div class="p-inputgroup">
+                    <span class="p-float-label">
+                        <input id="post-code-input" type="text" pInputText formControlName="post_code"
+                               (keypress)="updateValue()"/>
+                        <label for="post-code-input">Código Postal (opcional)</label>
+                    </span>
+                    <a type="button" pButton pRipple icon="pi pi-search" pTooltip="Consultar código postal"
+                       styleClass="p-button-danger"
+                       href="https://www.codigopostal.gob.ec/" target="_blank"></a>
+                </div>
+            </div>
+        </div>
+        <div class="p-fluid p-formgrid p-grid p-mt-3">
+            <div class="p-field p-col">
+    <span class="p-float-label">
+            <input id="latitude-input" type="text" pInputText formControlName="latitude" (keypress)="updateValue()"/>
+            <label for="latitude-input">Latitud (opcional)</label>
+        </span>
+            </div>
+            <div class="p-field p-col">
+    <span class="p-float-label">
+            <input id="longitude-input" type="text" pInputText formControlName="longitude" (keypress)="updateValue()"/>
+            <label for="longitude-input">Longitud (opcional)</label>
+        </span>
+            </div>
+        </div>
+    </p-fieldset>
+</form>

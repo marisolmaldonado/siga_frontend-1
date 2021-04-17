@@ -21,6 +21,7 @@ export interface User {
     gender?: Catalogue;
     state?: Catalogue;
     birthdate?: Date;
+    phone?: string;
     email?: string;
     images?: Image[];
     avatar?: string;

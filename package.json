@@ -3,7 +3,7 @@
     "version": "11.0.0",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve --host siga.yavirac.edu.ec",
+        "start": "ng serve --host siga.test",
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint",

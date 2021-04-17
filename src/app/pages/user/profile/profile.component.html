@@ -1,300 +1,395 @@
 <p-toast></p-toast>
 
-<div class="p-grid">
-    <div class="p-lg-6 p-md-12">
-        <p-card header="Datos Personales">
-            <form [formGroup]="formProfile" (ngSubmit)="onSubmit($event)">
-                <div class="p-fluid p-formgrid p-grid">
-                    <div class="p-field p-lg-3 p-md-2 p-sm-12">
-                        <img #imgAvatar [src]="_authService.getUrlAvatar()" alt="avatar" style="border-radius: 50%;"
-                             width="80"/>
-                        <p-fileUpload #avatar mode="basic" name="files[]"
-                                      (uploadHandler)="onUploadAvatar($event,avatar)"
-                                      customUpload="true" accept="image/*"
-                                      maxFileSize="51200" [auto]="true"
-                                      chooseIcon="pi pi-upload"
-                                      chooseLabel="Seleccionar imagen"></p-fileUpload>
-                    </div>
-                    <div class="p-field p-lg-4 p-md-5 p-sm-12">
-                        <label for="identificationType">Tipo de Documento:</label>
-                        <p-dropdown id="identificationType" name="identificationType"
-                                    formControlName="identification_type"
-                                    [options]="catalogueIdentificationTypes"
-                                    optionLabel="name"
-                                    placeholder="Seleccione"></p-dropdown>
-                        <div *ngIf="identificationTypeField().errors && (identificationTypeField().untouched || identificationTypeField().touched)">
-                            <small id="identificationType-help-1" class="p-error"
-                                   *ngIf="identificationTypeField().hasError('required')">
-                                El campo es requerido.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="p-field p-lg-5 p-md-5 p-sm-12">
-                        <label for="identification">Número de Documento:</label>
-                        <input type="text" pInputText id="identification" name="identification"
-                               pKeyFilter="alphanum"
-                               class="p-text-uppercase"
-                               formControlName="identification" autofocus/>
-                        <div *ngIf="identificationField().errors && (identificationField().untouched|| identificationField().touched)">
-                            <small id="identification-help-1" class="p-error"
-                                   *ngIf="identificationField().hasError('required')">
-                                El campo es requerido.
-                            </small>
-                            <small id="identification-help-2" class="p-error"
-                                   *ngIf="identificationField().hasError('minlength')">
-                                Mínimo de caracteres es {{identificationField().errors.minlength.requiredLength}}
-                            </small>
-                            <small id="identification-help-3" class="p-error"
-                                   *ngIf="identificationField().hasError('maxlength')">
-                                Máximo de caracteres es {{identificationField().errors.maxlength.requiredLength}}
-                            </small>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-fluid p-formgrid p-grid">
-                    <div class="p-field p-lg-6 p-md-6 p-sm-12">
-                        <label for="first_lastname">Primer Apellido:</label>
-                        <input type="text" pInputText id="first_lastname" name="first_lastname"
-                               pKeyFilter="alpha"
-                               class="p-text-uppercase"
-                               formControlName="first_lastname"/>
-                        <div *ngIf="firstLastnameField().errors && (firstLastnameField().untouched|| firstLastnameField().touched)">
-                            <small id="first-lastname-help-1" class="p-error"
-                                   *ngIf="firstLastnameField().hasError('required')">
-                                El campo es requerido.
-                            </small>
-                            <small id="first-lastname-help-2" class="p-error"
-                                   *ngIf="firstLastnameField().hasError('minlength')">
-                                Mínino de caracteres es {{firstLastnameField().errors.minlength.requiredLength}}.
-                            </small>
-                            <small id="first-lastname-help-3" class="p-error"
-                                   *ngIf="firstLastnameField().hasError('maxlength')">
-                                Máximo de caracteres es {{firstLastnameField().errors.maxlength.requiredLength}}.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="p-field p-lg-6 p-md-6 p-sm-12">
-                        <label for="second_lastname">Segundo Apellido:</label>
-                        <input type="text" pInputText id="second_lastname" name="second_lastname"
-                               pKeyFilter="alpha" class="p-text-uppercase"
-                               formControlName="second_lastname"/>
-                        <div *ngIf="secondLastnameField().errors && (secondLastnameField().untouched|| secondLastnameField().touched)">
-                            <small id="second-lastname-help-1" class="p-error"
-                                   *ngIf="secondLastnameField().hasError('required')">
-                                El campo es requerido.
-                            </small>
-                            <small id="second-lastname-help-2" class="p-error"
-                                   *ngIf="secondLastnameField().hasError('minlength')">
-                                Mínino de caracteres es {{secondLastnameField().errors.minlength.requiredLength}}.
-                            </small>
-                            <small id="second-lastname-help-3" class="p-error"
-                                   *ngIf="secondLastnameField().hasError('maxlength')">
-                                Máximo de caracteres es {{secondLastnameField().errors.maxlength.requiredLength}}.
-                            </small>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-fluid p-formgrid p-grid">
-                    <div class="p-field p-lg-6 p-md-6 p-sm-12">
-                        <label for="first_name">Primer Nombre:</label>
-                        <input type="text" pInputText id="first_name" name="first_name" pKeyFilter="alpha"
-                               class="p-text-uppercase"
-                               formControlName="first_name"/>
-                        <div *ngIf="firstNameField().errors && (firstNameField().untouched|| firstNameField().touched)">
-                            <small id="first-name-help-1" class="p-error"
-                                   *ngIf="firstNameField().hasError('required')">
-                                El campo es requerido.
-                            </small>
-                            <small id="first-name-help-2" class="p-error"
-                                   *ngIf="firstNameField().hasError('minlength')">
-                                Mínino de caracteres es {{firstNameField().errors.minlength.requiredLength}}.
-                            </small>
-                            <small id="first-name-help-3" class="p-error"
-                                   *ngIf="firstNameField().hasError('maxlength')">
-                                Máximo de caracteres es {{firstNameField().errors.maxlength.requiredLength}}.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="p-field p-lg-6 p-md-6 p-sm-12">
-                        <label for="second_name">Segundo Nombre:</label>
-                        <input type="text" pInputText id="second_name" name="second_name" pKeyFilter="alpha"
-                               class="p-text-uppercase"
-                               formControlName="second_name"/>
-                        <div *ngIf="secondNameField().errors && (secondNameField().untouched|| secondNameField().touched)">
-                            <small id="second_name1Help" class="p-error"
-                                   *ngIf="secondNameField().hasError('required')">
-                                El campo es requerido.
-                            </small>
-                            <small id="second_name2Help" class="p-error"
-                                   *ngIf="secondNameField().hasError('minlength')">
-                                Mínino de caracteres es {{secondNameField().errors.minlength.requiredLength}}.
-                            </small>
-                            <small id="second_name3Help" class="p-error"
-                                   *ngIf="secondNameField().hasError('maxlength')">
-                                Máximo de caracteres es {{secondNameField().errors.maxlength.requiredLength}}.
-                            </small>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-fluid p-formgrid p-grid">
-                    <div class="p-field p-lg-6 p-md-6 p-sm-12">
-                        <label for="email">Correo Electrónico:</label>
-                        <input type="text" pInputText id="email" name="email" pKeyFilter="email"
-                               class="p-text-lowercase"
-                               formControlName="email"/>
-                        <div *ngIf="emailField().errors && (emailField().untouched|| emailField().touched)">
-                            <small id="email-help-1" class="p-error"
-                                   *ngIf="emailField().hasError('required')">
-                                El campo es requerido.
-                            </small>
-                            <small id="email-help-2" class="p-error"
-                                   *ngIf="emailField().hasError('email')">
-                                El correo electrónico no es válido.
-                            </small>
-                            <small id="email3Help" class="p-error"
-                                   *ngIf="emailField().hasError('maxlength')">
-                                Máximo de caracteres es {{emailField().errors.maxlength.requiredLength}}.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="p-field p-lg-6 p-md-6 p-sm-12">
-                        <label for="personal_email">Correo Electrónico Personal:</label>
-                        <input type="text" pInputText id="personal_email" name="personal_email" pKeyFilter="email"
-                               class="p-text-lowercase"
-                               formControlName="personal_email"/>
-                        <div *ngIf="personalEmailField().errors && (personalEmailField().untouched|| personalEmailField().touched)">
-                            <small id="personal-email-help-1" class="p-error"
-                                   *ngIf="personalEmailField().hasError('required')">
-                                El campo es requerido.
-                            </small>
-                            <small id="personal-email-help-2" class="p-error"
-                                   *ngIf="personalEmailField().hasError('email')">
-                                El correo electrónico no es válido.
-                            </small>
-                            <small id="personal-email-help-3" class="p-error"
-                                   *ngIf="personalEmailField().hasError('maxlength')">
-                                Máximo de caracteres es {{personalEmailField().errors.maxlength.requiredLength}}.
-                            </small>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="p-fluid p-formgrid p-grid">
-                    <div class="p-field p-lg-8 p-md-12 p-sm-12">
-                    </div>
-                    <div class="p-field p-lg-4 p-md-12 p-sm-12">
-                        <button type="submit" pButton pRipple label="Actualizar" icon="pi pi-refresh"
-                                class="p-button-raised"></button>
-                    </div>
-                </div>
-            </form>
-        </p-card>
-    </div>
-    <div class="p-lg-6 p-md-12">
-        <p-card header="Información Adicional">
-            <form [formGroup]="formProfile" (ngSubmit)="onSubmit($event)">
-                <div class="p-fluid p-formgrid p-grid">
-                    <div class="p-field p-lg-3 p-md-3 p-sm-12">
-                        <label for="ethnicOrigin">Etnia:</label>
-                        <p-dropdown id="ethnicOrigin" name="ethnicOrigin"
-                                    formControlName="ethnic_origin"
-                                    [options]="catalogueEthnicOrigins"
-                                    optionLabel="name"
-                                    placeholder="Seleccione"></p-dropdown>
-                        <div *ngIf="ethnicOriginField().errors && (ethnicOriginField().untouched|| ethnicOriginField().touched)">
-                            <small id="ethnic-origin-help-1" class="p-error"
-                                   *ngIf="ethnicOriginField().hasError('required')">
-                                El campo es requerido.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="p-field p-lg-3 p-md-3 p-sm-12">
-                        <label for="bloodType">Tipo de Sangre:</label>
-                        <p-dropdown id="bloodType" name="bloodType"
-                                    formControlName="blood_type"
-                                    [options]="catalogueBloodTypes"
-                                    optionLabel="name"
-                                    placeholder="Seleccione"></p-dropdown>
-                        <div *ngIf="bloodTypeField().errors && (bloodTypeField().untouched|| bloodTypeField().touched)">
-                            <small id="blood-type-help-1" class="p-error"
-                                   *ngIf="bloodTypeField().hasError('required')">
-                                El campo es requerido.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="p-field p-lg-3 p-md-3 p-sm-12">
-                        <label for="sex">Sexo:</label>
-                        <p-dropdown id="sex" name="sex"
-                                    formControlName="sex"
-                                    [options]="catalogueSexs"
-                                    optionLabel="name"
-                                    placeholder="Seleccione"></p-dropdown>
-                        <div *ngIf="sexField().errors && (sexField().untouched|| sexField().touched)">
-                            <small id="sex-help-1" class="p-error"
-                                   *ngIf="sexField().hasError('required')">
-                                El campo sexo es requerido.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="p-field p-lg-3 p-md-3 p-sm-12">
-                        <label for="gender">Género:</label>
-                        <p-dropdown id="gender" name="gender"
-                                    formControlName="gender"
-                                    [options]="catalogueGenders"
-                                    optionLabel="name"
-                                    placeholder="Seleccione"></p-dropdown>
-                        <div *ngIf="genderField().errors && (genderField().untouched|| genderField().touched)">
-                            <small id="gender-help-1" class="p-error"
-                                   *ngIf="genderField().hasError('required')">
-                                El campo es requerido.
-                            </small>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-fluid p-formgrid p-grid">
-                    <div class="p-field p-lg-4 p-md-4 p-sm-12">
-                        <label for="birthdate">Fecha de Nacimiento:</label>
-                        <app-date id="birthdate" name="birthdate" formControlName="birthdate"></app-date>
-                        <div *ngIf="birthdateField().errors && (birthdateField().untouched|| birthdateField().touched)">
-                            <small id="birthdate-help-1" class="p-error"
-                                   *ngIf="birthdateField().hasError('required')">
-                                Todos los campo son requeridos.
-                            </small>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-fluid p-formgrid p-grid">
-                    <div class="p-field p-lg-12 p-md-12 p-sm-12">
-                        <label for="birthdate">Dirección:</label>
-                        <app-location id="location" name="location"
-                                      formControlName="location"></app-location>
-                        <div *ngIf="locationField().errors && (locationField().untouched|| locationField().touched)">
-                            <small id="location-help-1" class="p-error"
-                                   *ngIf="locationField().hasError('required')">
-                                Todos los campo son requeridos.
-                            </small>
-                        </div>
-                    </div>
-                </div>
 
-                <hr>
-                <div class="p-fluid p-formgrid p-grid">
-                    <div class="p-field p-lg-8 p-md-12 p-sm-12">
+<div class="card">
+    <div class="p-grid">
+        <div class="p-lg-5 p-md-12">
+            <p-card header="Datos Personales">
+                <form [formGroup]="formProfile" (ngSubmit)="onSubmit($event)">
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-lg-3 p-md-2 p-sm-12">
+                            <img #imgAvatar [src]="_authService.getUrlAvatar()" alt="avatar" style="border-radius: 50%;"
+                                 width="80"/>
+                            <p-fileUpload #avatar mode="basic" name="files[]"
+                                          (uploadHandler)="onUploadAvatar($event,avatar)"
+                                          customUpload="true" accept="image/*"
+                                          maxFileSize="51200" [auto]="true"
+                                          chooseIcon="pi pi-upload"
+                                          chooseLabel="Seleccionar"></p-fileUpload>
+                        </div>
+                        <div class="p-field p-lg-9 p-md-10 p-sm-12 p-text-right">
+                            <button pButton pRipple type="button" icon="pi pi-user-edit" pTooltip="Modificar Usuario"
+                                    class="p-button-rounded"
+                                    (click)="openModalAuth()"></button>
+                            <button pButton pRipple type="button" icon="pi pi-shield" pTooltip="Roles"
+                                    class="p-button-rounded p-button-warning p-ml-3"
+                                    (click)="openModalRoles()"></button>
+                            <button pButton pRipple type="button" icon="pi pi-home" pTooltip="Instituciones"
+                                    class="p-button-rounded p-button-secondary p-ml-3"
+                                    (click)="openModalInstitutions()"></button>
+                            <button pButton pRipple type="button" icon="pi pi-key" pTooltip="Cambiar contraseña"
+                                    class="p-button-rounded p-button-info p-ml-3"
+                                    (click)="openModalAuthPassword()"></button>
+                        </div>
                     </div>
-                    <div class="p-field p-lg-4 p-md-12 p-sm-12">
-                        <button type="submit" pButton pRipple label="Actualizar" icon="pi pi-refresh"
-                                class="p-button-raised"></button>
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-lg-6 p-md-6 p-sm-12">
+                            <label for="identificationType">Tipo de Documento:</label>
+                            <p-dropdown id="identificationType" name="identificationType"
+                                        formControlName="identification_type"
+                                        [options]="catalogueIdentificationTypes"
+                                        optionLabel="name"
+                                        placeholder="Seleccione"></p-dropdown>
+                            <div *ngIf="identificationTypeField().errors && (identificationTypeField().untouched || identificationTypeField().touched)">
+                                <small id="identificationType-help-1" class="p-error"
+                                       *ngIf="identificationTypeField().hasError('required')">
+                                    El campo es requerido.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="p-field p-lg-6 p-md-6 p-sm-12">
+                            <label for="identification">Número de Documento:</label>
+                            <input type="text" pInputText id="identification" name="identification"
+                                   pKeyFilter="alphanum"
+                                   class="p-text-uppercase"
+                                   formControlName="identification"/>
+                            <div *ngIf="identificationField().errors && (identificationField().untouched|| identificationField().touched)">
+                                <small id="identification-help-1" class="p-error"
+                                       *ngIf="identificationField().hasError('required')">
+                                    El campo es requerido.
+                                </small>
+                                <small id="identification-help-2" class="p-error"
+                                       *ngIf="identificationField().hasError('minlength')">
+                                    Mínimo de caracteres es {{identificationField().errors.minlength.requiredLength}}
+                                </small>
+                                <small id="identification-help-3" class="p-error"
+                                       *ngIf="identificationField().hasError('maxlength')">
+                                    Máximo de caracteres es {{identificationField().errors.maxlength.requiredLength}}
+                                </small>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </p-card>
-    </div>
-</div>
-<div class="p-fluid p-formgrid p-grid">
-    <div class="p-field p-lg-12 p-md-12 p-sm-12">
-        <p-editor [(ngModel)]="text" [style]="{'height':'320px'}"></p-editor>
-        <p>Value: {{text || 'empty'}}</p>
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-lg-6 p-md-6 p-sm-12">
+                            <label for="first_lastname">Primer Apellido:</label>
+                            <input type="text" pInputText id="first_lastname" name="first_lastname"
+                                   pKeyFilter="alpha"
+                                   class="p-text-uppercase"
+                                   formControlName="first_lastname"/>
+                            <div *ngIf="firstLastnameField().errors && (firstLastnameField().untouched|| firstLastnameField().touched)">
+                                <small id="first-lastname-help-1" class="p-error"
+                                       *ngIf="firstLastnameField().hasError('required')">
+                                    El campo es requerido.
+                                </small>
+                                <small id="first-lastname-help-2" class="p-error"
+                                       *ngIf="firstLastnameField().hasError('minlength')">
+                                    Mínino de caracteres es {{firstLastnameField().errors.minlength.requiredLength}}.
+                                </small>
+                                <small id="first-lastname-help-3" class="p-error"
+                                       *ngIf="firstLastnameField().hasError('maxlength')">
+                                    Máximo de caracteres es {{firstLastnameField().errors.maxlength.requiredLength}}.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="p-field p-lg-6 p-md-6 p-sm-12">
+                            <label for="second_lastname">Segundo Apellido:</label>
+                            <input type="text" pInputText id="second_lastname" name="second_lastname"
+                                   pKeyFilter="alpha" class="p-text-uppercase"
+                                   formControlName="second_lastname"/>
+                            <div *ngIf="secondLastnameField().errors && (secondLastnameField().untouched|| secondLastnameField().touched)">
+                                <small id="second-lastname-help-1" class="p-error"
+                                       *ngIf="secondLastnameField().hasError('required')">
+                                    El campo es requerido.
+                                </small>
+                                <small id="second-lastname-help-2" class="p-error"
+                                       *ngIf="secondLastnameField().hasError('minlength')">
+                                    Mínino de caracteres es {{secondLastnameField().errors.minlength.requiredLength}}.
+                                </small>
+                                <small id="second-lastname-help-3" class="p-error"
+                                       *ngIf="secondLastnameField().hasError('maxlength')">
+                                    Máximo de caracteres es {{secondLastnameField().errors.maxlength.requiredLength}}.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-lg-6 p-md-6 p-sm-12">
+                            <label for="first_name">Primer Nombre:</label>
+                            <input type="text" pInputText id="first_name" name="first_name" pKeyFilter="alpha"
+                                   class="p-text-uppercase"
+                                   formControlName="first_name"/>
+                            <div *ngIf="firstNameField().errors && (firstNameField().untouched|| firstNameField().touched)">
+                                <small id="first-name-help-1" class="p-error"
+                                       *ngIf="firstNameField().hasError('required')">
+                                    El campo es requerido.
+                                </small>
+                                <small id="first-name-help-2" class="p-error"
+                                       *ngIf="firstNameField().hasError('minlength')">
+                                    Mínino de caracteres es {{firstNameField().errors.minlength.requiredLength}}.
+                                </small>
+                                <small id="first-name-help-3" class="p-error"
+                                       *ngIf="firstNameField().hasError('maxlength')">
+                                    Máximo de caracteres es {{firstNameField().errors.maxlength.requiredLength}}.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="p-field p-lg-6 p-md-6 p-sm-12">
+                            <label for="second_name">Segundo Nombre:</label>
+                            <input type="text" pInputText id="second_name" name="second_name" pKeyFilter="alpha"
+                                   class="p-text-uppercase"
+                                   formControlName="second_name"/>
+                            <div *ngIf="secondNameField().errors && (secondNameField().untouched|| secondNameField().touched)">
+                                <small id="second_name1Help" class="p-error"
+                                       *ngIf="secondNameField().hasError('required')">
+                                    El campo es requerido.
+                                </small>
+                                <small id="second_name2Help" class="p-error"
+                                       *ngIf="secondNameField().hasError('minlength')">
+                                    Mínino de caracteres es {{secondNameField().errors.minlength.requiredLength}}.
+                                </small>
+                                <small id="second_name3Help" class="p-error"
+                                       *ngIf="secondNameField().hasError('maxlength')">
+                                    Máximo de caracteres es {{secondNameField().errors.maxlength.requiredLength}}.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-lg-6 p-md-6 p-sm-12">
+                            <label for="personal_email">Correo Electrónico Personal:</label>
+                            <input type="text" pInputText id="personal_email" name="personal_email" pKeyFilter="email"
+                                   class="p-text-lowercase"
+                                   formControlName="personal_email"/>
+                            <div *ngIf="personalEmailField().errors && (personalEmailField().untouched|| personalEmailField().touched)">
+                                <small id="personal-email-help-1" class="p-error"
+                                       *ngIf="personalEmailField().hasError('required')">
+                                    El campo es requerido.
+                                </small>
+                                <small id="personal-email-help-2" class="p-error"
+                                       *ngIf="personalEmailField().hasError('email')">
+                                    El correo electrónico no es válido.
+                                </small>
+                                <small id="personal-email-help-3" class="p-error"
+                                       *ngIf="personalEmailField().hasError('maxlength')">
+                                    Máximo de caracteres es {{personalEmailField().errors.maxlength.requiredLength}}.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </p-card>
+        </div>
+        <div class="p-lg-1">
+            <p-divider layout="vertical">
+                <button type="submit" pButton pRipple label="Guardar" icon="pi pi-save"
+                        class="p-button-success p-button-raised" [disabled]="formProfile.invalid"
+                        [pTooltip]="formProfile.invalid?'Complete la información':''"></button>
+            </p-divider>
+        </div>
+        <div class="p-lg-6 p-md-12">
+            <p-card header="Información Adicional">
+                <form [formGroup]="formProfile" (ngSubmit)="onSubmit($event)">
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-lg-3 p-md-3 p-sm-12">
+                            <label for="ethnicOrigin">Etnia:</label>
+                            <p-dropdown id="ethnicOrigin" name="ethnicOrigin"
+                                        formControlName="ethnic_origin"
+                                        [options]="catalogueEthnicOrigins"
+                                        optionLabel="name"
+                                        placeholder="Seleccione"></p-dropdown>
+                            <div *ngIf="ethnicOriginField().errors && (ethnicOriginField().untouched|| ethnicOriginField().touched)">
+                                <small id="ethnic-origin-help-1" class="p-error"
+                                       *ngIf="ethnicOriginField().hasError('required')">
+                                    El campo es requerido.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="p-field p-lg-3 p-md-3 p-sm-12">
+                            <label for="bloodType">Tipo de Sangre:</label>
+                            <p-dropdown id="bloodType" name="bloodType"
+                                        formControlName="blood_type"
+                                        [options]="catalogueBloodTypes"
+                                        optionLabel="name"
+                                        placeholder="Seleccione"></p-dropdown>
+                            <div *ngIf="bloodTypeField().errors && (bloodTypeField().untouched|| bloodTypeField().touched)">
+                                <small id="blood-type-help-1" class="p-error"
+                                       *ngIf="bloodTypeField().hasError('required')">
+                                    El campo es requerido.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="p-field p-lg-3 p-md-3 p-sm-12">
+                            <label for="sex">Sexo:</label>
+                            <p-dropdown id="sex" name="sex"
+                                        formControlName="sex"
+                                        [options]="catalogueSexs"
+                                        optionLabel="name"
+                                        placeholder="Seleccione"></p-dropdown>
+                            <div *ngIf="sexField().errors && (sexField().untouched|| sexField().touched)">
+                                <small id="sex-help-1" class="p-error"
+                                       *ngIf="sexField().hasError('required')">
+                                    El campo es requerido.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="p-field p-lg-3 p-md-3 p-sm-12">
+                            <label for="gender">Género:</label>
+                            <p-dropdown id="gender" name="gender"
+                                        formControlName="gender"
+                                        [options]="catalogueGenders"
+                                        optionLabel="name"
+                                        placeholder="Seleccione"></p-dropdown>
+                            <div *ngIf="genderField().errors && (genderField().untouched|| genderField().touched)">
+                                <small id="gender-help-1" class="p-error"
+                                       *ngIf="genderField().hasError('required')">
+                                    El campo es requerido.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-lg-3 p-md-3 p-sm-12">
+                            <label for="gender">Estado Civil:</label>
+                            <p-dropdown id="civil-status" name="civil-status"
+                                        formControlName="civil_status"
+                                        [options]="catalogueCivilStatus"
+                                        optionLabel="name"
+                                        placeholder="Seleccione"></p-dropdown>
+                            <div *ngIf="civilStatusField().errors && (civilStatusField().untouched|| civilStatusField().touched)">
+                                <small id="civil-status-help-1" class="p-error"
+                                       *ngIf="civilStatusField().hasError('required')">
+                                    El campo es requerido.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="p-field p-lg-4 p-md-4 p-sm-12">
+                            <label for="birthdate">Fecha de Nacimiento:</label>
+                            <app-date id="birthdate" name="birthdate" formControlName="birthdate"></app-date>
+                            <div *ngIf="birthdateField().errors && (birthdateField().untouched|| birthdateField().touched)">
+                                <small id="birthdate-help-1" class="p-error"
+                                       *ngIf="birthdateField().hasError('required')">
+                                    Todos los campo son requeridos.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-lg-12 p-md-12 p-sm-12">
+                            <label for="birthdate">Dirección:</label>
+                            <app-location id="location" name="location"
+                                          formControlName="location"></app-location>
+                            <div *ngIf="locationField().errors && (locationField().untouched|| locationField().touched)">
+                                <small id="location-help-1" class="p-error"
+                                       *ngIf="locationField().hasError('required')">
+                                    Todos los campo son requeridos.
+                                </small>
+                            </div>
+                            <app-location-address id="address" name="address"
+                                                  formControlName="address"></app-location-address>
+                            <div *ngIf="addressField().errors && (addressField().untouched|| addressField().touched)">
+                                <small id="address-help-1" class="p-error"
+                                       *ngIf="addressField().hasError('required')">
+                                    Todos los campo son requeridos.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </p-card>
+        </div>
     </div>
 </div>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<form [formGroup]="formProfile" (ngSubmit)="onSubmit($event)">
+    <p-dialog [(visible)]="dialogRoles" [style]="{width: '450px'}" header="Roles" [modal]="true"
+              styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            <div class="p-field">
+                <ul>
+                    <li *ngFor="let role of rolesField().value">
+                        <button pButton pRipple type="button" [label]="role.name" class="p-button-text"
+                                [pTooltip]="authRole.id == role.id?'Rol actual':''"
+                                [ngClass]="{'p-button-secondary':authRole.id != role.id}"></button>
+                    </li>
+                </ul>
+            </div>
+        </ng-template>
+    </p-dialog>
+    <p-dialog [(visible)]="dialogInstitutions" [style]="{width: '450px'}" header="Instituciones" [modal]="true"
+              styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            <div class="p-field">
+                <ul>
+                    <li *ngFor="let institution of institutionsField().value">
+                        <button pButton pRipple type="button" [label]="institution.name" class="p-button-text"
+                                [pTooltip]="authInstitution.id == institution.id?'Instituto actual':''"
+                                [ngClass]="{'p-button-secondary':authInstitution.id != institution.id}"></button>
+                    </li>
+                </ul>
+            </div>
+        </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="dialogAuth" [style]="{width: '450px'}" header="Datos de Usuario" [modal]="true"
+              styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-lg-12 p-md-12 p-sm-12">
+                    <label for="username">Usuario:</label>
+                    <input type="text" pInputText id="username" name="username" formControlName="username"/>
+                </div>
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-lg-12 p-md-12 p-sm-12">
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="text" pInputText id="email" name="email" pKeyFilter="email"
+                           class="p-text-lowercase"
+                           formControlName="email"/>
+                    <div *ngIf="emailField().errors && (emailField().untouched|| emailField().touched)">
+                        <small id="email-help-1" class="p-error"
+                               *ngIf="emailField().hasError('required')">
+                            El campo es requerido.
+                        </small>
+                        <small id="email-help-2" class="p-error"
+                               *ngIf="emailField().hasError('email')">
+                            El correo electrónico no es válido.
+                        </small>
+                        <small id="email3Help" class="p-error"
+                               *ngIf="emailField().hasError('maxlength')">
+                            Máximo de caracteres es {{emailField().errors.maxlength.requiredLength}}.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-lg-12 p-md-12 p-sm-12">
+                    <label for="email">Teléfono Celular:</label>
+                    <input type="text" pInputText id="phone" name="phone"
+                           formControlName="phone"/>
+                    <div *ngIf="phoneField().errors && (phoneField().untouched|| phoneField().touched)">
+                        <small id="phone-help-1" class="p-error"
+                               *ngIf="phoneField().hasError('required')">
+                            El campo es requerido.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-lg-12 p-md-12 p-sm-12">
+                    <button type="submit" pButton pRipple label="Actualizar" icon="pi pi-refresh"
+                            class="p-button-raised" [disabled]="emailField().invalid || phoneField().invalid"
+                            (click)="updateAuth()"></button>
+                </div>
+            </div>
+        </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="dialogAuthPassword" [style]="{width: '450px'}" header="Cambio de contraseña" [modal]="true"
+              styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            <app-change-password></app-change-password>
+        </ng-template>
+    </p-dialog>
+</form>
