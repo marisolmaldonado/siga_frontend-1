@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Message} from 'primeng/api';
 import {User} from '../../../../models/auth/user';
@@ -11,8 +11,8 @@ import {AuthService} from '../../../../services/auth/auth.service';
     styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit {
-    flagChangePassword: boolean;
-    flagShowPassword: boolean;
+    @Input() passwordOld: string;
+    @Output() flagLogin = new EventEmitter<string>();
     formChangePassword: FormGroup;
     msg: Message[];
 
@@ -25,7 +25,7 @@ export class ChangePasswordComponent implements OnInit {
 
     buildFormChangePassword() {
         this.formChangePassword = this.formBuilder.group({
-            password_old: ['', [Validators.required, Validators.minLength(8)]],
+            password_old: [this.passwordOld],
             password: ['', [Validators.required, Validators.minLength(8)]],
             password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
         });
@@ -35,10 +35,10 @@ export class ChangePasswordComponent implements OnInit {
         this.msg = [];
         if (this.checkPasswords()) {
             this.spinner.show();
-            this.authService.changePassword( this.formChangePassword.value).subscribe(
+            this.authService.changePassword(this.formChangePassword.value).subscribe(
                 response => {
                     this.spinner.hide();
-                    this.flagChangePassword = false;
+                    this.flagLogin.emit('selectInstitutionRole');
                 },
                 error => {
                     this.spinner.hide();
@@ -64,7 +64,7 @@ export class ChangePasswordComponent implements OnInit {
         return this.passwordField.value === this.passwordConfirmationField.value;
     }
 
-    get passwordField(){
+    get passwordField() {
         return this.formChangePassword.get('password');
     }
 

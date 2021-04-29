@@ -1,19 +1,16 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {Role, System, User} from '../../models/auth/models.index';
-import {Router} from '@angular/router';
-import {SYSTEMS} from '../../../environments/catalogues';
 import {URL} from '../../../environments/environment';
-import {Log} from '../../models/log';
-import {Institution} from "../../models/app/institution";
+import {Institution} from '../../models/app/institution';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class AuthService {
-    log: Log;
     urlAvatar: string;
     auth: User;
     institutions: Institution[];
@@ -34,13 +31,13 @@ export class AuthService {
         return this.httpClient.post(url, credentials, {params});
     }
 
-    attempts(username: string, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/attempts/' + username;
+    validateAttempts(username: string, params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'auth/validate-attempts/' + username;
         return this.httpClient.get(url, {params});
     }
 
-    resetAttempts(username: string, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/reset-attempts/' + username;
+    resetAttempts(params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'auth/reset-attempts';
         return this.httpClient.get(url, {params});
     }
 
@@ -59,9 +56,9 @@ export class AuthService {
         return this.httpClient.post(url, {username}, {params});
     }
 
-    transctionalCode(username: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/transactional-code/' + username;
-        return this.httpClient.get(url, {params});
+    generateTransctionalCode(username: any, params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'auth/transactional-code';
+        return this.httpClient.post(url, null, {params});
     }
 
     unlock(credentials: any, params = new HttpParams()) {
@@ -126,7 +123,6 @@ export class AuthService {
         localStorage.removeItem('institution');
         localStorage.removeItem('permissions');
         localStorage.removeItem('token');
-        localStorage.removeItem('system');
         localStorage.removeItem('keepSession');
     }
 

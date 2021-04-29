@@ -60,45 +60,46 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     login() {
         this.msgs = [];
         this.spinner.show();
-        this.subscription.add(this.authService.login(this.formLogin.value).subscribe(
-            response => {
-                this.authService.setToken(response);
-                this.authService.setKeepSession(this.keepSessionField.value);
-                this.authService.resetAttempts(this.usernameField.value).subscribe(response => {
-                    this.getUser();
-                }, error => {
-                    this.spinner.hide();
-                    this.msgs = [{
-                        severity: 'error',
-                        summary: error.error.msg.summary,
-                        detail: error.error.msg.detail,
-                    }];
-                });
-            }, error => {
-                this.spinner.hide();
-                this.authService.removeLogin();
-                if (error.status === 401) {
-                    this.authService.attempts(this.usernameField.value).subscribe(response => {
-                        this.msgs = [{
-                            severity: 'error',
-                            summary: response['msg']['summary'],
-                            detail: response['msg']['detail']
-                        }];
+        this.subscription.add(
+            this.authService.login(this.formLogin.value).subscribe(
+                response => {
+                    this.authService.setToken(response);
+                    this.authService.setKeepSession(this.keepSessionField.value);
+                    this.authService.resetAttempts().subscribe(response => {
+                        this.getUser();
                     }, error => {
+                        this.spinner.hide();
                         this.msgs = [{
                             severity: 'error',
                             summary: error.error.msg.summary,
                             detail: error.error.msg.detail,
                         }];
                     });
-                    return;
-                }
-                this.msgs = [{
-                    severity: 'error',
-                    summary: error.error.msg.summary,
-                    detail: error.error.msg.detail,
-                }];
-            }));
+                }, error => {
+                    this.spinner.hide();
+                    this.authService.removeLogin();
+                    if (error.status === 401) {
+                        this.authService.validateAttempts(this.usernameField.value).subscribe(response => {
+                            this.msgs = [{
+                                severity: 'error',
+                                summary: response['msg']['summary'],
+                                detail: response['msg']['detail']
+                            }];
+                        }, error => {
+                            this.msgs = [{
+                                severity: 'error',
+                                summary: error.error.msg.summary,
+                                detail: error.error.msg.detail,
+                            }];
+                        });
+                        return;
+                    }
+                    this.msgs = [{
+                        severity: 'error',
+                        summary: error.error.msg.summary,
+                        detail: error.error.msg.detail,
+                    }];
+                }));
     }
 
     getUser() {
@@ -122,7 +123,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                             });
                             return;
                         }
-                        this.flagLogin = this.auth['change_password'] ? 'changePassword' : 'selectInstitutionRole';
+                        this.flagLogin = this.auth['is_changed_password'] ? 'selectInstitutionRole' : 'changePassword';
                     },
                     error => {
                         this.spinner.hide();

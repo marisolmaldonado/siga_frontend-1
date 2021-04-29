@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
@@ -9,6 +9,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {Message} from 'primeng/api';
 import {User} from '../../../../models/auth/user';
+import {HttpParams} from "@angular/common/http";
 
 @Component({
     selector: 'app-select-institution-role',
@@ -16,6 +17,7 @@ import {User} from '../../../../models/auth/user';
     styleUrls: ['./select-institution-role.component.css']
 })
 export class SelectInstitutionRoleComponent implements OnInit {
+    @Output() flagLogin = new EventEmitter<string>();
     formInstitutionRole: FormGroup;
     roles: Role[];
     institutions: Institution[];
@@ -62,53 +64,56 @@ export class SelectInstitutionRoleComponent implements OnInit {
     }
 
     getRoles() {
-        this.subscription.add(this.authService.post('users/roles', {
-            institution: this.institutionField.value['id'],
-            user: this.auth.id
-        }).subscribe(response => {
-            this.roles = response['data'];
-            if (this.roles?.length === 0) {
+        const params = new HttpParams().append('institution', this.institutionField.value['id']);
+
+        this.subscription.add(
+            this.authService.get('auth/roles', params).subscribe(response => {
+                this.roles = response['data'];
+                if (this.roles?.length === 0) {
+                    this.msgs = [{
+                        severity: 'warn',
+                        summary: 'No tiene un rol asignado para esta Institución!',
+                        detail: 'Comuníquese con el administrador!'
+                    }];
+                } else {
+                    this.msgs = [];
+                }
+            }, error => {
+                this.roles = [];
                 this.msgs = [{
                     severity: 'warn',
                     summary: 'No tiene un rol asignado para esta Institución!',
                     detail: 'Comuníquese con el administrador!'
                 }];
-            } else {
-                this.msgs = [];
-            }
-        }, error => {
-            this.roles = [];
-            this.msgs = [{
-                severity: 'warn',
-                summary: 'No tiene un rol asignado para esta Institución!',
-                detail: 'Comuníquese con el administrador!'
-            }];
-        }));
+            }));
     }
 
     getPermissions() {
+        const params = new HttpParams().append('role', this.roleField.value['id']);
         this.spinner.show();
-        this.subscription.add(this.authService.post('users/permissions', {
-            role: this.roleField.value['id'],
-            institution: this.institutionField.value['id']
-        }).subscribe(response => {
-            this.spinner.hide();
-            const permissions = response['data'];
+        this.subscription.add(
+            this.authService.get('auth/permissions', params).subscribe(response => {
+                this.spinner.hide();
+                const permissions = response['data'];
 
-            if (!permissions) {
-                this.msgs = [{
-                    severity: 'warn',
-                    summary: 'No tiene permisos asignados!',
-                    detail: 'Comuníquese con el administrador!'
-                }];
-            } else {
-                this.msgs = [];
-                localStorage.setItem('permissions', JSON.stringify(permissions));
-                this.continueLogin();
-            }
-        }, error => {
-            this.spinner.hide();
-        }));
+                if (!permissions) {
+                    this.msgs = [{
+                        severity: 'warn',
+                        summary: 'No tiene permisos asignados!',
+                        detail: 'Comuníquese con el administrador!'
+                    }];
+                } else {
+                    this.msgs = [];
+                    localStorage.setItem('permissions', JSON.stringify(permissions));
+                    this.continueLogin();
+                }
+            }, error => {
+                this.spinner.hide();
+            }));
+    }
+
+    returnLogin() {
+        this.flagLogin.emit('login');
     }
 
     get institutionField() {

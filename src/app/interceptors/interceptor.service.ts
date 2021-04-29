@@ -1,33 +1,40 @@
 import {Injectable} from '@angular/core';
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpParams, HttpRequest} from '@angular/common/http';
+import {
+    HttpEvent,
+    HttpHandler,
+    HttpInterceptor,
+    HttpRequest
+} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {AuthService} from '../services/auth/auth.service';
 import {Token} from '../models/auth/token';
 import {Router} from '@angular/router';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {tryCatch} from 'rxjs/internal-compatibility';
-import {URL} from '../../environments/environment';
 import {Institution} from '../models/app/institution';
-import {User} from '../models/auth/user';
 import {Role} from '../models/auth/role';
+import {System} from '../models/auth/system';
 
 @Injectable({
     providedIn: 'root'
 })
 export class InterceptorService implements HttpInterceptor {
 
-    constructor(private _authService: AuthService, private _router: Router, private _spinner: NgxSpinnerService) {
+    constructor(private authService: AuthService, private router: Router) {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        let headers = new HttpHeaders();
+        let headers = req.headers;
         let params = req.params;
+        headers = headers.append('Accept', 'application/json');
+        console.log(req);
         if (localStorage.getItem('token')) {
-            headers = headers.append('Accept', 'application/json')
-                .append('Authorization', 'Bearer ' + (JSON.parse(localStorage.getItem('token')) as Token).access_token);
+            headers = headers.append(
+                'Authorization', 'Bearer ' + (JSON.parse(localStorage.getItem('token')) as Token).access_token);
             if (!req.params.has('page')) {
                 params = params.append('page', '1');
+            }
+            if (!req.params.has('per_page')) {
+                params = params.append('page', '10');
             }
             if (localStorage.getItem('institution')) {
                 params = params.append('institution',
@@ -37,35 +44,18 @@ export class InterceptorService implements HttpInterceptor {
                 params = params.append('role',
                     (JSON.parse(localStorage.getItem('role')) as Role).id.toString());
             }
-        } else {
-            headers = headers.append('Accept', 'application/json');
-            params = params.append('page', '1');
-        }
-
-        if (req.url.indexOf('reports') >= 0) {
-            return next.handle(req.clone({headers, params, responseType: 'blob'})).pipe(catchError(error => {
-                return throwError(error);
-            }));
+            if (localStorage.getItem('system')) {
+                params = params.append('system',
+                    (JSON.parse(localStorage.getItem('system')) as System).id.toString());
+            }
         }
 
         return next.handle(req.clone({headers, params})).pipe(catchError(error => {
             if (error.status === 401 || error.status === 423) {
-                this._authService.removeLogin();
-                this._router.navigate(['/auth/login']);
+                this.authService.removeLogin();
+                this.router.navigate(['/auth/login']);
             }
-
-            // if (error.status === 403) {
-            //     this._router.navigate(['/auth/login']);
-            // }
             return throwError(error);
         }));
-    }
-
-    errors(error: HttpErrorResponse) {
-        if (error.status === 4030 || error.status === 4040 || error.status === 4230) {
-            this._authService.removeLogin();
-            this._router.navigate(['/auth/login']);
-        }
-        return throwError(error);
     }
 }

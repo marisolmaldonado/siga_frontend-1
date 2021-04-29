@@ -1,72 +1,76 @@
-<div class="login-body" [ngClass]="{'layout-dark': dark, 'layout-light': !dark}">
-    <div class="login-content">
-        <div class="night-switch">
-            <p-button styleClass="dark-switch" icon="pi pi-circle-on" (click)="dark = true"></p-button>
-            <p-button styleClass="light-switch" icon="pi pi-circle-off" (click)="dark = false"></p-button>
-        </div>
-        <div class="login-panel">
-            <div class="login-panel-content">
-                <div class="logo">
-                    <div *ngIf="institutions.length===0">
-                        <h3>{{system.name}}</h3>
-                        <h2>{{system.acronym}}</h2>
-                        <img src="assets/layout/images/login/login.png" alt="mirage-layout"/>
-                    </div>
-                </div>
-                <!-- Formulario login -->
-                <div *ngIf="institutions.length==0" class="forms">
-                    <form [formGroup]="formLogin" (ngSubmit)="onSubmitLogin($event)">
-                        <div class="login-input-wrapper">
-                            <label for="username">Usuario:</label>
-                            <input id="username" name="username" pInputText
-                                   placeholder="Número de cédula Ej. 0504172422"
-                                   maxlength="13"
-                                   formControlName="username"/>
-                            <div *ngIf="usernameField.errors && usernameField.touched">
-                                <small *ngIf="usernameField.hasError('required')"
-                                       id="usernameHelp" class="p-error">
-                                    El campo es obligatorio.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="login-input-wrapper">
-                            <label for="password">Contraseña:</label>
-                            <p-password id="password" name="password" formControlName="password"
-                                        [feedback]="false" class="p-ml-2"
-                                        [toggleMask]="true">
-                            </p-password>
-                            <p-checkbox formControlName="keep_session" [binary]="true" class="p-ml-6"
-                                        label="Mantener sesión activa"></p-checkbox>
-                            <div *ngIf="passwordField.errors && passwordField.touched">
-                                <small *ngIf="passwordField.hasError('required')"
-                                       id="passwordHelp" class="p-error">
-                                    El campo es obligatorio.
-                                </small>
-                            </div>
-                        </div>
-                        <div class="buttons">
-                            <button id="login" name="login" type="submit" pButton label="Continuar"
-                                    icon="pi pi-arrow-right"></button>
-                            <button pButton [routerLink]="['/auth/user-unlock']" label="Desbloquear Usuario"
-                                    icon="pi pi-unlock"
-                                    class="secondary-button p-ml-2" pTooltip="Haga click para desbloquear su usuario">
-                            </button>
-                            <button pButton [routerLink]="['/auth/password-forgot']" label="¿Olvidó su contraseña?"
-                                    icon="pi pi-key"
-                                    class="secondary-button p-ml-2" pTooltip="Haga click si olvidó su contraseña">
-                            </button>
-                        </div>
-                        <p-messages [value]="msgs"></p-messages>
-                    </form>
-                </div>
-
-                <!-- Seleccionar Institutcion -->
-                <app-select-institution-role *ngIf="flagLogin==='selectInstitutionRole'"></app-select-institution-role>
-
-                <!-- Formulario cambiar contraseña -->
-                <app-change-password *ngIf="flagLogin==='changePassword'"></app-change-password>
+<div class="card" *ngIf="flagLogin==='login'">
+    <div class="p-grid">
+        <div class="p-lg-5 p-md-12 p-sm-12 p-d-flex p-ai-center p-jc-center">
+            <div class="p-text-center">
+                <h3>{{system?.name}}</h3>
+                <h2>{{system?.acronym}}</h2>
+                <hr>
+                <img src="assets/layout/images/login/login.png" alt="mirage-layout"/>
             </div>
         </div>
-        <div class="desert"></div>
+        <div class="p-lg-2 p-md-12 p-sm-12">
+            <p-divider layout="vertical"></p-divider>
+        </div>
+        <div class="p-lg-5 p-md-12 p-sm-12 p-d-flex p-ai-center p-jc-center">
+            <div class="p-fluid">
+                <form [formGroup]="formLogin" (ngSubmit)="onSubmitLogin($event)">
+                    <div class="p-field">
+                        <label for="username">Usuario:</label>
+                        <input id="username" name="username" pInputText size="100%"
+                               formControlName="username"
+                               placeholder="Cédula Ej. 0504172422"
+                               maxlength="13"/>
+                        <div *ngIf="usernameField.errors && usernameField.touched">
+                            <small *ngIf="usernameField.hasError('required')"
+                                   id="usernameHelp" class="p-error">
+                                El campo es obligatorio.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="p-field">
+                        <label for="password">Contraseña:</label>
+                        <p-password id="password" name="password" formControlName="password"
+                                    [feedback]="false" class="p-ml-2"
+                                    [toggleMask]="true">
+                        </p-password>
+                        <div *ngIf="passwordField.errors && passwordField.touched">
+                            <small *ngIf="passwordField.hasError('required')"
+                                   id="passwordHelp" class="p-error">
+                                El campo es obligatorio.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="p-field">
+                        <p-checkbox formControlName="keep_session" [binary]="true"
+                                    label="Mantener sesión activa"></p-checkbox>
+                    </div>
+                    <div class="p-field">
+                        <button name="login" type="submit" pButton label="Continuar"
+                                icon="pi pi-arrow-right"></button>
+                    </div>
+                    <div class="p-field">
+                        <button pButton [routerLink]="['/auth/user-unlock']" label="Desbloquear Usuario"
+                                icon="pi pi-unlock"
+                                class="p-button-text p-ml-2" pTooltip="Haga click para desbloquear su usuario">
+                        </button>
+                    </div>
+                    <div class="p-field">
+                        <button pButton [routerLink]="['/auth/password-forgot']" label="¿Olvidó su contraseña?"
+                                icon="pi pi-key"
+                                class="p-button-text p-ml-2" pTooltip="Haga click si olvidó su contraseña">
+                        </button>
+                    </div>
+                    <p-messages [value]="msgs"></p-messages>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- Seleccionar Institutcion -->
+<app-select-institution-role (flagLogin)="flagLogin=$event"
+                             *ngIf="flagLogin==='selectInstitutionRole'"></app-select-institution-role>
+
+<!-- Formulario cambiar contraseña -->
+<app-change-password (flagLogin)="flagLogin=$event" [passwordOld]="passwordField.value"
+                     *ngIf="flagLogin==='changePassword'"></app-change-password>
