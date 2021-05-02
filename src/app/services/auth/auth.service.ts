@@ -41,8 +41,8 @@ export class AuthService {
         return this.httpClient.get(url, {params});
     }
 
-    forgotPassword(username: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/forgot-password';
+    passwordForgot(username: any, params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'auth/password-forgot';
         return this.httpClient.post(url, {username}, {params});
     }
 

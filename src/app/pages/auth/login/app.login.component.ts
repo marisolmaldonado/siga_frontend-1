@@ -4,11 +4,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Subscription} from 'rxjs';
 import {ConfirmationService, Message} from 'primeng/api';
-import {environment} from '../../../../environments/environment';
 import {AuthService} from '../../../services/auth/auth.service';
-import {Permission, Role, System, User} from '../../../models/auth/models.index';
+import {Role, System, User} from '../../../models/auth/models.index';
 import {Institution} from '../../../models/app/institution';
-
+import swal from 'sweetalert2';
 
 @Component({
     selector: 'app-login',
@@ -31,7 +30,8 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     constructor(private authService: AuthService,
                 private spinner: NgxSpinnerService,
                 private router: Router,
-                private formBuilder: FormBuilder) {
+                private formBuilder: FormBuilder,
+                private confirmationService: ConfirmationService) {
         this.subscription = new Subscription();
         this.flagLogin = 'login';
         this.roles = [];
@@ -80,25 +80,40 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                     this.authService.removeLogin();
                     if (error.status === 401) {
                         this.authService.validateAttempts(this.usernameField.value).subscribe(response => {
-                            this.msgs = [{
-                                severity: 'error',
-                                summary: response['msg']['summary'],
-                                detail: response['msg']['detail']
-                            }];
+                            // this.msgs = [{
+                            //     severity: 'error',
+                            //     summary: response['msg']['summary'],
+                            //     detail: response['msg']['detail']
+                            // }];
+                            swal.fire({
+                                title: response['msg']['summary'],
+                                text: response['msg']['detail'],
+                                icon: 'error'
+                            });
                         }, error => {
-                            this.msgs = [{
-                                severity: 'error',
-                                summary: error.error.msg.summary,
-                                detail: error.error.msg.detail,
-                            }];
+                            // this.msgs = [{
+                            //     severity: 'error',
+                            //     summary: error.error.msg.summary,
+                            //     detail: error.error.msg.detail,
+                            // }];
+                            swal.fire({
+                                title: error.error.msg.summary,
+                                text: error.error.msg.detail,
+                                icon: 'error'
+                            });
                         });
                         return;
                     }
-                    this.msgs = [{
-                        severity: 'error',
-                        summary: error.error.msg.summary,
-                        detail: error.error.msg.detail,
-                    }];
+                    // this.msgs = [{
+                    //     severity: 'error',
+                    //     summary: error.error.msg.summary,
+                    //     detail: error.error.msg.detail,
+                    // }];
+                    swal.fire({
+                        title: error.error.msg.summary,
+                        text: error.error.msg.detail,
+                        icon: 'error'
+                    });
                 }));
     }
 

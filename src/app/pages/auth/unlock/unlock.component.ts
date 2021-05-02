@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ConfirmationService, Message} from 'primeng/api';
-import {User} from '../../../models/auth/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../../services/auth/auth.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ActivatedRoute, Router} from '@angular/router';
-import {delay} from 'rxjs/operators';
+import swal from 'sweetalert2';
+import {User} from '../../../models/auth/user';
 
 @Component({
     selector: 'app-password-reset',
@@ -15,32 +14,29 @@ import {delay} from 'rxjs/operators';
 export class UnlockComponent implements OnInit {
     dark: boolean;
     checked: boolean;
-    msgs: Message[];
     user: User;
     formPasswordReset: FormGroup;
-    flagShowPassword: boolean;
-    
-    constructor(private _authService: AuthService,
-                private _spinner: NgxSpinnerService,
-                private _router: Router,
-                private _fb: FormBuilder,
-                private _activatedRoute: ActivatedRoute,
-                private _confirmationService: ConfirmationService) {
+
+    constructor(private authService: AuthService,
+                private spinner: NgxSpinnerService,
+                private router: Router,
+                private formBuilder: FormBuilder,
+                private activatedRoute: ActivatedRoute) {
     }
-    
+
     ngOnInit(): void {
         this.buildFormPasswordReset();
     }
-    
+
     buildFormPasswordReset() {
-        this.formPasswordReset = this._fb.group({
-            token: [this._activatedRoute.snapshot.queryParams.token, Validators.required],
-            username: [this._activatedRoute.snapshot.queryParams.username, Validators.required],
-            password: ['', [Validators.required, Validators.minLength(6)]],
-            password_confirmation: ['', [Validators.required, Validators.minLength(6)]],
+        this.formPasswordReset = this.formBuilder.group({
+            token: [this.activatedRoute.snapshot.queryParams.token, Validators.required],
+            username: [this.activatedRoute.snapshot.queryParams.username, Validators.required],
+            password: ['', [Validators.required, Validators.minLength(8)]],
+            password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
         });
     }
-    
+
     onSubmitResetPassword(event: Event) {
         event.preventDefault();
         if (this.formPasswordReset.valid) {
@@ -49,35 +45,42 @@ export class UnlockComponent implements OnInit {
             this.formPasswordReset.markAllAsTouched();
         }
     }
-    
+
     resetPassword() {
         if (this.checkPasswords()) {
-            this._spinner.show();
-            const credentials = {
-                password: this.formPasswordReset.controls['password'].value,
-                password_confirmation: this.formPasswordReset.controls['password_confirmation'].value,
-                token: this.formPasswordReset.controls['token'].value,
-            };
-            this._authService.unlock(credentials).subscribe(
+            this.spinner.show();
+            this.authService.unlock(this.formPasswordReset.value).subscribe(
                 response => {
-                    this._spinner.hide();
-                    this.msgs = [{
-                        severity: 'success',
-                        summary: response['msg']['summary'],
-                        detail: response['msg']['detail']
-                    }];
+                    this.spinner.hide();
+                    swal.fire({
+                        title: response['msg']['summary'],
+                        text: response['msg']['detail'],
+                        icon: 'info'
+                    });
                 }, error => {
-                    this._spinner.hide();
-                    this.msgs = [{
-                        severity: 'error',
-                        summary: error.error.msg.summary,
-                        detail: error.error.msg.detail
-                    }];
+                    this.spinner.hide();
+                    swal.fire({
+                        title: error.error.msg.summary,
+                        text: error.error.msg.detail,
+                        icon: 'error'
+                    });
                 });
         }
     }
-    
+
     checkPasswords() {
-        return this.formPasswordReset.controls['password'].value === this.formPasswordReset.controls['password_confirmation'].value;
+        return this.passwordField.value === this.passwordConfirmationField.value;
+    }
+
+    get usernameField() {
+        return this.formPasswordReset.get('username');
+    }
+
+    get passwordField() {
+        return this.formPasswordReset.get('password');
+    }
+
+    get passwordConfirmationField() {
+        return this.formPasswordReset.get('password_confirmation');
     }
 }

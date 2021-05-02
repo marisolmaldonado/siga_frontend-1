@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../../../services/auth/auth.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ConfirmationService, Message} from 'primeng/api';
-import {environment} from "../../../../environments/environment";
+import {environment} from '../../../../environments/environment';
+import swal from 'sweetalert2';
+import {AuthService} from '../../../services/auth/auth.service';
 
 @Component({
     selector: 'app-password-forgot',
@@ -14,16 +14,14 @@ import {environment} from "../../../../environments/environment";
 export class PasswordForgotComponent implements OnInit {
     dark: boolean;
     checked: boolean;
-    msgs: Message[];
     formPasswordReset: FormGroup;
     flagPasswordReset: boolean;
     SITE_KEY: string;
 
-    constructor(private _authService: AuthService,
-                private _spinner: NgxSpinnerService,
-                private _router: Router,
-                private _fb: FormBuilder,
-                private _confirmationService: ConfirmationService) {
+    constructor(private authService: AuthService,
+                private spinner: NgxSpinnerService,
+                private router: Router,
+                private formBuilder: FormBuilder) {
         this.SITE_KEY = environment.SITE_KEY;
     }
 
@@ -32,7 +30,7 @@ export class PasswordForgotComponent implements OnInit {
     }
 
     buildFormPasswordReset() {
-        this.formPasswordReset = this._fb.group({
+        this.formPasswordReset = this.formBuilder.group({
             username: ['', Validators.required]
         });
     }
@@ -47,29 +45,33 @@ export class PasswordForgotComponent implements OnInit {
     }
 
     forgotPassword(grecaptcha) {
-        this._spinner.show();
-        this._authService.forgotPassword(this.formPasswordReset.controls['username'].value).subscribe(response => {
-            this.flagPasswordReset = false;
-            // grecaptcha.reset();
-            this.msgs = [{
-                severity: 'info',
-                summary: response['msg']['summary'],
-                detail: response['msg']['detail']
-            }];
-            this._spinner.hide();
-        }, error => {
+        this.spinner.show();
+        this.authService.passwordForgot(this.formPasswordReset.controls['username'].value).subscribe(response => {
+            this.spinner.hide();
             this.flagPasswordReset = false;
             grecaptcha.reset();
-            this._spinner.hide();
-            this.msgs = [{
-                severity: 'error',
-                summary: error.error.msg.summary,
-                detail: error.error.msg.detail
-            }];
+            swal.fire({
+                title: response['msg']['summary'],
+                text: response['msg']['detail'],
+                icon: 'info'
+            });
+        }, error => {
+            this.spinner.hide();
+            this.flagPasswordReset = false;
+            grecaptcha.reset();
+            swal.fire({
+                title: error.error.msg.summary,
+                text: error.error.msg.detail,
+                icon: 'error'
+            });
         });
     }
 
-    showResponse(event) {
+    showResponse() {
         this.flagPasswordReset = true;
+    }
+
+    get username() {
+        return this.formPasswordReset.get('username');
     }
 }

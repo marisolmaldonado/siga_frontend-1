@@ -26,7 +26,10 @@ export class InterceptorService implements HttpInterceptor {
         let headers = req.headers;
         let params = req.params;
         headers = headers.append('Accept', 'application/json');
-        console.log(req);
+        if (localStorage.getItem('system')) {
+            params = params.append('system',
+                (JSON.parse(localStorage.getItem('system')) as System).id.toString());
+        }
         if (localStorage.getItem('token')) {
             headers = headers.append(
                 'Authorization', 'Bearer ' + (JSON.parse(localStorage.getItem('token')) as Token).access_token);
@@ -43,10 +46,6 @@ export class InterceptorService implements HttpInterceptor {
             if (localStorage.getItem('role')) {
                 params = params.append('role',
                     (JSON.parse(localStorage.getItem('role')) as Role).id.toString());
-            }
-            if (localStorage.getItem('system')) {
-                params = params.append('system',
-                    (JSON.parse(localStorage.getItem('system')) as System).id.toString());
             }
         }
 

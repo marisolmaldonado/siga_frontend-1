@@ -10,6 +10,7 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {Message} from 'primeng/api';
 import {User} from '../../../../models/auth/user';
 import {HttpParams} from "@angular/common/http";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
     selector: 'app-select-institution-role',
@@ -24,6 +25,7 @@ export class SelectInstitutionRoleComponent implements OnInit {
     permissions: Permission[];
     msgs: Message[];
     auth: User;
+    STORAGE_URL: string = environment.STORAGE_URL;
     private subscription: Subscription;
 
     constructor(private formBuilder: FormBuilder,
@@ -65,9 +67,10 @@ export class SelectInstitutionRoleComponent implements OnInit {
 
     getRoles() {
         const params = new HttpParams().append('institution', this.institutionField.value['id']);
-
+        this.spinner.show();
         this.subscription.add(
             this.authService.get('auth/roles', params).subscribe(response => {
+                this.spinner.hide();
                 this.roles = response['data'];
                 if (this.roles?.length === 0) {
                     this.msgs = [{
@@ -79,6 +82,7 @@ export class SelectInstitutionRoleComponent implements OnInit {
                     this.msgs = [];
                 }
             }, error => {
+                this.spinner.hide();
                 this.roles = [];
                 this.msgs = [{
                     severity: 'warn',
