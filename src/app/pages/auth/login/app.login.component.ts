@@ -3,11 +3,12 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Subscription} from 'rxjs';
-import {ConfirmationService, Message} from 'primeng/api';
 import {AuthService} from '../../../services/auth/auth.service';
 import {Role, System, User} from '../../../models/auth/models.index';
 import {Institution} from '../../../models/app/institution';
 import swal from 'sweetalert2';
+import {environment} from '../../../../environments/environment';
+import {MessageService} from '../../../services/app/message.service';
 
 @Component({
     selector: 'app-login',
@@ -17,7 +18,6 @@ import swal from 'sweetalert2';
 export class AppLoginComponent implements OnInit, OnDestroy {
     dark: boolean;
     checked: boolean;
-    msgs: Message[];
     auth: User;
     system: System;
     formLogin: FormGroup;
@@ -28,21 +28,27 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
 
     constructor(private authService: AuthService,
+                private messageService: MessageService,
                 private spinner: NgxSpinnerService,
                 private router: Router,
-                private formBuilder: FormBuilder,
-                private confirmationService: ConfirmationService) {
+                private formBuilder: FormBuilder) {
         this.subscription = new Subscription();
         this.flagLogin = 'login';
         this.roles = [];
         this.institutions = [];
         this.auth = {};
-        this.system = authService.getSystem();
         this.verifySession();
     }
 
     ngOnInit(): void {
         this.buildFormLogin();
+        this.getSystem();
+    }
+
+    getSystem() {
+        this.authService.get('systems/' + environment.SYSTEM_ID).subscribe(response => {
+            this.system = response['data'];
+        });
     }
 
     ngOnDestroy(): void {
@@ -58,7 +64,6 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     }
 
     login() {
-        this.msgs = [];
         this.spinner.show();
         this.subscription.add(
             this.authService.login(this.formLogin.value).subscribe(
@@ -69,51 +74,19 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                         this.getUser();
                     }, error => {
                         this.spinner.hide();
-                        this.msgs = [{
-                            severity: 'error',
-                            summary: error.error.msg.summary,
-                            detail: error.error.msg.detail,
-                        }];
+                        this.messageService.error(error);
                     });
                 }, error => {
                     this.spinner.hide();
                     this.authService.removeLogin();
                     if (error.status === 401) {
                         this.authService.validateAttempts(this.usernameField.value).subscribe(response => {
-                            // this.msgs = [{
-                            //     severity: 'error',
-                            //     summary: response['msg']['summary'],
-                            //     detail: response['msg']['detail']
-                            // }];
-                            swal.fire({
-                                title: response['msg']['summary'],
-                                text: response['msg']['detail'],
-                                icon: 'error'
-                            });
                         }, error => {
-                            // this.msgs = [{
-                            //     severity: 'error',
-                            //     summary: error.error.msg.summary,
-                            //     detail: error.error.msg.detail,
-                            // }];
-                            swal.fire({
-                                title: error.error.msg.summary,
-                                text: error.error.msg.detail,
-                                icon: 'error'
-                            });
+                            this.messageService.error(error);
                         });
                         return;
                     }
-                    // this.msgs = [{
-                    //     severity: 'error',
-                    //     summary: error.error.msg.summary,
-                    //     detail: error.error.msg.detail,
-                    // }];
-                    swal.fire({
-                        title: error.error.msg.summary,
-                        text: error.error.msg.detail,
-                        icon: 'error'
-                    });
+                    this.messageService.error(error);
                 }));
     }
 
@@ -127,14 +100,13 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                         this.authService.auth = response['data'];
                         this.institutions = response['data']['institutions'];
                         this.authService.institutions = response['data']['institutions'];
-                        this.msgs = [];
 
                         // Error cuando no tiene asiganda una institucion
                         if (this.institutions?.length === 0) {
-                            this.msgs.push({
-                                severity: 'warn',
-                                summary: 'No tiene una institucion asignada!',
-                                detail: 'Comuníquese con el administrador!'
+                            swal.fire({
+                                title: 'No tiene una institucion asignada!',
+                                text: 'Comuníquese con el administrador!',
+                                icon: 'warning'
                             });
                             return;
                         }
@@ -142,11 +114,11 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                     },
                     error => {
                         this.spinner.hide();
-                        this.msgs = [{
-                            severity: 'error',
-                            summary: error.error.msg.summary,
-                            detail: error.error.msg.detail
-                        }];
+                        swal.fire({
+                            title: error.error.msg.summary,
+                            text: error.error.msg.detail,
+                            icon: 'error'
+                        });
                     }));
     }
 

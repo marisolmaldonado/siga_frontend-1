@@ -17,7 +17,6 @@ export class PasswordResetComponent implements OnInit {
     checked: boolean;
     user: User;
     formPasswordReset: FormGroup;
-    flagShowPassword: boolean;
 
     constructor(private authService: AuthService,
                 private spinner: NgxSpinnerService,

@@ -1,9 +1,8 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Message} from 'primeng/api';
-import {User} from '../../../../models/auth/user';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AuthService} from '../../../../services/auth/auth.service';
+import swal from "sweetalert2";
 
 @Component({
     selector: 'app-change-password',
@@ -14,7 +13,6 @@ export class ChangePasswordComponent implements OnInit {
     @Input() passwordOld: string;
     @Output() flagLogin = new EventEmitter<string>();
     formChangePassword: FormGroup;
-    msg: Message[];
 
     constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private authService: AuthService) {
     }
@@ -32,7 +30,6 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     changePassword() {
-        this.msg = [];
         if (this.checkPasswords()) {
             this.spinner.show();
             this.authService.changePassword(this.formChangePassword.value).subscribe(
@@ -42,11 +39,11 @@ export class ChangePasswordComponent implements OnInit {
                 },
                 error => {
                     this.spinner.hide();
-                    this.msg = [{
-                        severity: 'error',
-                        summary: error.error.msg.summary,
-                        detail: error.error.msg.detail
-                    }];
+                    swal.fire({
+                        title: error.error.msg.summary,
+                        text: error.error.msg.detail,
+                        icon: 'error'
+                    });
                 });
         }
     }

@@ -7,10 +7,10 @@ import {Institution} from '../../../../models/app/institution';
 import {Permission} from '../../../../models/auth/permission';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {Message} from 'primeng/api';
 import {User} from '../../../../models/auth/user';
-import {HttpParams} from "@angular/common/http";
-import {environment} from "../../../../../environments/environment";
+import {HttpParams} from '@angular/common/http';
+import {environment} from '../../../../../environments/environment';
+import swal from "sweetalert2";
 
 @Component({
     selector: 'app-select-institution-role',
@@ -23,7 +23,6 @@ export class SelectInstitutionRoleComponent implements OnInit {
     roles: Role[];
     institutions: Institution[];
     permissions: Permission[];
-    msgs: Message[];
     auth: User;
     STORAGE_URL: string = environment.STORAGE_URL;
     private subscription: Subscription;
@@ -73,22 +72,20 @@ export class SelectInstitutionRoleComponent implements OnInit {
                 this.spinner.hide();
                 this.roles = response['data'];
                 if (this.roles?.length === 0) {
-                    this.msgs = [{
-                        severity: 'warn',
-                        summary: 'No tiene un rol asignado para esta Institución!',
-                        detail: 'Comuníquese con el administrador!'
-                    }];
-                } else {
-                    this.msgs = [];
+                    swal.fire({
+                        title: 'No tiene un rol asignado para esta Institución!',
+                        text: 'Comuníquese con el administrador!',
+                        icon: 'warning'
+                    });
                 }
             }, error => {
                 this.spinner.hide();
                 this.roles = [];
-                this.msgs = [{
-                    severity: 'warn',
-                    summary: 'No tiene un rol asignado para esta Institución!',
-                    detail: 'Comuníquese con el administrador!'
-                }];
+                swal.fire({
+                    title: 'No tiene un rol asignado para esta Institución!',
+                    text: 'Comuníquese con el administrador!',
+                    icon: 'warning'
+                });
             }));
     }
 
@@ -101,13 +98,12 @@ export class SelectInstitutionRoleComponent implements OnInit {
                 const permissions = response['data'];
 
                 if (!permissions) {
-                    this.msgs = [{
-                        severity: 'warn',
-                        summary: 'No tiene permisos asignados!',
-                        detail: 'Comuníquese con el administrador!'
-                    }];
+                    swal.fire({
+                        title: 'No tiene permisos asignados!',
+                        text: 'Comuníquese con el administrador!',
+                        icon: 'warning'
+                    });
                 } else {
-                    this.msgs = [];
                     localStorage.setItem('permissions', JSON.stringify(permissions));
                     this.continueLogin();
                 }
