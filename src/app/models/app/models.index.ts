@@ -1,4 +1,3 @@
-export {State} from './state';
 export {Catalogue} from './catalogue';
 export {Location} from './location';
 export {Image} from './image';
