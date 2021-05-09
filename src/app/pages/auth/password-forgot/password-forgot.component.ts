@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {environment} from '../../../../environments/environment';
 import swal from 'sweetalert2';
 import {AuthService} from '../../../services/auth/auth.service';
+import {AuthHttpService} from '../../../services/auth/authHttp.service';
 
 @Component({
     selector: 'app-password-forgot',
@@ -18,10 +19,11 @@ export class PasswordForgotComponent implements OnInit {
     flagPasswordReset: boolean;
     SITE_KEY: string;
 
-    constructor(private authService: AuthService,
-                private spinner: NgxSpinnerService,
-                private router: Router,
-                private formBuilder: FormBuilder) {
+    constructor(
+        private authHttpService: AuthHttpService,
+        private spinner: NgxSpinnerService,
+        private router: Router,
+        private formBuilder: FormBuilder) {
         this.SITE_KEY = environment.SITE_KEY;
     }
 
@@ -46,7 +48,7 @@ export class PasswordForgotComponent implements OnInit {
 
     forgotPassword(grecaptcha) {
         this.spinner.show();
-        this.authService.passwordForgot(this.formPasswordReset.controls['username'].value).subscribe(response => {
+        this.authHttpService.passwordForgot(this.formPasswordReset.controls['username'].value).subscribe(response => {
             this.spinner.hide();
             this.flagPasswordReset = false;
             grecaptcha.reset();

@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {AuthService} from '../../../../services/auth/auth.service';
-import swal from "sweetalert2";
+import swal from 'sweetalert2';
+import {AuthHttpService} from '../../../../services/auth/authHttp.service';
 
 @Component({
     selector: 'app-change-password',
@@ -14,7 +14,10 @@ export class ChangePasswordComponent implements OnInit {
     @Output() flagLogin = new EventEmitter<string>();
     formChangePassword: FormGroup;
 
-    constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private authService: AuthService) {
+    constructor(private formBuilder: FormBuilder,
+                private spinner: NgxSpinnerService,
+                private authHttpService: AuthHttpService
+    ) {
     }
 
     ngOnInit(): void {
@@ -32,7 +35,7 @@ export class ChangePasswordComponent implements OnInit {
     changePassword() {
         if (this.checkPasswords()) {
             this.spinner.show();
-            this.authService.changePassword(this.formChangePassword.value).subscribe(
+            this.authHttpService.changePassword(this.formChangePassword.value).subscribe(
                 response => {
                     this.spinner.hide();
                     this.flagLogin.emit('selectInstitutionRole');

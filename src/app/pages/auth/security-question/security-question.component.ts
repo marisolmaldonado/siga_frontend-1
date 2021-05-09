@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../../../services/auth/auth.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ConfirmationService, Message} from 'primeng/api';
-import {environment} from "../../../../environments/environment";
+import {environment} from '../../../../environments/environment';
+import {AuthHttpService} from '../../../services/auth/authHttp.service';
+import {MessageService} from '../../../services/app/message.service';
 
 @Component({
     selector: 'app-security-question',
@@ -14,15 +14,15 @@ import {environment} from "../../../../environments/environment";
 export class SecurityQuestionComponent implements OnInit {
     dark: boolean;
     checked: boolean;
-    msgs: Message[];
     formPasswordReset: FormGroup;
     flagPasswordReset: boolean;
-    SITE_KEY:string;
-    constructor(private _authService: AuthService,
-                private _spinner: NgxSpinnerService,
-                private _router: Router,
-                private _fb: FormBuilder,
-                private _confirmationService: ConfirmationService) {
+    SITE_KEY: string;
+
+    constructor(private authHttpService: AuthHttpService,
+                private spinnerService: NgxSpinnerService,
+                private messageService: MessageService,
+                private router: Router,
+                private formBuilder: FormBuilder) {
         this.SITE_KEY = environment.SITE_KEY;
     }
 
@@ -31,12 +31,12 @@ export class SecurityQuestionComponent implements OnInit {
     }
 
     buildFormPasswordReset() {
-        this.formPasswordReset = this._fb.group({
+        this.formPasswordReset = this.formBuilder.group({
             username: ['', Validators.required]
         });
     }
 
-    onSubmitForgotPassword(event: Event,grecaptcha) {
+    onSubmitForgotPassword(event: Event, grecaptcha) {
         event.preventDefault();
         if (this.formPasswordReset.valid) {
             this.forgotPassword(grecaptcha);
@@ -46,25 +46,17 @@ export class SecurityQuestionComponent implements OnInit {
     }
 
     forgotPassword(grecaptcha) {
-        this._spinner.show();
-        this._authService.userUnlock(this.formPasswordReset.controls['username'].value).subscribe(response => {
-            this._spinner.hide();
-            this.flagPasswordReset=false;
-                //grecaptcha.reset();
-            this.msgs = [{
-                severity: 'info',
-                summary: response['msg']['summary'],
-                detail: response['msg']['detail']
-            }];
-        }, error => {
-            this._spinner.hide();
-            this.flagPasswordReset=false;
+        this.spinnerService.show();
+        this.authHttpService.userUnlock(this.formPasswordReset.controls['username'].value).subscribe(response => {
+            this.spinnerService.hide();
+            this.flagPasswordReset = false;
             grecaptcha.reset();
-            this.msgs = [{
-                severity: 'error',
-                summary: error.error.msg.summary,
-                detail: error.error.msg.detail
-            }];
+            this.messageService.success(response);
+        }, error => {
+            this.spinnerService.hide();
+            this.flagPasswordReset = false;
+            grecaptcha.reset();
+            this.messageService.error(error);
         });
     }
 

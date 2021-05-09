@@ -4,16 +4,16 @@
     <img [src]="'assets/layout/images/pages/attendance/birthdate/'+randomNumber+'.gif'" alt="mirage-layout"
          width="270px"/>
 </p-dialog>
-<p-messages *ngIf="shortcuts.length===0" [(value)]="msgs" [closable]="false" (click)="administrateShortcuts()"
-            class="p-button p-button-text"></p-messages>
-<button *ngIf="shortcuts.length>0 && !flagShortcuts" type="button" pButton label="Activar edición"
+<p-messages *ngIf="shortcuts.length===0" [(value)]="msgs" [closable]="false"></p-messages>
+<br>
+<button *ngIf="!flagShortcuts" type="button" pButton label="Activar edición"
         icon="pi pi-cog"
-        class="p-button-success p-button-raised"
+        class="p-button-success p-button-raised p-ml-1"
         pTooltip="Haga click para activar la edición"
         (click)="administrateShortcuts()"></button>
 
-<button *ngIf="shortcuts.length>0 && flagShortcuts" type="button" pButton label="Desactivar edición"
-        icon="pi pi-pencil" class="p-button-raised"
+<button *ngIf="flagShortcuts" type="button" pButton label="Desactivar edición"
+        icon="pi pi-pencil" class="p-button-raised p-ml-1"
         pTooltip="Haga click para desactivar la edición"
         (click)="flagShortcuts=false"></button>
 
@@ -21,11 +21,16 @@
     <div id="meet-mirage" class="section">
         <div class="section-title">
             <h3 *ngIf="!flagShortcuts">DASHBOARD - {{role.name}}</h3>
-            <h3 *ngIf="flagShortcuts">Editando accesos directos</h3>
+            <h3 *ngIf="flagShortcuts">
+                Editando accesos directos
+                <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+            </h3>
         </div>
         <hr>
-        <p-message *ngIf="editShortcuts.length===0 && flagShortcuts" severity="info"
-                   text="No tiene accesos directos para mostrar"></p-message>
+        <p-message *ngIf="editShortcuts.length===0 && flagShortcuts" severity="warn"
+                   text="No tiene accesos directos para seleccionar"></p-message>
+        <p-message *ngIf="editShortcuts.length>0 && flagShortcuts" severity="info"
+                   text="Accesos directos para seleccionar"></p-message>
         <div *ngIf="flagShortcuts" class="feature-cards">
             <div class="feature-card" *ngFor="let editShortcut of editShortcuts" style="background: #f9fbe7">
                 <div class="feature-card-img">
@@ -45,6 +50,8 @@
             </div>
         </div>
         <hr *ngIf="flagShortcuts">
+        <p-message *ngIf="flagShortcuts" severity="info"
+                   text="Accesos directos que se van a mostrar"></p-message>
         <div class="feature-cards">
             <div class="feature-card" *ngFor="let shortcut of shortcuts">
                 <div class="feature-card-img">
@@ -53,11 +60,11 @@
                 <div class="feature-card-title">{{shortcut.title}}</div>
                 <div class="feature-card-content">
                     <div class="buttons">
-                        <button *ngIf="!flagShortcuts" id="{{shortcut.id}}" name="{{shortcut.id}}" type="button" pButton
+                        <button *ngIf="!flagShortcuts" name="{{shortcut.id}}" type="button" pButton
                                 label="Ingresar"
                                 icon="pi pi-external-link" class="p-button-raised"
                                 routerLink="{{shortcut.uri}}" pTooltip="Haga click para ingresar"></button>
-                        <button *ngIf="flagShortcuts" id="{{shortcut.id}}" name="{{shortcut.id}}" type="button" pButton
+                        <button *ngIf="flagShortcuts" name="{{shortcut.id}}" type="button" pButton
                                 label="Ocultar"
                                 icon="pi pi-eye-slash" class="p-button-danger p-button-raised"
                                 (click)="hideShortcut(shortcut)" pTooltip="Haga click para ocultar"></button>

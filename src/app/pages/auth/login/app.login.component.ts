@@ -9,6 +9,7 @@ import {Institution} from '../../../models/app/institution';
 import swal from 'sweetalert2';
 import {environment} from '../../../../environments/environment';
 import {MessageService} from '../../../services/app/message.service';
+import {AuthHttpService} from '../../../services/auth/authHttp.service';
 
 @Component({
     selector: 'app-login',
@@ -28,6 +29,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
 
     constructor(private authService: AuthService,
+                private authHttpService: AuthHttpService,
                 private messageService: MessageService,
                 private spinner: NgxSpinnerService,
                 private router: Router,
@@ -46,7 +48,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     }
 
     getSystem() {
-        this.authService.get('systems/' + environment.SYSTEM_ID).subscribe(response => {
+        this.authHttpService.get('systems/' + environment.SYSTEM_ID).subscribe(response => {
             this.system = response['data'];
         });
     }
@@ -66,11 +68,11 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     login() {
         this.spinner.show();
         this.subscription.add(
-            this.authService.login(this.formLogin.value).subscribe(
+            this.authHttpService.login(this.formLogin.value).subscribe(
                 response => {
                     this.authService.setToken(response);
                     this.authService.setKeepSession(this.keepSessionField.value);
-                    this.authService.resetAttempts().subscribe(response => {
+                    this.authHttpService.resetAttempts().subscribe(response => {
                         this.getUser();
                     }, error => {
                         this.spinner.hide();
@@ -80,7 +82,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                     this.spinner.hide();
                     this.authService.removeLogin();
                     if (error.status === 401) {
-                        this.authService.incorrectPassword(this.usernameField.value).subscribe(response => {
+                        this.authHttpService.incorrectPassword(this.usernameField.value).subscribe(response => {
                         }, error => {
                             this.messageService.error(error);
                         });
@@ -92,7 +94,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
 
     getUser() {
         this.subscription.add(
-            this.authService.getUser(this.formLogin.controls['username'].value)
+            this.authHttpService.getUser(this.formLogin.controls['username'].value)
                 .subscribe(
                     response => {
                         this.spinner.hide();

@@ -18,7 +18,7 @@ export const environment = {
 
     SYSTEM_ID: 1,
     CLIENT_ID: '1',
-    CLIENT_SECRET: 'mPl57dkat5nF9z6bQjO409TRKT1AYdWyhE8o5m5j',
+    CLIENT_SECRET: 'U9L0JWZMNrPo8Qn9GG94ATiM86O81bU7kqEFYILF',
     GRANT_TYPE: 'password',
 
     SITE_KEY: '6LcY8xAaAAAAAOTR95-UJ_zAeP9OWYPhlWg4_iFC',

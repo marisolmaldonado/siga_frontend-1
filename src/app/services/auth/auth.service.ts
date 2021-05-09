@@ -3,9 +3,8 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {Permission, Role, System, Token, User} from '../../models/auth/models.index';
-import {URL} from '../../../environments/environment';
 import {Institution} from '../../models/app/institution';
-import {MessageService} from "../app/message.service";
+import {MessageService} from '../app/message.service';
 
 @Injectable({
     providedIn: 'root'
@@ -18,103 +17,6 @@ export class AuthService {
 
     constructor(private httpClient: HttpClient, private router: Router, private messageService: MessageService) {
         this.urlAvatar = environment.STORAGE_URL;
-    }
-
-    login(userCredentials: any, params = new HttpParams()) {
-        const url = URL + 'oauth/token';
-        const credentials = {
-            client_id: environment.CLIENT_ID,
-            client_secret: environment.CLIENT_SECRET,
-            grant_type: environment.GRANT_TYPE,
-            username: userCredentials.username,
-            password: userCredentials.password
-        };
-        return this.httpClient.post(url, credentials, {params});
-    }
-
-    incorrectPassword(username: string, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/incorrect-password/' + username;
-        return this.httpClient.get(url, {params});
-    }
-
-    resetAttempts(params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/reset-attempts';
-        return this.httpClient.get(url, {params});
-    }
-
-    passwordForgot(username: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/password-forgot';
-        return this.httpClient.post(url, {username}, {params});
-    }
-
-    resetPassword(credentials: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/reset-password';
-        return this.httpClient.post(url, credentials, {params});
-    }
-
-    userUnlock(username: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/user-unlocked-user';
-        return this.httpClient.post(url, {username}, {params});
-    }
-
-    generateTransctionalCode(username: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/transactional-code';
-        return this.httpClient.post(url, null, {params});
-    }
-
-    unlock(credentials: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/unlock-user';
-        return this.httpClient.post(url, credentials, {params});
-    }
-
-    getUser(username: string, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'user/' + username;
-        return this.httpClient.get(url, {params});
-    }
-
-    logout(params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/logout';
-        return this.httpClient.get(url, {params});
-    }
-
-    logoutAll(params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/logout-all';
-        return this.httpClient.get(url, {params}).subscribe(response => {
-            this.removeLogin();
-            this.router.navigate(['/auth/login']);
-        }, error => {
-            this.messageService.error(error);
-        });
-    }
-
-    get(url: string, params = new HttpParams()) {
-        url = environment.API_URL_AUTHENTICATION + url;
-        return this.httpClient.get(url, {params});
-    }
-
-    post(url: string, data: any, params = new HttpParams()) {
-        url = environment.API_URL_AUTHENTICATION + url;
-        return this.httpClient.post(url, data, {params});
-    }
-
-    update(url: string, data: any, params = new HttpParams()) {
-        url = environment.API_URL_AUTHENTICATION + url;
-        return this.httpClient.put(url, data, {params});
-    }
-
-    delete(url: string, params = new HttpParams()) {
-        url = environment.API_URL_AUTHENTICATION + url;
-        return this.httpClient.delete(url, {params});
-    }
-
-    uploadAvatar(data: FormData, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'users/avatars';
-        return this.httpClient.post(url, data, {params});
-    }
-
-    changePassword(data: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/change-password';
-        return this.httpClient.put(url, data, {params});
     }
 
     removeLogin() {

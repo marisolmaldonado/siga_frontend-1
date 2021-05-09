@@ -10,6 +10,7 @@ import {Institution} from '../../models/app/institution';
 import {Message} from 'primeng/api';
 import {NgxSpinnerService} from 'ngx-spinner';
 import * as moment from 'moment';
+import {AuthHttpService} from "../../services/auth/authHttp.service";
 
 @Component({
     selector: 'app-dashboard',
@@ -31,6 +32,7 @@ export class DashboardComponent implements OnInit {
 
     constructor(
         private breadcrumbService: BreadcrumbService,
+        private authHttpService: AuthHttpService,
         private authService: AuthService,
         private spinner: NgxSpinnerService
     ) {
@@ -54,7 +56,7 @@ export class DashboardComponent implements OnInit {
 
     getShortcuts() {
         this.spinner.show();
-        this.authService.get('shortcuts').subscribe(response => {
+        this.authHttpService.get('shortcuts').subscribe(response => {
             this.spinner.hide();
             if (response) {
                 this.spinner.hide();
@@ -86,7 +88,7 @@ export class DashboardComponent implements OnInit {
                         {
                             severity: 'info',
                             summary: 'No tiene accesos directos disponibles',
-                            detail: 'Haga click aquí para agregar'
+                            detail: 'Haga click en Activar Edición'
                         },
                     ];
                 }
@@ -126,7 +128,7 @@ export class DashboardComponent implements OnInit {
 
     showShortcut(shortcut) {
         this.spinner.show();
-        this.authService.post('shortcuts', {shortcut}).subscribe(
+        this.authHttpService.post('shortcuts', {shortcut}).subscribe(
             response => {
                 this.spinner.hide();
                 this.editShortcuts = this.editShortcuts.filter(element => element.uri !== shortcut.uri);
@@ -143,7 +145,7 @@ export class DashboardComponent implements OnInit {
 
     hideShortcut(shortcut) {
         this.spinner.show();
-        this.authService.delete('shortcuts/' + shortcut.id).subscribe(response => {
+        this.authHttpService.delete('shortcuts/' + shortcut.id).subscribe(response => {
             this.spinner.hide();
             this.shortcuts = this.shortcuts.filter(element => element.id !== shortcut.id);
             this.editShortcuts.push(shortcut);

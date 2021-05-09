@@ -12,6 +12,7 @@ import {HttpParams} from '@angular/common/http';
 import {Institution} from '../../../models/app/institution';
 import {AppService} from '../../../services/app/app.service';
 import {environment} from "../../../../environments/environment";
+import {AuthHttpService} from "../../../services/auth/authHttp.service";
 
 @Component({
     selector: 'app-user',
@@ -42,6 +43,7 @@ export class UserComponent implements OnInit {
     constructor(private messageService: MessageService,
                 private confirmationService: ConfirmationService,
                 private breadcrumbService: BreadcrumbService,
+                private authHttpService: AuthHttpService,
                 private authService: AuthService,
                 private appService: AppService,
                 private spinnerService: NgxSpinnerService,
@@ -120,7 +122,7 @@ export class UserComponent implements OnInit {
         const params = new HttpParams()
             .append('page', this.paginator.current_page.toString())
             .append('per_page', this.paginator.per_page.toString());
-        this.authService.post('users/filters', {conditions: this.conditions}, params).subscribe(response => {
+        this.authHttpService.post('users/filters', {conditions: this.conditions}, params).subscribe(response => {
             this.spinnerService.hide();
             this.users = response['data'];
             this.paginator = response as Paginator;
@@ -274,7 +276,7 @@ export class UserComponent implements OnInit {
 
     validateUser() {
         this.spinnerService.show();
-        this.authService.get('users/' + this.username).subscribe(response => {
+        this.authHttpService.get('users/' + this.username).subscribe(response => {
             this.spinnerService.hide();
             let flag = false;
             if (response['data'] == null) {
@@ -343,7 +345,7 @@ export class UserComponent implements OnInit {
 
     onUpload(event) {
         const form = new FormData();
-        for (let file of event.files) {
+        for (const file of event.files) {
             this.uploadedFiles.push(file);
             form.append('files[]', file);
         }

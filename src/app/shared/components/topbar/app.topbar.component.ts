@@ -6,6 +6,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {environment} from '../../../../environments/environment';
 import {Institution} from '../../../models/app/institution';
+import {AuthHttpService} from '../../../services/auth/authHttp.service';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class AppTopBarComponent {
     urlAvatar: string;
     STORAGE_URL: string;
     constructor(public appMain: AppMainComponent,
+                public authHttpService: AuthHttpService,
                 public authService: AuthService,
                 private router: Router,
                 private spinner: NgxSpinnerService) {
@@ -101,7 +103,7 @@ export class AppTopBarComponent {
 
     logOut() {
         this.spinner.show();
-        this.authService.logout().subscribe(response => {
+        this.authHttpService.logout().subscribe(response => {
             this.spinner.hide();
             this.authService.removeLogin();
             this.router.navigate(['/auth/login']);

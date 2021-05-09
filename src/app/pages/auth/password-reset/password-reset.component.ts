@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../../../models/auth/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../../../services/auth/auth.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import swal from 'sweetalert2';
+import {AuthHttpService} from '../../../services/auth/authHttp.service';
 
 
 @Component({
@@ -18,11 +18,12 @@ export class PasswordResetComponent implements OnInit {
     user: User;
     formPasswordReset: FormGroup;
 
-    constructor(private authService: AuthService,
-                private spinner: NgxSpinnerService,
-                private router: Router,
-                private formBuilder: FormBuilder,
-                private activatedRoute: ActivatedRoute) {
+    constructor(
+        private authHttpService: AuthHttpService,
+        private spinner: NgxSpinnerService,
+        private router: Router,
+        private formBuilder: FormBuilder,
+        private activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit(): void {
@@ -50,7 +51,7 @@ export class PasswordResetComponent implements OnInit {
     resetPassword() {
         if (this.checkPasswords()) {
             this.spinner.show();
-            this.authService.resetPassword(this.formPasswordReset.value).subscribe(
+            this.authHttpService.resetPassword(this.formPasswordReset.value).subscribe(
                 response => {
                     this.spinner.hide();
                     swal.fire({

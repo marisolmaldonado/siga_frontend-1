@@ -5,6 +5,7 @@ import {Condition} from '../../../models/setting/condition';
 import {AuthService} from '../../../services/auth/auth.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {MessageService} from 'primeng/api';
+import {AuthHttpService} from '../../../services/auth/authHttp.service';
 
 @Component({
   selector: 'app-permission-role',
@@ -19,7 +20,11 @@ export class PermissionRoleComponent implements OnInit {
   selectedRole: Role;
   filteredUsers: User[];
 
-  constructor(private _authService: AuthService, private _spinnerService: NgxSpinnerService, private messageService: MessageService,) {
+  constructor(
+      private authHttpService: AuthHttpService, 
+      private authService: AuthService, 
+      private spinnerService: NgxSpinnerService, 
+      private messageService: MessageService,) {
   }
 
   ngOnInit(): void {
@@ -28,32 +33,32 @@ export class PermissionRoleComponent implements OnInit {
   }
 
   getRoles() {
-    this._spinnerService.show();
-    this._authService.post('roles/permissions',null).subscribe(response => {
-      this._spinnerService.hide();
+    this.spinnerService.show();
+    this.authHttpService.post('roles/permissions',null).subscribe(response => {
+      this.spinnerService.hide();
       this.roles = response['data'];
     }, error => {
-      this._spinnerService.hide();
+      this.spinnerService.hide();
     });
   }
 
   getUsers() {
-    this._spinnerService.show();
-    this._authService.post('roles/users', {conditions: this.conditions}).subscribe(response => {
-      this._spinnerService.hide();
+    this.spinnerService.show();
+    this.authHttpService.post('roles/users', {conditions: this.conditions}).subscribe(response => {
+      this.spinnerService.hide();
       this.users = response['data'];
     }, error => {
-      this._spinnerService.hide();
+      this.spinnerService.hide();
     });
   }
 
   assignRole() {
-    this._spinnerService.show();
-    this._authService.post('roles/assign_role', {
+    this.spinnerService.show();
+    this.authHttpService.post('roles/assign_role', {
       user_id: this.selectedUser.id,
       role_id: this.selectedRole.id
     }).subscribe(response => {
-      this._spinnerService.hide();
+      this.spinnerService.hide();
       const indexRole = this.roles.indexOf(this.selectedRole);
       if (!this.roles[indexRole]['users'].find(element => element.id === this.selectedUser.id)) {
         this.roles[indexRole]['users'].push(this.selectedUser);
@@ -66,22 +71,22 @@ export class PermissionRoleComponent implements OnInit {
         });
       }
     }, error => {
-      this._spinnerService.hide();
+      this.spinnerService.hide();
     });
   }
 
   removeRole(user) {
-    this._spinnerService.show();
-    this._authService.post('roles/remove_role', {
+    this.spinnerService.show();
+    this.authHttpService.post('roles/remove_role', {
       user_id: user.id,
       role_id: this.selectedRole.id
     }).subscribe(response => {
-      this._spinnerService.hide();
+      this.spinnerService.hide();
       const indexRole = this.roles.indexOf(this.selectedRole);
       this.roles[indexRole]['users'] = this.roles[indexRole]['users'].filter(element => element.id !== user.id);
 
     }, error => {
-      this._spinnerService.hide();
+      this.spinnerService.hide();
     });
   }
 

@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../../../services/auth/auth.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ActivatedRoute, Router} from '@angular/router';
 import swal from 'sweetalert2';
 import {User} from '../../../models/auth/user';
+import {AuthHttpService} from '../../../services/auth/authHttp.service';
 
 @Component({
     selector: 'app-unlock-user',
@@ -17,7 +17,8 @@ export class UnlockUserComponent implements OnInit {
     user: User;
     formPasswordReset: FormGroup;
 
-    constructor(private authService: AuthService,
+    constructor(
+        private authHttpService: AuthHttpService,
                 private spinner: NgxSpinnerService,
                 private router: Router,
                 private formBuilder: FormBuilder,
@@ -49,7 +50,7 @@ export class UnlockUserComponent implements OnInit {
     resetPassword() {
         if (this.checkPasswords()) {
             this.spinner.show();
-            this.authService.unlock(this.formPasswordReset.value).subscribe(
+            this.authHttpService.unlock(this.formPasswordReset.value).subscribe(
                 response => {
                     this.spinner.hide();
                     swal.fire({

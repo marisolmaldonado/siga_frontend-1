@@ -1,18 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DateValidators} from '../../shared/validators/date.validators'
 import {UserValidators} from '../../shared/validators/user.validators'
-import {User} from "../../../models/auth/user";
-import {Catalogue} from "../../../models/app/catalogue";
-import {AppService} from "../../../services/app/app.service";
-import {HttpParams} from "@angular/common/http";
-import {environment} from "../../../../environments/environment";
-import {BreadcrumbService} from "../../../shared/services/breadcrumb.service";
-import {NgxSpinnerService} from "ngx-spinner";
+import {User} from '../../../models/auth/user';
+import {Catalogue} from '../../../models/app/catalogue';
+import {AppService} from '../../../services/app/app.service';
+import {HttpParams} from '@angular/common/http';
+import {environment} from '../../../../environments/environment';
+import {BreadcrumbService} from '../../../shared/services/breadcrumb.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 import {MessageService} from 'primeng/api';
-import {AuthService} from "../../../services/auth/auth.service";
-import {Institution} from "../../../models/app/institution";
-import {Role} from "../../../models/auth/role";
+import {AuthService} from '../../../services/auth/auth.service';
+import {Institution} from '../../../models/app/institution';
+import {Role} from '../../../models/auth/role';
+import {AuthHttpService} from "../../../services/auth/authHttp.service";
 
 
 @Component({
@@ -43,6 +44,7 @@ export class ProfileComponent implements OnInit {
     dialogAuthPassword: boolean;
 
     constructor(private formBuilder: FormBuilder,
+                public authHttpService: AuthHttpService,
                 public authService: AuthService,
                 private appService: AppService,
                 private breadcrumbService: BreadcrumbService,
@@ -120,7 +122,7 @@ export class ProfileComponent implements OnInit {
             password_confirmation: ['', Validators.required],
             institutions: [''],
             roles: [''],
-        })
+        });
     }
 
     getCatalogueIdentificationTypes() {
@@ -193,7 +195,7 @@ export class ProfileComponent implements OnInit {
         const form = new FormData();
         form.append('file', event.files[0]);
         this.spinnerService.show();
-        this.authService.uploadAvatar(form).subscribe(response => {
+        this.authHttpService.uploadAvatar(form).subscribe(response => {
             this.spinnerService.hide();
             this.auth.avatar = response['data'];
             this.authService.setUrlAvatar(this.auth.avatar + '?rand=' + Math.random());

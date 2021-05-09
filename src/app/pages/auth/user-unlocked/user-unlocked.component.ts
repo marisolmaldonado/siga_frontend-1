@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {environment} from '../../../../environments/environment';
 import swal from 'sweetalert2';
 import {AuthService} from '../../../services/auth/auth.service';
+import {AuthHttpService} from "../../../services/auth/authHttp.service";
 
 @Component({
     selector: 'app-user-unlocked',
@@ -18,7 +19,7 @@ export class UserUnlockedComponent implements OnInit {
     flagPasswordReset: boolean;
     SITE_KEY: string;
 
-    constructor(private authService: AuthService,
+    constructor(private authHttpService: AuthHttpService,
                 private spinner: NgxSpinnerService,
                 private router: Router,
                 private formBuilder: FormBuilder) {
@@ -46,7 +47,7 @@ export class UserUnlockedComponent implements OnInit {
 
     forgotPassword(grecaptcha) {
         this.spinner.show();
-        this.authService.userUnlock(this.formPasswordReset.controls['username'].value).subscribe(response => {
+        this.authHttpService.userUnlock(this.formPasswordReset.controls['username'].value).subscribe(response => {
             this.spinner.hide();
             this.flagPasswordReset = false;
             grecaptcha.reset();
