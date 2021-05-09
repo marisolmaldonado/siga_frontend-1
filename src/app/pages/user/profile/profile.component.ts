@@ -42,20 +42,19 @@ export class ProfileComponent implements OnInit {
     dialogAuth: boolean;
     dialogAuthPassword: boolean;
 
-    constructor(private _formBuilder: FormBuilder,
-                private _authService: AuthService,
-                private _appService: AppService,
-                private _breadcrumbService: BreadcrumbService,
-                private _spinnerService: NgxSpinnerService,
-                private _messageService: MessageService) {
-        this._breadcrumbService.setItems([
+    constructor(private formBuilder: FormBuilder,
+                public authService: AuthService,
+                private appService: AppService,
+                private breadcrumbService: BreadcrumbService,
+                private spinnerService: NgxSpinnerService,
+                private messageService: MessageService) {
+        this.breadcrumbService.setItems([
             {label: 'Dashboard', routerLink: '/dashboard'},
             {label: 'Mi Perfil'},
         ]);
-        this.auth = JSON.parse(localStorage.getItem('user'));
-        this.authInstitution = JSON.parse(localStorage.getItem('institution'));
-        this.authInstitution = JSON.parse(localStorage.getItem('institution'));
-        this.authRole = JSON.parse(localStorage.getItem('role'));
+        this.auth = this.authService.getAuth();
+        this.authInstitution = this.authService.getInstitution();
+        this.authRole = this.authService.getRole();
         this.STORAGE_URL = environment.STORAGE_URL;
         this.uploadedFiles = [];
     }
@@ -73,7 +72,7 @@ export class ProfileComponent implements OnInit {
     }
 
     buildFormProfile() {
-        this.formProfile = this._formBuilder.group({
+        this.formProfile = this.formBuilder.group({
             id: [],
             username: [{value: null, disabled: true}],
             identification_type: ['', Validators.required],
@@ -126,42 +125,42 @@ export class ProfileComponent implements OnInit {
 
     getCatalogueIdentificationTypes() {
         const params = new HttpParams().append('type', 'IDENTIFICATION_TYPE');
-        this._appService.getCatalogues(params).subscribe(response => {
+        this.appService.getCatalogues(params).subscribe(response => {
             this.catalogueIdentificationTypes = response['data'];
         });
     }
 
     getCatalogueSexs() {
         const params = new HttpParams().append('type', 'SEX_TYPE');
-        this._appService.getCatalogues(params).subscribe(response => {
+        this.appService.getCatalogues(params).subscribe(response => {
             this.catalogueSexs = response['data'];
         });
     }
 
     getCatalogueGenders() {
         const params = new HttpParams().append('type', 'GENDER_TYPE');
-        this._appService.getCatalogues(params).subscribe(response => {
+        this.appService.getCatalogues(params).subscribe(response => {
             this.catalogueGenders = response['data'];
         });
     }
 
     getCatalogueEthnicOrigins() {
         const params = new HttpParams().append('type', 'ETHNIC_ORIGIN_TYPE');
-        this._appService.getCatalogues(params).subscribe(response => {
+        this.appService.getCatalogues(params).subscribe(response => {
             this.catalogueEthnicOrigins = response['data'];
         });
     }
 
     getCatalogueBloodTypes() {
         const params = new HttpParams().append('type', 'BLOOD_TYPE');
-        this._appService.getCatalogues(params).subscribe(response => {
+        this.appService.getCatalogues(params).subscribe(response => {
             this.catalogueBloodTypes = response['data'];
         });
     }
 
     getCatalogueCivilStatus() {
         const params = new HttpParams().append('type', 'CIVIL_STATUS');
-        this._appService.getCatalogues(params).subscribe(response => {
+        this.appService.getCatalogues(params).subscribe(response => {
             this.catalogueCivilStatus = response['data'];
         });
     }
@@ -181,7 +180,7 @@ export class ProfileComponent implements OnInit {
 
     updateProfile() {
         console.log(this.formProfile.value);
-        // this._authService.update('users/profile',{this.formProfile.value})
+        // this.authService.update('users/profile',{this.formProfile.value})
     }
 
     updateAuth() {
@@ -193,17 +192,17 @@ export class ProfileComponent implements OnInit {
     onUploadAvatar(event, avatar) {
         const form = new FormData();
         form.append('file', event.files[0]);
-        this._spinnerService.show();
-        this._authService.uploadAvatar(form).subscribe(response => {
-            this._spinnerService.hide();
+        this.spinnerService.show();
+        this.authService.uploadAvatar(form).subscribe(response => {
+            this.spinnerService.hide();
             this.auth.avatar = response['data'];
-            this._authService.setUrlAvatar(this.auth.avatar + '?rand=' + Math.random());
-            avatar.src = this._authService.getUrlAvatar();
+            this.authService.setUrlAvatar(this.auth.avatar + '?rand=' + Math.random());
+            avatar.src = this.authService.getUrlAvatar();
             localStorage.setItem('user', JSON.stringify(this.auth));
             avatar.clear();
-            this._messageService.add({severity: 'success', summary: 'Archivo subido', detail: 'Correctamente'});
+            this.messageService.add({severity: 'success', summary: 'Archivo subido', detail: 'Correctamente'});
         }, error => {
-            this._spinnerService.hide();
+            this.spinnerService.hide();
         });
 
     }

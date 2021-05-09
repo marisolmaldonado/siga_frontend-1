@@ -1,4 +1,4 @@
-import {Catalogue, Image, State} from '../app/models.index';
+import {Catalogue, Image} from '../app/models.index';
 
 export interface Route {
     id?: number;
@@ -7,7 +7,6 @@ export interface Route {
     icon?: string;
     order: number;
     description?: string;
-    state: State;
     module: Catalogue;
     type: Catalogue;
     status: Catalogue;

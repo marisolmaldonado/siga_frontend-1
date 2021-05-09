@@ -2,14 +2,14 @@
 import {Routes} from '@angular/router';
 
 // My Components
-import {AppNotfoundComponent} from './app.notfound.component';
-import {AppAccessdeniedComponent} from './app.accessdenied.component';
+import {AppNotFoundComponent} from './app.not-found.component';
+import {AppAccessDeniedComponent} from './app.access-denied.component';
 import {AppUnderMaintenanceComponent} from './app.under-maintenance.component';
 import {PasswordResetComponent} from './password-reset/password-reset.component';
 import {PasswordForgotComponent} from './password-forgot/password-forgot.component';
 import {AppLoginComponent} from './login/app.login.component';
-import {UserUnlockComponent} from './user-unlock/user-unlock.component';
-import {UnlockComponent} from './unlock/unlock.component';
+import {UserUnlockedComponent} from './user-unlocked/user-unlocked.component';
+import {UnlockUserComponent} from './unlock-user/unlock-user.component';
 
 export const AuthRoutes: Routes = [
     {
@@ -17,11 +17,11 @@ export const AuthRoutes: Routes = [
         children: [
             {
                 path: 'not-found',
-                component: AppNotfoundComponent
+                component: AppNotFoundComponent
             },
             {
                 path: 'access-denied',
-                component: AppAccessdeniedComponent
+                component: AppAccessDeniedComponent
             },
             {
                 path: 'under-maintenance',
@@ -40,14 +40,13 @@ export const AuthRoutes: Routes = [
                 component: PasswordForgotComponent
             },
             {
-                path: 'user-unlock',
-                component: UserUnlockComponent
+                path: 'user-unlocked',
+                component: UserUnlockedComponent
             },
             {
-                path: 'unlock',
-                component: UnlockComponent
+                path: 'unlock-user',
+                component: UnlockUserComponent
             },
-        
         ]
     }
 ];

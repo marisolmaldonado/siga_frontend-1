@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Role} from '../../models/auth/role';
+import {AuthService} from '../../services/auth/auth.service';
 
 @Component({
     selector: 'app-error',
@@ -11,12 +12,14 @@ import {Role} from '../../models/auth/role';
                 </div>
                 <div class="exception-panel">
                     <div class="exception-panel-content">
-                        <span class="tag"><i class="pi pi-exclamation-triangle" style="vertical-align: bottom"></i></span>
+                        <span class="tag"><i class="pi pi-ban" style="vertical-align: bottom"></i> 503</span>
                         <h1>Página en Mantenimiento</h1>
                         <div class="seperator"></div>
                         <p>Disculpe las molestias, pero estamos realizando un mantenimiento en este momento.</p>
+                        <button pButton type="button" icon="pi pi-sign-in" class="p-mr-6" [routerLink]="['/auth/login']"
+                                label="Regresar al Login"></button>
                         <button pButton type="button" icon="pi pi-home" *ngIf="role"
-                                [routerLink]="['/dashboard']" label="Ir Dashboard"></button>
+                                [routerLink]="['/dashboard']" label="Ir al Dashboard"></button>
                     </div>
                 </div>
                 <div class="desert"></div>
@@ -27,7 +30,7 @@ import {Role} from '../../models/auth/role';
 export class AppUnderMaintenanceComponent {
     role: Role;
 
-    constructor() {
-        this.role = JSON.parse(localStorage.getItem('role')) as Role;
+    constructor(private authService: AuthService) {
+        this.role = authService.getRole();
     }
 }

@@ -1,11 +1,14 @@
-export interface Addreess {
+import {Catalogue, Location} from './models.index';
+
+export interface Address {
     id?: number;
-    main_street: string;
-    secondary_street: string;
-    number: string;
-    post_code: string;
-    sector: string;
-    indications: string;
-    latitude: number;
-    longitude: number;
+    sector?: Catalogue;
+    location?: Location;
+    main_street?: string;
+    secondary_street?: string;
+    number?: string;
+    post_code?: string;
+    indications?: string;
+    latitude?: number;
+    longitude?: number;
 }

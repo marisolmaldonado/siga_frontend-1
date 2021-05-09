@@ -1,12 +1,12 @@
-import {Catalogue, Institution} from '../app/models.index';
-import {Image} from '../app/models.index';
+import {Catalogue, Institution, Image} from '../app/models.index';
 import {Role} from './models.index';
-import {Attendance} from '../attendance/attendance';
 
 export interface User {
     id?: number;
     full_name?: string;
+    full_lastname?: string;
     partial_name?: string;
+    partial_lastname?: string;
     first_name?: string;
     second_name?: string;
     first_lastname?: string;
@@ -31,6 +31,4 @@ export interface User {
     roles?: Role[];
     role?: Role;
     institutions?: Institution[];
-    attendances?: Attendance[];
-    attendance?: Attendance;
 }

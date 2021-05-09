@@ -1,4 +1,5 @@
-<div class="layout-sidebar" [ngClass]="{'layout-sidebar-active': appMain.sidebarActive}" (click)="appMain.onSidebarClick($event)"
+<div class="layout-sidebar" [ngClass]="{'layout-sidebar-active': appMain.sidebarActive}"
+     (click)="appMain.onSidebarClick($event)"
      (mouseover)="appMain.sidebarActive=true" (mouseleave)="appMain.sidebarActive=false">
     <div class="sidebar-logo">
         <a href="#" class="sidebar-pin" title="Toggle Menu" (click)="appMain.onToggleMenuClick($event)">
@@ -6,7 +7,7 @@
             <i class="pi pi-lock-open" *ngIf="!appMain.staticMenuActive"></i>
         </a>
         <a routerLink="/">
-            <img alt="logo" [src]="STORAGE_URL+institution.logo"/>
+            <img [src]="STORAGE_URL+institution.logo" alt="logo"/>
             <span class="app-name">{{institution.short_name}}</span>
         </a>
     </div>

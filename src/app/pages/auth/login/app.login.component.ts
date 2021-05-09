@@ -32,12 +32,12 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                 private spinner: NgxSpinnerService,
                 private router: Router,
                 private formBuilder: FormBuilder) {
+        this.authService.verifySession();
         this.subscription = new Subscription();
         this.flagLogin = 'login';
         this.roles = [];
         this.institutions = [];
         this.auth = {};
-        this.verifySession();
     }
 
     ngOnInit(): void {
@@ -80,7 +80,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                     this.spinner.hide();
                     this.authService.removeLogin();
                     if (error.status === 401) {
-                        this.authService.validateAttempts(this.usernameField.value).subscribe(response => {
+                        this.authService.incorrectPassword(this.usernameField.value).subscribe(response => {
                         }, error => {
                             this.messageService.error(error);
                         });
@@ -114,11 +114,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                     },
                     error => {
                         this.spinner.hide();
-                        swal.fire({
-                            title: error.error.msg.summary,
-                            text: error.error.msg.detail,
-                            icon: 'error'
-                        });
+                        this.messageService.error(error);
                     }));
     }
 
@@ -128,12 +124,6 @@ export class AppLoginComponent implements OnInit, OnDestroy {
             this.login();
         } else {
             this.formLogin.markAllAsTouched();
-        }
-    }
-
-    verifySession() {
-        if (localStorage.getItem('keepSession') === 'true') {
-            this.router.navigate(['/dashboard']);
         }
     }
 

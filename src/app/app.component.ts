@@ -30,7 +30,9 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.primengConfig.ripple = true;
-        this.getSystem();
+        if (!localStorage.getItem('system')) {
+            this.getSystem();
+        }
     }
 
     getSystem() {

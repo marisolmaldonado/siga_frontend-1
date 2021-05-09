@@ -7,11 +7,11 @@ import swal from 'sweetalert2';
 import {User} from '../../../models/auth/user';
 
 @Component({
-    selector: 'app-password-reset',
-    templateUrl: './unlock.component.html',
-    styleUrls: ['./unlock.component.scss']
+    selector: 'app-unlock-user',
+    templateUrl: './unlock-user.component.html',
+    styleUrls: ['./unlock-user.component.scss']
 })
-export class UnlockComponent implements OnInit {
+export class UnlockUserComponent implements OnInit {
     dark: boolean;
     checked: boolean;
     user: User;

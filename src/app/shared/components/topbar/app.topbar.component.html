@@ -3,7 +3,7 @@
         <div class="layout-topbar-left">
             <div class="layout-topbar-logo-wrapper">
                 <a href="#" class="layout-topbar-logo">
-                    <img [src]="STORAGE_URL+institution.logo" alt="mirage-layout"/>
+                    <img [src]="STORAGE_URL+institution.logo" alt="logo"/>
                     <span class="app-name">{{institution.acronym}}</span>
                 </a>
             </div>
@@ -199,11 +199,11 @@
                     [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === profile}">
                     <a href="#" (click)="appMain.onTopbarItemClick($event,profile)">
                             <span class="profile-image-wrapper">
-                                <img [src]="_authService.urlAvatar" alt="avatar" style="border-radius: 50%;"/>
+                                <img [src]="authService.urlAvatar" alt="avatar" style="border-radius: 50%;"/>
                             </span>
                         <span class="profile-info-wrapper">
-                                <h3>{{user.first_name}} {{user.first_lastname}}</h3>
-                                <span>{{role.name}}</span>
+                                <h3>{{auth?.partial_name}}</h3>
+                                <span>{{role?.name}}</span>
                             </span>
                     </a>
                     <ul class="profile-item-submenu fadeInDown">
@@ -213,9 +213,9 @@
                                 <img src="../../../../assets/layout/images/topbar/asset-bars.svg" alt="mirage-layout"/>
                             </div>
                             <div class="profile">
-                                <img [src]="_authService.urlAvatar" alt="avatar" style="border-radius: 50%;" width="40"/>
-                                <h1>{{user.first_name}} {{user.first_lastname}}</h1>
-                                <span>{{role.name}}</span>
+                                <img [src]="authService.urlAvatar" alt="avatar" style="border-radius: 50%;" width="40"/>
+                                <h1>{{auth?.partial_name}}</h1>
+                                <span>{{role?.name}}</span>
                             </div>
                         </li>
                         <li class="layout-submenu-item">
@@ -264,11 +264,11 @@
                     [ngClass]="{'active-topmenuitem': appMain.activeTopbarItem === mobileProfile}">
                     <a href="#" (click)="appMain.onTopbarItemClick($event,mobileProfile)">
                             <span class="profile-image-wrapper">
-                                <img [src]="_authService.urlAvatar" alt="avatar" style="border-radius: 50%;"/>
+                                <img [src]="authService.urlAvatar" alt="avatar" style="border-radius: 50%;"/>
                             </span>
                         <span class="profile-info-wrapper">
-                                <h3>{{user.first_name}} {{user.first_lastname}}</h3>
-                                <span>{{role.name}}</span>
+                                <h3>{{auth?.partial_name}}</h3>
+                                <span>{{role?.name}}</span>
                             </span>
                     </a>
                     <ul class="fadeInDown">
@@ -278,9 +278,9 @@
                                 <img src="../../../../assets/layout/images/topbar/asset-bars.svg" alt="mirage-layout"/>
                             </div>
                             <div class="profile">
-                                <img [src]="_authService.urlAvatar" alt="avatar" style="border-radius: 50%;" width="40"/>
-                                <h3>{{user.first_name}} {{user.first_lastname}}</h3>
-                                <span>{{role.name}}</span>
+                                <img [src]="authService.urlAvatar" alt="avatar" style="border-radius: 50%;" width="40"/>
+                                <h3>{{auth?.partial_name}}</h3>
+                                <span>{{role?.name}}</span>
                             </div>
                         </li>
                         <li>

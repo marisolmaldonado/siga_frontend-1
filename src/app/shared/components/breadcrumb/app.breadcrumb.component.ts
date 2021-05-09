@@ -3,6 +3,7 @@ import {BreadcrumbService} from '../../services/breadcrumb.service';
 import {Subscription} from 'rxjs';
 import {MenuItem} from 'primeng/api';
 import {User} from '../../../models/auth/user';
+import {AuthService} from '../../../services/auth/auth.service';
 
 @Component({
     selector: 'app-breadcrumb',
@@ -11,13 +12,13 @@ import {User} from '../../../models/auth/user';
 export class AppBreadcrumbComponent implements OnDestroy {
     subscription: Subscription;
     items: MenuItem[];
-    user: User;
+    auth: User;
 
-    constructor(public breadcrumbService: BreadcrumbService) {
+    constructor(public breadcrumbService: BreadcrumbService, private authService: AuthService) {
         this.subscription = breadcrumbService.itemsHandler.subscribe(response => {
             this.items = response as MenuItem[];
         });
-        this.user = JSON.parse(localStorage.getItem('user')) as User;
+        this.auth = this.authService.getAuth();
     }
 
     ngOnDestroy() {

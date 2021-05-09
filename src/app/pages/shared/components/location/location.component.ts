@@ -38,7 +38,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     filteredCantons: any[];
     filteredParishes: any[];
 
-    constructor(private _formBuilder: FormBuilder, private _appService: AppService, private _messageService: MessageService) {
+    constructor(private formBuilder: FormBuilder, private appService: AppService, private messageService: MessageService) {
         this.countries = [];
         this.provinces = [];
         this.cantons = [];
@@ -52,18 +52,18 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     }
 
     buildFormDate() {
-        this.country = this._formBuilder.control('', Validators.required);
-        this.province = this._formBuilder.control('', Validators.required);
-        this.canton = this._formBuilder.control('', Validators.required);
-        this.parish = this._formBuilder.control('', Validators.required);
+        this.country = this.formBuilder.control('', Validators.required);
+        this.province = this.formBuilder.control('', Validators.required);
+        this.canton = this.formBuilder.control('', Validators.required);
+        this.parish = this.formBuilder.control('', Validators.required);
     }
 
     getLocations() {
         const params = new HttpParams().append('id', 'ETHNIC_ORIGIN_TYPE');
-        this._appService.getLocations(params).subscribe(response => {
+        this.appService.getLocations(params).subscribe(response => {
             this.locations = response['data'];
-            let catalogues = [];
-            for (let i in this.locations) {
+            const catalogues = [];
+            for (const i in this.locations) {
                 if (catalogues.indexOf(this.locations[i].type.id) === -1) {
                     catalogues.push(this.locations[i]);
                 }
@@ -73,7 +73,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     }
 
     getCountries() {
-        this._appService.getCountries().subscribe(response => {
+        this.appService.getCountries().subscribe(response => {
             this.countries = response['data'];
             console.log(this.countries);
         });
@@ -102,7 +102,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
         }
 
         if (filtered.length === 0) {
-            this._messageService.add({
+            this.messageService.add({
                 severity: 'error',
                 summary: 'No existen paises disponibles',
                 detail: 'Comuníquese con el administrador!'
@@ -115,7 +115,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
         let filtered: any[] = [];
         let query = event.query;
         if (this.provinces.length === 0) {
-            this._messageService.add({
+            this.messageService.add({
                 severity: 'error',
                 summary: 'No existen provincias disponibles',
                 detail: 'Comuníquese con el administrador!'
@@ -135,7 +135,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
         let filtered: any[] = [];
         let query = event.query;
         if (this.cantons.length === 0) {
-            this._messageService.add({
+            this.messageService.add({
                 severity: 'error',
                 summary: 'No existen cantones disponibles',
                 detail: 'Comuníquese con el administrador!'
@@ -154,7 +154,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     filterParish(event) {
         let filtered: any[] = [];
         if (this.parishes.length === 0) {
-            this._messageService.add({
+            this.messageService.add({
                 severity: 'error',
                 summary: 'No existen parroquias disponibles',
                 detail: 'Comuníquese con el administrador!'
@@ -190,9 +190,8 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     }
 
     updateValue(): void {
-        console.log(this.parish);
         if (this.country.valid && this.province.valid && this.canton.valid, this.parish.valid) {
-            this.value = this.parish.value.id
+            this.value = this.parish.value.id;
             this.onChange(this.value);
         }
     }

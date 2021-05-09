@@ -1,11 +1,12 @@
-import {State} from '../app/models.index';
+import {System} from './system';
 
 export interface Module {
     id?: number;
-    parent_code?: Module;
-    code: string;
-    name: string;
-    type: string;
+    parent?: Module;
+    system?: System;
+    code?: string;
+    name?: string;
+    description?: string;
     icon?: string;
-    state: State;
+    
 }

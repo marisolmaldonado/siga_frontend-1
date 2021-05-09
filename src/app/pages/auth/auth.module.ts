@@ -16,21 +16,21 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {CaptchaModule} from 'primeng/captcha';
 
 // My Components
-import {AppNotfoundComponent} from './app.notfound.component';
-import {AppAccessdeniedComponent} from './app.accessdenied.component';
+import {AppNotFoundComponent} from './app.not-found.component';
+import {AppAccessDeniedComponent} from './app.access-denied.component';
 import {TooltipModule} from 'primeng/tooltip';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { PasswordForgotComponent } from './password-forgot/password-forgot.component';
 import {AppLoginComponent} from './login/app.login.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
-import {UserUnlockComponent} from './user-unlock/user-unlock.component';
-import {UnlockComponent} from './unlock/unlock.component';
+import {UserUnlockedComponent} from './user-unlocked/user-unlocked.component';
+import {UnlockUserComponent} from './unlock-user/unlock-user.component';
 import {AppUnderMaintenanceComponent} from './app.under-maintenance.component';
 import {SecurityQuestionComponent} from './security-question/security-question.component';
 import {CheckboxModule} from 'primeng/checkbox';
 import { ChangePasswordComponent } from './login/change-password/change-password.component';
 import { SelectInstitutionRoleComponent } from './login/select-institution-role/select-institution-role.component';
-import {DividerModule} from "primeng/divider";
+import {DividerModule} from 'primeng/divider';
 
 @NgModule({
     imports: [
@@ -51,17 +51,17 @@ import {DividerModule} from "primeng/divider";
         DividerModule,
     ],
     declarations: [
-        AppNotfoundComponent,
-        AppAccessdeniedComponent,
+        AppNotFoundComponent,
+        AppAccessDeniedComponent,
         AppLoginComponent,
         PasswordResetComponent,
         PasswordForgotComponent,
-        UserUnlockComponent,
-        UnlockComponent,
+        UserUnlockedComponent,
+        UnlockUserComponent,
         AppUnderMaintenanceComponent,
         SecurityQuestionComponent,
         ChangePasswordComponent,
-        SelectInstitutionRoleComponent
+        SelectInstitutionRoleComponent,
     ],
     providers: [ConfirmationService, MessageService]
 })

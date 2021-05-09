@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
-import {Role, System, User} from '../../models/auth/models.index';
+import {Permission, Role, System, Token, User} from '../../models/auth/models.index';
 import {URL} from '../../../environments/environment';
 import {Institution} from '../../models/app/institution';
+import {MessageService} from "../app/message.service";
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +16,7 @@ export class AuthService {
     auth: User;
     institutions: Institution[];
 
-    constructor(private httpClient: HttpClient, private router: Router) {
+    constructor(private httpClient: HttpClient, private router: Router, private messageService: MessageService) {
         this.urlAvatar = environment.STORAGE_URL;
     }
 
@@ -31,8 +32,8 @@ export class AuthService {
         return this.httpClient.post(url, credentials, {params});
     }
 
-    validateAttempts(username: string, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/validate-attempts/' + username;
+    incorrectPassword(username: string, params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'auth/incorrect-password/' + username;
         return this.httpClient.get(url, {params});
     }
 
@@ -52,7 +53,7 @@ export class AuthService {
     }
 
     userUnlock(username: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/user-unlock';
+        const url = environment.API_URL_AUTHENTICATION + 'auth/user-unlocked-user';
         return this.httpClient.post(url, {username}, {params});
     }
 
@@ -62,12 +63,12 @@ export class AuthService {
     }
 
     unlock(credentials: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/unlock';
+        const url = environment.API_URL_AUTHENTICATION + 'auth/unlock-user';
         return this.httpClient.post(url, credentials, {params});
     }
 
     getUser(username: string, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'users/' + username;
+        const url = environment.API_URL_AUTHENTICATION + 'user/' + username;
         return this.httpClient.get(url, {params});
     }
 
@@ -77,13 +78,12 @@ export class AuthService {
     }
 
     logoutAll(params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/logout-all?user_id=' + (JSON.parse(localStorage.getItem('user')) as User).id;
-        const role = (JSON.parse(localStorage.getItem('role')) as Role).code;
+        const url = environment.API_URL_AUTHENTICATION + 'auth/logout-all';
         return this.httpClient.get(url, {params}).subscribe(response => {
             this.removeLogin();
-            this.router.navigate(['/auth/login-' + role]);
+            this.router.navigate(['/auth/login']);
         }, error => {
-            alert(error);
+            this.messageService.error(error);
         });
     }
 
@@ -118,7 +118,7 @@ export class AuthService {
     }
 
     removeLogin() {
-        localStorage.removeItem('user');
+        localStorage.removeItem('autn');
         localStorage.removeItem('role');
         localStorage.removeItem('institution');
         localStorage.removeItem('permissions');
@@ -146,27 +146,58 @@ export class AuthService {
         return localStorage.getItem('system') ? JSON.parse(localStorage.getItem('system')) : null;
     }
 
-    setSystem(system) {
+    setSystem(system: System) {
         localStorage.setItem('system', JSON.stringify(system));
+    }
+
+    getToken(): Token {
+        return localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
     }
 
     setToken(token) {
         localStorage.setItem('token', JSON.stringify(token));
     }
 
-    getToken(token) {
-        return localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
-    }
-
     setInstitution(institution) {
         localStorage.setItem('institution', JSON.stringify(institution));
     }
 
-    setRole(role) {
+    getPermissions(): Permission[] {
+        return localStorage.getItem('permissions') === null ? null
+            : JSON.parse(localStorage.getItem('permissions')) as Permission[];
+    }
+
+    getRole(): Role {
+        return localStorage.getItem('role') ? JSON.parse(localStorage.getItem('role')) : null;
+    }
+
+    setRole(role: Role) {
         localStorage.setItem('role', JSON.stringify(role));
+    }
+
+    getInstitution(): Institution {
+        return localStorage.getItem('institution') ? JSON.parse(localStorage.getItem('institution')) : null;
+    }
+
+    getUri(): string {
+        return localStorage.getItem('uri') ? JSON.parse(localStorage.getItem('uri')) : null;
+    }
+
+    setUri(uri: string){
+        localStorage.setItem('uri', JSON.stringify(uri));
+    }
+
+    getKeepSession(): boolean {
+        return JSON.parse(localStorage.getItem('keepSession'));
     }
 
     setKeepSession(keepSession) {
         localStorage.setItem('keepSession', JSON.stringify(keepSession));
+    }
+
+    verifySession() {
+        if (localStorage.getItem('keepSession') === 'true') {
+            this.router.navigate(['/dashboard']);
+        }
     }
 }

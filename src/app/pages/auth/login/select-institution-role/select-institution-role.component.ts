@@ -90,7 +90,9 @@ export class SelectInstitutionRoleComponent implements OnInit {
     }
 
     getPermissions() {
-        const params = new HttpParams().append('role', this.roleField.value['id']);
+        const params = new HttpParams()
+            .append('role', this.roleField.value['id'])
+            .append('institution', this.institutionField.value['id']);
         this.spinner.show();
         this.subscription.add(
             this.authService.get('auth/permissions', params).subscribe(response => {

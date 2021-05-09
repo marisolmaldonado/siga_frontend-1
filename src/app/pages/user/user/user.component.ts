@@ -42,10 +42,10 @@ export class UserComponent implements OnInit {
     constructor(private messageService: MessageService,
                 private confirmationService: ConfirmationService,
                 private breadcrumbService: BreadcrumbService,
-                private _authService: AuthService,
-                private _ignugService: AppService,
-                private _spinnerService: NgxSpinnerService,
-                private _fb: FormBuilder,
+                private authService: AuthService,
+                private appService: AppService,
+                private spinnerService: NgxSpinnerService,
+                private formBuilder: FormBuilder,
     ) {
         this.breadcrumbService.setItems([
             {label: 'Dashboard', routerLink: ['/dashboard']},
@@ -62,7 +62,7 @@ export class UserComponent implements OnInit {
             email: {maxlength: 50},
         };
         this.institution = JSON.parse(localStorage.getItem('institution')) as Institution;
-        this.API_URL_AUTHENTICATION = environment.API_URL_AUTHENTICATION + 'upload'
+        this.API_URL_AUTHENTICATION = environment.API_URL_AUTHENTICATION + 'upload';
     }
 
     ngOnInit() {
@@ -80,7 +80,7 @@ export class UserComponent implements OnInit {
     }
 
     buildForm() {
-        this.form = this._fb.group({
+        this.form = this.formBuilder.group({
             id: [],
             identification: ['', [
                 Validators.required,
@@ -116,17 +116,18 @@ export class UserComponent implements OnInit {
     }
 
     getUsers() {
-        this._spinnerService.show();
-        const params = new HttpParams().append('page', this.paginator.current_page.toString())
+        this.spinnerService.show();
+        const params = new HttpParams()
+            .append('page', this.paginator.current_page.toString())
             .append('per_page', this.paginator.per_page.toString());
-        this._authService.post('users/filters', {conditions: this.conditions}, params).subscribe(response => {
-            this._spinnerService.hide();
+        this.authService.post('users/filters', {conditions: this.conditions}, params).subscribe(response => {
+            this.spinnerService.hide();
             this.users = response['data'];
             this.paginator = response as Paginator;
             this.paginator.per_page = Number(this.paginator.per_page);
         }, error => {
             console.log(error);
-            this._spinnerService.hide();
+            this.spinnerService.hide();
         });
     }
 
@@ -272,9 +273,9 @@ export class UserComponent implements OnInit {
     }
 
     validateUser() {
-        this._spinnerService.show();
-        this._authService.get('users/' + this.username).subscribe(response => {
-            this._spinnerService.hide();
+        this.spinnerService.show();
+        this.authService.get('users/' + this.username).subscribe(response => {
+            this.spinnerService.hide();
             let flag = false;
             if (response['data'] == null) {
                 this.form.reset();
@@ -307,36 +308,36 @@ export class UserComponent implements OnInit {
                 }
             }
         }, error => {
-            this._spinnerService.hide();
+            this.spinnerService.hide();
         });
     }
 
     assignInstitution() {
-        this._spinnerService.show();
-        this._ignugService.post('institutions/assign_institution', {
+        this.spinnerService.show();
+        this.appService.post('institutions/assign_institution', {
             user_id: this.form.controls['id'].value,
             institution_id: this.institution.id
         }).subscribe(response => {
-            this._spinnerService.hide();
+            this.spinnerService.hide();
             this.getUsers();
             this.msgs = [];
             this.flagUser = false;
         }, error => {
-            this._spinnerService.hide();
+            this.spinnerService.hide();
         });
     }
 
     removeInstitution(user) {
-        this._spinnerService.show();
-        this._ignugService.post('institutions/remove_institution', {
+        this.spinnerService.show();
+        this.appService.post('institutions/remove_institution', {
             user_id: user.id,
             institution_id: this.institution.id
         }).subscribe(response => {
-            this._spinnerService.hide();
+            this.spinnerService.hide();
             this.users = this.users.filter(element => element !== user);
 
         }, error => {
-            this._spinnerService.hide();
+            this.spinnerService.hide();
         });
     }
 
@@ -348,11 +349,11 @@ export class UserComponent implements OnInit {
         }
         // form.append('project', JSON.stringify(this.project));
 
-        this._ignugService.post('upload', form).subscribe(response => {
-            this._spinnerService.hide();
+        this.appService.post('upload', form).subscribe(response => {
+            this.spinnerService.hide();
             this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
         }, error => {
-            this._spinnerService.hide();
+            this.spinnerService.hide();
         });
 
     }

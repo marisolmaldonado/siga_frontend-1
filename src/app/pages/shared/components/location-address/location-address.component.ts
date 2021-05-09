@@ -1,8 +1,8 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
 import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
-import {MessageService} from "primeng/api";
-import {Addreess} from "../../../../models/app/models.index";
-import {AppService} from "../../../../services/app/app.service";
+import {MessageService} from 'primeng/api';
+import {Address} from '../../../../models/app/models.index';
+import {AppService} from '../../../../services/app/app.service';
 
 @Component({
     selector: 'app-location-address',
@@ -27,8 +27,8 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
     indications: FormControl;
     latitude: FormControl;
     longitude: FormControl;
-    value: Addreess;
-    onChange: (value: Addreess) => void;
+    value: Address;
+    onChange: (value: Address) => void;
     onTouch: () => void;
     isDisabled: boolean;
 
@@ -75,7 +75,7 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
         this.isDisabled = isDisabled;
     }
 
-    writeValue(value: Addreess): void {
+    writeValue(value: Address): void {
         console.log(value);
         this.value = value;
         if (this.value) {

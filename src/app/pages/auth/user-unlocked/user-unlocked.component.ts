@@ -7,11 +7,11 @@ import swal from 'sweetalert2';
 import {AuthService} from '../../../services/auth/auth.service';
 
 @Component({
-    selector: 'app-user-unlock',
-    templateUrl: './user-unlock.component.html',
-    styleUrls: ['./user-unlock.component.scss']
+    selector: 'app-user-unlocked',
+    templateUrl: './user-unlocked.component.html',
+    styleUrls: ['./user-unlocked.component.scss']
 })
-export class UserUnlockComponent implements OnInit {
+export class UserUnlockedComponent implements OnInit {
     dark: boolean;
     checked: boolean;
     formPasswordReset: FormGroup;

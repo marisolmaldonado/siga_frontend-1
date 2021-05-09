@@ -21,22 +21,18 @@ export class AppTopBarComponent {
     megaMenus: any[];
     permissions: Permission[];
     langs: string[];
-    STORAGE_URL: string;
     urlAvatar: string;
-
+    STORAGE_URL: string;
     constructor(public appMain: AppMainComponent,
                 public authService: AuthService,
                 private router: Router,
                 private spinner: NgxSpinnerService) {
-        this.role = JSON.parse(localStorage.getItem('role'));
-        this.auth = JSON.parse(localStorage.getItem('user'));
-        this.institution = JSON.parse(localStorage.getItem('institution'));
-        if (!this.role) {
-            this.role = {code: 'SN'};
-        }
+        this.role = this.authService.getRole();
+        this.auth = this.authService.getAuth();
+        this.institution = this.authService.getInstitution();
         this.getMegaMenus();
-        this.STORAGE_URL = environment.STORAGE_URL;
         this.getUrlAvatar();
+        this.STORAGE_URL = environment.STORAGE_URL;
     }
 
     getMegaMenus() {

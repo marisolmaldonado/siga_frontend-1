@@ -3,7 +3,7 @@ import {AppMainComponent} from '../main/app.main.component';
 import {Permission, System} from '../../../models/auth/models.index';
 import {AuthService} from '../../../services/auth/auth.service';
 import {environment} from '../../../../environments/environment';
-import {Institution} from "../../../models/app/institution";
+import {Institution} from '../../../models/app/institution';
 
 
 @Component({
@@ -17,10 +17,10 @@ export class AppMenuComponent implements OnInit {
     STORAGE_URL: string;
     system: System;
 
-    constructor(public appMain: AppMainComponent, private _authService: AuthService) {
-        this.institution = JSON.parse(localStorage.getItem('institution'));
+    constructor(public appMain: AppMainComponent, private authService: AuthService) {
+        this.institution = this.authService.getInstitution();
         this.STORAGE_URL = environment.STORAGE_URL;
-        this.system = JSON.parse(localStorage.getItem('system'));
+        this.system = this.authService.getSystem();
     }
 
     ngOnInit() {
@@ -28,7 +28,7 @@ export class AppMenuComponent implements OnInit {
     }
 
     getMenus() {
-        this.permissions = JSON.parse(localStorage.getItem('permissions'));
+        this.permissions = this.authService.getPermissions();
         this.menus = [{module: 0, label: 'Dashboard', icon: 'pi pi-home', routerLink: ['/dashboard']}];
         if (this.permissions) {
             this.permissions.forEach(permission => {

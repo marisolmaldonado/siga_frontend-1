@@ -1,8 +1,6 @@
-import {Catalogue} from "../../../models/app/catalogue";
-import {Image} from "../../../models/app/image";
-import {Role} from "../../../models/auth/role";
-import {Institution} from "../../../models/app/institution";
-import {Attendance} from "../../../models/attendance/attendance";
+import {Catalogue} from '../../../models/app/catalogue';
+import {Role} from '../../../models/auth/role';
+import {Institution} from '../../../models/app/institution';
 
 export class UserValidators {
     ethnic_origin?: Catalogue;
@@ -35,30 +33,30 @@ export class UserValidators {
     static firstName() {
         return {
             minlength: 3, maxlength: 25
-        }
+        };
     }
 
     static secondName() {
         return {
             minlength: 3, maxlength: 25
-        }
+        };
     }
 
     static firstLastname() {
         return {
             minlength: 3, maxlength: 25
-        }
+        };
     }
 
     static secondLastname() {
         return {
             minlength: 3, maxlength: 25
-        }
+        };
     }
 
     static email() {
         return {
             maxlength: 50
-        }
+        };
     }
 }

@@ -8,7 +8,7 @@
                 <form [formGroup]="formProfile" (ngSubmit)="onSubmit($event)">
                     <div class="p-fluid p-formgrid p-grid">
                         <div class="p-field p-lg-3 p-md-2 p-sm-12">
-                            <img #imgAvatar [src]="_authService.getUrlAvatar()" alt="avatar" style="border-radius: 50%;"
+                            <img #imgAvatar [src]="authService.getUrlAvatar()" alt="avatar" style="border-radius: 50%;"
                                  width="80"/>
                             <p-fileUpload #avatar mode="basic" name="files[]"
                                           (uploadHandler)="onUploadAvatar($event,avatar)"

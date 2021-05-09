@@ -5,32 +5,34 @@ import {
     RouterStateSnapshot,
     Router
 } from '@angular/router';
-import {User} from '../../models/auth/user';
-import {Role} from '../../models/auth/role';
+import {User, Role, Permission} from '../../models/auth/models.index';
 import {AuthService} from '../../services/auth/auth.service';
-import {Permission} from '../../models/auth/permission';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class AuthGuard implements CanActivate {
-    user: User;
+    auth: User;
     role: Role;
     authPermissions: Permission[];
 
-    constructor(private router: Router, private _authenticationService: AuthService) {
+    constructor(private router: Router, private authService: AuthService) {
     }
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        console.log(next['_routerState']['url']);
-        return true;
+        this.authService.setUri(next['_routerState']['url']);
+        // return true;
         const requestURL = next['_routerState']['url'];
-        this.user = localStorage.getItem('user') === null ? null : JSON.parse(localStorage.getItem('user')) as User;
-        this.role = localStorage.getItem('role') === null ? null : JSON.parse(localStorage.getItem('role')) as Role;
-        this.authPermissions = localStorage.getItem('permissions') === null ? null :
-            JSON.parse(localStorage.getItem('permissions')) as Permission[];
-        if (this.user && this.role && this.authPermissions) {
+        this.auth = this.authService.getAuth();
+        this.role = this.authService.getRole();
+        this.authPermissions = this.authService.getPermissions();
+
+        if (this.auth && this.role && this.authPermissions) {
+            if (requestURL === '/auth/login' && this.authService.getKeepSession()) {
+                this.router.navigate(['/dashboard']);
+                return true;
+            }
             if (requestURL === '/dashboard' || requestURL === '/') {
                 return true;
             }
@@ -39,7 +41,7 @@ export class AuthGuard implements CanActivate {
                 this.router.navigate(['/auth/not-found']);
                 return false;
             }
-            if (authRoute.route.status.code === 'MAINTENANCE') {
+            if (authRoute.route.status.code === '503') {
                 this.router.navigate(['/auth/under-maintenance']);
                 return false;
             }

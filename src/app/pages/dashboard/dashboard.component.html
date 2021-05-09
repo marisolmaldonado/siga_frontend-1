@@ -1,4 +1,4 @@
-<p-dialog [header]="'¡FELIZ CUMPLEAÑOS '+user.first_name+ ' ' + user.second_name+'!'" [(visible)]="flagBirhday"
+<p-dialog [header]="'¡FELIZ CUMPLEAÑOS '+auth?.partial_name+'!'" [(visible)]="flagBirhday"
           [style]="{width: '300px'}"
           [modal]="true">
     <img [src]="'assets/layout/images/pages/attendance/birthdate/'+randomNumber+'.gif'" alt="mirage-layout"
@@ -24,7 +24,8 @@
             <h3 *ngIf="flagShortcuts">Editando accesos directos</h3>
         </div>
         <hr>
-        <p-message *ngIf="editShortcuts.length===0 && flagShortcuts" severity="info" text="No tiene accesos directos para mostrar"></p-message>
+        <p-message *ngIf="editShortcuts.length===0 && flagShortcuts" severity="info"
+                   text="No tiene accesos directos para mostrar"></p-message>
         <div *ngIf="flagShortcuts" class="feature-cards">
             <div class="feature-card" *ngFor="let editShortcut of editShortcuts" style="background: #f9fbe7">
                 <div class="feature-card-img">
