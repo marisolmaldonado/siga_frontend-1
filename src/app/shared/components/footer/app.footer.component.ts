@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {environment} from '../../../../environments/environment';
-import {System} from '../../../models/auth/models.index';
+import {System} from '../../../models/auth/system';
 import {Institution} from '../../../models/app/institution';
+import {AuthService} from '../../../services/auth/auth.service';
 
 @Component({
     selector: 'app-footer',
@@ -12,8 +13,8 @@ export class AppFooterComponent {
     system: System;
     STORAGE_URL: string;
 
-    constructor() {
-        this.institution = JSON.parse(localStorage.getItem('institution'));
+    constructor(private authService: AuthService) {
+        this.institution = this.authService.getInstitution();
         this.STORAGE_URL = environment.STORAGE_URL;
         this.system = JSON.parse(localStorage.getItem('system'));
     }

@@ -63,7 +63,7 @@ export class UserComponent implements OnInit {
             second_lastname: {minlength: 3, maxlength: 25},
             email: {maxlength: 50},
         };
-        this.institution = JSON.parse(localStorage.getItem('institution')) as Institution;
+        this.institution = this.authService.getInstitution();
         this.API_URL_AUTHENTICATION = environment.API_URL_AUTHENTICATION + 'upload';
     }
 
@@ -123,13 +123,13 @@ export class UserComponent implements OnInit {
             .append('page', this.paginator.current_page.toString())
             .append('per_page', this.paginator.per_page.toString());
         this.authHttpService.post('users/filters', {conditions: this.conditions}, params).subscribe(response => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
             this.users = response['data'];
             this.paginator = response as Paginator;
             this.paginator.per_page = Number(this.paginator.per_page);
         }, error => {
             console.log(error);
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
         });
     }
 
@@ -277,7 +277,7 @@ export class UserComponent implements OnInit {
     validateUser() {
         this.spinnerService.show();
         this.authHttpService.get('users/' + this.username).subscribe(response => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
             let flag = false;
             if (response['data'] == null) {
                 this.form.reset();
@@ -310,7 +310,7 @@ export class UserComponent implements OnInit {
                 }
             }
         }, error => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
         });
     }
 
@@ -320,12 +320,12 @@ export class UserComponent implements OnInit {
             user_id: this.form.controls['id'].value,
             institution_id: this.institution.id
         }).subscribe(response => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
             this.getUsers();
             this.msgs = [];
             this.flagUser = false;
         }, error => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
         });
     }
 
@@ -335,11 +335,11 @@ export class UserComponent implements OnInit {
             user_id: user.id,
             institution_id: this.institution.id
         }).subscribe(response => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
             this.users = this.users.filter(element => element !== user);
 
         }, error => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
         });
     }
 
@@ -352,10 +352,10 @@ export class UserComponent implements OnInit {
         // form.append('project', JSON.stringify(this.project));
 
         this.appService.post('upload', form).subscribe(response => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
             this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
         }, error => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
         });
 
     }

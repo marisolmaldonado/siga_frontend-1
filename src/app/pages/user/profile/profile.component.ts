@@ -196,7 +196,7 @@ export class ProfileComponent implements OnInit {
         form.append('file', event.files[0]);
         this.spinnerService.show();
         this.authHttpService.uploadAvatar(form).subscribe(response => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
             this.auth.avatar = response['data'];
             this.authService.setUrlAvatar(this.auth.avatar + '?rand=' + Math.random());
             avatar.src = this.authService.getUrlAvatar();
@@ -204,7 +204,7 @@ export class ProfileComponent implements OnInit {
             avatar.clear();
             this.messageService.add({severity: 'success', summary: 'Archivo subido', detail: 'Correctamente'});
         }, error => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
         });
 
     }

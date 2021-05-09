@@ -54,6 +54,16 @@ export class InterceptorService implements HttpInterceptor {
                 this.router.navigate(['/auth/access-denied']);
             }
 
+            if (error.status === 403 && localStorage.getItem('token')) {
+                this.authService.removeLogin();
+                this.router.navigate(['/auth/access-denied']);
+            }
+
+            if (error.status === 403 && !localStorage.getItem('token')) {
+                this.authService.removeLogin();
+                this.router.navigate(['/auth/login']);
+            }
+
             if (error.status === 503) {
                 this.authService.removeLogin();
                 this.router.navigate(['/auth/under-maintenance']);

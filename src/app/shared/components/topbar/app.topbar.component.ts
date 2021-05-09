@@ -28,7 +28,7 @@ export class AppTopBarComponent {
                 public authHttpService: AuthHttpService,
                 public authService: AuthService,
                 private router: Router,
-                private spinner: NgxSpinnerService) {
+                private spinnerService: NgxSpinnerService) {
         this.role = this.authService.getRole();
         this.auth = this.authService.getAuth();
         this.institution = this.authService.getInstitution();
@@ -102,13 +102,13 @@ export class AppTopBarComponent {
     }
 
     logOut() {
-        this.spinner.show();
+        this.spinnerService.show();
         this.authHttpService.logout().subscribe(response => {
-            this.spinner.hide();
+            this.spinnerService.hide();
             this.authService.removeLogin();
             this.router.navigate(['/auth/login']);
         }, error => {
-            this.spinner.hide();
+            this.spinnerService.hide();
             this.authService.removeLogin();
             this.router.navigate(['/auth/login']);
         });

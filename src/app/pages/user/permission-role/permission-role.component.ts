@@ -35,20 +35,20 @@ export class PermissionRoleComponent implements OnInit {
   getRoles() {
     this.spinnerService.show();
     this.authHttpService.post('roles/permissions',null).subscribe(response => {
-      this.spinnerService.hide();
+      this.spinnerService.hide();;
       this.roles = response['data'];
     }, error => {
-      this.spinnerService.hide();
+      this.spinnerService.hide();;
     });
   }
 
   getUsers() {
     this.spinnerService.show();
     this.authHttpService.post('roles/users', {conditions: this.conditions}).subscribe(response => {
-      this.spinnerService.hide();
+      this.spinnerService.hide();;
       this.users = response['data'];
     }, error => {
-      this.spinnerService.hide();
+      this.spinnerService.hide();;
     });
   }
 
@@ -58,7 +58,7 @@ export class PermissionRoleComponent implements OnInit {
       user_id: this.selectedUser.id,
       role_id: this.selectedRole.id
     }).subscribe(response => {
-      this.spinnerService.hide();
+      this.spinnerService.hide();;
       const indexRole = this.roles.indexOf(this.selectedRole);
       if (!this.roles[indexRole]['users'].find(element => element.id === this.selectedUser.id)) {
         this.roles[indexRole]['users'].push(this.selectedUser);
@@ -71,7 +71,7 @@ export class PermissionRoleComponent implements OnInit {
         });
       }
     }, error => {
-      this.spinnerService.hide();
+      this.spinnerService.hide();;
     });
   }
 
@@ -81,12 +81,12 @@ export class PermissionRoleComponent implements OnInit {
       user_id: user.id,
       role_id: this.selectedRole.id
     }).subscribe(response => {
-      this.spinnerService.hide();
+      this.spinnerService.hide();;
       const indexRole = this.roles.indexOf(this.selectedRole);
       this.roles[indexRole]['users'] = this.roles[indexRole]['users'].filter(element => element.id !== user.id);
 
     }, error => {
-      this.spinnerService.hide();
+      this.spinnerService.hide();;
     });
   }
 

@@ -31,7 +31,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     constructor(private authService: AuthService,
                 private authHttpService: AuthHttpService,
                 private messageService: MessageService,
-                private spinner: NgxSpinnerService,
+                private spinnerService: NgxSpinnerService,
                 private router: Router,
                 private formBuilder: FormBuilder) {
         this.authService.verifySession();
@@ -66,7 +66,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     }
 
     login() {
-        this.spinner.show();
+        this.spinnerService.show();
         this.subscription.add(
             this.authHttpService.login(this.formLogin.value).subscribe(
                 response => {
@@ -75,11 +75,11 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                     this.authHttpService.resetAttempts().subscribe(response => {
                         this.getUser();
                     }, error => {
-                        this.spinner.hide();
+                        this.spinnerService.hide();
                         this.messageService.error(error);
                     });
                 }, error => {
-                    this.spinner.hide();
+                    this.spinnerService.hide();
                     this.authService.removeLogin();
                     if (error.status === 401) {
                         this.authHttpService.incorrectPassword(this.usernameField.value).subscribe(response => {
@@ -97,7 +97,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
             this.authHttpService.getUser(this.formLogin.controls['username'].value)
                 .subscribe(
                     response => {
-                        this.spinner.hide();
+                        this.spinnerService.hide();
                         this.auth = response['data'];
                         this.authService.auth = response['data'];
                         this.institutions = response['data']['institutions'];
@@ -115,7 +115,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                         this.flagLogin = this.auth['is_changed_password'] ? 'selectInstitutionRole' : 'changePassword';
                     },
                     error => {
-                        this.spinner.hide();
+                        this.spinnerService.hide();
                         this.messageService.error(error);
                     }));
     }

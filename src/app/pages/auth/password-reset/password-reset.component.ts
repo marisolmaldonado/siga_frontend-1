@@ -3,8 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../../../models/auth/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
-import swal from 'sweetalert2';
 import {AuthHttpService} from '../../../services/auth/authHttp.service';
+import {MessageService} from '../../../services/app/message.service';
 
 
 @Component({
@@ -20,7 +20,8 @@ export class PasswordResetComponent implements OnInit {
 
     constructor(
         private authHttpService: AuthHttpService,
-        private spinner: NgxSpinnerService,
+        private spinnerService: NgxSpinnerService,
+        private messageService: MessageService,
         private router: Router,
         private formBuilder: FormBuilder,
         private activatedRoute: ActivatedRoute) {
@@ -50,22 +51,14 @@ export class PasswordResetComponent implements OnInit {
 
     resetPassword() {
         if (this.checkPasswords()) {
-            this.spinner.show();
+            this.spinnerService.show();
             this.authHttpService.resetPassword(this.formPasswordReset.value).subscribe(
                 response => {
-                    this.spinner.hide();
-                    swal.fire({
-                        title: response['msg']['summary'],
-                        text: response['msg']['detail'],
-                        icon: 'info'
-                    });
+                    this.spinnerService.hide();
+                    this.messageService.success(response);
                 }, error => {
-                    this.spinner.hide();
-                    swal.fire({
-                        title: error.error.msg.summary,
-                        text: error.error.msg.detail,
-                        icon: 'error'
-                    });
+                    this.spinnerService.hide();
+                    this.messageService.error(error);
                 });
         }
     }

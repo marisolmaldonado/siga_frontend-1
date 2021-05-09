@@ -2,8 +2,8 @@
     <div class="logo-text">
         <img [src]="STORAGE_URL+institution.logo" alt="logo"/>
         <div class="text">
-            <h1 class="hide">&reg;{{institution.name}}</h1>
-            <span> &copy;{{system.date| date:"y"}} Todos los derechos reservados.
+            <h1 class="hide">&reg;{{institution.denomination}} {{institution.name}}</h1>
+            <span>&copy; {{system.date| date:"y"}} Todos los derechos reservados.
                         <b class="hide">{{system.name}} ({{system.acronym}} v{{system.version}})</b>
                     </span>
             <br>

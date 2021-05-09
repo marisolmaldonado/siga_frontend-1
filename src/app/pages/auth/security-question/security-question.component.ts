@@ -48,12 +48,12 @@ export class SecurityQuestionComponent implements OnInit {
     forgotPassword(grecaptcha) {
         this.spinnerService.show();
         this.authHttpService.userUnlock(this.formPasswordReset.controls['username'].value).subscribe(response => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
             this.flagPasswordReset = false;
             grecaptcha.reset();
             this.messageService.success(response);
         }, error => {
-            this.spinnerService.hide();
+            this.spinnerService.hide();;
             this.flagPasswordReset = false;
             grecaptcha.reset();
             this.messageService.error(error);

@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
         private breadcrumbService: BreadcrumbService,
         private authHttpService: AuthHttpService,
         private authService: AuthService,
-        private spinner: NgxSpinnerService
+        private spinnerService: NgxSpinnerService
     ) {
         this.breadcrumbService.setItems([
             {label: 'Dashboard'},
@@ -55,11 +55,11 @@ export class DashboardComponent implements OnInit {
     }
 
     getShortcuts() {
-        this.spinner.show();
+        this.spinnerService.show();
         this.authHttpService.get('shortcuts').subscribe(response => {
-            this.spinner.hide();
+            this.spinnerService.hide();
             if (response) {
-                this.spinner.hide();
+                this.spinnerService.hide();
                 this.shortcuts = [];
                 response['data'].forEach(shortcut => {
                     this.shortcuts.push({
@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
                 }
             }
         }, error => {
-            this.spinner.hide();
+            this.spinnerService.hide();
         });
     }
 
@@ -127,15 +127,15 @@ export class DashboardComponent implements OnInit {
     }
 
     showShortcut(shortcut) {
-        this.spinner.show();
+        this.spinnerService.show();
         this.authHttpService.post('shortcuts', {shortcut}).subscribe(
             response => {
-                this.spinner.hide();
+                this.spinnerService.hide();
                 this.editShortcuts = this.editShortcuts.filter(element => element.uri !== shortcut.uri);
                 shortcut.id = response['data']['id'];
                 this.shortcuts.unshift(shortcut);
             }, error => {
-                this.spinner.hide();
+                this.spinnerService.hide();
                 if (error.status === 400) {
                     this.editShortcuts = this.editShortcuts.filter(element => element.uri !== shortcut.uri);
                     this.getShortcuts();
@@ -144,13 +144,13 @@ export class DashboardComponent implements OnInit {
     }
 
     hideShortcut(shortcut) {
-        this.spinner.show();
+        this.spinnerService.show();
         this.authHttpService.delete('shortcuts/' + shortcut.id).subscribe(response => {
-            this.spinner.hide();
+            this.spinnerService.hide();
             this.shortcuts = this.shortcuts.filter(element => element.id !== shortcut.id);
             this.editShortcuts.push(shortcut);
         }, error => {
-            this.spinner.hide();
+            this.spinnerService.hide();
             if (error.status === 400) {
                 this.shortcuts = this.shortcuts.filter(element => element.id !== shortcut.id);
                 this.editShortcuts.push(shortcut);

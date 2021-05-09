@@ -3,9 +3,8 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {environment} from '../../../../environments/environment';
-import swal from 'sweetalert2';
-import {AuthService} from '../../../services/auth/auth.service';
-import {AuthHttpService} from "../../../services/auth/authHttp.service";
+import {AuthHttpService} from '../../../services/auth/authHttp.service';
+import {MessageService} from '../../../services/app/message.service';
 
 @Component({
     selector: 'app-user-unlocked',
@@ -20,7 +19,8 @@ export class UserUnlockedComponent implements OnInit {
     SITE_KEY: string;
 
     constructor(private authHttpService: AuthHttpService,
-                private spinner: NgxSpinnerService,
+                private spinnerService: NgxSpinnerService,
+                private messageService: MessageService,
                 private router: Router,
                 private formBuilder: FormBuilder) {
         this.SITE_KEY = environment.SITE_KEY;
@@ -46,25 +46,17 @@ export class UserUnlockedComponent implements OnInit {
     }
 
     forgotPassword(grecaptcha) {
-        this.spinner.show();
+        this.spinnerService.show();
         this.authHttpService.userUnlock(this.formPasswordReset.controls['username'].value).subscribe(response => {
-            this.spinner.hide();
+            this.spinnerService.hide();
             this.flagPasswordReset = false;
             grecaptcha.reset();
-            swal.fire({
-                title: response['msg']['summary'],
-                text: response['msg']['detail'],
-                icon: 'info'
-            });
+            this.messageService.success(response);
         }, error => {
-            this.spinner.hide();
+            this.spinnerService.hide();
             this.flagPasswordReset = false;
             grecaptcha.reset();
-            swal.fire({
-                title: error.error.msg.summary,
-                text: error.error.msg.detail,
-                icon: 'error'
-            });
+            this.messageService.error(error);
         });
     }
 

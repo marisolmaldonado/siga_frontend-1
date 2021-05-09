@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ActivatedRoute, Router} from '@angular/router';
-import swal from 'sweetalert2';
 import {User} from '../../../models/auth/user';
 import {AuthHttpService} from '../../../services/auth/authHttp.service';
+import {MessageService} from '../../../services/app/message.service';
 
 @Component({
     selector: 'app-unlock-user',
@@ -19,10 +19,11 @@ export class UnlockUserComponent implements OnInit {
 
     constructor(
         private authHttpService: AuthHttpService,
-                private spinner: NgxSpinnerService,
-                private router: Router,
-                private formBuilder: FormBuilder,
-                private activatedRoute: ActivatedRoute) {
+        private spinnerService: NgxSpinnerService,
+        private messageService: MessageService,
+        private router: Router,
+        private formBuilder: FormBuilder,
+        private activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit(): void {
@@ -49,22 +50,14 @@ export class UnlockUserComponent implements OnInit {
 
     resetPassword() {
         if (this.checkPasswords()) {
-            this.spinner.show();
+            this.spinnerService.show();
             this.authHttpService.unlock(this.formPasswordReset.value).subscribe(
                 response => {
-                    this.spinner.hide();
-                    swal.fire({
-                        title: response['msg']['summary'],
-                        text: response['msg']['detail'],
-                        icon: 'info'
-                    });
+                    this.spinnerService.hide();
+                    this.messageService.success(response);
                 }, error => {
-                    this.spinner.hide();
-                    swal.fire({
-                        title: error.error.msg.summary,
-                        text: error.error.msg.detail,
-                        icon: 'error'
-                    });
+                    this.spinnerService.hide();
+                    this.messageService.error(error);
                 });
         }
     }

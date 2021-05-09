@@ -5,6 +5,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {environment} from '../../../../environments/environment';
 import {Institution} from '../../../models/app/institution';
 import {AuthHttpService} from '../../../services/auth/authHttp.service';
+import {MessageService} from '../../../services/app/message.service';
 
 
 @Component({
@@ -20,7 +21,8 @@ export class AppMenuComponent implements OnInit {
 
     constructor(public appMain: AppMainComponent,
                 private authHttpService: AuthHttpService,
-                private authService: AuthService
+                private authService: AuthService,
+                private messageService: MessageService,
     ) {
         this.institution = this.authService.getInstitution();
         this.STORAGE_URL = environment.STORAGE_URL;
@@ -59,6 +61,7 @@ export class AppMenuComponent implements OnInit {
                 i++;
             }
         }, error => {
+            this.messageService.error(error);
         });
     }
 
