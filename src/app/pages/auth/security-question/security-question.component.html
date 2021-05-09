@@ -35,7 +35,6 @@
                                     icon="pi pi-arrow-left" [routerLink]="['/auth/login']"></button>
                         </div>
                         <hr>
-                        <p-messages [value]="msgs"></p-messages>
                         <p-captcha #grecaptchaSecurityQuestion [siteKey]="SITE_KEY"
                                    (onResponse)="showResponse($event)" initCallback="loadCaptcha"></p-captcha>
                     </form>
