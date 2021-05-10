@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 })
 
 export class MessageService {
+
     error(error) {
         if (error.status === 422) {
             let i;
@@ -21,6 +22,16 @@ export class MessageService {
                 html,
                 icon: 'error'
             });
+        }
+
+        if (error.status === 400) {
+            if (error.error.msg.code === '23505') {
+                return Swal.fire({
+                    title: 'El registro ya existe',
+                    text: error.error.data,
+                    icon: 'error'
+                });
+            }
         }
 
         return Swal.fire({

@@ -10,6 +10,7 @@ import {PasswordForgotComponent} from './password-forgot/password-forgot.compone
 import {AppLoginComponent} from './login/app.login.component';
 import {UserUnlockedComponent} from './user-unlocked/user-unlocked.component';
 import {UnlockUserComponent} from './unlock-user/unlock-user.component';
+import {RegisterSocialiteUserComponent} from "./register-socialite-user/register-socialite-user.component";
 
 export const AuthRoutes: Routes = [
     {
@@ -46,6 +47,10 @@ export const AuthRoutes: Routes = [
             {
                 path: 'unlock-user',
                 component: UnlockUserComponent
+            },
+            {
+                path: 'register-socialite-user',
+                component: RegisterSocialiteUserComponent
             },
         ]
     }

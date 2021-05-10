@@ -17,10 +17,10 @@
                     <div class="p-field">
                         <label for="username">Usuario:</label>
                         <input id="username" name="username" pInputText formControlName="username"
-                               placeholder="Cédula Ej. 0504172422" maxlength="13"/>
+                               placeholder="Cédula o RUC Ej. 0504172422" maxlength="13"/>
                         <div *ngIf="usernameField.errors && usernameField.touched">
                             <small *ngIf="usernameField.hasError('required')"
-                                   id="usernameHelp" class="p-error">
+                                   id="username-help-1" class="p-error">
                                 El campo es obligatorio.
                             </small>
                         </div>
@@ -33,7 +33,7 @@
                         </p-password>
                         <div *ngIf="passwordField.errors && passwordField.touched">
                             <small *ngIf="passwordField.hasError('required')"
-                                   id="passwordHelp" class="p-error">
+                                   id="password-help-1" class="p-error">
                                 El campo es obligatorio.
                             </small>
                         </div>
@@ -47,6 +47,11 @@
                                 icon="pi pi-arrow-right"></button>
                     </div>
                     <div class="p-field">
+                        <button name="login" type="button" pButton label="Iniciar sesión con Google"
+                                class="p-button-info" icon="pi pi-google"
+                        (click)="loginGoogle()"></button>
+                    </div>
+                    <div class="p-field">
                         <button pButton [routerLink]="['/auth/user-unlocked-user']" label="Desbloquear Usuario"
                                 icon="pi pi-unlock"
                                 class="p-button-text p-ml-2" pTooltip="Haga click para desbloquear su usuario">
@@ -57,9 +62,6 @@
                                 icon="pi pi-key"
                                 class="p-button-text p-ml-2" pTooltip="Haga click si olvidó su contraseña">
                         </button>
-                    </div>
-                    <div class="p-field">
-                        <p-messages [value]="msgs"></p-messages>
                     </div>
                 </form>
             </div>

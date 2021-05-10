@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Subscription} from 'rxjs';
@@ -33,10 +33,13 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                 private messageService: MessageService,
                 private spinnerService: NgxSpinnerService,
                 private router: Router,
-                private formBuilder: FormBuilder) {
+                private formBuilder: FormBuilder,
+                private activatedRoute: ActivatedRoute) {
+        if (!this.activatedRoute.snapshot.queryParams.token) {
+            this.flagLogin = 'login';
+        }
         this.authService.verifySession();
         this.subscription = new Subscription();
-        this.flagLogin = 'login';
         this.roles = [];
         this.institutions = [];
         this.auth = {};
@@ -45,6 +48,15 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.buildFormLogin();
         this.getSystem();
+        this.verifySessionGoogle();
+    }
+
+    verifySessionGoogle() {
+        if (this.activatedRoute.snapshot.queryParams.token) {
+            this.usernameField.setValue(this.activatedRoute.snapshot.queryParams.username);
+            this.authService.setToken({access_token: this.activatedRoute.snapshot.queryParams.token});
+            this.getUser();
+        }
     }
 
     getSystem() {
@@ -92,32 +104,38 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                 }));
     }
 
-    getUser() {
-        this.subscription.add(
-            this.authHttpService.getUser(this.formLogin.controls['username'].value)
-                .subscribe(
-                    response => {
-                        this.spinnerService.hide();
-                        this.auth = response['data'];
-                        this.authService.auth = response['data'];
-                        this.institutions = response['data']['institutions'];
-                        this.authService.institutions = response['data']['institutions'];
+    loginGoogle() {
+        this.authHttpService.loginGoogle();
+    }
 
-                        // Error cuando no tiene asiganda una institucion
-                        if (this.institutions?.length === 0) {
-                            swal.fire({
-                                title: 'No tiene una institucion asignada!',
-                                text: 'Comuníquese con el administrador!',
-                                icon: 'warning'
-                            });
-                            return;
-                        }
-                        this.flagLogin = this.auth['is_changed_password'] ? 'selectInstitutionRole' : 'changePassword';
-                    },
-                    error => {
-                        this.spinnerService.hide();
-                        this.messageService.error(error);
-                    }));
+    getUser() {
+        this.spinnerService.show();
+        this.authHttpService.getUser(this.usernameField.value)
+            .subscribe(
+                response => {
+                    this.spinnerService.hide();
+                    this.auth = response['data'];
+                    this.authService.auth = response['data'];
+                    this.institutions = response['data']['institutions'];
+                    this.authService.institutions = response['data']['institutions'];
+
+                    // Error cuando no tiene asiganda una institucion
+                    if (this.institutions?.length === 0) {
+                        swal.fire({
+                            title: 'No tiene una institucion asignada!',
+                            text: 'Comuníquese con el administrador!',
+                            icon: 'warning'
+                        });
+                        this.flagLogin = 'login';
+                        return;
+                    }
+                    this.flagLogin = this.auth['is_changed_password'] ? 'selectInstitutionRole' : 'changePassword';
+                },
+                error => {
+                    this.spinnerService.hide();
+                    this.messageService.error(error);
+                    this.flagLogin = 'login';
+                });
     }
 
     onSubmitLogin(event: Event) {

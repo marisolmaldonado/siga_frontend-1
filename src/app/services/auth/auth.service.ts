@@ -56,7 +56,7 @@ export class AuthService {
         return localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
     }
 
-    setToken(token) {
+    setToken(token: Token) {
         localStorage.setItem('token', JSON.stringify(token));
     }
 
@@ -85,7 +85,7 @@ export class AuthService {
         return localStorage.getItem('uri') ? JSON.parse(localStorage.getItem('uri')) : null;
     }
 
-    setUri(uri: string){
+    setUri(uri: string) {
         localStorage.setItem('uri', JSON.stringify(uri));
     }
 

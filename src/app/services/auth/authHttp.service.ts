@@ -33,6 +33,11 @@ export class AuthHttpService {
         return this.httpClient.post(url, credentials, {params});
     }
 
+    loginGoogle() {
+        const url = URL + 'login/google';
+        return window.open(url, '_self');
+    }
+
     incorrectPassword(username: string, params = new HttpParams()) {
         const url = environment.API_URL_AUTHENTICATION + 'auth/incorrect-password/' + username;
         return this.httpClient.get(url, {params});
