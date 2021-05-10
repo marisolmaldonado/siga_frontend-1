@@ -20,7 +20,8 @@ export class AuthService {
     }
 
     removeLogin() {
-        localStorage.removeItem('autn');
+        localStorage.removeItem('auth');
+        localStorage.removeItem('uri');
         localStorage.removeItem('role');
         localStorage.removeItem('institution');
         localStorage.removeItem('permissions');
