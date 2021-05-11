@@ -13,7 +13,7 @@ import {MessageService} from 'primeng/api';
 import {AuthService} from '../../../services/auth/auth.service';
 import {Institution} from '../../../models/app/institution';
 import {Role} from '../../../models/auth/role';
-import {AuthHttpService} from "../../../services/auth/authHttp.service";
+import {AuthHttpService} from "../../../services/auth/auth-http.service";
 
 
 @Component({

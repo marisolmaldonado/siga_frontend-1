@@ -10,7 +10,7 @@ import {Institution} from '../../models/app/institution';
 import {Message} from 'primeng/api';
 import {NgxSpinnerService} from 'ngx-spinner';
 import * as moment from 'moment';
-import {AuthHttpService} from "../../services/auth/authHttp.service";
+import {AuthHttpService} from "../../services/auth/auth-http.service";
 
 @Component({
     selector: 'app-dashboard',

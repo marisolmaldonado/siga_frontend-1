@@ -4,7 +4,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {Role, User} from '../../../models/auth/models.index';
 import {Condition} from '../../../models/setting/condition';
 import {MessageService} from 'primeng/api';
-import {AuthHttpService} from "../../../services/auth/authHttp.service";
+import {AuthHttpService} from "../../../services/auth/auth-http.service";
 
 @Component({
     selector: 'app-assign-permission-role',
