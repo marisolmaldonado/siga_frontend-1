@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {AuthHttpService} from '../../../../services/auth/authHttp.service';
+import {AuthHttpService} from '../../../../services/auth/auth-http.service';
 import {MessageService} from '../../../../services/app/message.service';
 
 @Component({

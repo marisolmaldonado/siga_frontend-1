@@ -4,7 +4,7 @@ import {Permission, System} from '../../../models/auth/models.index';
 import {AuthService} from '../../../services/auth/auth.service';
 import {environment} from '../../../../environments/environment';
 import {Institution} from '../../../models/app/institution';
-import {AuthHttpService} from '../../../services/auth/authHttp.service';
+import {AuthHttpService} from '../../../services/auth/auth-http.service';
 import {MessageService} from '../../../services/app/message.service';
 
 

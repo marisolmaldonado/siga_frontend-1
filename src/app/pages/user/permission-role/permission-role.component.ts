@@ -5,7 +5,7 @@ import {Condition} from '../../../models/setting/condition';
 import {AuthService} from '../../../services/auth/auth.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {MessageService} from 'primeng/api';
-import {AuthHttpService} from '../../../services/auth/authHttp.service';
+import {AuthHttpService} from '../../../services/auth/auth-http.service';
 
 @Component({
   selector: 'app-permission-role',

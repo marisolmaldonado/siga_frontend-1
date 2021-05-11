@@ -10,7 +10,7 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {User} from '../../../../models/auth/user';
 import {HttpParams} from '@angular/common/http';
 import {environment} from '../../../../../environments/environment';
-import {AuthHttpService} from '../../../../services/auth/authHttp.service';
+import {AuthHttpService} from '../../../../services/auth/auth-http.service';
 import {MessageService} from '../../../../services/app/message.service';
 
 @Component({

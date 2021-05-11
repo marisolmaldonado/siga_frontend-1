@@ -12,7 +12,7 @@ import {HttpParams} from '@angular/common/http';
 import {Institution} from '../../../models/app/institution';
 import {AppService} from '../../../services/app/app.service';
 import {environment} from '../../../../environments/environment';
-import {AuthHttpService} from '../../../services/auth/authHttp.service';
+import {AuthHttpService} from '../../../services/auth/auth-http.service';
 
 @Component({
     selector: 'app-user',
