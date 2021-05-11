@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {environment} from '../../../environments/environment';
+import {environment, WEB} from '../../../environments/environment';
 import {User} from '../../models/auth/models.index';
 import {URL} from '../../../environments/environment';
-import {Institution} from '../../models/app/institution';
 import {MessageService} from '../app/message.service';
 import {AuthService} from './auth.service';
 
@@ -34,7 +33,7 @@ export class AuthHttpService {
     }
 
     loginGoogle() {
-        const url = URL + 'login/google';
+        const url = WEB + 'login/google';
         return window.open(url, '_self');
     }
 

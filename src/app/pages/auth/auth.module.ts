@@ -31,7 +31,7 @@ import {CheckboxModule} from 'primeng/checkbox';
 import { ChangePasswordComponent } from './login/change-password/change-password.component';
 import { SelectInstitutionRoleComponent } from './login/select-institution-role/select-institution-role.component';
 import {DividerModule} from 'primeng/divider';
-import {RegisterSocialiteUserComponent} from "./register-socialite-user/register-socialite-user.component";
+import {RegisterSocialiteUserComponent} from './register-socialite-user/register-socialite-user.component';
 
 @NgModule({
     imports: [

@@ -9,13 +9,13 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 // Application Modules
 import {AppRoutingModule} from './app-routing.module';
 import {AppCodeModule} from './shared/components/code/app.code.component';
-import {NgxSpinnerModule} from "ngx-spinner";
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 // Primeng Modules
-import {CalendarModule} from "primeng/calendar";
-import {CheckboxModule} from "primeng/checkbox";
-import {RadioButtonModule} from "primeng/radiobutton";
-import {InputSwitchModule} from "primeng/inputswitch";
+import {CalendarModule} from 'primeng/calendar';
+import {CheckboxModule} from 'primeng/checkbox';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {InputSwitchModule} from 'primeng/inputswitch';
 
 // Application Components
 import {AppComponent} from './app.component';
@@ -32,17 +32,18 @@ import {AppBlankComponent} from './shared/components/blank/app.blank.component';
 // Application Services
 import {BreadcrumbService} from './shared/services/breadcrumb.service';
 import {MenuService} from './shared/services/app.menu.service';
-import {InterceptorService} from "./interceptors/interceptor.service";
-import {SharedModule} from "./pages/shared/shared.module";
+import {InterceptorService} from './interceptors/interceptor.service';
+import {SharedModule} from './pages/shared/shared.module';
+import {PasswordModule} from 'primeng/password';
 
 @NgModule({
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         FormsModule,
         AppRoutingModule,
         AppCodeModule,
         HttpClientModule,
-        BrowserAnimationsModule,
         SharedModule,
         NgxSpinnerModule,
         // Primeng Modules
@@ -50,6 +51,7 @@ import {SharedModule} from "./pages/shared/shared.module";
         CheckboxModule,
         RadioButtonModule,
         InputSwitchModule,
+        PasswordModule,
     ],
     declarations: [
         AppBlankComponent,
