@@ -11,8 +11,8 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {HttpParams} from '@angular/common/http';
 import {Institution} from '../../../models/app/institution';
 import {AppService} from '../../../services/app/app.service';
-import {environment} from "../../../../environments/environment";
-import {AuthHttpService} from "../../../services/auth/authHttp.service";
+import {environment} from '../../../../environments/environment';
+import {AuthHttpService} from '../../../services/auth/authHttp.service';
 
 @Component({
     selector: 'app-user',
@@ -40,21 +40,23 @@ export class UserComponent implements OnInit {
     uploadedFiles: any[] = [];
     API_URL_AUTHENTICATION: string;
 
-    constructor(private messageService: MessageService,
-                private confirmationService: ConfirmationService,
-                private breadcrumbService: BreadcrumbService,
-                private authHttpService: AuthHttpService,
-                private authService: AuthService,
-                private appService: AppService,
-                private spinnerService: NgxSpinnerService,
-                private formBuilder: FormBuilder,
+    constructor(private messageService: MessageService,// si pero de otro servicio
+                private confirmationService: ConfirmationService,// no
+                private breadcrumbService: BreadcrumbService,// si
+                private authHttpService: AuthHttpService,// si
+                private authService: AuthService, // si
+                private appService: AppService,// no
+                private spinnerService: NgxSpinnerService, // si
+                private formBuilder: FormBuilder, // si
     ) {
         this.breadcrumbService.setItems([
+            {label: 'Dashboard', routerLink: ['/dashboard']},
             {label: 'Dashboard', routerLink: ['/dashboard']},
             {label: 'Crud'}
         ]);
         this.paginator = {current_page: 1, per_page: 5};
         this.rowsPerPageOptions = [5, 10, 20, 30, 50];
+        // esto no
         this.validatorsOptions = {
             identification: {minlength: 9, maxlength: 13},
             first_name: {minlength: 3, maxlength: 25},
