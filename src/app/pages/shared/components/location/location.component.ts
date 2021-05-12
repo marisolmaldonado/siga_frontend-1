@@ -1,7 +1,7 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
 import {HttpParams} from "@angular/common/http";
 import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
-import {AppService} from "../../../../services/app/app.service";
+import {AppHttpService} from "../../../../services/app/app-http.service";
 import {Location} from "../../../../models/app/location";
 import {MessageService} from "primeng/api";
 
@@ -38,7 +38,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     filteredCantons: any[];
     filteredParishes: any[];
 
-    constructor(private formBuilder: FormBuilder, private appService: AppService, private messageService: MessageService) {
+    constructor(private formBuilder: FormBuilder, private appService: AppHttpService, private messageService: MessageService) {
         this.countries = [];
         this.provinces = [];
         this.cantons = [];
