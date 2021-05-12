@@ -110,7 +110,6 @@ export class DateComponent implements OnInit, ControlValueAccessor {
     }
 
     validateLeapYear(year: string) {
-        console.log(year);
         if (year === '' || year === null) {
             return false;
         }

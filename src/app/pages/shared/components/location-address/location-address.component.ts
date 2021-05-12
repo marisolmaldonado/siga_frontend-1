@@ -76,7 +76,6 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
     }
 
     writeValue(value: Address): void {
-        console.log(value);
         this.value = value;
         if (this.value) {
             /*
@@ -94,7 +93,6 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
     }
 
     updateValue(): void {
-        console.log(this.value);
         if (this.formAddress.valid) {
             this.value = this.formAddress.value;
             this.onChange(this.value);

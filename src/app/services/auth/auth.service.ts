@@ -87,7 +87,7 @@ export class AuthService {
     }
 
     setUri(uri: string) {
-        localStorage.setItem('uri', JSON.stringify(uri));
+        localStorage.setItem('uri',  JSON.stringify(uri));
     }
 
     getKeepSession(): boolean {

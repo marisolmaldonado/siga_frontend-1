@@ -75,7 +75,6 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     getCountries() {
         this.appService.getCountries().subscribe(response => {
             this.countries = response['data'];
-            console.log(this.countries);
         });
     }
 

@@ -33,7 +33,6 @@ export class MessageService {
                 });
             }
         }
-
         return Swal.fire({
             title: error.error.msg.summary,
             text: error.error.msg.detail,

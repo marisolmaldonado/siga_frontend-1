@@ -49,7 +49,6 @@ export class SelectInstitutionRoleComponent implements OnInit {
             institution: ['', Validators.required],
             role: [''],
         });
-        console.log(this.institutionField);
     }
 
     onSubmitContinue(event: Event) {

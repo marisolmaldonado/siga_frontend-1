@@ -8,11 +8,8 @@ import {JobBoardRouting} from './job-board.routing';
 // PrimeNG Modules
 import {PasswordModule} from 'primeng/password';
 import {ButtonModule} from 'primeng/button';
-import {MessagesModule} from 'primeng/messages';
 import {InputTextModule} from 'primeng/inputtext';
-import {MessageModule} from 'primeng/message';
 import {DropdownModule} from 'primeng/dropdown';
-import {ConfirmationService, MessageService} from 'primeng/api';
 import {SkeletonModule} from 'primeng/skeleton';
 
 // My Components
@@ -29,12 +26,21 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {PaginatorModule} from 'primeng/paginator';
 import {KeyFilterModule} from 'primeng/keyfilter';
-import {TabViewModule} from 'primeng/tabview';
+import {TabPanel, TabViewModule} from 'primeng/tabview';
 import {TreeModule} from 'primeng/tree';
 import {AccordionModule} from 'primeng/accordion';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {CardModule} from 'primeng/card';
 import {SharedModule} from '../shared/shared.module';
+import {JobBoardComponent} from './job-board.component';
+import {CompanyComponent} from './company/company.component';
+import {WebOfferComponent} from './landing-page/web-offer/web-offer.component';
+import {WebProfessionalComponent} from './landing-page/web-professional/web-professional.component';
+import {ProfessionalComponent} from './professional/professional.component';
+import {SkillComponent} from './professional/skill/skill.component';
+import { OfferComponent } from './company/offer/offer.component';
+import { ProfileComponent } from './company/profile/profile.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 @NgModule({
     imports: [
@@ -45,8 +51,6 @@ import {SharedModule} from '../shared/shared.module';
         InputTextModule,
         PasswordModule,
         ButtonModule,
-        MessagesModule,
-        MessageModule,
         DropdownModule,
         TooltipModule,
         AutoCompleteModule,
@@ -72,8 +76,17 @@ import {SharedModule} from '../shared/shared.module';
         SkeletonModule,
     ],
     declarations: [
+        JobBoardComponent,
+        ProfessionalComponent,
+        SkillComponent,
+        CompanyComponent,
+        WebOfferComponent,
+        WebProfessionalComponent,
+        OfferComponent,
+        ProfileComponent,
+        LandingPageComponent
     ],
-    providers: [ConfirmationService, MessageService]
+    providers: []
 })
 export class JobBoardModule {
 }
