@@ -7,7 +7,7 @@ import {CommonModule} from '@angular/common';
 import {DropdownModule} from 'primeng/dropdown';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {DateComponent} from "./components/date/date.component";
-import { MonthsPipe } from './pipes/months.pipe';
+import {MonthsPipe} from './pipes/months.pipe';
 import {LocationAddressComponent} from "./components/location-address/location-address.component";
 import {LocationComponent} from "./components/location/location.component";
 import {AutoCompleteModule} from "primeng/autocomplete";
@@ -39,8 +39,8 @@ import {TooltipModule} from "primeng/tooltip";
         LocationComponent,
         MonthsPipe
     ],
-    exports: [DateComponent,LocationComponent,LocationAddressComponent],
-    providers: [ConfirmationService, MessageService]
+    exports: [DateComponent, LocationComponent, LocationAddressComponent],
+    providers: []
 })
 export class SharedModule {
 }

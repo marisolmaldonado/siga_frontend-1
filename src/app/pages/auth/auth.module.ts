@@ -65,7 +65,7 @@ import {RegisterSocialiteUserComponent} from './register-socialite-user/register
         SelectInstitutionRoleComponent,
         RegisterSocialiteUserComponent
     ],
-    providers: [ConfirmationService, MessageService]
+    providers: []
 })
 export class AuthModule {
 }
