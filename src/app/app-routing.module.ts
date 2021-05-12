@@ -21,11 +21,6 @@ import {AuthGuard} from './shared/guards/auth.guard';
                         canActivate: [AuthGuard]
                     },
                     {
-                        path: 'user',
-                        loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule),
-                        canActivate: [AuthGuard]
-                    },
-                    {
                         path: 'job-board',
                         loadChildren: () => import('./pages/job-board/job-board.module').then(m => m.JobBoardModule),
                         canActivate: [AuthGuard]
