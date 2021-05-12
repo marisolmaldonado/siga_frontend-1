@@ -2,7 +2,7 @@ import {Component, forwardRef, OnInit} from '@angular/core';
 import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
 import {MessageService} from 'primeng/api';
 import {Address} from '../../../../models/app/models.index';
-import {AppService} from '../../../../services/app/app.service';
+import {AppHttpService} from '../../../../services/app/app-http.service';
 
 @Component({
     selector: 'app-location-address',
@@ -32,7 +32,7 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
     onTouch: () => void;
     isDisabled: boolean;
 
-    constructor(private _formBuilder: FormBuilder, private _appService: AppService, private _messageService: MessageService) {
+    constructor(private _formBuilder: FormBuilder, private _appService: AppHttpService, private _messageService: MessageService) {
 
     }
 

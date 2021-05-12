@@ -38,9 +38,11 @@ import {WebOfferComponent} from './landing-page/web-offer/web-offer.component';
 import {WebProfessionalComponent} from './landing-page/web-professional/web-professional.component';
 import {ProfessionalComponent} from './professional/professional.component';
 import {SkillComponent} from './professional/skill/skill.component';
-import { OfferComponent } from './company/offer/offer.component';
-import { ProfileComponent } from './company/profile/profile.component';
-import { LandingPageComponent } from './landing-page/landing-page.component';
+import {OfferComponent} from './company/offer/offer.component';
+import {ProfileComponent} from './company/profile/profile.component';
+import {LandingPageComponent} from './landing-page/landing-page.component';
+import {SkillFormComponent} from './professional/skill/skill-form/skill-form.component';
+import {SkillListComponent} from './professional/skill/skill-list/skill-list.component';
 
 @NgModule({
     imports: [
@@ -84,7 +86,9 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
         WebProfessionalComponent,
         OfferComponent,
         ProfileComponent,
-        LandingPageComponent
+        LandingPageComponent,
+        SkillFormComponent,
+        SkillListComponent
     ],
     providers: []
 })

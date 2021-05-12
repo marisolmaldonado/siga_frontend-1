@@ -7,28 +7,28 @@ import {environment, WEB} from '../../../environments/environment';
 })
 
 export class JobBoardHttpService {
-    API_URL_AUTHENTICATION: string = environment.API_URL_AUTHENTICATION;
+    API_URL_JOB_BOARD: string = environment.API_URL_JOB_BOARD;
 
     constructor(private httpClient: HttpClient) {
     }
 
     get(url: string, params = new HttpParams()) {
-        url = this.API_URL_AUTHENTICATION + url;
+        url = this.API_URL_JOB_BOARD + url;
         return this.httpClient.get(url, {params});
     }
 
     post(url: string, data: any, params = new HttpParams()) {
-        url = this.API_URL_AUTHENTICATION + url;
+        url = this.API_URL_JOB_BOARD + url;
         return this.httpClient.post(url, data, {params});
     }
 
     update(url: string, data: any, params = new HttpParams()) {
-        url = this.API_URL_AUTHENTICATION + url;
+        url = this.API_URL_JOB_BOARD + url;
         return this.httpClient.put(url, data, {params});
     }
 
     delete(url: string, params = new HttpParams()) {
-        url = this.API_URL_AUTHENTICATION + url;
+        url = this.API_URL_JOB_BOARD + url;
         return this.httpClient.delete(url, {params});
     }
 }

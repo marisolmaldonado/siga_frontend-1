@@ -1,0 +1,29 @@
+<p-dialog [(visible)]="displayIn" [style]="{width: '450px'}" header="Product Details" [modal]="true"
+          styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="skillIn" (ngSubmit)="onSubmit($event)">
+            <div class="p-field">
+                <label for="type">Tipo</label>
+                <p-autoComplete formControlName="type" [suggestions]="filteredCountries"
+                                (completeMethod)="filterCountry($event)" field="name" [dropdown]="true">
+                    <ng-template let-country pTemplate="item">
+                        <div class="country-item">
+                            <img src="assets/showcase/images/demo/flag/flag_placeholder.png"
+                                 [class]="'flag flag-' + country.code.toLowerCase()"/>
+                            <div>{{country.name}}</div>
+                        </div>
+                    </ng-template>
+                </p-autoComplete>
+            </div>
+            <div class="p-field">
+                <label for="description">Description</label>
+                <textarea id="description" pInputTextarea formControlName="description"></textarea>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </ng-template>
+</p-dialog>
