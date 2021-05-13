@@ -91,11 +91,10 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     }
 
     filterCountry(event) {
-        let filtered: any[] = [];
-        let query = event.query;
-        for (let i = 0; i < this.countries.length; i++) {
-            let country = this.countries[i];
-            if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const country of this.countries) {
+            if (country.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(country);
             }
         }
@@ -111,8 +110,8 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     }
 
     filterProvince(event) {
-        let filtered: any[] = [];
-        let query = event.query;
+        const filtered: any[] = [];
+        const query = event.query;
         if (this.provinces.length === 0) {
             this.messageService.add({
                 severity: 'error',
@@ -120,9 +119,8 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
                 detail: 'Comuníquese con el administrador!'
             });
         }
-        for (let i = 0; i < this.provinces.length; i++) {
-            let province = this.provinces[i];
-            if (province.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        for (const province of this.provinces) {
+            if (province.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(province);
             }
         }
@@ -131,8 +129,8 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     }
 
     filterCanton(event) {
-        let filtered: any[] = [];
-        let query = event.query;
+        const filtered: any[] = [];
+        const query = event.query;
         if (this.cantons.length === 0) {
             this.messageService.add({
                 severity: 'error',
@@ -140,9 +138,8 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
                 detail: 'Comuníquese con el administrador!'
             });
         }
-        for (let i = 0; i < this.cantons.length; i++) {
-            let canton = this.cantons[i];
-            if (canton.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        for (const canton of this.cantons) {
+            if (canton.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(canton);
             }
         }
@@ -151,7 +148,8 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     }
 
     filterParish(event) {
-        let filtered: any[] = [];
+        const filtered: any[] = [];
+        const query = event.query;
         if (this.parishes.length === 0) {
             this.messageService.add({
                 severity: 'error',
@@ -159,10 +157,8 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
                 detail: 'Comuníquese con el administrador!'
             });
         }
-        let query = event.query;
-        for (let i = 0; i < this.parishes.length; i++) {
-            let parish = this.parishes[i];
-            if (parish.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        for (const parish of this.parishes) {
+            if (parish.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(parish);
             }
         }

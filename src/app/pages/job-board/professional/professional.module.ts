@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {JobBoardRouting} from './job-board.routing';
+import {ProfessionalRouting} from './professional.routing';
 
 // PrimeNG Modules
 import {PasswordModule} from 'primeng/password';
@@ -26,29 +26,22 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {PaginatorModule} from 'primeng/paginator';
 import {KeyFilterModule} from 'primeng/keyfilter';
-import {TabPanel, TabViewModule} from 'primeng/tabview';
+import {TabViewModule} from 'primeng/tabview';
 import {TreeModule} from 'primeng/tree';
 import {AccordionModule} from 'primeng/accordion';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {CardModule} from 'primeng/card';
-import {SharedModule} from '../shared/shared.module';
-import {JobBoardComponent} from './job-board.component';
-import {CompanyComponent} from './company/company.component';
-import {WebOfferComponent} from './landing-page/web-offer/web-offer.component';
-import {WebProfessionalComponent} from './landing-page/web-professional/web-professional.component';
-import {ProfessionalComponent} from './professional/professional.component';
-import {SkillComponent} from './professional/skill/skill.component';
-import {OfferComponent} from './company/offer/offer.component';
-import {ProfileComponent} from './company/profile/profile.component';
-import {LandingPageComponent} from './landing-page/landing-page.component';
-import {SkillFormComponent} from './professional/skill/skill-form/skill-form.component';
-import {SkillListComponent} from './professional/skill/skill-list/skill-list.component';
-import {RippleModule} from "primeng/ripple";
+import {SharedModule} from '../../shared/shared.module';
+import {RippleModule} from 'primeng/ripple';
+import {ProfessionalComponent} from './professional.component';
+import {SkillComponent} from "./skill/skill.component";
+import {SkillFormComponent} from "./skill/skill-form/skill-form.component";
+import {SkillListComponent} from "./skill/skill-list/skill-list.component";
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(JobBoardRouting),
+        RouterModule.forChild(ProfessionalRouting),
         FormsModule,
         ReactiveFormsModule,
         InputTextModule,
@@ -80,9 +73,12 @@ import {RippleModule} from "primeng/ripple";
         RippleModule,
     ],
     declarations: [
-        JobBoardComponent
+        ProfessionalComponent,
+        SkillComponent,
+        SkillFormComponent,
+        SkillListComponent
     ],
     providers: []
 })
-export class JobBoardModule {
+export class ProfessionalModule {
 }

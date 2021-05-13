@@ -47,4 +47,16 @@ export class MessageService {
             icon: 'info'
         });
     }
+
+    questionDelete({title = '¿Está seguro de eliminar?', text = 'No podrá recuperar esta información!'}) {
+        return Swal.fire({
+            title,
+            text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: '<i class="pi pi-trash"> Si, eliminar</i>'
+        });
+    }
 }

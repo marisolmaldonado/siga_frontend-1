@@ -1,89 +1,24 @@
 <div class="p-grid">
     <div class="p-col-12">
+        <app-skill-list
+                [skillsIn]="skills"
+                [paginatorIn]="paginator"
+                [formSkillIn]="formSkill"
+                (skillsOut)="skills=$event"
+                (displayOut)="skillDialog=$event"
+                (formSkillOut)="formSkill=$event"
+                (paginatorOut)="getSkills($event)">
+        </app-skill-list>
 
-        <p-toast></p-toast>
-
-        <div class="card">
-            <p-toolbar styleClass="p-mb-4">
-                <ng-template pTemplate="left">
-                    <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
-                            (click)="openNewFormSkill()"></button>
-                    <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-mb-2"
-                            (click)="deleteSelecetedSkills()"
-                            [disabled]="!selectedSkills || !selectedSkills.length"></button>
-                </ng-template>
-
-                <ng-template pTemplate="right">
-                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
-                                  chooseLabel="Import" class="p-mr-2 p-mb-2 p-d-inline-block"></p-fileUpload>
-                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help p-mb-2"
-                            (click)="dt.exportCSV()"></button>
-                </ng-template>
-            </p-toolbar>
-            <p-paginator [rows]="paginator.per_page" [totalRecords]="paginator.total"
-                         (onPageChange)="pageChange($event)"></p-paginator>
-            <p-table #dt [value]="skills" [columns]="colsSkill" [rows]="5" [paginator]="true"
-                     [globalFilterFields]="['description']" [paginator]="false"
-                     [(selection)]="selectedSkills" [rowHover]="true" dataKey="id"
-                     styleClass="p-datatable-customers"
-                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                     [showCurrentPageReport]="true">
-                <ng-template pTemplate="caption">
-                    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
-                        <h5 class="p-m-0">Manage Products</h5>
-                        <span class="p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                               placeholder="Search..."/>
-                    </span>
-                    </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th style="width: 3rem">
-                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
-                        <th pSortableColumn="type">
-                            Tipo
-                            <p-sortIcon field="type"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="description">
-                            Descripción
-                            <p-sortIcon field="description"></p-sortIcon>
-                        </th>
-                        <th></th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-skill>
-                    <tr>
-                        <td>
-                            <p-tableCheckbox [value]="skill"></p-tableCheckbox>
-                        </td>
-                        <td>
-                            {{skill.type.name}}
-                        </td>
-                        <td>
-                            {{skill.id}} {{skill.description}}
-                        </td>
-                        <td>
-                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
-                                    (click)="openEditFormSkill(skill)"></button>
-                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                    (click)="deleteSkill(skill)"></button>
-                        </td>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="summary">
-                    <div class="p-d-flex p-ai-center p-jc-between">
-                        En total hay {{skills ? skills.length : 0 }} habilidades.
-                    </div>
-                </ng-template>
-            </p-table>
-        </div>
-
-        <app-skill-form (skillOut)="addSkill($event)" (displayOut)="skillDialog=$event"
-                        [skillIn]="formSkill" [displayIn]="skillDialog"></app-skill-form>
-
-        <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+        <p-dialog [(visible)]="skillDialog" [style]="{width: '450px'}" header="Habilidades" [modal]="true"
+                  styleClass="p-fluid" (onHide)="skillDialog=false">
+            <app-skill-form
+                    [skillsIn]="skills"
+                    [formSkillIn]="formSkill"
+                    [displayIn]="skillDialog"
+                    (skillsOut)="skills=$event"
+                    (displayOut)="skillDialog=$event">
+            </app-skill-form>
+        </p-dialog>
     </div>
 </div>
