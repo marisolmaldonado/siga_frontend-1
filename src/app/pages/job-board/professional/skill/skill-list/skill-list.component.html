@@ -1,0 +1,84 @@
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
+                    (click)="openNewFormSkill()"></button>
+            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-mr-2 p-mb-2"
+                    (click)="deleteSkills()"
+                    [disabled]="!selectedSkills || !selectedSkills.length"></button>
+            <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info p-mb-2"
+                    (click)="paginatorOut.emit(paginatorIn)"></button>
+        </ng-template>
+
+        <ng-template pTemplate="right">
+            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
+                          chooseLabel="Import" class="p-mr-2 p-mb-2 p-d-inline-block"></p-fileUpload>
+            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help p-mb-2"
+                    (click)="dt.exportCSV()"></button>
+        </ng-template>
+    </p-toolbar>
+    <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total"
+                 (onPageChange)="pageChange($event)"></p-paginator>
+    <p-table #dt
+             [value]="skillsIn"
+             [columns]="colsSkill"
+             [rows]="paginatorIn.per_page"
+             [paginator]="false"
+             [(selection)]="selectedSkills"
+             [rowHover]="true"
+             dataKey="id"
+             styleClass="p-datatable-customers"
+             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+             [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+                <h5 class="p-m-0">Habilidades</h5>
+                <span class="p-input-icon-left">
+                        <i class="pi pi-search" (click)="searchSkills($event,search.value)"></i>
+                        <input #search pInputText type="text" (keyup)="searchSkills($event,$event.target.value)"
+                               placeholder="Buscar..."/>
+                    </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="type">
+                    Tipo
+                    <p-sortIcon field="type"></p-sortIcon>
+                </th>
+                <th pSortableColumn="description">
+                    Descripción
+                    <p-sortIcon field="description"></p-sortIcon>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-skill>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="skill"></p-tableCheckbox>
+                </td>
+                <td>
+                    {{skill.type.name}}
+                </td>
+                <td>
+                    {{skill.id}} {{skill.description}}
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning p-mr-2"
+                            (click)="openEditFormSkill(skill)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            (click)="deleteSkill(skill)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                En total hay {{skillsIn ? skillsIn.length : 0 }} habilidades.
+            </div>
+        </ng-template>
+    </p-table>
+</div>

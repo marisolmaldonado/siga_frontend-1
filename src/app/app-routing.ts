@@ -1,4 +1,4 @@
-import {RouterModule} from '@angular/router';
+import {PreloadAllModules, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 
 // Application Components
@@ -33,9 +33,13 @@ import {AuthGuard} from './shared/guards/auth.guard';
                 loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
             },
             {path: '**', redirectTo: '/auth/not-found'},
-        ], {scrollPositionRestoration: 'enabled'})
+        ], {
+            enableTracing: true,
+            preloadingStrategy: PreloadAllModules,
+            scrollPositionRestoration: 'enabled'
+        })
     ],
     exports: [RouterModule]
 })
-export class AppRoutingModule {
+export class AppRouting {
 }

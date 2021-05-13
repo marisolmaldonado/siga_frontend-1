@@ -1,9 +1,9 @@
 // Angular Modules
 import {NgModule} from '@angular/core';
-import {PreloadAllModules, RouterModule} from '@angular/router';
+import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {JobBoardRouting} from './job-board.routing';
+import {LandingPageRouting} from './landing-page.routing';
 
 // PrimeNG Modules
 import {PasswordModule} from 'primeng/password';
@@ -26,19 +26,19 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {PaginatorModule} from 'primeng/paginator';
 import {KeyFilterModule} from 'primeng/keyfilter';
-import {TabPanel, TabViewModule} from 'primeng/tabview';
+import {TabViewModule} from 'primeng/tabview';
 import {TreeModule} from 'primeng/tree';
 import {AccordionModule} from 'primeng/accordion';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {CardModule} from 'primeng/card';
-import {SharedModule} from '../shared/shared.module';
-import {JobBoardComponent} from './job-board.component';
+import {SharedModule} from '../../shared/shared.module';
 import {RippleModule} from 'primeng/ripple';
+import {LandingPageComponent} from './landing-page.component';
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(JobBoardRouting),
+        RouterModule.forChild(LandingPageRouting),
         FormsModule,
         ReactiveFormsModule,
         InputTextModule,
@@ -70,10 +70,9 @@ import {RippleModule} from 'primeng/ripple';
         RippleModule,
     ],
     declarations: [
-        JobBoardComponent
+        LandingPageComponent,
     ],
-    exports: [],
     providers: []
 })
-export class JobBoardModule {
+export class LandingPageModule {
 }
