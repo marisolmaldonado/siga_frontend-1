@@ -14,6 +14,16 @@ export const JobBoardRouting: Routes = [
                 loadChildren: () => import('./professional/professional.module').then(m => m.ProfessionalModule),
                 canActivate: [AuthGuard]
             },
+            {
+                path: 'company',
+                loadChildren: () => import('./company/company.module').then(m => m.CompanyModule),
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'web',
+                loadChildren: () => import('./landing-page/landing-page.module').then(m => m.LandingPageModule),
+                canActivate: [AuthGuard]
+            },
         ]
     }
 ];

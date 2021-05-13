@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Skill} from '../../../../../models/job-board/skill';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {Col} from '../../../../../models/setting/col';
 import {Paginator} from '../../../../../models/setting/paginator';
 import {MessageService} from '../../../../../services/app/message.service';
@@ -36,9 +36,6 @@ export class SkillListComponent implements OnInit {
 
     // Search skills in backend
     searchSkills(event, search) {
-        console.log(event);
-        console.log(search);
-
         if (event.type === 'click' || event.keyCode === 13 || search.length === 0) {
             const params = search.length > 0 ? new HttpParams().append('search', search) : null;
             this.spinnerService.show();
@@ -87,6 +84,11 @@ export class SkillListComponent implements OnInit {
             });
     }
 
+    removeSkill(skill: Skill) {
+        this.skillsIn = this.skillsIn.filter(element => element !== skill);
+        this.skillsOut.emit(this.skillsIn);
+    }
+
     deleteSkills() {
         this.messageService.questionDelete({})
             .then((result) => {
@@ -105,11 +107,6 @@ export class SkillListComponent implements OnInit {
                 }
             });
 
-    }
-
-    removeSkill(skill: Skill) {
-        this.skillsIn = this.skillsIn.filter(element => element !== skill);
-        this.skillsOut.emit(this.skillsIn);
     }
 
     removeSkills(ids) {

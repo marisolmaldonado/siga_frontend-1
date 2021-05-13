@@ -6,21 +6,21 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
 import {AppHttpService} from '../../../../../services/app/app-http.service';
 import {HttpParams} from '@angular/common/http';
-import {BreadcrumbService} from "../../../../../shared/services/breadcrumb.service";
+import {Catalogue} from '../../../../../models/app/catalogue';
 
 @Component({
     selector: 'app-skill-form',
     templateUrl: './skill-form.component.html',
     styleUrls: ['./skill-form.component.scss']
 })
+
 export class SkillFormComponent implements OnInit {
-    @Input() displayIn: boolean;
     @Input() formSkillIn: FormGroup;
     @Input() skillsIn: Skill[];
     @Output() skillsOut = new EventEmitter<Skill[]>();
     @Output() displayOut = new EventEmitter<boolean>();
     filteredTypes: any[];
-    types: any[];
+    types: Catalogue[];
 
     constructor(private formBuilder: FormBuilder,
                 private messageService: MessageService,
@@ -73,6 +73,7 @@ export class SkillFormComponent implements OnInit {
     // Save in backend
     storeSkill(skill: Skill, flag = false) {
         this.spinnerService.show();
+
         this.jobBoardHttpService.store('skills', {skill}).subscribe(response => {
             this.spinnerService.hide();
             this.messageService.success(response);

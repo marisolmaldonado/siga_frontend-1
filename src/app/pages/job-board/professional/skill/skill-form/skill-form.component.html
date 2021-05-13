@@ -10,7 +10,7 @@
                     </div>
                 </ng-template>
             </p-autoComplete>
-            <div *ngIf="typeField.errors && typeField.touched">
+            <div *ngIf="typeField.errors && (typeField.touched || typeField.dirty)">
                 <small *ngIf="typeField.hasError('required')"
                        id="type-help-1" class="p-error">
                     El campo es obligatorio.
@@ -19,11 +19,15 @@
         </div>
         <div class="p-field">
             <label for="description">Descripción</label>
-            <textarea id="description" pInputTextarea formControlName="description" rows="5"></textarea>
-            <div *ngIf="descriptionField.errors && descriptionField.touched">
+            <textarea pInputTextarea id="description" formControlName="description" rows="5"></textarea>
+            <div *ngIf="descriptionField.errors && (descriptionField.touched || descriptionField.dirty)">
                 <small *ngIf="descriptionField.hasError('required')"
                        id="description-help-1" class="p-error">
                     El campo es obligatorio.
+                </small>
+                <small *ngIf="descriptionField.hasError('minlength')"
+                       id="description-help-2" class="p-error">
+                    Mínimo de caracteres es {{descriptionField.errors.minlength.requiredLength}}.
                 </small>
             </div>
         </div>
