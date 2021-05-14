@@ -24,6 +24,11 @@ import {AuthGuard} from './shared/guards/auth.guard';
                         path: 'user',
                         loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule),
                         canActivate: [AuthGuard]
+                    },
+                    {
+                        path: 'user-administration',
+                        loadChildren: () => import('./pages/user-administration/user-administration.module').then(m => m.UserAdministrationModule),
+                        canActivate: [AuthGuard]
                     }
                 ]
             },
