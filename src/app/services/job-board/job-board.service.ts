@@ -6,6 +6,11 @@ import {Institution} from '../../models/app/institution';
 import {MessageService} from '../app/message.service';
 
 import {Course} from '../../models/job-board/course';
+import {Experience} from '../../models/job-board/experience';
+import {Language} from '../../models/job-board/language';
+import {Professional} from '../../models/job-board/professional';
+import {Reference} from '../../models/job-board/reference';
+import {Skill} from '../../models/job-board/skill';
 
 @Injectable({
     providedIn: 'root'

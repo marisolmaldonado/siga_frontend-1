@@ -17,6 +17,31 @@ export class JobBoardHttpService {
         private messageService: MessageService) {
     }
 
+    getProfessional(about_me: string, params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'professional/' + about_me;
+        return this.httpClient.get(url, {params});
+    }
+
+    getLanguage(params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'module/menus';
+        return this.httpClient.get(url, {params});
+    }
+
+    getExperience(params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'module/menus';
+        return this.httpClient.get(url, {params});
+    }
+
+    getCourse(params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'module/menus';
+        return this.httpClient.get(url, {params});
+    }
+    
+    getReference(params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'module/menus';
+        return this.httpClient.get(url, {params});
+    }
+
     get(url: string, params = new HttpParams()) {
         url = this.API_URL_AUTHENTICATION + url;
         return this.httpClient.get(url, {params});
