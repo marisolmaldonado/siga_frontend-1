@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {Router} from '@angular/router';
+import {File} from '../../models/app/file';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +14,7 @@ export class AppHttpService {
 
     }
 
-    get(url: string) {
+    get(url: string, params = new HttpParams()) {
         url = environment.API_URL_APP + url;
         return this.httpClient.get(url, {headers: this.headers});
     }
@@ -34,9 +34,20 @@ export class AppHttpService {
         return this.httpClient.delete(url, {headers: this.headers});
     }
 
-    uploadFiles(data: FormData, params = new HttpParams()) {
-        const url = environment.API_URL_APP + 'files';
-        return this.httpClient.post(url, data, {params});
+    updateFile(file: File, params = new HttpParams()) {
+        const url = environment.API_URL_APP + 'file/update/' + file.id;
+        return this.httpClient.put(url, file, {params});
+    }
+
+
+    downloadFiles(params = new HttpParams()) {
+        const url = environment.API_URL_APP + 'file/download';
+        return this.httpClient.get(url, {params, responseType: 'blob' as 'json'});
+    }
+
+    deleteFiles(ids, params = new HttpParams()) {
+        const url = environment.API_URL_APP + 'file/delete';
+        return this.httpClient.put(url, {ids}, {params});
     }
 
     uploadImages(data: FormData, params = new HttpParams()) {
