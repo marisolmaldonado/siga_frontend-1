@@ -27,8 +27,18 @@ export class JobBoardHttpService {
         return this.httpClient.put(url, data, {params});
     }
 
-    delete(url: string, data, params = new HttpParams()) {
+    delete(url: string, ids, params = new HttpParams()) {
         url = this.API_URL_JOB_BOARD + url;
-        return this.httpClient.put(url, data, {params});
+        return this.httpClient.put(url, {ids}, {params});
+    }
+
+    uploadFiles(url, data: FormData, params = new HttpParams()) {
+        url = this.API_URL_JOB_BOARD + url;
+        return this.httpClient.post(url, data, {params});
+    }
+
+    getFiles(url, params = new HttpParams()) {
+        url = this.API_URL_JOB_BOARD + url;
+        return this.httpClient.get(url, {params});
     }
 }
