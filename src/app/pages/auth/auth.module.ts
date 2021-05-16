@@ -8,11 +8,8 @@ import {AuthRoutes} from './auth.routing';
 // PrimeNG Modules
 import {PasswordModule} from 'primeng/password';
 import {ButtonModule} from 'primeng/button';
-import {MessagesModule} from 'primeng/messages';
 import {InputTextModule} from 'primeng/inputtext';
-import {MessageModule} from 'primeng/message';
 import {DropdownModule} from 'primeng/dropdown';
-import {ConfirmationService, MessageService} from 'primeng/api';
 import {CaptchaModule} from 'primeng/captcha';
 
 // My Components
@@ -31,7 +28,7 @@ import {CheckboxModule} from 'primeng/checkbox';
 import { ChangePasswordComponent } from './login/change-password/change-password.component';
 import { SelectInstitutionRoleComponent } from './login/select-institution-role/select-institution-role.component';
 import {DividerModule} from 'primeng/divider';
-import {RegisterSocialiteUserComponent} from "./register-socialite-user/register-socialite-user.component";
+import {RegisterSocialiteUserComponent} from './register-socialite-user/register-socialite-user.component';
 
 @NgModule({
     imports: [
@@ -42,8 +39,6 @@ import {RegisterSocialiteUserComponent} from "./register-socialite-user/register
         InputTextModule,
         PasswordModule,
         ButtonModule,
-        MessagesModule,
-        MessageModule,
         DropdownModule,
         TooltipModule,
         AutoCompleteModule,
@@ -65,7 +60,7 @@ import {RegisterSocialiteUserComponent} from "./register-socialite-user/register
         SelectInstitutionRoleComponent,
         RegisterSocialiteUserComponent
     ],
-    providers: [ConfirmationService, MessageService]
+    providers: []
 })
 export class AuthModule {
 }

@@ -9,7 +9,7 @@ import {Institution} from '../../../models/app/institution';
 import swal from 'sweetalert2';
 import {environment} from '../../../../environments/environment';
 import {MessageService} from '../../../services/app/message.service';
-import {AuthHttpService} from '../../../services/auth/authHttp.service';
+import {AuthHttpService} from '../../../services/auth/auth-http.service';
 
 @Component({
     selector: 'app-login',

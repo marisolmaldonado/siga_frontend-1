@@ -28,7 +28,7 @@ export class InterceptorService implements HttpInterceptor {
             params = params.append('system',
                 (JSON.parse(localStorage.getItem('system')) as System).id.toString());
         }
-        if (localStorage.getItem('token')) {
+        if (this.authService.getToken()) {
             headers = headers.append(
                 'Authorization', 'Bearer ' + (JSON.parse(localStorage.getItem('token')) as Token).access_token);
             if (!req.params.has('page')) {
@@ -49,12 +49,8 @@ export class InterceptorService implements HttpInterceptor {
         }
 
         return next.handle(req.clone({headers, params})).pipe(catchError(error => {
-            if ((error.status === 401 || error.status === 423) && localStorage.getItem('token')) {
-                this.authService.removeLogin();
-                this.router.navigate(['/auth/access-denied']);
-            }
-
-            if (error.status === 403 && localStorage.getItem('token')) {
+            if ((error.status === 401 || error.status === 423 || error.status === 403)
+                && this.authService.getToken()) {
                 this.authService.removeLogin();
                 this.router.navigate(['/auth/access-denied']);
             }
@@ -68,6 +64,7 @@ export class InterceptorService implements HttpInterceptor {
                 this.authService.removeLogin();
                 this.router.navigate(['/auth/under-maintenance']);
             }
+
             return throwError(error);
         }));
     }

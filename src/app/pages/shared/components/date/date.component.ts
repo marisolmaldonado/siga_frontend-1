@@ -60,7 +60,7 @@ export class DateComponent implements OnInit, ControlValueAccessor {
 
     generateYears() {
         this.years = [];
-        const currentYear = parseInt(moment().format('YYYY'));
+        const currentYear = parseInt(moment().format('YYYY'), 10);
         for (let i = currentYear; i >= (currentYear - 100); i--) {
             this.years.push({label: i.toString(), value: i.toString()});
         }
@@ -110,12 +110,11 @@ export class DateComponent implements OnInit, ControlValueAccessor {
     }
 
     validateLeapYear(year: string) {
-        console.log(year);
         if (year === '' || year === null) {
             return false;
         }
-        const yearInt = parseInt(year);
-        return ((yearInt % 4 == 0) && (yearInt % 100 != 0)) || (yearInt % 400 == 0);
+        const yearInt = parseInt(year, 10);
+        return ((yearInt % 4 === 0) && (yearInt % 100 !== 0)) || (yearInt % 400 === 0);
     }
 
     registerOnChange(fn: any): void {

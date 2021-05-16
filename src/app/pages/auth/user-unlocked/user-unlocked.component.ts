@@ -3,7 +3,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {environment} from '../../../../environments/environment';
-import {AuthHttpService} from '../../../services/auth/authHttp.service';
+import {AuthHttpService} from '../../../services/auth/auth-http.service';
 import {MessageService} from '../../../services/app/message.service';
 
 @Component({

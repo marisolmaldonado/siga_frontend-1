@@ -6,15 +6,13 @@ import {DashboardRoutes} from './dashboard.routing';
 
 // PrimeNG Modules
 import {ButtonModule} from 'primeng/button';
-import {MessagesModule} from 'primeng/messages';
 import {InputTextModule} from 'primeng/inputtext';
-import {MessageModule} from 'primeng/message';
-import {MessageService} from 'primeng/api';
 
 // My Components
 import {DashboardComponent} from './dashboard.component';
 import {TooltipModule} from 'primeng/tooltip';
 import {DialogModule} from 'primeng/dialog';
+import {MessagesModule} from 'primeng/messages';
 
 @NgModule({
     imports: [
@@ -24,13 +22,12 @@ import {DialogModule} from 'primeng/dialog';
         ReactiveFormsModule,
         InputTextModule,
         ButtonModule,
-        MessagesModule,
-        MessageModule,
         TooltipModule,
         DialogModule,
+        MessagesModule,
     ],
     declarations: [DashboardComponent],
-    providers: [MessageService]
+    providers: []
 })
 export class DashboardModule {
 }

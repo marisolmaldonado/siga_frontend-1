@@ -27,7 +27,7 @@ export class UserValidators {
     static identification() {
         return {
             minlength: 9, maxlength: 13
-        }
+        };
     }
 
     static firstName() {

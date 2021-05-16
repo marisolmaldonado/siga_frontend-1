@@ -3,14 +3,13 @@ import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {Role} from '../../models/auth/role';
 import {Permission} from '../../models/auth/permission';
 import {environment} from '../../../environments/environment';
-import {ROLES} from '../../../environments/catalogues';
 import {AuthService} from '../../services/auth/auth.service';
 import {User} from '../../models/auth/user';
 import {Institution} from '../../models/app/institution';
 import {Message} from 'primeng/api';
 import {NgxSpinnerService} from 'ngx-spinner';
 import * as moment from 'moment';
-import {AuthHttpService} from "../../services/auth/authHttp.service";
+import {AuthHttpService} from '../../services/auth/auth-http.service';
 
 @Component({
     selector: 'app-dashboard',

@@ -4,14 +4,16 @@
 
 export const URL_API = 'http://siga_backend.test/v1/';
 export const URL = 'http://siga_backend.test/';
+export const WEB = 'http://localhost:8000/';
 
 export const environment = {
     production: false,
     STORAGE_URL: 'http://siga_backend.test/storage/',
+    WEB,
     API_URL_AUTHENTICATION: URL_API + 'authentication/',
     API_URL_APP: URL_API + 'app/',
     API_URL_ATTENDANCE: URL_API + 'attendance/',
-    API_URL_JOB_BOARD: URL_API + 'job_board/',
+    API_URL_JOB_BOARD: URL_API + 'job-board/',
     API_URL_WEB: URL_API + 'web/',
     API_URL_TEACHER_EVAL: URL_API + 'teacher_eval/',
     API_URL_COMMUNITY: URL_API + 'community/',

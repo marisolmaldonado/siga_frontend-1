@@ -1,5 +1,6 @@
-import {Catalogue, Institution, Image} from '../app/models.index';
-import {Role} from './models.index';
+import {Catalogue, Institution, Image, Status} from '../app/models.index';
+import {Role} from './role';
+import {Professional} from '../job-board/professional';
 
 export interface User {
     id?: number;
@@ -21,7 +22,7 @@ export interface User {
     identification_type?: Catalogue;
     sex?: Catalogue;
     gender?: Catalogue;
-    state?: Catalogue;
+    status?: Status;
     birthdate?: Date;
     phone?: string;
     email?: string;
@@ -31,4 +32,5 @@ export interface User {
     roles?: Role[];
     role?: Role;
     institutions?: Institution[];
+    professiona?: Professional;
 }
