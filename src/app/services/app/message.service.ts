@@ -8,6 +8,22 @@ import Swal from 'sweetalert2';
 export class MessageService {
 
     error(error) {
+        if (error.status === 400) {
+            if (error.error.msg.code === '23505') {
+                return Swal.fire({
+                    title: 'El registro ya existe',
+                    text: error.error.data,
+                    icon: 'error'
+                });
+            }
+        }
+        if (error.status === 404) {
+            return Swal.fire({
+                title: error.error.msg.summary,
+                text: error.error.msg.detail,
+                icon: 'info'
+            });
+        }
         if (error.status === 422) {
             let i;
             const fields = Object.values(error.error.msg.detail).toString().split('.,');
@@ -24,15 +40,6 @@ export class MessageService {
             });
         }
 
-        if (error.status === 400) {
-            if (error.error.msg.code === '23505') {
-                return Swal.fire({
-                    title: 'El registro ya existe',
-                    text: error.error.data,
-                    icon: 'error'
-                });
-            }
-        }
         return Swal.fire({
             title: error.error.msg.summary,
             text: error.error.msg.detail,
@@ -45,6 +52,18 @@ export class MessageService {
             title: response.msg.summary,
             text: response.msg.detail,
             icon: 'info'
+        }).then(response);
+    }
+
+    questionDelete({title = '¿Está seguro de eliminar?', text = 'No podrá recuperar esta información!'}) {
+        return Swal.fire({
+            title,
+            text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: '<i class="pi pi-trash"> Si, eliminar</i>'
         });
     }
 }

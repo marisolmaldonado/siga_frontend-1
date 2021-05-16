@@ -13,14 +13,14 @@ export const environment = {
     API_URL_AUTHENTICATION: URL_API + 'authentication/',
     API_URL_APP: URL_API + 'app/',
     API_URL_ATTENDANCE: URL_API + 'attendance/',
-    API_URL_JOB_BOARD: URL_API + 'job_board/',
+    API_URL_JOB_BOARD: URL_API + 'job-board/',
     API_URL_WEB: URL_API + 'web/',
     API_URL_TEACHER_EVAL: URL_API + 'teacher_eval/',
     API_URL_COMMUNITY: URL_API + 'community/',
 
     SYSTEM_ID: 1,
     CLIENT_ID: '1',
-    CLIENT_SECRET: 'IbWcACczVy631Yttdy2fHD5h9xdrd3IALJiSjEBH',
+    CLIENT_SECRET: '1VDX2r6QNwT5WecVFBIKJF1ArNRV8C0A9ZvNfWjF',
     GRANT_TYPE: 'password',
 
     SITE_KEY: '6LcY8xAaAAAAAOTR95-UJ_zAeP9OWYPhlWg4_iFC',
