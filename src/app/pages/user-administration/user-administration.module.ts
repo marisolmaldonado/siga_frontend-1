@@ -37,6 +37,7 @@ import {SharedModule} from '../shared/shared.module';
 import {CardModule} from 'primeng/card';
 import {EditorModule} from 'primeng/editor';
 import {DividerModule} from 'primeng/divider';
+import {UserAdministrationComponent} from './user-administration.component';
 
 
 @NgModule({
@@ -76,7 +77,9 @@ import {DividerModule} from 'primeng/divider';
         SkeletonModule,
         DividerModule,
     ],
-    declarations: [],
+    declarations: [
+        UserAdministrationComponent
+    ],
     providers: []
 })
 export class UserAdministrationModule {
