@@ -65,7 +65,7 @@ export class OfferComponent implements OnInit {
         end_date: [null, Validators.required],
         activities: [null, Validators.required],
         requirements: [null, Validators.required],
-        // company: [null, Validators.required],
+        //company: [null, Validators.required],
     });
 }
 
