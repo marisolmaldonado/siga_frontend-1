@@ -20,11 +20,10 @@ export const environment = {
 
     SYSTEM_ID: 1,
     CLIENT_ID: '1',
-<<<<<<< HEAD
+
     CLIENT_SECRET: 'Rc8aISE2aolIOLCXfRPY9hk1MQHfmAVbveuAcDml',
-=======
-    CLIENT_SECRET: 'kzhVHMVhgjAARiNcPcjBXReqJ1eRd3idKRHisUCa',
->>>>>>> mod_6_jobboard
+
+ 
     GRANT_TYPE: 'password',
 
     SITE_KEY: '6LcY8xAaAAAAAOTR95-UJ_zAeP9OWYPhlWg4_iFC',
