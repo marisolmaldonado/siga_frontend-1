@@ -1,0 +1,29 @@
+
+<div class="card">
+    <p-tabView>
+        <p-tabPanel header="Usuarios" leftIcon="pi pi-users">
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <app-skill-list
+                            [usersIn]="users"
+                            [flagUsers]="flagUsers"
+                            [paginatorIn]="paginator"
+                            [formUserIn]="formUser"
+                            (usersOut)="users=$event"
+                            (displayOut)="UserDialog=$event"
+                            (formUserOut)="formUser=$event"
+                            (paginatorOut)="getUsers($event)">
+                    </app-skill-list>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Asignar Roles" leftIcon="pi pi-shield">
+            roles
+        </p-tabPanel>
+        <p-tabPanel header="Permisos y Roles" leftIcon="pi pi-lock">
+            permisos y roles
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+

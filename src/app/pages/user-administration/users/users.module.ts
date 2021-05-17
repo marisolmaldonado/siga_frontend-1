@@ -3,16 +3,13 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {UserAdministrationRouting} from './user-administration.routing';
+import {UsersRouting} from './users.routing';
 
 // PrimeNG Modules
 import {PasswordModule} from 'primeng/password';
 import {ButtonModule} from 'primeng/button';
-import {MessagesModule} from 'primeng/messages';
 import {InputTextModule} from 'primeng/inputtext';
-import {MessageModule} from 'primeng/message';
 import {DropdownModule} from 'primeng/dropdown';
-import {ConfirmationService, MessageService} from 'primeng/api';
 import {SkeletonModule} from 'primeng/skeleton';
 
 // My Components
@@ -33,24 +30,21 @@ import {TabViewModule} from 'primeng/tabview';
 import {TreeModule} from 'primeng/tree';
 import {AccordionModule} from 'primeng/accordion';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
-import {SharedModule} from '../shared/shared.module';
 import {CardModule} from 'primeng/card';
-import {EditorModule} from 'primeng/editor';
-import {DividerModule} from 'primeng/divider';
-import {UserAdministrationComponent} from './user-administration.component';
-
+import {SharedModule} from '../../shared/shared.module';
+import {RippleModule} from 'primeng/ripple';
+import {UsersComponent} from './users.component';
+import {SkillListComponent} from "./skill-list/skill-list.component";
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(UserAdministrationRouting),
+        RouterModule.forChild(UsersRouting),
         FormsModule,
         ReactiveFormsModule,
         InputTextModule,
         PasswordModule,
         ButtonModule,
-        MessagesModule,
-        MessageModule,
         DropdownModule,
         TooltipModule,
         AutoCompleteModule,
@@ -73,14 +67,14 @@ import {UserAdministrationComponent} from './user-administration.component';
         OverlayPanelModule,
         SharedModule,
         CardModule,
-        EditorModule,
         SkeletonModule,
-        DividerModule,
+        RippleModule,
     ],
     declarations: [
-        UserAdministrationComponent
+        UsersComponent,
+        SkillListComponent
     ],
     providers: []
 })
-export class UserAdministrationModule {
+export class UsersModule {
 }

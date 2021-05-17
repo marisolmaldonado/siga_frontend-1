@@ -11,6 +11,7 @@ export interface Paginator {
     prev_page_url?: string;
     to?: number;
     total?: number;
+    system?:number;
 }
 
 export interface Link {
