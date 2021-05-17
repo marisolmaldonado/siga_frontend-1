@@ -120,13 +120,13 @@ export class WebOfferComponent implements OnInit {
             .append('per_page', paginator.per_page);
 
         this.spinnerService.show();
-        this.jobBoardHttpService.store('opportunities/', searchParams, params).subscribe(
+        this.jobBoardHttpService.store('opportunities/index', searchParams, params).subscribe(
             response => {
                 this.spinnerService.hide();
                 console.log(response);
-                this.offers = response['data'];
+                this.offers = response['data'].data;
                 this.paginator = response as any;
-                console.log(this.offers);
+                console.log(`ofertas ==>${JSON.stringify(this.offers)}`);
                 console.log(this.paginator);
             }, error => {
                 this.spinnerService.hide();

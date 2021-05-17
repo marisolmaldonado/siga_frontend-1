@@ -11,6 +11,7 @@ import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {DropdownModule} from 'primeng/dropdown';
 import {SkeletonModule} from 'primeng/skeleton';
+import {DataViewModule} from 'primeng/dataview';
 
 // My Components
 import {TooltipModule} from 'primeng/tooltip';
@@ -69,6 +70,7 @@ import {WebOfferComponent} from './web-offer/web-offer.component';
         CardModule,
         SkeletonModule,
         RippleModule,
+        DataViewModule
     ],
     declarations: [
         LandingPageComponent,
