@@ -17,7 +17,6 @@ export const environment = {
     API_URL_WEB: URL_API + 'web/',
     API_URL_TEACHER_EVAL: URL_API + 'teacher_eval/',
     API_URL_COMMUNITY: URL_API + 'community/',
-
     SYSTEM_ID: 1,
     CLIENT_ID: '1',
     CLIENT_SECRET: 'kzhVHMVhgjAARiNcPcjBXReqJ1eRd3idKRHisUCa',
