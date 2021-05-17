@@ -1,4 +1,5 @@
-
+<p>user-list works!</p>
+<button pButton label="enviar" (click)="sendUsers()"></button>
 <div class="card">
     <p-tabView>
         <p-tabPanel header="Usuarios" leftIcon="pi pi-users">
@@ -10,20 +11,15 @@
                         <th>Identificacion</th>
                     </tr>
                 </ng-template>
-                <ng-template *ngFor="let user of usersw">
+                <ng-template *ngFor="let user of usersIn">
                     <tr>
                         <td>{{user.id}}</td>
                         <td>{{user.full_name}}</td>
                         <td>{{user.identification}}</td>
+
                     </tr>
                 </ng-template>
             </p-table>
-        </p-tabPanel>
-        <p-tabPanel header="Asignar Roles" leftIcon="pi pi-shield">
-            roles
-        </p-tabPanel>
-        <p-tabPanel header="Permisos y Roles" leftIcon="pi pi-lock">
-            permisos y roles
         </p-tabPanel>
     </p-tabView>
 </div>
