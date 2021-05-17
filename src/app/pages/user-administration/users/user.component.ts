@@ -57,13 +57,14 @@ export class UserComponent implements OnInit {
                 this.flagUsers = false;
                 this.users = response['data'];
                 this.paginator = response as Paginator;
-                console.log(this.users);
+                //console.log(this.users);
             }, error => {
                 this.spinnerService.hide();
                 this.flagUsers = false;
                 this.messageService.error(error);
             });
     }
+    
     setUsers(users: User[]){
         console.log('users');
     }
