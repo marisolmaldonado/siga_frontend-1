@@ -6,7 +6,7 @@ sassdoc
 
 /idea
 /.idea
-
+/environments/enviroment.ts
 package-lock.json
 
 #/src/assets/layout/css/*/layout-*.css
