@@ -1,0 +1,28 @@
+<ng-template pTemplate="caption">
+    <div class="p-d-flex p-ai-center p-jc-between">
+        <h5 class="p-m-0">Administración de Usuarios</h5>
+        <span class="p-input-icon-right">
+            <p-dropdown #selectedCol [options]="cols" optionLabel="header"
+                        class="p-text-uppercase p-m-2"
+                        (onChange)="selectColSearch(selectedCol.value)"></p-dropdown>
+            <i class="pi pi-search" (click)="search($event,inputSearch.value)"></i>
+        <input #inputSearch pInputText type="text" placeholder="Buscar..."
+               class="p-text-uppercase p-m-2"
+               (keyup.enter)="search($event,inputSearch.value)"
+               (keyup.backspace)="search($event,inputSearch.value)"/>
+    </span>
+    </div>
+</ng-template>
+<div class="card">
+    <p-tabView>
+        <p-tabPanel header="Usuarios" leftIcon="pi pi-users">
+          usuarios
+        </p-tabPanel>
+        <p-tabPanel header="Asignar Roles" leftIcon="pi pi-shield">
+            roles
+        </p-tabPanel>
+        <p-tabPanel header="Permisos y Roles" leftIcon="pi pi-lock">
+            permisos y roles
+        </p-tabPanel>
+    </p-tabView>
+</div>
