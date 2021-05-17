@@ -1,3 +1,19 @@
+<app-skeleton *ngIf="flagSkills"></app-skeleton>
+<p-dialog [(visible)]="dialogUploadFiles" [style]="{width: '75%'}" header="Subir archivos" [modal]="true"
+          styleClass="p-fluid" (onHide)="dialogUploadFiles=false">
+    <app-upload-files (files)="upload($event,selectedSkill.id)"></app-upload-files>
+</p-dialog>
+
+<p-dialog [(visible)]="dialogViewFiles" [style]="{width: '75%'}" header="Subir Archivos" [modal]="true"
+          styleClass="p-fluid" (onHide)="dialogViewFiles=false;resetPaginator()">
+    <app-view-files
+            (files)="upload($event,selectedSkill.id)"
+            [filesIn]="files"
+            (searchOut)="searchFiles($event)"
+            [paginatorIn]="paginatorFiles"
+            (paginatorOut)="getFiles($event)"></app-view-files>
+</p-dialog>
+
 <div class="card">
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
@@ -21,7 +37,6 @@
                  (onPageChange)="pageChange($event)"></p-paginator>
     <p-table #dt
              [value]="skillsIn"
-             [columns]="colsSkill"
              [rows]="paginatorIn.per_page"
              [paginator]="false"
              [(selection)]="selectedSkills"
@@ -65,19 +80,21 @@
                     {{skill.type.name}}
                 </td>
                 <td>
-                    {{skill.id}} {{skill.description}}
+                    {{skill.description}}
                 </td>
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning p-mr-2"
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
                             (click)="openEditFormSkill(skill)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
-                            (click)="deleteSkill(skill)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-ml-2"
+                            (click)="deleteSkills(skill)"></button>
+                    <button pButton pRipple icon="pi pi-paperclip" class="p-button-rounded p-ml-2"
+                            (click)="selectSkill(skill);openViewFilesSkill()"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="p-d-flex p-ai-center p-jc-between">
-                En total hay {{skillsIn ? skillsIn.length : 0 }} habilidades.
+                En total hay {{paginatorIn ? paginatorIn.total : 0 }} habilidades.
             </div>
         </ng-template>
     </p-table>
