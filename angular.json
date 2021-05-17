@@ -1,11 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-<<<<<<< HEAD
     "analytics": "561aacf9-941b-46c6-9a0d-314d6d4e0623"
-=======
-    "analytics": false
->>>>>>> origin/u_6_bastidas-noemi
   },
   "version": 1,
   "newProjectRoot": "projects",
