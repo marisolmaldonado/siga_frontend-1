@@ -34,7 +34,6 @@ export class OfferListComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    // Search offers in backend
     searchOffers(event, search) {
         if (event.type === 'click' || event.keyCode === 13 || search.length === 0) {
             const params = search.length > 0 ? new HttpParams().append('search', search) : null;
@@ -84,11 +83,13 @@ export class OfferListComponent implements OnInit {
             });
     }
 
+    // no se utiliza
     removeOffer(offer: Offer) {
         this.offersIn = this.offersIn.filter(element => element !== offer);
         this.offersOut.emit(this.offersIn);
     }
 
+    // no se utiliza
     deleteOffers() {
         this.messageService.questionDelete({})
             .then((result) => {
@@ -109,6 +110,7 @@ export class OfferListComponent implements OnInit {
 
     }
 
+    // no se utiliza
     removeOffers(ids) {
         for (const id of ids) {
             this.offersIn = this.offersIn.filter(element => element.id !== id);

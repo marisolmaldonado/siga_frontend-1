@@ -40,7 +40,6 @@ export class OfferComponent implements OnInit {
     this.buildFormSkill();
   }
 
-  // Build form skill
   buildFormSkill() {
     this.formOffer = this.formBuilder.group({
       // VERIFICAR CAMPOS Y SI TODOS SON REQUERIDOS Y CON EL MINIMO
@@ -70,7 +69,6 @@ export class OfferComponent implements OnInit {
     });
 }
 
-  // offers of backend
   getOffers(paginator: Paginator) {
     const params = new HttpParams()
     //compania id de donde saaco?
