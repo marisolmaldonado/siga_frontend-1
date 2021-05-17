@@ -1,14 +1,14 @@
 // Angular Router
 import {Routes} from '@angular/router';
 import {AuthGuard} from '../../../shared/guards/auth.guard';
-import {UserListComponent} from './user-list.component';
+import {UsersComponent} from './users.component';
 
 // My Components
 
-export const UserListRouting: Routes = [
+export const UsersRouting: Routes = [
     {
         path: '',
-        component: UserListComponent,
+        component: UsersComponent,
         canActivate: [AuthGuard]
     }
 ];

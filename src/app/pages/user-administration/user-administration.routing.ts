@@ -8,8 +8,8 @@ export const UserAdministrationRouting: Routes = [
         path: '',
         children: [
             {
-                path: 'user-list',
-                loadChildren: () => import('./users-list/user-list.module').then(m => m.UserListModule),
+                path: 'users',
+                loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
                 canActivate: [AuthGuard]
             },
 

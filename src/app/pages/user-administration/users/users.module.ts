@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {UserListRouting} from './user-list.routing';
+import {UsersRouting} from './users.routing';
 
 // PrimeNG Modules
 import {PasswordModule} from 'primeng/password';
@@ -33,12 +33,13 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {CardModule} from 'primeng/card';
 import {SharedModule} from '../../shared/shared.module';
 import {RippleModule} from 'primeng/ripple';
-import {UserListComponent} from './user-list.component';
+import {UsersComponent} from './users.component';
+import {SkillListComponent} from "./skill-list/skill-list.component";
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(UserListRouting),
+        RouterModule.forChild(UsersRouting),
         FormsModule,
         ReactiveFormsModule,
         InputTextModule,
@@ -70,9 +71,10 @@ import {UserListComponent} from './user-list.component';
         RippleModule,
     ],
     declarations: [
-        UserListComponent
+        UsersComponent,
+        SkillListComponent
     ],
     providers: []
 })
-export class UserListModule {
+export class UsersModule {
 }
