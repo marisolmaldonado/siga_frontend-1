@@ -34,6 +34,7 @@ import {CardModule} from 'primeng/card';
 import {SharedModule} from '../../shared/shared.module';
 import {RippleModule} from 'primeng/ripple';
 import {LandingPageComponent} from './landing-page.component';
+import {WebOfferComponent} from './web-offer/web-offer.component';
 
 @NgModule({
     imports: [
@@ -71,6 +72,7 @@ import {LandingPageComponent} from './landing-page.component';
     ],
     declarations: [
         LandingPageComponent,
+        WebOfferComponent
     ],
     providers: []
 })
