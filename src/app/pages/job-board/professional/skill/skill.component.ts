@@ -58,15 +58,15 @@ export class SkillComponent implements OnInit {
             .append('per_page', paginator.per_page);
 
         this.flagSkills = true;
-        this.spinnerService.show();
+        // this.spinnerService.show();
         this.jobBoardHttpService.get('skills', params).subscribe(
             response => {
-                this.spinnerService.hide();
+                // this.spinnerService.hide();
                 this.flagSkills = false;
                 this.skills = response['data'];
                 this.paginator = response as Paginator;
             }, error => {
-                this.spinnerService.hide();
+                // this.spinnerService.hide();
                 this.flagSkills = false;
                 this.messageService.error(error);
             });
