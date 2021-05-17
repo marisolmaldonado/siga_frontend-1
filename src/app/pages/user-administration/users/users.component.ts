@@ -33,7 +33,7 @@ export class UsersComponent implements OnInit {
           {label: 'Dashboard', routerLink: ['/dashboard']},
           {label: 'user administration'}
       ]);
-      this.paginator = {current_page: 1, per_page: 5, system: 1};
+      this.paginator = {current_page: 1, per_page: 5};
       this.users = [];
     }
 
@@ -45,8 +45,7 @@ export class UsersComponent implements OnInit {
    getUsers(paginator: Paginator) {
     const params = new HttpParams()
         .append('page', paginator.current_page.toString())
-        .append('per_page', paginator.per_page.toString())
-        .append('system', paginator.system.toString());
+        .append('per_page', paginator.per_page.toString());
 
     this.flagUsers = true;
     this.spinnerService.show();
@@ -56,7 +55,7 @@ export class UsersComponent implements OnInit {
             this.flagUsers = false;
             this.users = response['data'];
             this.paginator = response as Paginator;
-            this.paginator.per_page = Number(this.paginator.per_page);
+            console.log(this.users);
         }, error => {
             this.spinnerService.hide();
             this.flagUsers = false;

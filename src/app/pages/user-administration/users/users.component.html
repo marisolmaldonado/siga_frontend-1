@@ -2,20 +2,22 @@
 <div class="card">
     <p-tabView>
         <p-tabPanel header="Usuarios" leftIcon="pi pi-users">
-            <div class="p-grid">
-                <div class="p-col-12">
-                    <app-skill-list
-                            [usersIn]="users"
-                            [flagUsers]="flagUsers"
-                            [paginatorIn]="paginator"
-                            [formUserIn]="formUser"
-                            (usersOut)="users=$event"
-                            (displayOut)="UserDialog=$event"
-                            (formUserOut)="formUser=$event"
-                            (paginatorOut)="getUsers($event)">
-                    </app-skill-list>
-                </div>
-            </div>
+            <p-table>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>id</th>
+                        <th>Nombres y Apellidos</th>
+                        <th>Identificacion</th>
+                    </tr>
+                </ng-template>
+                <ng-template *ngFor="let user of usersw">
+                    <tr>
+                        <td>{{user.id}}</td>
+                        <td>{{user.full_name}}</td>
+                        <td>{{user.identification}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </p-tabPanel>
         <p-tabPanel header="Asignar Roles" leftIcon="pi pi-shield">
             roles

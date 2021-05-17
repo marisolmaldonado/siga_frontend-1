@@ -64,6 +64,7 @@ import {PasswordModule} from 'primeng/password';
         AppMenuitemComponent,
         AppRightPanelComponent,
         AppTopBarComponent,
+        
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true},

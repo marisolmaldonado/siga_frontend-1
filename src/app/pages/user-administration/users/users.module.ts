@@ -34,7 +34,6 @@ import {CardModule} from 'primeng/card';
 import {SharedModule} from '../../shared/shared.module';
 import {RippleModule} from 'primeng/ripple';
 import {UsersComponent} from './users.component';
-import {SkillListComponent} from "./skill-list/skill-list.component";
 
 @NgModule({
     imports: [
@@ -71,8 +70,7 @@ import {SkillListComponent} from "./skill-list/skill-list.component";
         RippleModule,
     ],
     declarations: [
-        UsersComponent,
-        SkillListComponent
+        UsersComponent
     ],
     providers: []
 })
