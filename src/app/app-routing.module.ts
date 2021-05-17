@@ -17,7 +17,8 @@ import {AuthGuard} from './shared/guards/auth.guard';
                     {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
                     {
                         path: 'dashboard',
-                        loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
+                        loadChildren: () => import('./pages/dashboard/dashboard.module')
+                            .then(m => m.DashboardModule),
                         canActivate: [AuthGuard]
                     },
                     {
@@ -27,7 +28,8 @@ import {AuthGuard} from './shared/guards/auth.guard';
                     },
                     {
                         path: 'user-administration',
-                        loadChildren: () => import('./pages/user-administration/user-administration.module').then(m => m.UserAdministrationModule),
+                        loadChildren: () => import('./pages/user-administration/user-administration.module')
+                            .then(m => m.UserAdministrationModule),
                         canActivate: [AuthGuard]
                     }
                 ]

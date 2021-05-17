@@ -38,6 +38,9 @@ import {CardModule} from 'primeng/card';
 import {EditorModule} from 'primeng/editor';
 import {DividerModule} from 'primeng/divider';
 import {UserAdministrationComponent} from './user-administration.component';
+import {UserComponent} from './users/user.component';
+import { UserListComponent } from './users/user-list/user-list.component';
+import { UserFormComponent } from './users/user-form/user-form.component';
 
 
 @NgModule({
@@ -78,7 +81,10 @@ import {UserAdministrationComponent} from './user-administration.component';
         DividerModule,
     ],
     declarations: [
-        UserAdministrationComponent
+        UserAdministrationComponent,
+        UserComponent,
+        UserListComponent,
+        UserFormComponent
     ],
     providers: []
 })
