@@ -1,27 +1,19 @@
 <p>user-list works!</p>
 <button pButton label="enviar" (click)="sendUsers()"></button>
-<div class="card">
-    <p-tabView>
-        <p-tabPanel header="Usuarios" leftIcon="pi pi-users">
-            <p-table>
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>id</th>
-                        <th>Nombres y Apellidos</th>
-                        <th>Identificacion</th>
-                    </tr>
-                </ng-template>
-                <ng-template *ngFor="let user of usersIn">
-                    <tr>
-                        <td>{{user.id}}</td>
-                        <td>{{user.full_name}}</td>
-                        <td>{{user.identification}}</td>
+<p-table>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>id</th>
+            <th>Nombres y Apellidos</th>
+            <th>Identificacion</th>
+        </tr>
+    </ng-template>
+    <ng-template *ngFor="let user of usersIn">
+        <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.full_name}}</td>
+            <td>{{user.identification}}</td>
 
-                    </tr>
-                </ng-template>
-            </p-table>
-        </p-tabPanel>
-    </p-tabView>
-</div>
-
-
+        </tr>
+    </ng-template>
+</p-table>

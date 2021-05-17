@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User} from '../../../../models/auth/user';
-import {Paginator} from "../../../../models/setting/paginator";
+import {Paginator} from '../../../../models/setting/paginator';
 
 @Component({
   selector: 'app-user-list',
@@ -10,8 +10,8 @@ import {Paginator} from "../../../../models/setting/paginator";
 export class UserListComponent implements OnInit {
   @Input() usersIn: User[];
   @Input() paginatorIn: Paginator;
-  @Output () usersOut: EventEmitter<User[]> = new EventEmitter();
-  @Output () paginator: EventEmitter<Paginator> = new EventEmitter();
+  @Output () usersOut = new EventEmitter<User[]>();
+  @Output () paginator = new EventEmitter<Paginator>();
 
   constructor() { }
 
