@@ -1,19 +1,96 @@
-<p>user-list works!</p>
-<button pButton label="enviar" (click)="sendUsers()"></button>
-<p-table>
-    <ng-template pTemplate="header">
-        <tr>
-            <th>id</th>
-            <th>Nombres y Apellidos</th>
-            <th>Identificacion</th>
-        </tr>
-    </ng-template>
-    <ng-template *ngFor="let user of usersIn">
-        <tr>
-            <td>{{user.id}}</td>
-            <td>{{user.full_name}}</td>
-            <td>{{user.identification}}</td>
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
+                    (click)="openNewFormSkill()"></button>
+            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-mr-2 p-mb-2"
+                    (click)="deleteSkills()"
+                    [disabled]="!selectedSkills || !selectedSkills.length"></button>
+            <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info p-mb-2"
+                    (click)="paginatorOut.emit(paginatorIn)"></button>
+        </ng-template>
 
-        </tr>
-    </ng-template>
-</p-table>
+        <ng-template pTemplate="right">
+            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
+                          chooseLabel="Import" class="p-mr-2 p-mb-2 p-d-inline-block"></p-fileUpload>
+            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help p-mb-2"
+                    (click)="dt.exportCSV()"></button>
+        </ng-template>
+    </p-toolbar>
+    <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total"
+                 (onPageChange)="pageChange($event)"></p-paginator>
+    <p-table #dt
+             [value]="usersIn"
+             [rows]="paginatorIn.per_page"
+             [paginator]="false"
+             [(selection)]="selectedSkills"
+             [rowHover]="true"
+             dataKey="id"
+             styleClass="p-datatable-customers"
+             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+             [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+                <h5 class="p-m-0">Usuarios</h5>
+                <span class="p-input-icon-left">
+                        <i class="pi pi-search" (click)="searchSkills($event,search.value)"></i>
+                        <input #search pInputText type="text" (keyup)="searchSkills($event,$event.target.value)"
+                               placeholder="Buscar..."/>
+                    </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="full_name">
+                    Nombres y Apellidos
+                    <p-sortIcon field="full_name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="identification">
+                    Identificación
+                    <p-sortIcon field="identification"></p-sortIcon>
+                </th>
+                <th pSortableColumn="identification">
+                    Username
+                    <p-sortIcon field="identification"></p-sortIcon>
+                </th>
+                <th pSortableColumn="options">
+                    <i class="pi pi-cog"></i>
+                    &nbsp;Opciones
+                    
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                </td>
+                <td>
+                    {{user.partial_lastname}}
+                </td>
+                <td>
+                    {{user.identification}}
+                </td>
+                <td>
+                    {{user.username}}
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
+                            (click)="openEditFormSkill(skill)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-ml-2"
+                            (click)="deleteSkills(skill)"></button>
+                    <button pButton pRipple icon="pi pi-paperclip" class="p-button-rounded p-ml-2"
+                            (click)="selectSkill(skill);openViewFilesSkill()"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                En total hay {{paginatorIn ? paginatorIn.total : 0 }} habilidades.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
