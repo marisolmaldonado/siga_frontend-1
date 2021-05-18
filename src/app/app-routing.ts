@@ -28,6 +28,11 @@ import {AuthGuard} from './shared/guards/auth.guard';
                 ]
             },
             {
+                path: 'job-board-web',
+                component: AppBlankComponent,
+                loadChildren: () => import('./pages/job-board/job-board.module').then(m => m.JobBoardModule)
+            },
+            {
                 path: 'auth',
                 component: AppBlankComponent,
                 loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
