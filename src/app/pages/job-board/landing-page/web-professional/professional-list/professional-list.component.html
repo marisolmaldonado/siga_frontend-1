@@ -1,10 +1,15 @@
-<p-paginator></p-paginator>
-<p-card>
-    <ng-template pTemplate="title">
-        Título del Profesional
-    </ng-template>
-    Acerca de...
-    <ng-template pTemplate="footer">
-        Más información
-    </ng-template>
-</p-card>
+<p-paginator [rows]="9" [totalRecords]="11"></p-paginator>
+<div class="p-grid">
+    <div class="p-col-4" *ngFor="let professional of professionals">
+        <p-card>
+            <ng-template pTemplate="title" *ngFor="let academicFormation of professional.academic_formations">
+                {{academicFormation.professional_degree.name}}
+            </ng-template>
+            {{professional.about_me}}
+            <ng-template pTemplate="footer">
+                Más información
+            </ng-template>
+        </p-card>
+    </div>
+</div>
+

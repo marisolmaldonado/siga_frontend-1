@@ -30,7 +30,7 @@ export class TotalComponent implements OnInit {
 
   getTotal(): void {
     this.spinnerService.show();
-    this.jobBoardHttpService.get('total').subscribe(
+    this.jobBoardHttpService.get('web-professional/total').subscribe(
       response => {
         this.spinnerService.hide();
         this.totalCompanies = response['data']['totalCompanies'];

@@ -20,7 +20,7 @@ export class ProfessionalListComponent implements OnInit {
     private jobBoardHttpService: JobBoardHttpService,
     private spinnerService: NgxSpinnerService,
     private messageService: MessageService) {
-      this.paginator = {current_page: '1', per_page: '2'};
+      this.paginator = {current_page: '1', per_page: '9'};
       this.professionals = [];
     }
 
@@ -34,7 +34,7 @@ export class ProfessionalListComponent implements OnInit {
             .append('per_page', paginator.per_page);
 
     this.spinnerService.show();
-    this.jobBoardHttpService.get('professionals', params).subscribe(
+    this.jobBoardHttpService.store('web-professional/professionals', params).subscribe(
       response => {
         this.spinnerService.hide();
         this.professionals = response['data'];
