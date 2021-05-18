@@ -2,13 +2,19 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+<<<<<<< HEAD
 export const URL_API = 'http://127.0.0.1:8000/v1/';
 export const URL = 'http://127.0.0.1:8000/';
 export const WEB = 'http://127.0.0.1:8000/';
+=======
+export const URL_API = 'http://siga_backend.test/v1/';
+export const URL = 'http://siga_backend.test';
+export const WEB = 'http://127.0.0.1:8000';
+>>>>>>> mod_6_jobboard
 
 export const environment = {
     production: false,
-    STORAGE_URL: 'http://127.0.0.1:8000/storage/',
+    STORAGE_URL: 'http://siga_backend.test/storage/',
     WEB,
     API_URL_AUTHENTICATION: URL_API + 'authentication/',
     API_URL_APP: URL_API + 'app/',
@@ -17,12 +23,15 @@ export const environment = {
     API_URL_WEB: URL_API + 'web/',
     API_URL_TEACHER_EVAL: URL_API + 'teacher_eval/',
     API_URL_COMMUNITY: URL_API + 'community/',
-
     SYSTEM_ID: 1,
     CLIENT_ID: '1',
+<<<<<<< HEAD
     CLIENT_SECRET: 'XbPbobGugteY2axIzD9B1iuNHm3Jug7lC7Mw42lX',
-    GRANT_TYPE: 'password',
+=======
 
+    CLIENT_SECRET: 'j8wVIdl8QrIhe4tfwI5ja9Bw9rjOT2oZMtFQUAxb',
+>>>>>>> mod_6_jobboard
+    GRANT_TYPE: 'password',
     SITE_KEY: '6LcY8xAaAAAAAOTR95-UJ_zAeP9OWYPhlWg4_iFC',
 };
 
