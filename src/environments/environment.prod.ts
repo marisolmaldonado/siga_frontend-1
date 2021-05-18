@@ -1,8 +1,10 @@
 export const URL = 'http://siga.yavirac.edu.ec/public/v1/';
+export const WEB = 'http://localhost:8000/';
 
 export const environment = {
     production: true,
     STORAGE_URL: URL + 'http://siga.yavirac.edu.ec/public/storage/',
+    WEB,
     API_URL_AUTHENTICATION: URL + 'authentication/',
     API_URL_APP: URL + 'app/',
     API_URL_ATTENDANCE: URL + 'attendance/',

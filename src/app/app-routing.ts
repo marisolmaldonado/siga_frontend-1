@@ -1,4 +1,4 @@
-import {RouterModule} from '@angular/router';
+import {PreloadAllModules, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 
 // Application Components
@@ -21,11 +21,6 @@ import {AuthGuard} from './shared/guards/auth.guard';
                         canActivate: [AuthGuard]
                     },
                     {
-                        path: 'user',
-                        loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule),
-                        canActivate: [AuthGuard]
-                    },
-                    {
                         path: 'job-board',
                         loadChildren: () => import('./pages/job-board/job-board.module').then(m => m.JobBoardModule),
                         canActivate: [AuthGuard]
@@ -33,14 +28,23 @@ import {AuthGuard} from './shared/guards/auth.guard';
                 ]
             },
             {
+                path: 'job-board-web',
+                component: AppBlankComponent,
+                loadChildren: () => import('./pages/job-board/job-board.module').then(m => m.JobBoardModule)
+            },
+            {
                 path: 'auth',
                 component: AppBlankComponent,
                 loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
             },
             {path: '**', redirectTo: '/auth/not-found'},
-        ], {scrollPositionRestoration: 'enabled'})
+        ], {
+            enableTracing: true,
+            preloadingStrategy: PreloadAllModules,
+            scrollPositionRestoration: 'enabled'
+        })
     ],
     exports: [RouterModule]
 })
-export class AppRoutingModule {
+export class AppRouting {
 }

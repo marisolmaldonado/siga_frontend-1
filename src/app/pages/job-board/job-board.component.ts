@@ -12,4 +12,5 @@ export class JobBoardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
 }
