@@ -14,7 +14,9 @@ import { MessageService } from '../../../../../services/app/message.service';
 export class CategoryFilterComponent implements OnInit {
 
   categories: Category[];
+  selectedCategories: Category[];
   treeNode: TreeNode[];
+  selectedTreeNodes: TreeNode[];
   
   constructor(
     private jobBoardHttpService: JobBoardHttpService,
@@ -22,6 +24,8 @@ export class CategoryFilterComponent implements OnInit {
     private messageService: MessageService) {
       this.categories = [];
       this.treeNode = [];
+      this.selectedCategories = [];
+      this.selectedTreeNodes = [];
     }
 
   ngOnInit(): void {
@@ -56,6 +60,32 @@ export class CategoryFilterComponent implements OnInit {
     });
 
     return treeNode;
+  }
+
+  nodeSelect(event): void {
+    this.selectedCategories = [];
+    this.selectedTreeNodes.forEach(treeNode => {
+      this.categories.forEach(category => {
+        category.children.find(c => {
+          if (c.name == treeNode.label) {
+            this.selectedCategories.push(c);
+          }
+        });
+      });
+    });
+  }
+
+  nodeUnselect(event): void {
+    this.selectedCategories = [];
+    this.selectedTreeNodes.forEach(treeNode => {
+      this.categories.forEach(category => {
+        category.children.find(c => {
+          if (c.name == treeNode.label) {
+            this.selectedCategories.push(c);
+          }
+        });
+      });
+    });
   }
 
 }

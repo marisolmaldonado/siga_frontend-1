@@ -46,4 +46,9 @@ export class ProfessionalListComponent implements OnInit {
     );
   }
 
+  paginate(event): void {
+    this.paginator.current_page = event.page + 1;
+    this.getProfessionals(this.paginator);
+  }
+
 }
