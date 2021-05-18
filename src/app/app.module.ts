@@ -7,7 +7,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 
 // Application Modules
-import {AppRoutingModule} from './app-routing.module';
+import {AppRouting} from './app-routing';
 import {AppCodeModule} from './shared/components/code/app.code.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
 
@@ -41,7 +41,7 @@ import {PasswordModule} from 'primeng/password';
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
-        AppRoutingModule,
+        AppRouting,
         AppCodeModule,
         HttpClientModule,
         SharedModule,

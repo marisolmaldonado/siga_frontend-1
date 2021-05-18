@@ -1,6 +1,6 @@
 // Angular Modules
 import {NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
+import {PreloadAllModules, RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {JobBoardRouting} from './job-board.routing';
@@ -33,14 +33,7 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {CardModule} from 'primeng/card';
 import {SharedModule} from '../shared/shared.module';
 import {JobBoardComponent} from './job-board.component';
-import {CompanyComponent} from './company/company.component';
-import {WebOfferComponent} from './landing-page/web-offer/web-offer.component';
-import {WebProfessionalComponent} from './landing-page/web-professional/web-professional.component';
-import {ProfessionalComponent} from './professional/professional.component';
-import {SkillComponent} from './professional/skill/skill.component';
-import { OfferComponent } from './company/offer/offer.component';
-import { ProfileComponent } from './company/profile/profile.component';
-import { LandingPageComponent } from './landing-page/landing-page.component';
+import {RippleModule} from 'primeng/ripple';
 
 @NgModule({
     imports: [
@@ -74,18 +67,12 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
         SharedModule,
         CardModule,
         SkeletonModule,
+        RippleModule,
     ],
     declarations: [
-        JobBoardComponent,
-        ProfessionalComponent,
-        SkillComponent,
-        CompanyComponent,
-        WebOfferComponent,
-        WebProfessionalComponent,
-        OfferComponent,
-        ProfileComponent,
-        LandingPageComponent
+        JobBoardComponent
     ],
+    exports: [],
     providers: []
 })
 export class JobBoardModule {

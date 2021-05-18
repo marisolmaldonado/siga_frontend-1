@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {Permission, Role, System, Token, User} from '../../models/auth/models.index';
 import {Institution} from '../../models/app/institution';
 import {MessageService} from '../app/message.service';
+import {Professional} from "../../models/job-board/professional";
 
 @Injectable({
     providedIn: 'root'
@@ -61,6 +62,10 @@ export class AuthService {
         localStorage.setItem('token', JSON.stringify(token));
     }
 
+    getInstitution(): Institution {
+        return localStorage.getItem('institution') ? JSON.parse(localStorage.getItem('institution')) : null;
+    }
+
     setInstitution(institution) {
         localStorage.setItem('institution', JSON.stringify(institution));
     }
@@ -78,16 +83,12 @@ export class AuthService {
         localStorage.setItem('role', JSON.stringify(role));
     }
 
-    getInstitution(): Institution {
-        return localStorage.getItem('institution') ? JSON.parse(localStorage.getItem('institution')) : null;
-    }
-
     getUri(): string {
         return localStorage.getItem('uri') ? JSON.parse(localStorage.getItem('uri')) : null;
     }
 
     setUri(uri: string) {
-        localStorage.setItem('uri',  JSON.stringify(uri));
+        localStorage.setItem('uri', JSON.stringify(uri));
     }
 
     getKeepSession(): boolean {
