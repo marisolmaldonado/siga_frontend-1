@@ -1,48 +1,220 @@
 <div class="p-fluid">
     <form [formGroup]="formOfferIn" (ngSubmit)="onSubmit($event)">
+        <!--NOTA el codigo de la empresa solo deben pedirle una vez para que cada codigo en la oferta tenga el numero incremental
         <div class="p-field">
-            <label for="type">Tipo</label>
-            <p-autoComplete id="type" formControlName="type" [suggestions]="filteredTypes"
-                            (completeMethod)="filterType($event)" field="name" [dropdown]="true">
-                <ng-template let-type pTemplate="item">
-                    <div class="country-item">
-                        <div>{{type.name}}</div>
-                    </div>
-                </ng-template>
-            </p-autoComplete>
-            <div *ngIf="typeField.errors && (typeField.touched || typeField.dirty)">
-                <small *ngIf="typeField.hasError('required')"
-                       id="type-help-1" class="p-error">
+            <label for="description">Codigo</label>
+            <input id="code" name="code" pInputText formControlName="code" placeholder="Codigo de la empresa Ej. UBTJ"
+                maxlength="13" />
+        </div>
+        -->
+        <div class="p-field">
+            <label for="description">Vacantes</label>
+            <input id="vacancies" name="vacancies" pInputText formControlName="vacancies"
+                placeholder="Cuantos vacantes para la oferta Ej. 5" maxlength="13" />
+        </div>
+        <div class="p-field">
+            <label for="description">Descripción</label>
+            <textarea pInputTextarea id="description" formControlName="description" rows="4"></textarea>
+            <div *ngIf="descriptionField.errors && (descriptionField.touched || descriptionField.dirty)">
+                <small *ngIf="descriptionField.hasError('required')" id="description-help-1" class="p-error">
                     El campo es obligatorio.
+                </small>
+                <small *ngIf="descriptionField.hasError('minlength')" id="description-help-2" class="p-error">
+                    Mínimo de caracteres es {{descriptionField.errors.minlength.requiredLength}}.
                 </small>
             </div>
         </div>
         <div class="p-field">
-            <label for="description">Descripción</label>
-            <textarea pInputTextarea id="description" formControlName="description" rows="5"></textarea>
-            <div *ngIf="descriptionField.errors && (descriptionField.touched || descriptionField.dirty)">
-                <small *ngIf="descriptionField.hasError('required')"
-                       id="description-help-1" class="p-error">
+            <label for="aditional_information">Informacion adicional</label>
+            <textarea pInputTextarea id="aditional_information" formControlName="aditional_information"
+                rows="4"></textarea>
+            <!--
+            <div *ngIf="aditional_informationField.errors && (aditional_informationField.touched || aditional_informationField.dirty)">
+                <small *ngIf="aditional_informationField.hasError('required')"
+                       id="aditional_information-help-1" class="p-error">
                     El campo es obligatorio.
                 </small>
-                <small *ngIf="descriptionField.hasError('minlength')"
-                       id="description-help-2" class="p-error">
-                    Mínimo de caracteres es {{descriptionField.errors.minlength.requiredLength}}.
+                <small *ngIf="aditional_informationField.hasError('minlength')"
+                       id="aditional_information-help-2" class="p-error">
+                    Mínimo de caracteres es {{aditional_informationField.errors.minlength.requiredLength}}.
                 </small>
+            </div> 
+            -->
+        </div>
+        <div class="p-field">
+            <div class="p-grid">
+                <div class="p-col">
+                    <label for="contact_name">Nombre del contacto</label>
+                    <input id="contact_name" name="contact_name" pInputText formControlName="contact_name"
+                        placeholder="Ej. Mariana López" maxlength="13" />
+                </div>
+                <div class="p-col">
+                    <label for="contact_email">Email del contacto</label>
+                    <input id="contact_email" name="contact_email" pInputText formControlName="contact_email"
+                        placeholder="Ej. ejemplo@ejemplo.com" maxlength="13" />
+                </div>
+            </div>
+        </div>
+        <div class="p-field">
+            <div class="p-grid">
+                <div class="p-col">
+                    <label for="contact_phone">Telefno del contacto</label>
+                    <input id="contact_phone" name="contact_phone" pInputText formControlName="contact_phone"
+                        placeholder="Incluir extension Ej. 02-24738" maxlength="13" />
+                </div>
+                <div class="p-col">
+                    <label for="contact_cellphone">Celular del contacto</label>
+                    <input id="contact_cellphone" name="contact_cellphone" pInputText
+                        formControlName="contact_cellphone" placeholder="Incluir extension Ej. +593-504172422"
+                        maxlength="13" />
+                </div>
+            </div>
+        </div>
+        <div class="p-field">
+            <div class="p-grid">
+                <div class="p-col">
+                    <label for="remuneration">Remuneracion</label>
+                    <input id="remuneration" name="remuneration" pInputText formControlName="remuneration"
+                        placeholder="Ej. 500" maxlength="13" />
+                </div>
+                <div class="p-col">
+                    <label for="contract_type">Tipo Contrato</label>
+                    <p-autoComplete id="contract_type" formControlName="contract_type"
+                        [suggestions]="filteredContracTypes" (completeMethod)="filterContracType($event)" field="name"
+                        [dropdown]="true">
+                        <ng-template let-contract_type pTemplate="item">
+                            <div class="country-item">
+                                <div>{{contract_type.name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+                    <div *ngIf="contractTypeField.errors && (contractTypeField.touched || contractTypeField.dirty)">
+                        <small *ngIf="contractTypeField.hasError('required')" id="type-help-1" class="p-error">
+                            El campo es obligatorio.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-field">
+            <div class="p-grid">
+                <div class="p-col">
+                    <label for="position">Posicón</label>
+                    <p-autoComplete id="position" formControlName="position" [suggestions]="filteredPositions"
+                        (completeMethod)="filterPosition($event)" field="name" [dropdown]="true">
+                        <ng-template let-position pTemplate="item">
+                            <div class="country-item">
+                                <div>{{position.name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+                    <div *ngIf="positionField.errors && (positionField.touched || positionField.dirty)">
+                        <small *ngIf="positionField.hasError('required')" id="type-help-1" class="p-error">
+                            El campo es obligatorio.
+                        </small>
+                    </div>
+                </div>
+                <div class="p-col">
+                    <label for="sector">Sector</label>
+                    <p-autoComplete id="sector" formControlName="sector" [suggestions]="filteredSectors"
+                        (completeMethod)="filterSector($event)" field="name" [dropdown]="true">
+                        <ng-template let-sector pTemplate="item">
+                            <div class="country-item">
+                                <div>{{sector.name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+                    <div *ngIf="sectorField.errors && (sectorField.touched || sectorField.dirty)">
+                        <small *ngIf="sectorField.hasError('required')" id="type-help-1" class="p-error">
+                            El campo es obligatorio.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-field">
+            <div class="p-grid">
+                <div class="p-col">
+                    <label for="working_day">Dia de trabajo</label>
+                    <p-autoComplete id="working_day" formControlName="working_day" [suggestions]="filteredWorkingDays"
+                        (completeMethod)="filterWorkingDay($event)" field="name" [dropdown]="true">
+                        <ng-template let-working_day pTemplate="item">
+                            <div class="country-item">
+                                <div>{{working_day.name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+                    <div *ngIf="workingDayField.errors && (workingDayField.touched || workingDayField.dirty)">
+                        <small *ngIf="workingDayField.hasError('required')" id="type-help-1" class="p-error">
+                            El campo es obligatorio.
+                        </small>
+                    </div>
+                </div>
+                <div class="p-col">
+                    <label for="experience_time">Tiempo de experiencia</label>
+                    <p-autoComplete id="experience_time" formControlName="experience_time"
+                        [suggestions]="filteredExperienceTimes" (completeMethod)="filterExperienceTime($event)"
+                        field="name" [dropdown]="true">
+                        <ng-template let-experience_time pTemplate="item">
+                            <div class="country-item">
+                                <div>{{experience_time.name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+                    <div
+                        *ngIf="experienceTimeField.errors && (experienceTimeField.touched || experienceTimeField.dirty)">
+                        <small *ngIf="experienceTimeField.hasError('required')" id="type-help-1" class="p-error">
+                            El campo es obligatorio.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-field">
+            <div class="p-grid">
+                <div class="p-col">
+                    <label for="training_hours">Horas de entrenamiento</label>
+                    <p-autoComplete id="training_hours" formControlName="training_hours"
+                        [suggestions]="filteredTrainingHours" (completeMethod)="filterTrainingHour($event)" field="name"
+                        [dropdown]="true">
+                        <ng-template let-training_hours pTemplate="item">
+                            <div class="country-item">
+                                <div>{{training_hours.name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+                    <div *ngIf="trainingHoursField.errors && (trainingHoursField.touched || trainingHoursField.dirty)">
+                        <small *ngIf="trainingHoursField.hasError('required')" id="type-help-1" class="p-error">
+                            El campo es obligatorio.
+                        </small>
+                    </div>
+                </div>
+                <div class="p-col">
+                    <label for="location">Ubicación</label>
+                    <p-autoComplete id="location" formControlName="location" [suggestions]="filteredlocations"
+                        (completeMethod)="filterLocation($event)" field="name" [dropdown]="true">
+                        <ng-template let-location pTemplate="item">
+                            <div class="country-item">
+                                <div>{{location.name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+                    <div *ngIf="locationField.errors && (locationField.touched || locationField.dirty)">
+                        <small *ngIf="locationField.hasError('required')" id="type-help-1" class="p-error">
+                            El campo es obligatorio.
+                        </small>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
                 <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
-                        class="p-button-success p-button-raised"></button>
+                    class="p-button-success p-button-raised"></button>
             </div>
             <div *ngIf="!idField.value" class="p-field p-col">
-                <button type="button" pButton pRipple
-                        label="Guardar"
-                        icon="pi pi-arrow-right"
-                        class="p-button-raised"
-                        (click)="onSubmit($event,true)"
-                ></button>
+                <button type="button" pButton pRipple label="Guardar" icon="pi pi-arrow-right" class="p-button-raised"
+                    (click)="onSubmit($event,true)"></button>
             </div>
         </div>
     </form>

@@ -7,6 +7,7 @@ import {AppHttpService} from '../../../../../services/app/app-http.service';
 import {HttpParams} from '@angular/common/http';
 import {Catalogue} from '../../../../../models/app/catalogue';
 import { Offer } from 'src/app/models/job-board/offer';
+import { Location } from 'src/app/models/app/location';
 
 @Component({
     selector: 'app-offer-form',
@@ -19,8 +20,20 @@ export class OfferFormComponent implements OnInit {
     @Input() offersIn: Offer[];
     @Output() offersOut = new EventEmitter<Offer[]>();
     @Output() displayOut = new EventEmitter<boolean>();
-    filteredTypes: any[];
-    types: Catalogue[];
+    filteredContracTypes: any[];
+    contractTypes: Catalogue[];
+    filteredPositions: any[];
+    positions: Catalogue[];
+    filteredSectors: any[];
+    sectors: Catalogue[];
+    filteredWorkingDays: any[];
+    workingDays: Catalogue[];
+    filteredExperienceTimes: any[];
+    experienceTimes: Catalogue[];
+    filteredTrainingHours: any[];
+    trainingHours: Catalogue[];
+    filteredlocations: any[];
+    locations: Location[];
 
     constructor(private formBuilder: FormBuilder,
                 private messageService: MessageService,
@@ -30,20 +43,63 @@ export class OfferFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.getTypes();
+        this.getContractType();
+        this.getPosition();
+        this.getSector();
+        this.getWorkingDay();
+        this.getExperienceTime();
+        this.getTrainingHours();
+        this.getLocation();
     }
 
     // Fields of Form
     get idField() {
         return this.formOfferIn.get('id');
     }
-
-    get typeField() {
-        return this.formOfferIn.get('type');
+    get vacanciesField() {
+        return this.formOfferIn.get('vacancies');
     }
-
     get descriptionField() {
         return this.formOfferIn.get('description');
+    }
+    get aditionalInformationField() {
+        return this.formOfferIn.get('aditional_information');
+    }
+    get contactNameField() {
+        return this.formOfferIn.get('contact_name');
+    }
+    get contactEmailField() {
+        return this.formOfferIn.get('contact_email');
+    }
+    get contactPhoneField() {
+        return this.formOfferIn.get('contact_phone');
+    }
+    get contactCellphoneField() {
+        return this.formOfferIn.get('contact_cellphone');
+    }
+    get remunerationField() {
+        return this.formOfferIn.get('remuneration');
+    }
+    get contractTypeField() {
+        return this.formOfferIn.get('contract_type');
+    }
+    get positionField() {
+        return this.formOfferIn.get('position');
+    }
+    get sectorField() {
+        return this.formOfferIn.get('sector');
+    }
+    get workingDayField() {
+        return this.formOfferIn.get('working_day');
+    }
+    get experienceTimeField() {
+        return this.formOfferIn.get('experience_time');
+    }
+    get trainingHoursField() {
+        return this.formOfferIn.get('training_hours');
+    }
+    get locationField() {
+        return this.formOfferIn.get('location');
     }
 
     // Submit Form
@@ -60,11 +116,59 @@ export class OfferFormComponent implements OnInit {
         }
     }
 
-    // Types of catalogues
-    getTypes() {
-        const params = new HttpParams().append('type', 'OFFER_TYPE');
+    // Get Catalogues 
+    getContractType() {
+        const params = new HttpParams().append('type', 'OFFER_CONTRACT_TYPE');
         this.appHttpService.getCatalogues(params).subscribe(response => {
-            this.types = response['data'];
+            this.contractTypes = response['data'];
+        }, error => {
+            this.messageService.error(error);
+        });
+    }
+    getPosition() {
+        const params = new HttpParams().append('type', 'OFFER_POSITION');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.positions = response['data'];
+        }, error => {
+            this.messageService.error(error);
+        });
+    }
+    getSector() {
+        const params = new HttpParams().append('type', 'SECTOR');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.sectors = response['data'];
+        }, error => {
+            this.messageService.error(error);
+        });
+    }
+    getWorkingDay() {
+        const params = new HttpParams().append('type', 'OFFER_WORKING_DAY');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.workingDays = response['data'];
+        }, error => {
+            this.messageService.error(error);
+        });
+    }
+    getExperienceTime() {
+        const params = new HttpParams().append('type', 'OFFER_EXPERIENCE_TIME');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.experienceTimes = response['data'];
+        }, error => {
+            this.messageService.error(error);
+        });
+    }
+    getTrainingHours() {
+        const params = new HttpParams().append('type', 'OFFER_TRAINING_HOURS');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.trainingHours = response['data'];
+        }, error => {
+            this.messageService.error(error);
+        });
+    }
+    getLocation() {
+        const params = new HttpParams().append('type', 'LOCATION');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.locations = response['data'];
         }, error => {
             this.messageService.error(error);
         });
@@ -116,15 +220,82 @@ export class OfferFormComponent implements OnInit {
         this.offersOut.emit(this.offersIn);
     }
 
-    // Filter type of offers
-    filterType(event) {
+    // Filters offers
+    filterContracType(event) {
         const filtered: any[] = [];
         const query = event.query;
-        for (const type of this.types) {
-            if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-                filtered.push(type);
+        for (const contractType of this.contractTypes) {
+            if (contractType.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(contractType);
             }
         }
-        this.filteredTypes = filtered;
+        this.filteredContracTypes = filtered;
+    }
+
+    filterPosition(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const position of this.positions) {
+            if (position.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(position);
+            }
+        }
+        this.filteredPositions = filtered;
+    }
+
+    filterSector(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const sector of this.sectors) {
+            if (sector.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(sector);
+            }
+        }
+        this.filteredSectors = filtered;
+        console.log(this.filteredSectors);
+    }
+
+    filterWorkingDay(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const workingDay of this.workingDays) {
+            if (workingDay.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(workingDay);
+            }
+        }
+        this.filteredWorkingDays = filtered;
+    }
+
+    filterExperienceTime(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const experienceTime of this.experienceTimes) {
+            if (experienceTime.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(experienceTime);
+            }
+        }
+        this.filteredExperienceTimes = filtered;
+    }
+
+    filterTrainingHour(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const trainingHour of this.trainingHours) {
+            if (trainingHour.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(trainingHour);
+            }
+        }
+        this.filteredTrainingHours = filtered;
+    }
+
+    filterLocation(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const location of this.locations) {
+            if (location.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(location);
+            }
+        }
+        this.filteredlocations = filtered;
     }
 }

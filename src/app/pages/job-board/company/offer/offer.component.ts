@@ -26,10 +26,9 @@ export class OfferComponent implements OnInit {
     private formBuilder: FormBuilder,
     private jobBoardHttpService: JobBoardHttpService,
     private breadcrumbService: BreadcrumbService) {
-      // PREGUNTAR LA RUTA
     this.breadcrumbService.setItems([
-        {label: 'Dashboard', routerLink: ['/dashboard']},
-        {label: 'Profesional'}
+        {label: 'Compania', routerLink: ['/job-board/company']},
+        {label: 'Oferta'}
     ]);
     this.paginator = {current_page: '1', per_page: '2'};
     this.offers = [];

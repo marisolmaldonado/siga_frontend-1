@@ -9,8 +9,8 @@
                 (formOfferOut)="formOffer=$event"
                 (paginatorOut)="getoffers($event)">
         </app-offer-list>
-        <p-dialog [(visible)]="offerDialog" [style]="{width: '450px'}" header="Habilidades" [modal]="true"
-                  styleClass="p-fluid" (onHide)="offerDialog=false">
+        <p-dialog [(visible)]="offerDialog" [style]="{width: '450px'}" header="Oferta" [modal]="true"
+                  styleClass="p-fluid" (onHide)="offerDialog=false" [style]="{width: '50vw'}">
             <app-offer-form
                     [offersIn]="offers"
                     [formOfferIn]="formOffer"

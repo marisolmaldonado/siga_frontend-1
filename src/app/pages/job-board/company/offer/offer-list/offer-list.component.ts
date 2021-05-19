@@ -83,7 +83,7 @@ export class OfferListComponent implements OnInit {
             });
     }
 
-    // no se utiliza
+    // no se utiliza VERIFICAR DDE NUEVO
     removeOffer(offer: Offer) {
         this.offersIn = this.offersIn.filter(element => element !== offer);
         this.offersOut.emit(this.offersIn);

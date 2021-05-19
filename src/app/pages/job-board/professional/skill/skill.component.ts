@@ -21,6 +21,7 @@ export class SkillComponent implements OnInit {
     formSkill: FormGroup;
     skill: Skill;
     skillDialog: boolean;
+    flagSkills: boolean;
 
     constructor(
         private spinnerService: NgxSpinnerService,
@@ -32,7 +33,7 @@ export class SkillComponent implements OnInit {
             {label: 'Dashboard', routerLink: ['/dashboard']},
             {label: 'Profesional'}
         ]);
-        this.paginator = {current_page: '1', per_page: '2'};
+        this.paginator = {current_page: '1', per_page: '5'};
         this.skills = [];
     }
 
@@ -56,15 +57,18 @@ export class SkillComponent implements OnInit {
             .append('page', paginator.current_page)
             .append('per_page', paginator.per_page);
 
-        this.spinnerService.show();
+        this.flagSkills = true;
+        // this.spinnerService.show();
         this.jobBoardHttpService.get('skills', params).subscribe(
             response => {
-            this.spinnerService.hide();
-            this.skills = response['data'];
-            this.paginator = response as Paginator;
-        }, error => {
-            this.spinnerService.hide();
-            this.messageService.error(error);
-        });
+                // this.spinnerService.hide();
+                this.flagSkills = false;
+                this.skills = response['data'];
+                this.paginator = response as Paginator;
+            }, error => {
+                // this.spinnerService.hide();
+                this.flagSkills = false;
+                this.messageService.error(error);
+            });
     }
 }
