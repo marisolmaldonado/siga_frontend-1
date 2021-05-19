@@ -1,11 +1,11 @@
 <div class="card">
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
-                    (click)="openNewFormSkill()"></button>
+            <button pButton pRipple label="Nuevos" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
+                    (click)="openNewFormUser()"></button>
             <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-mr-2 p-mb-2"
-                    (click)="deleteSkills()"
-                    [disabled]="!selectedSkills || !selectedSkills.length"></button>
+                    (click)="deleteUsers()"
+                    [disabled]="!selectedUsers || !selectedUsers.length"></button>
             <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info p-mb-2"
                     (click)="paginatorOut.emit(paginatorIn)"></button>
         </ng-template>
@@ -23,7 +23,7 @@
              [value]="usersIn"
              [rows]="paginatorIn.per_page"
              [paginator]="false"
-             [(selection)]="selectedSkills"
+             [(selection)]="selectedUsers"
              [rowHover]="true"
              dataKey="id"
              styleClass="p-datatable-customers"
@@ -33,8 +33,8 @@
             <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
                 <h5 class="p-m-0">Usuarios</h5>
                 <span class="p-input-icon-left">
-                        <i class="pi pi-search" (click)="searchSkills($event,search.value)"></i>
-                        <input #search pInputText type="text" (keyup)="searchSkills($event,$event.target.value)"
+                        <i class="pi pi-search" (click)="searchUsers($event,search.value)"></i>
+                        <input #search pInputText type="text" (keyup)="searchUsers($event,$event.target.value)"
                                placeholder="Buscar..."/>
                     </span>
             </div>
@@ -79,11 +79,11 @@
                 </td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
-                            (click)="openEditFormSkill(skill)"></button>
+                            (click)="openEditFormUser(user)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-ml-2"
-                            (click)="deleteSkills(skill)"></button>
+                            (click)="deleteUsers(user)"></button>
                     <button pButton pRipple icon="pi pi-paperclip" class="p-button-rounded p-ml-2"
-                            (click)="selectSkill(skill);openViewFilesSkill()"></button>
+                            (click)="selectUser(user);openViewFilesUser()"></button>
                 </td>
             </tr>
         </ng-template>

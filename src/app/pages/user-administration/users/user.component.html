@@ -2,10 +2,13 @@
     <p-tabView>
         <p-tabPanel header="Usuarios" leftIcon="pi pi-users">
             <app-user-list
-            [usersIn]="users"
-            [paginatorIn]="paginator"
-            (usersOut)="setUsers($event)">
-    </app-user-list>
+                [usersIn]="users"
+                [paginatorIn]="paginator"
+                [formUserIn]="formUser"
+                (formUserOut)="formUser=$event"
+                (displayOut)="userDialog=$event"
+                (usersOut)="setUsers($event)">
+            </app-user-list>
         </p-tabPanel>
         <p-tabPanel header="Asignar Roles" leftIcon="pi pi-shield">
             roles
@@ -14,4 +17,13 @@
             permisos y roles
         </p-tabPanel>
     </p-tabView>
+    <p-dialog [(visible)]="userDialog" [style]="{width: '850px'}" header="Usuario" [modal]="true"
+        styleClass="p-fluid" (onHide)="userDialog=false">
+        <app-user-form 
+            [usersIn]="users" 
+            [formUserIn]="formUser" 
+            (usersOut)="users=$event"
+            (displayOut)="userDialog=$event">
+        </app-user-form>
+    </p-dialog>
 </div>

@@ -18,4 +18,20 @@ export class UserAdministrationService {
         url = this.API_URL_AUTHENTICATION + url;
         return this.httpClient.get(url, {params});
     }
+
+    store(url: string, data: any, params = new HttpParams()) {
+        url = this.API_URL_AUTHENTICATION + url;
+        return this.httpClient.post(url, data['user'], {params});
+    }
+
+    update(url: string, data: any, params = new HttpParams()) {
+        url = this.API_URL_AUTHENTICATION + url;
+        return this.httpClient.put(url, data['user'], {params});
+    }
+
+    delete(url: string, ids, params = new HttpParams()) {
+        url = this.API_URL_AUTHENTICATION + url;
+        return this.httpClient.put(url, {ids}, {params});
+    }
+
 }
