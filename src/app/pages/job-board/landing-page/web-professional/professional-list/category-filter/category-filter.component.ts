@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { JobBoardHttpService } from 'src/app/services/job-board/job-board-http.service';
 import { Category } from 'src/app/models/job-board/category';
 import { TreeNode } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { MessageService } from '../../../../../services/app/message.service';
+import { MessageService } from 'src/app/services/app/message.service';
 
 @Component({
   selector: 'app-category-filter',
@@ -13,8 +13,10 @@ import { MessageService } from '../../../../../services/app/message.service';
 })
 export class CategoryFilterComponent implements OnInit {
 
+  @Output() selectedCategoriesEmitter = new EventEmitter<number[]>();
+  
   categories: Category[];
-  selectedCategories: Category[];
+  selectedCategories: number[];
   treeNode: TreeNode[];
   selectedTreeNodes: TreeNode[];
   
@@ -68,11 +70,13 @@ export class CategoryFilterComponent implements OnInit {
       this.categories.forEach(category => {
         category.children.find(c => {
           if (c.name == treeNode.label) {
-            this.selectedCategories.push(c);
+            this.selectedCategories.push(c.id);
           }
         });
       });
     });
+
+    this.selectedCategoriesEmitter.emit(this.selectedCategories);
   }
 
   nodeUnselect(event): void {
@@ -81,7 +85,7 @@ export class CategoryFilterComponent implements OnInit {
       this.categories.forEach(category => {
         category.children.find(c => {
           if (c.name == treeNode.label) {
-            this.selectedCategories.push(c);
+            this.selectedCategories.push(c.id);
           }
         });
       });

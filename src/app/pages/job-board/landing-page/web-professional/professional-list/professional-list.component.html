@@ -1,3 +1,6 @@
+<app-category-filter (selectedCategoriesEmitter)="getSelectedCategories($event)"></app-category-filter>
+<app-filter (searchEmitter)="getSearch($event)"></app-filter>
+
 <p-paginator [rows]="paginator.per_page" [totalRecords]="paginator.total" (onPageChange)="paginate($event)"></p-paginator>
 <br>
 <div class="p-grid">

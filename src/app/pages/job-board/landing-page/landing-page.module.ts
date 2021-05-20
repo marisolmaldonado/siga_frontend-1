@@ -35,8 +35,8 @@ import {SharedModule} from '../../shared/shared.module';
 import {RippleModule} from 'primeng/ripple';
 import {LandingPageComponent} from './landing-page.component';
 import { WebProfessionalComponent } from './web-professional/web-professional.component';
-import { CategoryFilterComponent } from './web-professional/category-filter/category-filter.component';
-import { FilterComponent } from './web-professional/filter/filter.component';
+import { CategoryFilterComponent } from './web-professional/professional-list/category-filter/category-filter.component';
+import { FilterComponent } from './web-professional/professional-list/filter/filter.component';
 import { ProfessionalListComponent } from './web-professional/professional-list/professional-list.component';
 import { TotalComponent } from './web-professional/total/total.component';
 

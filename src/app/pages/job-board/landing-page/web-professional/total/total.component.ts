@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { JobBoardHttpService } from 'src/app/services/job-board/job-board-http.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { MessageService } from '../../../../../services/app/message.service';
+import { MessageService } from 'src/app/services/app/message.service';
 
 @Component({
   selector: 'app-total',
