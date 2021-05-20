@@ -22,6 +22,7 @@ export const environment = {
 
     CLIENT_SECRET: 'PRqZWnJwrg3NYMIH6GLik35pQT26XOaUQjlgjmIW',
     GRANT_TYPE: 'password',
+    // nuevos cambios
     SITE_KEY: '6LcY8xAaAAAAAOTR95-UJ_zAeP9OWYPhlWg4_iFC',
 };
 
