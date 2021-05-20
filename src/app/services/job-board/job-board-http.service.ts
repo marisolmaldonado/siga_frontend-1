@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment, WEB} from '../../../environments/environment';
+import {Router} from '@angular/router';
+import {MessageService} from '../app/message.service';
+
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +12,34 @@ import {environment, WEB} from '../../../environments/environment';
 export class JobBoardHttpService {
     API_URL_JOB_BOARD: string = environment.API_URL_JOB_BOARD;
 
-    constructor(private httpClient: HttpClient) {
+    constructor(private httpClient: HttpClient,
+        private router: Router,
+        private messageService: MessageService) {
+    }
+
+    getProfessional(about_me: string, params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'professional/' + about_me;
+        return this.httpClient.get(url, {params});
+    }
+
+    getLanguage(params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'module/menus';
+        return this.httpClient.get(url, {params});
+    }
+
+    getExperience(params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'module/menus';
+        return this.httpClient.get(url, {params});
+    }
+
+    getCourse(params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'module/menus';
+        return this.httpClient.get(url, {params});
+    }
+    
+    getReference(params = new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'module/menus';
+        return this.httpClient.get(url, {params});
     }
 
     get(url: string, params = new HttpParams()) {
