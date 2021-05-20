@@ -19,14 +19,8 @@ export const environment = {
     API_URL_COMMUNITY: URL_API + 'community/',
     SYSTEM_ID: 1,
     CLIENT_ID: '1',
-<<<<<<< HEAD
-=======
-    CLIENT_SECRET: 'SyTb6Xa9pY5ewVX22XMTYNOtZoypzYgQFrj9SUrJ',
 
-    GRANT_TYPE: 'password',
->>>>>>> u_6_faz-evelyn
-
-    CLIENT_SECRET: '6qCYsNTGUJoHzcfxkvxPzQXBmkSC9ccS2hdelj7Q',
+    CLIENT_SECRET: 'PRqZWnJwrg3NYMIH6GLik35pQT26XOaUQjlgjmIW',
     GRANT_TYPE: 'password',
     SITE_KEY: '6LcY8xAaAAAAAOTR95-UJ_zAeP9OWYPhlWg4_iFC',
 };
