@@ -14,6 +14,7 @@ import { MessageService } from '../../../services/app/message.service';
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.scss']
 })
+
 export class UserComponent implements OnInit {
     paginator: Paginator;
     users: User[];
@@ -82,7 +83,5 @@ export class UserComponent implements OnInit {
                 this.messageService.error(error);
             });
     }
-    setUsers(users: User[]) {
-        console.log('users');
-    }
+
 }
