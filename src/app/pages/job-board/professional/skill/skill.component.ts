@@ -27,12 +27,8 @@ export class SkillComponent implements OnInit {
         private spinnerService: NgxSpinnerService,
         private messageService: MessageService,
         private formBuilder: FormBuilder,
-        private jobBoardHttpService: JobBoardHttpService,
-        private breadcrumbService: BreadcrumbService) {
-        this.breadcrumbService.setItems([
-            {label: 'Dashboard', routerLink: ['/dashboard']},
-            {label: 'Profesional'}
-        ]);
+        private jobBoardHttpService: JobBoardHttpService) {
+
         this.paginator = {current_page: '1', per_page: '5'};
         this.skills = [];
     }

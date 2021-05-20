@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const URL_API = 'http://siga_backend.test/v1/';
-export const URL = 'http://siga_backend.test';
-export const WEB = 'http://127.0.0.1:8000';
+export const URL = 'http://siga_backend.test/';
+export const WEB = 'http://127.0.0.1:8000/';
 
 export const environment = {
     production: false,
@@ -20,7 +20,7 @@ export const environment = {
     SYSTEM_ID: 1,
     CLIENT_ID: '1',
 
-    CLIENT_SECRET: 'j8wVIdl8QrIhe4tfwI5ja9Bw9rjOT2oZMtFQUAxb',
+    CLIENT_SECRET: 'AOjfScQLZi4WTRG8tIVGBaight5z7OksjsJbTJC8',
     GRANT_TYPE: 'password',
     SITE_KEY: '6LcY8xAaAAAAAOTR95-UJ_zAeP9OWYPhlWg4_iFC',
 };
