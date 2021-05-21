@@ -45,8 +45,10 @@ export class OfferComponent implements OnInit {
         id: [null],
         vacancies: [null, Validators.required],
         code: [null, Validators.required],
-        description: [null, Validators.required, Validators.minLength(10)],
-        aditional_information: [null, Validators.required],
+        // quitar descripction 
+        description: [null, [Validators.required, Validators.minLength(10)]],
+        // dejar en el html la validacion pero es nulo
+        aditional_information: [null],
         contact_name: [null, Validators.required],
         contact_email: [null, Validators.required],
         contact_phone: [null],
@@ -85,6 +87,7 @@ export class OfferComponent implements OnInit {
         this.spinnerService.hide();
         this.messageService.error(error);
       });
+      console.log(this.offers);
   }
 
 }
