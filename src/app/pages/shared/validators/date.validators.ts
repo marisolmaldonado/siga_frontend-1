@@ -1,6 +1,6 @@
-import {FormControl, ValidationErrors} from "@angular/forms";
+import {FormControl, ValidationErrors} from '@angular/forms';
 import * as moment from 'moment';
-import {Observable, of} from "rxjs";
+import {Observable, of} from 'rxjs';
 
 export class DateValidators {
     static valid(control: FormControl): ValidationErrors {
@@ -14,8 +14,8 @@ export class DateValidators {
             const max = moment(maxDate);
             const value = control.value;
             const isValid = value ? moment(value).isBefore(max) : true;
-            return isValid ? null : {max: true}
-        }
+            return isValid ? null : {max: true};
+        };
     }
 
     static dni(control: FormControl): Observable<ValidationErrors> | null {
