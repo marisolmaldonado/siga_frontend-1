@@ -1,0 +1,139 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Company} from '../../../../../models/job-board/company';
+import {MessageService} from '../../../../../services/app/message.service';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
+import {AppHttpService} from '../../../../../services/app/app-http.service';
+import {HttpParams} from '@angular/common/http';
+import { Catalogue } from 'src/app/models/app/catalogue';
+import { Router } from '@angular/router';
+@Component({
+  selector: 'app-register-form',
+  templateUrl: './register-form.component.html',
+  styleUrls: ['./register-form.component.scss']
+})
+export class RegisterFormComponent implements OnInit {
+  @Input() formRegisterIn: FormGroup;
+  @Output() displayOut = new EventEmitter<boolean>();
+  identificationTypes:Catalogue[];
+  filteredidentificationTypes: any[];
+
+  constructor(
+    private formBuilder: FormBuilder,
+                private messageService: MessageService,
+                private spinnerService: NgxSpinnerService,
+                private appHttpService: AppHttpService,
+                private jobBoardHttpService: JobBoardHttpService,
+                private router:Router,
+  ) { }
+
+  ngOnInit() {
+    this.getIdentificationTypes();
+  }
+   // Fields of Form
+   get usernameField() {
+    return this.formRegisterIn['controls']['user'].get('username');
+}
+
+    get identificationField() {
+        return this.formRegisterIn['controls']['user'].get('identification');
+    }
+
+    get emailField() {
+        return this.formRegisterIn['controls']['user'].get('email');
+    }
+
+    get passwordField() {
+        return this.formRegisterIn['controls']['user'].get('password');
+    }
+
+    get passwordConfirmationField() {
+        return this.formRegisterIn['controls']['user'].get('password_confirmation');
+    }
+
+    get addressField() {
+        return this.formRegisterIn['controls']['user'].get('address');
+    }
+
+    get statusField() {
+        return this.formRegisterIn['controls']['user'].get('status');
+    }
+
+    get identificationTypeField() {
+        return this.formRegisterIn['controls']['user'].get('identificationType');
+    }
+
+    get tradeNameField() {
+        return this.formRegisterIn.get('trade_name');
+    }
+
+    get comercialActivitiesField() {
+        return this.formRegisterIn.get('comercial_activities');
+    }
+
+    get webField() {
+        return this.formRegisterIn.get('web');
+    }
+
+    get typeField() {
+        return this.formRegisterIn.get('type');
+    }
+
+    get activityTypeField() {
+        return this.formRegisterIn.get('activityType');
+    }
+
+    get personTypeField() {
+        return this.formRegisterIn.get('personType');
+    }
+
+    get dateField() {
+        return this.formRegisterIn['controls']['user'].get('date');
+    }
+
+
+  register(company: Company, flag = false) {
+    this.spinnerService.show();
+    this.jobBoardHttpService.store('register', {company}).subscribe(response => {
+        this.spinnerService.hide();
+        this.messageService.success(response); 
+        this.router.navigate(['/auth/login'])
+
+    }, error => {
+        this.spinnerService.hide();
+        this.messageService.error(error);
+    });
+} 
+
+onSubmit(event: Event, flag = false) {
+    event.preventDefault();
+    if (this.formRegisterIn.valid) {
+         this.register(this.formRegisterIn.value, flag);
+        }else {
+            this.formRegisterIn.markAllAsTouched();
+        }
+   
+    }
+        // Types of catalogues
+        getIdentificationTypes() {
+            const params = new HttpParams().append('type', 'COMPANY_TYPE');
+            this.appHttpService.getCatalogues(params).subscribe(response => {
+                this.identificationTypes = response['data'];
+            }, error => {
+                this.messageService.error(error);
+            });
+        } 
+        // Filter type of skills
+    filterType(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const type of this.identificationTypes) {
+            if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(type);
+            }
+        }
+        this.filteredidentificationTypes = filtered;
+    }
+
+}

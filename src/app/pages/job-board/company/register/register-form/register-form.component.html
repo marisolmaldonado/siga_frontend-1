@@ -1,0 +1,109 @@
+{{formRegisterIn.value|json}}
+<div class="p-fluid">
+  <form [formGroup]="formRegisterIn" (ngSubmit)="onSubmit($event)">
+    <div formGroupName="user">
+      <div class="p-field">
+        <label for="username">Nombre de Usuario</label>
+        <input id="username" formControlName="username" pInputText>
+        <div *ngIf="usernameField.errors && (usernameField.touched || usernameField.dirty)">
+          <small *ngIf="usernameField.hasError('required')" id="user-help-1" class="p-error">
+            El campo es obligatorio.
+          </small>
+        </div>
+      </div>
+      <div class="p-field">
+        <label for="username">Nombre de Usuario</label>
+        <app-date id="date" name="date" formControlName="date"></app-date>
+        <div *ngIf="dateField.errors && (dateField.touched || dateField.dirty)">
+          <small *ngIf="dateField.hasError('required')" id="type-help-1" class="p-error">
+            El campo es obligatorio.
+          </small>
+        </div>
+      </div>
+      <div class="p-field">
+        <label for="identification">Identificación</label>
+        <input id="identification" formControlName="identification" pInputText>
+        <div *ngIf="identificationField.errors && (identificationField.touched || identificationField.dirty)">
+          <small *ngIf="identificationField.hasError('required')" id="identification-help-1" class="p-error">
+            El campo es obligatorio.
+          </small>
+        </div>
+      </div>
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+          <label for="email">Email</label>
+          <input id="email" formControlName="email" pInputText>
+          <div *ngIf="emailField.errors && (emailField.touched || emailField.dirty)">
+            <small *ngIf="emailField.hasError('required')" id="email-help-1" class="p-error">
+              El campo es obligatorio.
+            </small>
+          </div>
+        </div>
+        <div class="p-field p-col">
+          <label for="identificationType">Tipo</label>
+          <p-autoComplete id="identificationType" formControlName="identificationType"
+            [suggestions]="filteredidentificationTypes" (completeMethod)="filterType($event)" field="name"
+            [dropdown]="true">
+            <ng-template let-type pTemplate="item">
+              <div class="country-item">
+                <div>{{type.name}}</div>
+              </div>
+            </ng-template>
+          </p-autoComplete>
+          <div
+            *ngIf="identificationTypeField.errors && (identificationTypeField.touched || identificationTypeField.dirty)">
+            <small *ngIf="identificationTypeField.hasError('required')" id="identificationType-help-1" class="p-error">
+              El campo es obligatorio.
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+          <label for="password">Contraseña</label>
+          <p-password id="password" formControlName="password" [feedback]="false" [toggleMask]="true"></p-password>
+          <div *ngIf="passwordField.errors && (passwordField.touched || passwordField.dirty)">
+            <small *ngIf="passwordField.hasError('required')" id="password-help-1" class="p-error">
+              El campo es obligatorio.
+            </small>
+          </div>
+        </div>
+        <div class="p-field p-col">
+          <label for="passwordConfirmation">Cofirmación de Contraseña</label>
+          <p-password id="passwordConfirmation" formControlName="password_confirmation" [feedback]="false"
+            [toggleMask]="true">
+          </p-password>
+          <div
+            *ngIf="passwordConfirmationField.errors && (passwordConfirmationField.touched || passwordConfirmationField.dirty)">
+            <small *ngIf="passwordConfirmationField.hasError('required')" id="password-help-1" class="p-error">
+              El campo es obligatorio.
+            </small>
+          </div>
+          <div *ngIf="passwordConfirmationField.valid && passwordConfirmationField.value != passwordField.value"
+            id="passwordConfirmation-help-1" class="p-error">
+            No coinciden las contraseñas
+          </div>
+        </div>
+      </div>
+      <div class="p-field">
+        <app-location  id="location" name="location" formControlName="location">
+
+        </app-location>
+      </div>
+      <div class="p-field">
+        <app-location-address id="address" name="address" formControlName="address">
+
+        </app-location-address>
+      </div>
+      
+    </div>
+
+    <div class="p-formgrid p-grid">
+      <div class="p-field p-col">
+        <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
+          class="p-button-success p-button-raised"></button>
+      </div>
+
+    </div>
+  </form>
+</div>

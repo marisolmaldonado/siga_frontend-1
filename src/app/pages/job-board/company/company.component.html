@@ -1,2 +1,18 @@
-<p>company works!</p>
-<app-offer></app-offer>
+
+<div class="card">
+    <h5>Compania</h5>
+    <p-tabView>
+        <p-tabPanel header="Ofertas" leftIcon="pi pi-id-card" tooltip="">
+            <app-offer></app-offer>
+        </p-tabPanel>
+        <p-tabPanel header="Compañia" leftIcon="pi pi-briefcase" tooltip="">
+            <app-profile></app-profile>
+        </p-tabPanel>
+        <p-tabPanel header="Profesional" leftIcon="pi pi-users" tooltip="">
+            <app-professional></app-professional>
+        </p-tabPanel>
+        <p-tabPanel header="Registro" leftIcon="pi pi-users" tooltip="">
+            <app-register></app-register>
+        </p-tabPanel>
+    </p-tabView>
+</div>
