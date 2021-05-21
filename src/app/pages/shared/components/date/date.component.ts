@@ -1,6 +1,6 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
 import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
-import {SelectItem} from "primeng/api";
+import {SelectItem} from 'primeng/api';
 import * as moment from 'moment';
 
 @Component({
