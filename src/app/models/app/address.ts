@@ -8,7 +8,7 @@ export interface Address {
     secondary_street?: string;
     number?: string;
     post_code?: string;
-    indications?: string;
+    reference?: string;
     latitude?: number;
     longitude?: number;
 }

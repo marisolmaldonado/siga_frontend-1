@@ -27,6 +27,7 @@ import {RippleModule} from 'primeng/ripple';
 import {PaginatorModule} from 'primeng/paginator';
 import {ToolbarModule} from 'primeng/toolbar';
 import { ExtensionsPipe } from './pipes/extensions.pipe';
+import {RadioButtonModule} from "primeng/radiobutton";
 
 // My Components
 @NgModule({
@@ -48,6 +49,7 @@ import { ExtensionsPipe } from './pipes/extensions.pipe';
         RippleModule,
         PaginatorModule,
         ToolbarModule,
+        RadioButtonModule,
     ],
     declarations: [
         DateComponent,
