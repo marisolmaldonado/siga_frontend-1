@@ -3,7 +3,7 @@ import {Skill} from '../../../../../models/job-board/skill';
 import {FormGroup} from '@angular/forms';
 import {Col} from '../../../../../models/setting/col';
 import {Paginator} from '../../../../../models/setting/paginator';
-import {MessageService} from '../../../../../services/app/message.service';
+import {MessageService} from '../../../../shared/services/message.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
 import {HttpParams} from '@angular/common/http';
@@ -71,10 +71,6 @@ export class SkillListComponent implements OnInit {
         this.displayOut.emit(true);
     }
 
-    openUploadFilesSkill() {
-        this.dialogUploadFiles = true;
-    }
-
     selectSkill(skill: Skill) {
         this.selectedSkill = skill;
     }
@@ -140,10 +136,9 @@ export class SkillListComponent implements OnInit {
         this.skillsOut.emit(this.skillsIn);
     }
 
-    upload(event, id) {
-        console.log(event);
+    upload(files, id) {
         const formData = new FormData();
-        for (const file of event) {
+        for (const file of files) {
             formData.append('files[]', file);
         }
         formData.append('id', id.toString());

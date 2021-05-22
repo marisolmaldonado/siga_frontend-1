@@ -1,42 +1,20 @@
-{{formSkillIn.value|json}}
+<p-toast></p-toast>
 <div class="p-fluid">
     <form [formGroup]="formSkillIn" (ngSubmit)="onSubmit($event)">
         <div class="p-field">
-            <label for="startDate">Fecha de inicio</label>
-            <app-date id="startDate" name="startDate" formControlName="start_date"></app-date>
-            <div *ngIf="startDateField.errors && (startDateField.touched || startDateField.dirty)">
-                <small *ngIf="startDateField.hasError('required')"
-                       id="start-date-help-1" class="p-error">
-                    El campo es obligatorio.
-                </small>
-            </div>
+            <app-location-address [option]="2"
+                                  (formAddressOut)="formAddress=$event"
+                                  (formLocationOut)="setFormLocation($event)"
+                                  id="address" name="address" formControlName="address"></app-location-address>
         </div>
         <div class="p-field">
-            <app-location
-                    [option]="4"
-                    id="location"
-                    name="location"
-                    formControlName="location">
-            </app-location>
-            <div *ngIf="locationField.errors && (locationField.touched || locationField.dirty)">
-                <small *ngIf="locationField.hasError('required')"
-                       id="location-help-1" class="p-error">
-                    Los campos con * son obligatorios.
-                </small>
-            </div>
-        </div>
-        <div class="p-field">
-            <app-location-address id="address" name="address" formControlName="address"></app-location-address>
-            <div *ngIf="addressField.errors && (addressField.touched || addressField.dirty)">
-                <small *ngIf="addressField.hasError('required')"
-                       id="address-help-1" class="p-error">
-                    El campo es obligatorio.
-                </small>
-            </div>
-        </div>
-        <div class="p-field">
-            <label for="type">Tipo</label>
-            <p-autoComplete id="type" formControlName="type" [suggestions]="filteredTypes"
+            <label for="type">
+                <i class="p-error">*</i> Tipo:
+                <i *ngIf="typeField.valid" class="pi pi-check-circle icon-valid"></i>
+                <i *ngIf="typeField.invalid && (typeField.touched || typeField.dirty)"
+                   class="pi pi-times-circle icon-invalid"></i>
+            </label>
+            <p-autoComplete id="type" name="type" formControlName="type" [suggestions]="filteredTypes"
                             (completeMethod)="filterType($event)" field="name" [dropdown]="true">
                 <ng-template let-type pTemplate="item">
                     <div class="country-item">
@@ -44,16 +22,21 @@
                     </div>
                 </ng-template>
             </p-autoComplete>
-            <div *ngIf="typeField.errors && (typeField.touched || typeField.dirty)">
-                <small *ngIf="typeField.hasError('required')"
+            <div *ngIf="typeField.invalid && (typeField.touched || typeField.dirty)">
+                <small *ngIf="typeField.errors?.required"
                        id="type-help-1" class="p-error">
                     El campo es obligatorio.
                 </small>
             </div>
         </div>
         <div class="p-field">
-            <label for="description">Descripción</label>
-            <textarea pInputTextarea id="description" formControlName="description" rows="5"></textarea>
+            <label for="description">
+                <i class="p-error">*</i> Descripción:
+                <i *ngIf="descriptionField.valid" class="pi pi-check-circle icon-valid"></i>
+                <i *ngIf="descriptionField.invalid && (descriptionField.touched || descriptionField.dirty)"
+                   class="pi pi-times-circle icon-invalid"></i>
+            </label>
+            <textarea pInputTextarea id="description" name="type" formControlName="description" rows="5"></textarea>
             <div *ngIf="descriptionField.errors && (descriptionField.touched || descriptionField.dirty)">
                 <small *ngIf="descriptionField.hasError('required')"
                        id="description-help-1" class="p-error">

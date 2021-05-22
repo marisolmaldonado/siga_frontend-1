@@ -1,11 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {File} from '../../../../models/app/file';
-import {AppHttpService} from '../../../../services/app/app-http.service';
+import {File} from '../../../../../models/app/file';
+import {AppHttpService} from '../../../../../services/app/app-http.service';
 import {HttpParams} from '@angular/common/http';
-import {Paginator} from '../../../../models/setting/paginator';
-import {MessageService} from '../../../../services/app/message.service';
+import {Paginator} from '../../../../../models/setting/paginator';
+import {MessageService} from '../../../services/message.service';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {JobBoardHttpService} from '../../../../services/job-board/job-board-http.service';
 
 @Component({
     selector: 'app-view-files',
@@ -22,7 +21,7 @@ export class ViewFilesComponent implements OnInit {
     selectedFiles: any[];
     clonedFiles: { [s: string]: File; } = {};
 
-    constructor(private appHttpService: AppHttpService, private jobBoardHttpService: JobBoardHttpService,
+    constructor(private appHttpService: AppHttpService,
                 private messageService: MessageService, private spinnerService: NgxSpinnerService) {
     }
 
@@ -70,13 +69,10 @@ export class ViewFilesComponent implements OnInit {
     }
 
     remove(ids) {
-        console.log(ids);
         for (const id of ids) {
             this.filesIn = this.filesIn.filter(element => element.id !== id);
-            console.log(this.filesIn);
             this.paginatorIn.total = (parseInt(this.paginatorIn.total, 10) - 1).toString();
         }
-        console.log(this.filesIn.length);
         this.filesOut.emit(this.filesIn);
     }
 
@@ -99,12 +95,13 @@ export class ViewFilesComponent implements OnInit {
          this.clonedFiles[file.id] = {...file};
     }
 
-    onRowEditSave(file: File) {
+    onRowEditSave(file: File, index: number) {
         this.spinnerService.show();
         this.appHttpService.updateFile(file).subscribe(response => {
             this.spinnerService.hide();
             this.messageService.success(response);
         }, error => {
+            this.onRowEditCancel(file, index);
             this.spinnerService.hide();
             this.messageService.error(error);
         });

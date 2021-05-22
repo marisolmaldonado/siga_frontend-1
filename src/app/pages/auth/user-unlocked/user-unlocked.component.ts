@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {environment} from '../../../../environments/environment';
 import {AuthHttpService} from '../../../services/auth/auth-http.service';
-import {MessageService} from '../../../services/app/message.service';
+import {MessageService} from '../../shared/services/message.service';
 
 @Component({
     selector: 'app-user-unlocked',
