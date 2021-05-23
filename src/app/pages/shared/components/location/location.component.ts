@@ -1,10 +1,8 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
-import {HttpParams} from "@angular/common/http";
-import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
-import {AppHttpService} from "../../../../services/app/app-http.service";
-import {Location} from "../../../../models/app/location";
-import {MessageService} from "primeng/api";
-
+import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
+import {AppHttpService} from '../../../../services/app/app-http.service';
+import {Location} from '../../../../models/app/location';
+import {MessageService} from 'primeng/api';
 
 @Component({
     selector: 'app-location',
@@ -20,15 +18,12 @@ import {MessageService} from "primeng/api";
 })
 
 export class LocationComponent implements OnInit, ControlValueAccessor {
-    locations: Location[];
+    @Input() option: number;
+    formLocation: FormGroup;
     countries: Location[];
-    country: FormControl;
     provinces: Location[];
-    province: FormControl;
     cantons: Location[];
-    canton: FormControl;
     parishes: Location[];
-    parish: FormControl;
     value: string;
     onChange: (value: string) => void;
     onTouch: () => void;
@@ -46,48 +41,49 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     }
 
     ngOnInit(): void {
-        this.buildFormDate();
-        this.getCountries();
+        this.buildForm();
         this.getLocations();
     }
 
-    buildFormDate() {
-        this.country = this.formBuilder.control('', Validators.required);
-        this.province = this.formBuilder.control('', Validators.required);
-        this.canton = this.formBuilder.control('', Validators.required);
-        this.parish = this.formBuilder.control('', Validators.required);
+    buildForm() {
+        this.formLocation = this.formBuilder.group({
+            country: [null, Validators.required],
+            province: [null, Validators.required],
+            canton: [null, Validators.required],
+            parish: [null, Validators.required],
+        });
+        switch (this.option) {
+            case 1:
+                this.provinceField.setValidators(null);
+                this.cantonField.setValidators(null);
+                this.parishField.setValidators(null);
+                break;
+            case 2:
+                this.cantonField.setValidators(null);
+                this.parishField.setValidators(null);
+                break;
+            case 3:
+                this.parishField.setValidators(null);
+                break;
+        }
     }
 
     getLocations() {
-        const params = new HttpParams().append('id', 'ETHNIC_ORIGIN_TYPE');
-        this.appService.getLocations(params).subscribe(response => {
-            this.locations = response['data'];
-            const catalogues = [];
-            for (const i in this.locations) {
-                if (catalogues.indexOf(this.locations[i].type.id) === -1) {
-                    catalogues.push(this.locations[i]);
-                }
-            }
-            this.countries = this.locations.filter(element => element.type)
-        });
-    }
-
-    getCountries() {
-        this.appService.getCountries().subscribe(response => {
+        this.appService.getLocations().subscribe(response => {
             this.countries = response['data'];
         });
     }
 
     loadProvinces() {
-        this.provinces = this.locations.find(element => element.id === this.country.value.id)['children'];
+        this.provinces = this.countries.find(element => element.id === this.countryField.value.id)['children'];
     }
 
     loadCantons() {
-        this.cantons = this.provinces.find(element => element.id === this.province.value.id)['children'];
+        this.cantons = this.provinces.find(element => element.id === this.provinceField.value.id)['children'];
     }
 
     loadParishes() {
-        this.parishes = this.cantons.find(element => element.id === this.canton.value.id)['children'];
+        this.parishes = this.cantons.find(element => element.id === this.cantonField.value.id)['children'];
     }
 
     filterCountry(event) {
@@ -103,7 +99,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
             this.messageService.add({
                 severity: 'error',
                 summary: 'No existen paises disponibles',
-                detail: 'Comuníquese con el administrador!'
+                detail: 'Por favor escriba el nombre!'
             });
         }
         this.filteredCountries = filtered;
@@ -150,11 +146,11 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     filterParish(event) {
         const filtered: any[] = [];
         const query = event.query;
-        if (this.parishes.length === 0) {
+        if (this.parishes.length === 0 && !this.parishField.value) {
             this.messageService.add({
-                severity: 'error',
+                severity: 'info',
                 summary: 'No existen parroquias disponibles',
-                detail: 'Comuníquese con el administrador!'
+                detail: 'Por favor ingrese una!'
             });
         }
         for (const parish of this.parishes) {
@@ -179,15 +175,42 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
 
     writeValue(value: string): void {
         this.value = value;
-        if (this.value) {
-            this.parish.setValue(this.value);
+        switch (this.option) {
+            case 1:
+                this.countryField.setValue(value);
+                break;
+            case 2:
+                this.provinceField.setValue(value);
+                break;
+            case 3:
+                this.cantonField.setValue(value);
+                break;
+            case 4:
+                this.parishField.setValue(value);
+                break;
         }
     }
 
-    updateValue(): void {
-        if (this.country.valid && this.province.valid && this.canton.valid, this.parish.valid) {
-            this.value = this.parish.value.id;
+    updateValue(field): void {
+        if (this.formLocation.valid) {
+            this.value = field.value.id;
             this.onChange(this.value);
         }
+    }
+
+    get countryField() {
+        return this.formLocation.get('country');
+    }
+
+    get provinceField() {
+        return this.formLocation.get('province');
+    }
+
+    get cantonField() {
+        return this.formLocation.get('canton');
+    }
+
+    get parishField() {
+        return this.formLocation.get('parish');
     }
 }

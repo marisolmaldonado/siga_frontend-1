@@ -1,7 +1,7 @@
-import {Catalogue} from '../app/catalogue';
-import {Location} from '../app/location';
-import {Status} from '../app/status';
-import {Company} from './company';
+import { Catalogue } from '../app/catalogue';
+import { Location } from '../app/location';
+import { Status } from '../app/status';
+import { Company } from './company';
 
 export interface Offer {
     id?: number;
@@ -20,11 +20,11 @@ export interface Offer {
     working_day?: Catalogue;
     experience_time?: Catalogue;
     training_hours?: Catalogue;
-    location?: Location; 
+    location?: Location;
     company?: Company;
     status?: Status;
     start_date?: Date;
     end_date?: Date;
     activities?: string[];
-    requirements?: string[];    
+    requirements?: string[];
 }

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Skill} from '../../../../../models/job-board/skill';
+import {Language} from '../../../../../models/job-board/language';
 import {MessageService} from '../../../../../services/app/message.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
@@ -9,15 +9,15 @@ import {HttpParams} from '@angular/common/http';
 import {Catalogue} from '../../../../../models/app/catalogue';
 
 @Component({
-    selector: 'app-skill-form',
-    templateUrl: './skill-form.component.html',
-    styleUrls: ['./skill-form.component.scss']
+    selector: 'app-language-form',
+    templateUrl: './language-form.component.html',
+    styleUrls: ['./language-form.component.scss']
 })
 
-export class SkillFormComponent implements OnInit {
-    @Input() formSkillIn: FormGroup;
-    @Input() skillsIn: Skill[];
-    @Output() skillsOut = new EventEmitter<Skill[]>();
+export class LanguageFormComponent implements OnInit {
+    @Input() formLanguageIn: FormGroup;
+    @Input() languagesIn: Language[];
+    @Output() languagesOut = new EventEmitter<Language[]>();
     @Output() displayOut = new EventEmitter<boolean>();
     filteredTypes: any[];
     types: Catalogue[];
@@ -34,45 +34,43 @@ export class SkillFormComponent implements OnInit {
     }
 
     // Fields of Form
-    get addressField() {
-        return this.formSkillIn.get('address');
-    }
-
-    get locationField() {
-        return this.formSkillIn.get('location');
-    }
-
-    get startDateField() {
-        return this.formSkillIn.get('start_date');
-    }
-
-    get endDateField() {
-        return this.formSkillIn.get('start_date');
-    }
-
     get idField() {
-        return this.formSkillIn.get('id');
+        return this.formLanguageIn.get('id');
     }
 
-    get typeField() {
-        return this.formSkillIn.get('type');
+    get idProfessional() {
+        return this.formLanguageIn.get('id');
     }
 
-    get descriptionField() {
-        return this.formSkillIn.get('description');
+    get idIdiom() {
+        return this.formLanguageIn.get('id');
     }
+
+    get idWritten_level() {
+        return this.formLanguageIn.get('id');
+    }
+
+    get idSpoken_level() {
+        return this.formLanguageIn.get('id');
+    }
+
+    get idRead_level() {
+        return this.formLanguageIn.get('id');
+    }
+
+
 
     // Submit Form
     onSubmit(event: Event, flag = false) {
         event.preventDefault();
-        if (this.formSkillIn.valid) {
+        if (this.formLanguageIn.valid) {
             if (this.idField.value) {
-                this.updateSkill(this.formSkillIn.value);
+                this.updateLanguage(this.formLanguageIn.value);
             } else {
-                this.storeSkill(this.formSkillIn.value, flag);
+                this.storeLanguage(this.formLanguageIn.value, flag);
             }
         } else {
-            this.formSkillIn.markAllAsTouched();
+            this.formLanguageIn.markAllAsTouched();
         }
     }
 
@@ -87,14 +85,14 @@ export class SkillFormComponent implements OnInit {
     }
 
     // Save in backend
-    storeSkill(skill: Skill, flag = false) {
+    storeLanguage(language: Language, flag = false) {
         this.spinnerService.show();
-        this.jobBoardHttpService.store('skills', {skill}).subscribe(response => {
+        this.jobBoardHttpService.store('languages', {language}).subscribe(response => {
             this.spinnerService.hide();
             this.messageService.success(response);
-            this.saveSkill(response['data']);
+            this.saveLanguage(response['data']);
             if (flag) {
-                this.formSkillIn.reset();
+                this.formLanguageIn.reset();
             } else {
                 this.displayOut.emit(false);
             }
@@ -106,13 +104,13 @@ export class SkillFormComponent implements OnInit {
     }
 
     // Save in backend
-    updateSkill(skill: Skill) {
+    updateLanguage(language: Language) {
         this.spinnerService.show();
-        this.jobBoardHttpService.update('skills/' + skill.id, {skill})
+        this.jobBoardHttpService.update('languages/' + language.id, {language})
             .subscribe(response => {
                 this.spinnerService.hide();
                 this.messageService.success(response);
-                this.saveSkill(response['data']);
+                this.saveLanguage(response['data']);
                 this.displayOut.emit(false);
             }, error => {
                 this.spinnerService.hide();
@@ -121,17 +119,17 @@ export class SkillFormComponent implements OnInit {
     }
 
     // Save in frontend
-    saveSkill(skill: Skill) {
-        const index = this.skillsIn.findIndex(element => element.id === skill.id);
+    saveLanguage(language: Language) {
+        const index = this.languagesIn.findIndex(element => element.id === language.id);
         if (index === -1) {
-            this.skillsIn.push(skill);
+            this.languagesIn.push(language);
         } else {
-            this.skillsIn[index] = skill;
+            this.languagesIn[index] = language;
         }
-        this.skillsOut.emit(this.skillsIn);
+        this.languagesOut.emit(this.languagesIn);
     }
 
-    // Filter type of skills
+    // Filter type of languages
     filterType(event) {
         const filtered: any[] = [];
         const query = event.query;

@@ -1,6 +1,6 @@
-{{formSkillIn.value|json}}
+{{formExperienceIn.value|json}}
 <div class="p-fluid">
-    <form [formGroup]="formSkillIn" (ngSubmit)="onSubmit($event)">
+    <form [formGroup]="formExperienceIn" (ngSubmit)="onSubmit($event)">
         <div class="p-field">
             <label for="startDate">Fecha de inicio</label>
             <app-date id="startDate" name="startDate" formControlName="start_date"></app-date>

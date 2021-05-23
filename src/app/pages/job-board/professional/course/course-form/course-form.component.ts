@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Skill} from '../../../../../models/job-board/skill';
+import {Course} from '../../../../../models/job-board/course';
 import {MessageService} from '../../../../../services/app/message.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
@@ -9,15 +9,15 @@ import {HttpParams} from '@angular/common/http';
 import {Catalogue} from '../../../../../models/app/catalogue';
 
 @Component({
-    selector: 'app-skill-form',
-    templateUrl: './skill-form.component.html',
-    styleUrls: ['./skill-form.component.scss']
+    selector: 'app-course-form',
+    templateUrl: './course-form.component.html',
+    styleUrls: ['./course-form.component.scss']
 })
 
-export class SkillFormComponent implements OnInit {
-    @Input() formSkillIn: FormGroup;
-    @Input() skillsIn: Skill[];
-    @Output() skillsOut = new EventEmitter<Skill[]>();
+export class CourseFormComponent implements OnInit {
+    @Input() formCourseIn: FormGroup;
+    @Input() coursesIn: Course[];
+    @Output()coursesOut = new EventEmitter<Course[]>();
     @Output() displayOut = new EventEmitter<boolean>();
     filteredTypes: any[];
     types: Catalogue[];
@@ -35,44 +35,44 @@ export class SkillFormComponent implements OnInit {
 
     // Fields of Form
     get addressField() {
-        return this.formSkillIn.get('address');
+        return this.formCourseIn.get('address');
     }
 
     get locationField() {
-        return this.formSkillIn.get('location');
+        return this.formCourseIn.get('location');
     }
 
     get startDateField() {
-        return this.formSkillIn.get('start_date');
+        return this.formCourseIn.get('start_date');
     }
 
     get endDateField() {
-        return this.formSkillIn.get('start_date');
+        return this.formCourseIn.get('start_date');
     }
 
     get idField() {
-        return this.formSkillIn.get('id');
+        return this.formCourseIn.get('id');
     }
 
     get typeField() {
-        return this.formSkillIn.get('type');
+        return this.formCourseIn.get('type');
     }
 
     get descriptionField() {
-        return this.formSkillIn.get('description');
+        return this.formCourseIn.get('description');
     }
 
     // Submit Form
     onSubmit(event: Event, flag = false) {
         event.preventDefault();
-        if (this.formSkillIn.valid) {
+        if (this.formCourseIn.valid) {
             if (this.idField.value) {
-                this.updateSkill(this.formSkillIn.value);
+                this.updateCourse(this.formCourseIn.value);
             } else {
-                this.storeSkill(this.formSkillIn.value, flag);
+                this.storeCourse(this.formCourseIn.value, flag);
             }
         } else {
-            this.formSkillIn.markAllAsTouched();
+            this.formCourseIn.markAllAsTouched();
         }
     }
 
@@ -87,14 +87,14 @@ export class SkillFormComponent implements OnInit {
     }
 
     // Save in backend
-    storeSkill(skill: Skill, flag = false) {
+    storeCourse(course: Course, flag = false) {
         this.spinnerService.show();
-        this.jobBoardHttpService.store('skills', {skill}).subscribe(response => {
+        this.jobBoardHttpService.store('courses', {course}).subscribe(response => {
             this.spinnerService.hide();
             this.messageService.success(response);
-            this.saveSkill(response['data']);
+            this.saveCourse(response['data']);
             if (flag) {
-                this.formSkillIn.reset();
+                this.formCourseIn.reset();
             } else {
                 this.displayOut.emit(false);
             }
@@ -106,13 +106,13 @@ export class SkillFormComponent implements OnInit {
     }
 
     // Save in backend
-    updateSkill(skill: Skill) {
+    updateCourse(course: Course) {
         this.spinnerService.show();
-        this.jobBoardHttpService.update('skills/' + skill.id, {skill})
+        this.jobBoardHttpService.update('courses/' + course.id, {course})
             .subscribe(response => {
                 this.spinnerService.hide();
                 this.messageService.success(response);
-                this.saveSkill(response['data']);
+                this.saveCourse(response['data']);
                 this.displayOut.emit(false);
             }, error => {
                 this.spinnerService.hide();
@@ -121,17 +121,17 @@ export class SkillFormComponent implements OnInit {
     }
 
     // Save in frontend
-    saveSkill(skill: Skill) {
-        const index = this.skillsIn.findIndex(element => element.id === skill.id);
+    saveCourse(course: Course) {
+        const index = this.coursesIn.findIndex(element => element.id === course.id);
         if (index === -1) {
-            this.skillsIn.push(skill);
+            this.coursesIn.push(course);
         } else {
-            this.skillsIn[index] = skill;
+            this.coursesIn[index] = course;
         }
-        this.skillsOut.emit(this.skillsIn);
+        this.coursesOut.emit(this.coursesIn);
     }
 
-    // Filter type of skills
+    // Filter type of courses
     filterType(event) {
         const filtered: any[] = [];
         const query = event.query;

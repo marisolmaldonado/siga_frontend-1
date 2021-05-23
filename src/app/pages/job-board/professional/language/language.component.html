@@ -1,1 +1,24 @@
-<p>language works!</p>
+<div class="p-grid">
+    <div class="p-col-12">
+        <app-language-list
+                [languagesIn]="languages"
+                [flagSkills]="flagLanguages"
+                [paginatorIn]="paginator"
+                [formSkillIn]="formLanguage"
+                (skillsOut)="language=$event"
+                (displayOut)="languageDialog=$event"
+                (formSkillOut)="formLanguage=$event"
+                (paginatorOut)="getLanguages($event)">
+        </app-language-list>
+
+        <p-dialog [(visible)]="languageDialog" [style]="{width: '450px'}" header="Habilidades" [modal]="true"
+                  styleClass="p-fluid" (onHide)="languageDialog=false">
+            <app-laguage-form
+                    [skillsIn]="languages"
+                    [formSkillIn]="formLanguage"
+                    (skillsOut)="languages=$event"
+                    (displayOut)="languageDialog=$event">
+            </app-laguage-form>
+        </p-dialog>
+    </div>
+</div>

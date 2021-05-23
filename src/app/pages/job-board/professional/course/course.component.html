@@ -11,11 +11,11 @@
                 (paginatorOut)="getCourses($event)">
         </app-course-list>
 
-        <p-dialog [(visible)]="courseDialog" [style]="{width: '450px'}" header="Habilidades" [modal]="true"
+        <p-dialog [(visible)]="courseDialog" [style]="{width: '450px'}" header="Cursos" [modal]="true"
                   styleClass="p-fluid" (onHide)="courseDialog=false">
             <app-course-form
                     [coursesIn]="courses"
-                    [formCourseIn]="form"Course
+                    [formCourseIn]="formCourse"
                     (coursesOut)="courses=$event"
                     (displayOut)="courseDialog=$event">
             </app-course-form>

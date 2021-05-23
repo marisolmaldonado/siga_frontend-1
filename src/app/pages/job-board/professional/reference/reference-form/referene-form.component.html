@@ -1,0 +1,95 @@
+<div class="p-fluid">
+    <form [formGroup]="formReferenceIn" (ngSubmit)="onSubmit($event)">
+        <div class="p-field">
+            <label for="institution">Institution</label>
+            <textarea pInputTextarea id="institution" formControlName="institution" rows="5"></textarea>
+            <div *ngIf="institutionField.errors && (institutionField.touched || institutionField.dirty)">
+                <small *ngIf="institutionField.hasError('required')"
+                       id="institution-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+                <small *ngIf="institutionField.hasError('minlength')"
+                       id="institution-help-2" class="p-error">
+                    Mínimo de caracteres es {{institutionField.errors.minlength.requiredLength}}.
+                </small>
+            </div>
+        </div>
+
+        <div class="p-field">
+            <label for="position">Position</label>
+            <textarea pInputTextarea id="position" formControlName="position" rows="5"></textarea>
+            <div *ngIf="positionField.errors && (positionField.touched || positionField.dirty)">
+                <small *ngIf="positionField.hasError('required')"
+                       id="position-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+                <small *ngIf="positionField.hasError('minlength')"
+                       id="position-help-2" class="p-error">
+                    Mínimo de caracteres es {{positionField.errors.minlength.requiredLength}}.
+                </small>
+            </div>
+        </div>
+
+        <div class="p-field">
+            <label for="contact_name">nombre contacto</label>
+            <textarea pInputTextarea id="contact_name" formControlName="contact_name" rows="5"></textarea>
+            <div *ngIf="contact_nameField.errors && (contact_nameField.touched || contact_nameField.dirty)">
+                <small *ngIf="contact_nameField.hasError('required')"
+                       id="contact_name-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+                <small *ngIf="contact_nameField.hasError('minlength')"
+                       id="contact_name-help-2" class="p-error">
+                    Mínimo de caracteres es {{contact_nameField.errors.minlength.requiredLength}}.
+                </small>
+            </div>
+        </div>
+
+        <div class="p-field">
+            <label for="contact_phone">teléfono de contacto</label>
+            <textarea pInputTextarea id="contact_phone" formControlName="contact_phone" rows="5"></textarea>
+            <div *ngIf="contact_phoneField.errors && (contact_phoneField.touched || contact_phoneField.dirty)">
+                <small *ngIf="contact_phoneField.hasError('required')"
+                       id="contact_phone-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+                <small *ngIf="contact_phoneField.hasError('minlength')"
+                       id="contact_phone-help-2" class="p-error">
+                    Mínimo de caracteres es {{contact_phoneField.errors.minlength.requiredLength}}.
+                </small>
+            </div>
+        </div>
+
+        <div class="p-field">
+            <label for="contact_email">Email de contacto</label>
+            <textarea pInputTextarea id="contact_email" formControlName="description" rows="5"></textarea>
+            <div *ngIf="contact_emailField.errors && (contact_emailField.touched || contact_emailField.dirty)">
+                <small *ngIf="contact_emailField.hasError('required')"
+                       id="contact_email-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+                <small *ngIf="contact_emailField.hasError('minlength')"
+                       id="contact_email-help-2" class="p-error">
+                    Mínimo de caracteres es {{contact_emailField.errors.minlength.requiredLength}}.
+                </small>
+            </div>
+        </div>
+
+
+
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
+                        class="p-button-success p-button-raised"></button>
+            </div>
+            <div *ngIf="!idField.value" class="p-field p-col">
+                <button type="button" pButton pRipple
+                        label="Guardar"
+                        icon="pi pi-arrow-right"
+                        class="p-button-raised"
+                        (click)="onSubmit($event,true)"
+                ></button>
+            </div>
+        </div>
+    </form>
+</div>

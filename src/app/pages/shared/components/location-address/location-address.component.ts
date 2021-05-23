@@ -1,8 +1,10 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
-import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
-import {MessageService} from 'primeng/api';
-import {Address} from '../../../../models/app/models.index';
+import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
+import {Address} from '../../../../models/app/address';
 import {AppHttpService} from '../../../../services/app/app-http.service';
+import {HttpParams} from '@angular/common/http';
+import {Catalogue} from '../../../../models/app/catalogue';
+import {MessageService} from '../../../../services/app/message.service';
 
 @Component({
     selector: 'app-location-address',
@@ -19,48 +21,32 @@ import {AppHttpService} from '../../../../services/app/app-http.service';
 
 export class LocationAddressComponent implements OnInit, ControlValueAccessor {
     formAddress: FormGroup;
-    main_street: FormControl;
-    secondary_street: FormControl;
-    number: FormControl;
-    post_code: FormControl;
-    sector: FormControl;
-    indications: FormControl;
-    latitude: FormControl;
-    longitude: FormControl;
     value: Address;
     onChange: (value: Address) => void;
     onTouch: () => void;
     isDisabled: boolean;
+    sectors: Catalogue[];
 
-    constructor(private _formBuilder: FormBuilder, private _appService: AppHttpService, private _messageService: MessageService) {
+    constructor(private formBuilder: FormBuilder, private appHttpService: AppHttpService, private messageService: MessageService) {
 
     }
 
     ngOnInit(): void {
         this.buildFormAddress();
+        this.getSectors();
     }
 
     buildFormAddress() {
-        this.formAddress = this._formBuilder.group({
-            'main_street': ['', Validators.required],
-            'secondary_street': ['', Validators.required],
-            'number': [null],
-            'post_code': [null],
-            'sector': ['',Validators.required],
-            'indications': [null],
-            'latitude': [null],
-            'longitude': [null]
+        this.formAddress = this.formBuilder.group({
+            main_street: [null, Validators.required],
+            secondary_street: [null, Validators.required],
+            number: [null],
+            post_code: [null],
+            sector: [null, Validators.required],
+            reference: [null],
+            latitude: [null],
+            longitude: [null]
         });
-        /*
-        this.main_street = this._formBuilder.control('', Validators.required);
-        this.secondary_street = this._formBuilder.control('', Validators.required);
-        this.number = this._formBuilder.control('', Validators.required);
-        this.post_code = this._formBuilder.control('', Validators.required);
-        this.sector = this._formBuilder.control('', Validators.required);
-        this.indications = this._formBuilder.control('', Validators.required);
-        this.latitude = this._formBuilder.control('', Validators.required);
-        this.longitude = this._formBuilder.control('', Validators.required);
-        */
     }
 
     registerOnChange(fn: any): void {
@@ -78,16 +64,6 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
     writeValue(value: Address): void {
         this.value = value;
         if (this.value) {
-            /*
-            this.main_street.setValue(this.value.main_street);
-            this.secondary_street.setValue(this.value.secondary_street);
-            this.number.setValue(this.value.main_street);
-            this.post_code.setValue(this.value.main_street);
-            this.sector.setValue(this.value.main_street);
-            this.indications.setValue(this.value.indications);
-            this.latitude.setValue(this.value.main_street);
-            this.longitude.setValue(this.value.main_street);
-             */
             this.formAddress.patchValue(this.value);
         }
     }
@@ -97,5 +73,46 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
             this.value = this.formAddress.value;
             this.onChange(this.value);
         }
+    }
+
+    getSectors() {
+        const params = new HttpParams().append('type', 'SECTOR');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.sectors = response['data'];
+        }, error => {
+            this.messageService.error(error);
+        });
+    }
+
+    get mainStreetField() {
+        return this.formAddress.get('main_street');
+    }
+
+    get secondaryStreet() {
+        return this.formAddress.get('secondary_street');
+    }
+
+    get numberField() {
+        return this.formAddress.get('number');
+    }
+
+    get postCodeField() {
+        return this.formAddress.get('post_code');
+    }
+
+    get sectorField() {
+        return this.formAddress.get('sector');
+    }
+
+    get referenceField() {
+        return this.formAddress.get('reference');
+    }
+
+    get latitudeField() {
+        return this.formAddress.get('latitude');
+    }
+
+    get longitudeField() {
+        return this.formAddress.get('longitude');
     }
 }

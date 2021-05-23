@@ -35,8 +35,6 @@ import {SharedModule} from '../../shared/shared.module';
 import {RippleModule} from 'primeng/ripple';
 import {CompanyComponent} from './company.component';
 import {OfferComponent} from "./offer/offer.component";
-import {OfferFormComponent} from "./offer/offer-form/offer-form.component";
-import {OfferListComponent} from "./offer/offer-list/offer-list.component";
 
 @NgModule({
     imports: [
@@ -75,8 +73,6 @@ import {OfferListComponent} from "./offer/offer-list/offer-list.component";
     declarations: [
         CompanyComponent,
         OfferComponent,
-        OfferFormComponent,
-        OfferListComponent
     ],
     providers: []
 })

@@ -1,4 +1,3 @@
-<p>experience works!</p>
 <div class="p-grid">
     <div class="p-col-12">
         <app-experience-list
@@ -12,7 +11,7 @@
                 (paginatorOut)="getExperiences($event)">
         </app-experience-list>
 
-        <p-dialog [(visible)]="experienceDialog" [style]="{width: '450px'}" header="Habilidades" [modal]="true"
+        <p-dialog [(visible)]="experienceDialog" [style]="{width: '450px'}" header="Experiencias" [modal]="true"
                   styleClass="p-fluid" (onHide)="experienceDialog=false">
             <app-experience-form
                     [experiencesIn]="experiences"

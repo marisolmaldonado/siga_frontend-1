@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {JobBoardHttpService} from '../../../../services/job-board/job-board-http.service';
-import {Skill} from '../../../../models/job-board/skill';
-import {Paginator} from '../../../../models/setting/paginator';
-import {HttpParams} from '@angular/common/http';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {BreadcrumbService} from '../../../../shared/services/breadcrumb.service';
-import {MessageService} from '../../../../services/app/message.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { JobBoardHttpService } from '../../../../services/job-board/job-board-http.service';
+import { Skill } from '../../../../models/job-board/skill';
+import { Paginator } from '../../../../models/setting/paginator';
+import { HttpParams } from '@angular/common/http';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BreadcrumbService } from '../../../../shared/services/breadcrumb.service';
+import { MessageService } from '../../../../services/app/message.service';
+import { DateValidators } from "../../../shared/validators/date.validators";
 
 @Component({
     selector: 'app-skill',
@@ -27,13 +28,9 @@ export class SkillComponent implements OnInit {
         private spinnerService: NgxSpinnerService,
         private messageService: MessageService,
         private formBuilder: FormBuilder,
-        private jobBoardHttpService: JobBoardHttpService,
-        private breadcrumbService: BreadcrumbService) {
-        this.breadcrumbService.setItems([
-            {label: 'Dashboard', routerLink: ['/dashboard']},
-            {label: 'Profesional'}
-        ]);
-        this.paginator = {current_page: '1', per_page: '5'};
+        private jobBoardHttpService: JobBoardHttpService) {
+
+        this.paginator = { current_page: '1', per_page: '5' };
         this.skills = [];
     }
 
@@ -46,6 +43,10 @@ export class SkillComponent implements OnInit {
     buildFormSkill() {
         this.formSkill = this.formBuilder.group({
             id: [null],
+            address: [null, Validators.required],
+            location: [null, Validators.required],
+            start_date: [null, Validators.required, DateValidators.valid],
+            end_date: [null, Validators.required, DateValidators.valid],
             type: [null, Validators.required],
             description: [null, [Validators.required, Validators.minLength(10)]],
         });
