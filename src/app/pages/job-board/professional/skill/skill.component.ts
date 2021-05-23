@@ -28,7 +28,7 @@ export class SkillComponent implements OnInit {
         private formBuilder: FormBuilder,
         private jobBoardHttpService: JobBoardHttpService) {
 
-        this.paginator = {current_page: '1', per_page: '5'};
+        this.paginator = {current_page: 1, per_page: 2};
         this.skills = [];
     }
 
@@ -41,7 +41,7 @@ export class SkillComponent implements OnInit {
     buildFormSkill() {
         this.formSkill = this.formBuilder.group({
             id: [null],
-            address: [null, Validators.required],
+            address: [null],
             type: [null, Validators.required],
             description: [null, [Validators.required, Validators.minLength(10)]],
         });
@@ -50,8 +50,8 @@ export class SkillComponent implements OnInit {
     // skills of backend
     getSkills(paginator: Paginator) {
         const params = new HttpParams()
-            .append('page', paginator.current_page)
-            .append('per_page', paginator.per_page);
+            .append('page', paginator.current_page.toString())
+            .append('per_page', paginator.per_page.toString());
 
         this.flagSkills = true;
         // this.spinnerService.show();
