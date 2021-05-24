@@ -93,7 +93,7 @@ import {LanguageListComponent} from "./language/language-list/language-list.comp
         ExperienceComponent,
         LanguageComponent,
         LanguageFormComponent,
-        LanguageListComponent
+        LanguageListComponent,
     ],
     providers: []
 })
