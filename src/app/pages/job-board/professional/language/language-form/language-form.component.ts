@@ -29,7 +29,7 @@ export class LanguageFormComponent implements OnInit {
                 private jobBoardHttpService: JobBoardHttpService) {
     }
 
-    ngOnInit(): void {
+   ngOnInit(): void {
         this.getTypes();
     }
 
@@ -39,23 +39,23 @@ export class LanguageFormComponent implements OnInit {
     }
 
     get idProfessional() {
-        return this.formLanguageIn.get('id');
+        return this.formLanguageIn.get('professional');
     }
 
     get idIdiom() {
-        return this.formLanguageIn.get('id');
+        return this.formLanguageIn.get('idiom');
     }
 
     get idWritten_level() {
-        return this.formLanguageIn.get('id');
+        return this.formLanguageIn.get('written_level');
     }
 
     get idSpoken_level() {
-        return this.formLanguageIn.get('id');
+        return this.formLanguageIn.get('spoken_level');
     }
 
     get idRead_level() {
-        return this.formLanguageIn.get('id');
+        return this.formLanguageIn.get('read_level');
     }
 
 
@@ -76,7 +76,7 @@ export class LanguageFormComponent implements OnInit {
 
     // Types of catalogues
     getTypes() {
-        const params = new HttpParams().append('type', 'SKILL_TYPE');
+        const params = new HttpParams().append('type', 'PROFESSIONAL');
         this.appHttpService.getCatalogues(params).subscribe(response => {
             this.types = response['data'];
         }, error => {

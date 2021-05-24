@@ -19,23 +19,32 @@ export class ReferenceFormComponent implements OnInit {
     @Input() referencesIn: Reference[];
     @Output() referencesOut = new EventEmitter<Reference[]>();
     @Output() displayOut = new EventEmitter<boolean>();
-   
+    filteredTypes: any[];
+    types: Catalogue[];
+    formAddress: FormGroup;
+    formLocation: FormGroup;
 
     constructor(private formBuilder: FormBuilder,
                 private messageService: MessageService,
+                private messagePnService: MessageService,
                 private spinnerService: NgxSpinnerService,
                 private appHttpService: AppHttpService,
                 private jobBoardHttpService: JobBoardHttpService) {
     }
 
     ngOnInit(): void {
-   
+        this.getTypes();
     }
 
-    // campos de formulario
+    // Fields of Form
     get idField() {
         return this.formReferenceIn.get('id');
     }
+
+    get professionalField() {
+        return this.formReferenceIn.get('professional');
+    }
+    
 
     get institutionField() {
         return this.formReferenceIn.get('institution');
@@ -45,18 +54,20 @@ export class ReferenceFormComponent implements OnInit {
         return this.formReferenceIn.get('position');
     }
 
-    get contact_nameField() {
+    get contactNameField() {
         return this.formReferenceIn.get('contact_name');
     }
 
-    get contact_phoneField() {
-        return this.formReferenceIn.get('contact_phone');
+    get contactPhoneField() {
+        return this.formReferenceIn.get('contact_phon');
     }
 
-    get contact_emailField() {
+    get contactEmailField() {
         return this.formReferenceIn.get('contact_email');
     }
-    // Enviar formulario
+
+   
+    // Submit Form
     onSubmit(event: Event, flag = false) {
         event.preventDefault();
         if (this.formReferenceIn.valid) {
@@ -70,7 +81,16 @@ export class ReferenceFormComponent implements OnInit {
         }
     }
 
-    
+    // Types of catalogues
+    getTypes() {
+        const params = new HttpParams().append('type', 'SKILL_TYPE');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.types = response['data'];
+        }, error => {
+            this.messageService.error(error);
+        });
+    }
+
     // Save in backend
     storeReference(reference: Reference, flag = false) {
         this.spinnerService.show();
@@ -78,9 +98,7 @@ export class ReferenceFormComponent implements OnInit {
             this.spinnerService.hide();
             this.messageService.success(response);
             this.saveReference(response['data']);
-            if (flag) {
-                this.formReferenceIn.reset();
-            } else {
+            if (!flag) {
                 this.displayOut.emit(false);
             }
 
@@ -93,7 +111,7 @@ export class ReferenceFormComponent implements OnInit {
     // Save in backend
     updateReference(reference: Reference) {
         this.spinnerService.show();
-        this.jobBoardHttpService.update('references/' + reference.id, {reference})
+        this.jobBoardHttpService.update('referencels/' + reference.id, {reference})
             .subscribe(response => {
                 this.spinnerService.hide();
                 this.messageService.success(response);
@@ -116,5 +134,15 @@ export class ReferenceFormComponent implements OnInit {
         this.referencesOut.emit(this.referencesIn);
     }
 
- 
-}
+     // Filter type of skills
+     filterType(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const type of this.types) {
+            if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(type);
+            }
+        }
+        this.filteredTypes = filtered;
+    }
+    }

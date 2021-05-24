@@ -1,5 +1,5 @@
 <div class="p-fluid">
-    <form [formGroup]="formSkillIn" (ngSubmit)="onSubmit($event)">
+    <form [formGroup]="formCourseIn" (ngSubmit)="onSubmit($event)">
         <div class="p-field">
             <label for="type">Tipo</label>
             <p-autoComplete id="type" formControlName="type" [suggestions]="filteredTypes"

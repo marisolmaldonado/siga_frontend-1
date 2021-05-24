@@ -38,8 +38,28 @@ export class CourseFormComponent implements OnInit {
         return this.formCourseIn.get('id');
     }
 
-    get typeField() {
+    get idProfessional() {
+        return this.formCourseIn.get('id');
+    }
+
+    get type() {
         return this.formCourseIn.get('type');
+    }
+
+    get institutionField() {
+        return this.formCourseIn.get('institution');
+    }
+
+    get certificationTypeField() {
+        return this.formCourseIn.get('certification_type');
+    }
+
+    get areaField() {
+        return this.formCourseIn.get('area');
+    }
+
+    get nameField() {
+        return this.formCourseIn.get('name');
     }
 
     get descriptionField() {
@@ -62,7 +82,7 @@ export class CourseFormComponent implements OnInit {
 
     // Types of catalogues
     getTypes() {
-        const params = new HttpParams().append('type', 'SKILL_TYPE');
+        const params = new HttpParams().append('type', 'COURSE_TYPE');
         this.appHttpService.getCatalogues(params).subscribe(response => {
             this.types = response['data'];
         }, error => {

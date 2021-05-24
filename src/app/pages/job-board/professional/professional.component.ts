@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {BreadcrumbService} from '../../../shared/services/breadcrumb.service';
 
 @Component({
     selector: 'app-professional',
@@ -7,8 +8,11 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ProfessionalComponent implements OnInit {
 
-    constructor() {
-
+    constructor(private breadcrumbService: BreadcrumbService) {
+        this.breadcrumbService.setItems([
+            {label: 'Dashboard', routerLink: ['/dashboard']},
+            {label: 'Profesional'}
+        ]);
     }
 
     ngOnInit(): void {

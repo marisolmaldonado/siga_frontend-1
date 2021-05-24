@@ -34,6 +34,22 @@ export class SkillFormComponent implements OnInit {
     }
 
     // Fields of Form
+    get addressField() {
+        return this.formSkillIn.get('address');
+    }
+
+    get locationField() {
+        return this.formSkillIn.get('location');
+    }
+
+    get startDateField() {
+        return this.formSkillIn.get('start_date');
+    }
+
+    get endDateField() {
+        return this.formSkillIn.get('start_date');
+    }
+
     get idField() {
         return this.formSkillIn.get('id');
     }

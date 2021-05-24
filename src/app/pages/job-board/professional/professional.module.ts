@@ -39,8 +39,13 @@ import {SkillFormComponent} from "./skill/skill-form/skill-form.component";
 import {SkillListComponent} from "./skill/skill-list/skill-list.component";
 import { CourseComponent } from './course/course.component';
 import { ReferenceComponent } from './reference/reference.component';
+import { ReferenceFormComponent } from "./reference/reference-form/reference-form.component";
+import { ReferenceListComponent } from "./reference/reference-list/reference-list.component";
 import { ExperienceComponent } from './experience/experience.component';
 import { LanguageComponent } from './language/language.component';
+import {LanguageFormComponent} from "./language/language-form/language-form.component";
+import {LanguageListComponent} from "./language/language-list/language-list.component";
+
 
 @NgModule({
     imports: [
@@ -83,8 +88,12 @@ import { LanguageComponent } from './language/language.component';
         SkillListComponent,
         CourseComponent,
         ReferenceComponent,
+        ReferenceFormComponent,
+        ReferenceListComponent,
         ExperienceComponent,
-        LanguageComponent
+        LanguageComponent,
+        LanguageFormComponent,
+        LanguageListComponent
     ],
     providers: []
 })

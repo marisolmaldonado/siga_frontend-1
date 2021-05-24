@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Skill} from '../../../../../models/job-board/skill';
+import {Course} from '../../../../../models/job-board/course';
 import {FormGroup} from '@angular/forms';
 import {Col} from '../../../../../models/setting/col';
 import {Paginator} from '../../../../../models/setting/paginator';
@@ -10,22 +10,22 @@ import {HttpParams} from '@angular/common/http';
 import {File} from '../../../../../models/app/file';
 
 @Component({
-    selector: 'app-skill-list',
-    templateUrl: './skill-list.component.html',
-    styleUrls: ['./skill-list.component.scss']
+    selector: 'app-course-list',
+    templateUrl: './course-list.component.html',
+    styleUrls: ['./course-list.component.scss']
 })
-export class SkillListComponent implements OnInit {
-    @Input() flagSkills: boolean;
-    @Input() skillsIn: Skill[];
+export class CourseListComponent implements OnInit {
+    @Input() flagCourses: boolean;
+    @Input() coursesIn: Course[];
     @Input() paginatorIn: Paginator;
-    @Input() formSkillIn: FormGroup;
+    @Input() formCourseIn: FormGroup;
     @Input() displayIn: boolean;
-    @Output() skillsOut = new EventEmitter<Skill[]>();
-    @Output() formSkillOut = new EventEmitter<FormGroup>();
+    @Output() coursesOut = new EventEmitter<Course[]>();
+    @Output() formCourseOut = new EventEmitter<FormGroup>();
     @Output() displayOut = new EventEmitter<boolean>();
     @Output() paginatorOut = new EventEmitter<Paginator>();
-    selectedSkills: any[];
-    selectedSkill: Skill;
+    selectedCourses: any[];
+    selectedCourse: Course;
     dialogUploadFiles: boolean;
     dialogViewFiles: boolean;
     files: File[];
@@ -44,13 +44,13 @@ export class SkillListComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    // Search skills in backend
-    searchSkills(event, search) {
+    // Search courses in backend
+    searchCourses(event, search) {
         if (event.type === 'click' || event.keyCode === 13 || search.length === 0) {
             const params = search.length > 0 ? new HttpParams().append('search', search) : null;
             this.spinnerService.show();
-            this.jobBoardHttpService.get('skills', params).subscribe(response => {
-                this.skillsIn = response['data'],
+            this.jobBoardHttpService.get('courses', params).subscribe(response => {
+                this.coursesIn = response['data'],
                     this.spinnerService.hide();
             }, error => {
                 this.spinnerService.hide();
@@ -59,37 +59,36 @@ export class SkillListComponent implements OnInit {
         }
     }
 
-    openNewFormSkill() {
-        this.formSkillIn.reset();
-        this.formSkillOut.emit(this.formSkillIn);
+    openNewFormCourse() {
+        this.formCourseIn.reset();
+        this.formCourseOut.emit(this.formCourseIn);
         this.displayOut.emit(true);
     }
 
-    openEditFormSkill(skill: Skill) {
-        this.formSkillIn.patchValue(skill);
-        this.formSkillOut.emit(this.formSkillIn);
+    openEditFormCourse(course: Course) {
+        this.formCourseIn.patchValue(course);
+        this.formCourseOut.emit(this.formCourseIn);
         this.displayOut.emit(true);
     }
-
-    openUploadFilesSkill() {
+    openUploadFilesCourse() {
         this.dialogUploadFiles = true;
     }
 
-    selectSkill(skill: Skill) {
-        this.selectedSkill = skill;
+    selectCourse(course: Course) {
+        this.selectedCourse = course;
     }
 
-    openViewFilesSkill() {
+    openViewFilesCourse() {
         this.getFiles(this.paginatorFiles);
     }
 
     getFiles(paginator: Paginator) {
         const params = new HttpParams()
-            .append('id', this.selectedSkill.id.toString())
+            .append('id', this.selectedCourse.id.toString())
             .append('page', paginator.current_page)
             .append('per_page', paginator.per_page);
         this.spinnerService.show();
-        this.jobBoardHttpService.getFiles('skill/file', params).subscribe(response => {
+        this.jobBoardHttpService.getFiles('course/file', params).subscribe(response => {
             this.spinnerService.hide();
             this.files = response['data'];
             this.paginatorFiles = response as Paginator;
@@ -107,23 +106,23 @@ export class SkillListComponent implements OnInit {
         this.paginatorOut.emit(this.paginatorIn);
     }
 
-    deleteSkills(skill = null) {
+    deleteCourses(course = null) {
         this.messageService.questionDelete({})
             .then((result) => {
                 if (result.isConfirmed) {
-                    if (skill) {
-                        this.selectedSkills = [];
-                        this.selectedSkills.push(skill);
+                    if (course) {
+                        this.selectedCourses = [];
+                        this.selectedCourses.push(course);
                     }
 
-                    const ids = this.selectedSkills.map(element => element.id);
+                    const ids = this.selectedCourses.map(element => element.id);
                     this.spinnerService.show();
-                    this.jobBoardHttpService.delete('skill/delete', ids)
+                    this.jobBoardHttpService.delete('course/delete', ids)
                         .subscribe(response => {
                             this.spinnerService.hide();
                             this.messageService.success(response);
-                            this.removeSkills(ids);
-                            this.selectedSkills = [];
+                            this.removeCourses(ids);
+                            this.selectedCourses = [];
                         }, error => {
                             this.spinnerService.hide();
                             this.messageService.error(error);
@@ -133,11 +132,11 @@ export class SkillListComponent implements OnInit {
 
     }
 
-    removeSkills(ids) {
+    removeCourses(ids) {
         for (const id of ids) {
-            this.skillsIn = this.skillsIn.filter(element => element.id !== id);
+            this.coursesIn = this.coursesIn.filter(element => element.id !== id);
         }
-        this.skillsOut.emit(this.skillsIn);
+        this.coursesOut.emit(this.coursesIn);
     }
 
     upload(event, id) {
@@ -148,7 +147,7 @@ export class SkillListComponent implements OnInit {
         }
         formData.append('id', id.toString());
         this.spinnerService.show();
-        this.jobBoardHttpService.uploadFiles('skill/file', formData).subscribe(response => {
+        this.jobBoardHttpService.uploadFiles('course/file', formData).subscribe(response => {
             this.spinnerService.hide();
             this.messageService.success(response);
             this.getFiles(this.paginatorFiles);
@@ -159,10 +158,10 @@ export class SkillListComponent implements OnInit {
     }
 
     searchFiles(search) {
-        let params = new HttpParams().append('id', this.selectedSkill.id.toString());
+        let params = new HttpParams().append('id', this.selectedCourse.id.toString());
         params = search.length > 0 ? params.append('search', search) : params;
         this.spinnerService.show();
-        this.jobBoardHttpService.get('skill/file', params).subscribe(response => {
+        this.jobBoardHttpService.get('course/file', params).subscribe(response => {
             this.files = response['data'];
             this.spinnerService.hide();
         }, error => {

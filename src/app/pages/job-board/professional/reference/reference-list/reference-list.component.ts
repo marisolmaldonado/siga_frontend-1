@@ -7,7 +7,7 @@ import {MessageService} from '../../../../../services/app/message.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
 import {HttpParams} from '@angular/common/http';
-import {File} from "../../../../../models/app/file";
+import {File} from '../../../../../models/app/file';
 
 @Component({
     selector: 'app-reference-list',
@@ -16,7 +16,7 @@ import {File} from "../../../../../models/app/file";
 })
 export class ReferenceListComponent implements OnInit {
     @Input() flagReferences: boolean;
-    @Input()referencesIn: Reference[];
+    @Input() referencesIn: Reference[];
     @Input() paginatorIn: Paginator;
     @Input() formReferenceIn: FormGroup;
     @Input() displayIn: boolean;

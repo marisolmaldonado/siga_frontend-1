@@ -1,5 +1,39 @@
+{{formSkillIn.value|json}}
 <div class="p-fluid">
     <form [formGroup]="formSkillIn" (ngSubmit)="onSubmit($event)">
+        <div class="p-field">
+            <label for="startDate">Fecha de inicio</label>
+            <app-date id="startDate" name="startDate" formControlName="start_date"></app-date>
+            <div *ngIf="startDateField.errors && (startDateField.touched || startDateField.dirty)">
+                <small *ngIf="startDateField.hasError('required')"
+                       id="start-date-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+            </div>
+        </div>
+        <div class="p-field">
+            <app-location
+                    [option]="4"
+                    id="location"
+                    name="location"
+                    formControlName="location">
+            </app-location>
+            <div *ngIf="locationField.errors && (locationField.touched || locationField.dirty)">
+                <small *ngIf="locationField.hasError('required')"
+                       id="location-help-1" class="p-error">
+                    Los campos con * son obligatorios.
+                </small>
+            </div>
+        </div>
+        <div class="p-field">
+            <app-location-address id="address" name="address" formControlName="address"></app-location-address>
+            <div *ngIf="addressField.errors && (addressField.touched || addressField.dirty)">
+                <small *ngIf="addressField.hasError('required')"
+                       id="address-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+            </div>
+        </div>
         <div class="p-field">
             <label for="type">Tipo</label>
             <p-autoComplete id="type" formControlName="type" [suggestions]="filteredTypes"
