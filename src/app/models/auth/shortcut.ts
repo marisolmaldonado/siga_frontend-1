@@ -6,5 +6,4 @@ export interface Shortcut {
     user?: User;
     role?: Role;
     permission?: Permission;
-    
 }

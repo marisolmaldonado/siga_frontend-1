@@ -1,17 +1,14 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {Role} from '../../../../models/auth/role';
-import {Institution} from '../../../../models/app/institution';
-import {Permission} from '../../../../models/auth/permission';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {AuthService} from '../../../../services/auth/auth.service';
-import {User} from '../../../../models/auth/user';
 import {HttpParams} from '@angular/common/http';
 import {environment} from '../../../../../environments/environment';
-import {AuthHttpService} from '../../../../services/auth/auth-http.service';
 import {MessageService} from '../../../shared/services/message.service';
+import {User, Role} from '../../../../models/auth/models.index';
+import {Institution} from '../../../../models/app/institution';
+import {AuthHttpService} from '../../../../services/auth/auth-http.service';
+import {AuthService} from '../../../../services/auth/auth.service';
 
 @Component({
     selector: 'app-select-institution-role',
@@ -23,19 +20,16 @@ export class SelectInstitutionRoleComponent implements OnInit {
     formInstitutionRole: FormGroup;
     roles: Role[];
     institutions: Institution[];
-    permissions: Permission[];
     auth: User;
     STORAGE_URL: string = environment.STORAGE_URL;
-    private subscription: Subscription;
 
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
                 private authHttpService: AuthHttpService,
                 private spinnerService: NgxSpinnerService,
-                private messageService: MessageService,
+                public messageService: MessageService,
                 private authService: AuthService
     ) {
-        this.subscription = new Subscription();
         this.auth = authService.auth;
         this.institutions = authService.institutions;
     }
@@ -46,13 +40,12 @@ export class SelectInstitutionRoleComponent implements OnInit {
 
     buildFormInstitutionRole() {
         this.formInstitutionRole = this.formBuilder.group({
-            institution: ['', Validators.required],
-            role: [''],
+            institution: [null, Validators.required],
+            role: [null, Validators.required],
         });
     }
 
-    onSubmitContinue(event: Event) {
-        event.preventDefault();
+    onSubmitContinue() {
         if (this.formInstitutionRole.valid) {
             this.continueLogin();
         } else {
@@ -70,18 +63,15 @@ export class SelectInstitutionRoleComponent implements OnInit {
     getRoles() {
         const params = new HttpParams().append('institution', this.institutionField.value['id']);
         this.spinnerService.show();
-        this.subscription.add(
-            this.authHttpService.get('auth/roles', params).subscribe(response => {
-                this.spinnerService.hide();
-                this.roles = response['data'];
-                if (this.roles?.length === 0) {
-                    this.messageService.success(response);
-                }
-            }, error => {
-                this.spinnerService.hide();
-                this.roles = [];
-                this.messageService.error(error);
-            }));
+
+        this.authHttpService.get('auth/roles', params).subscribe(response => {
+            this.spinnerService.hide();
+            this.roles = response['data'];
+        }, error => {
+            this.spinnerService.hide();
+            this.messageService.error(error);
+            this.roles = [];
+        });
     }
 
     getPermissions() {
@@ -89,20 +79,15 @@ export class SelectInstitutionRoleComponent implements OnInit {
             .append('role', this.roleField.value['id'])
             .append('institution', this.institutionField.value['id']);
         this.spinnerService.show();
-        this.subscription.add(
-            this.authHttpService.get('auth/permissions', params).subscribe(response => {
-                this.spinnerService.hide();
-                const permissions = response['data'];
-
-                if (!permissions) {
-                    this.messageService.success(response);
-                } else {
-                    localStorage.setItem('permissions', JSON.stringify(permissions));
-                    this.continueLogin();
-                }
-            }, error => {
-                this.spinnerService.hide();
-            }));
+        this.authHttpService.get('auth/permissions', params).subscribe(response => {
+            this.spinnerService.hide();
+            const permissions = response['data'];
+            this.authService.setPermissions(permissions);
+            this.continueLogin();
+        }, error => {
+            this.spinnerService.hide();
+            this.messageService.success(error);
+        });
     }
 
     returnLogin() {
@@ -115,9 +100,5 @@ export class SelectInstitutionRoleComponent implements OnInit {
 
     get roleField() {
         return this.formInstitutionRole.get('role');
-    }
-
-    get institutionDenominationField() {
-        return this.institutionField.value['denomination'];
     }
 }

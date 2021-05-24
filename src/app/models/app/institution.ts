@@ -9,5 +9,4 @@ export interface Institution {
     slogan?: string;
     logo?: string;
     web?: string;
-    
 }

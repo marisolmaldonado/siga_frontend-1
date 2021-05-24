@@ -10,7 +10,7 @@
                         {{institutionField?.value['name']}}
                     </b>
                 </h3>
-                <hr>
+                <p-divider></p-divider>
                 <img *ngIf="institutionField.valid" [src]="STORAGE_URL + institutionField.value['logo']"
                      alt="logo" height="80px"/>
             </div>
@@ -20,19 +20,23 @@
         </div>
         <div class="p-lg-6 p-md-12 p-sm-12 p-d-flex p-ai-center p-jc-center">
             <div class="p-fluid" style="width: 100%;">
-                <form [formGroup]="formInstitutionRole" (ngSubmit)="onSubmitContinue($event)">
+                <form [formGroup]="formInstitutionRole" (ngSubmit)="onSubmitContinue()">
                     <div class="p-field">
-                        <button id="usernameDisabled" name="usernameDisabled" pButton type="button"
+                        <button pButton pRipple type="button" id="usernameDisabled"
                                 [label]="auth?.full_name"
-                                class="p-button-raised p-button-lg p-text-uppercase" iconPos="right"
-                                icon="pi pi-chevron-circle-down" style="width: 100%;">
+                                class="p-button-raised p-button-lg p-text-uppercase"
+                                iconPos="right"
+                                icon="pi pi-user">
                         </button>
                     </div>
                     <div class="p-field">
                         <label for="institution">Institución:</label>
-                        <p-dropdown id="institution" name="institution" formControlName="institution"
-                                    [options]="institutions" optionLabel="short_name" placeholder="Seleccione..."
-                                    [style]="{'width':'100%'}" (onChange)="getRoles()">
+                        <p-dropdown id="institution"
+                                    formControlName="institution"
+                                    [options]="institutions"
+                                    optionLabel="short_name"
+                                    placeholder="Seleccione..."
+                                    (onChange)="getRoles()">
                             <ng-template pTemplate="selectedItem">
                                 <div class="country-item country-item-value"
                                      *ngIf="institutionField">
@@ -49,28 +53,36 @@
                                 </div>
                             </ng-template>
                         </p-dropdown>
-                        <div *ngIf="institutionField.errors && institutionField.touched">
-                            <small id="institutionHelp" class="p-error"
-                                   *ngIf="institutionField.hasError('required')">
-                                El campo es requerido.
+                        <div *ngIf="institutionField.invalid && (institutionField.touched || institutionField.dirty)">
+                            <small id="institution-help-1" class="p-error"
+                                   *ngIf="institutionField.errors?.required">
+                                {{messageService.fieldRequired}}
                             </small>
                         </div>
                     </div>
                     <div class="p-field" *ngIf="roles?.length>0">
                         <label for="role">Rol:</label>
-                        <p-dropdown id="role" name="role" formControlName="role" [options]="roles"
-                                    placeholder="Seleccione..." optionLabel="name"
-                                    [style]="{'width':'100%'}" (onChange)="getPermissions()"></p-dropdown>
-                        <div *ngIf="roleField.errors && roleField.touched">
-                            <small id="roleHelp" class="p-error"
-                                   *ngIf="roleField.hasError('required')">
-                                EL campo es requerido.
+                        <p-dropdown id="role"
+                                    formControlName="role"
+                                    [options]="roles"
+                                    placeholder="Seleccione..."
+                                    optionLabel="name"
+                                    (onChange)="getPermissions()">
+                        </p-dropdown>
+                        <div *ngIf="roleField.invalid && (roleField.touched || roleField.dirty)">
+                            <small id="role-help-1" class="p-error"
+                                   *ngIf="roleField.errors?.required">
+                                {{messageService.fieldRequired}}
                             </small>
                         </div>
                     </div>
                     <div class="p-field">
-                        <button id="goToLogin" name="goToLogin" type="button" pButton label="Regresar"
-                                icon="pi pi-arrow-left" (click)="returnLogin()"></button>
+                        <button pButton pRipple type="button" id="btnToLogin"
+                                label="Regresar al Login"
+                                class="p-button-warning"
+                                icon="pi pi-arrow-left"
+                                (click)="returnLogin()">
+                        </button>
                     </div>
                 </form>
             </div>

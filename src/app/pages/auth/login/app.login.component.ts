@@ -16,6 +16,7 @@ import {AuthHttpService} from '../../../services/auth/auth-http.service';
     templateUrl: './app.login.component.html',
     styleUrls: ['./login.component.scss']
 })
+
 export class AppLoginComponent implements OnInit, OnDestroy {
     dark: boolean;
     checked: boolean;
@@ -25,7 +26,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     roles: Role[];
     institutions: Institution[];
     flagLogin: string;
-
+    flagSkeleton: boolean;
     private subscription: Subscription;
 
     constructor(private authService: AuthService,
@@ -60,8 +61,12 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     }
 
     getSystem() {
+        this.flagSkeleton = true;
         this.authHttpService.get('systems/' + environment.SYSTEM_ID).subscribe(response => {
+            this.flagSkeleton = false;
             this.system = response['data'];
+        }, error => {
+            this.flagSkeleton = false;
         });
     }
 
@@ -138,8 +143,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                 });
     }
 
-    onSubmitLogin(event: Event) {
-        event.preventDefault();
+    onSubmitLogin() {
         if (this.formLogin.valid) {
             this.login();
         } else {
