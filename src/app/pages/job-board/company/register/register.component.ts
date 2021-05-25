@@ -3,7 +3,7 @@ import { User } from '../../../../models/auth/user';
 import { Company } from '../../../../models/job-board/company';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { DateValidators } from 'src/app/pages/shared/validators/date.validators';
-
+import {Validations} from './utils/validations';
 
 @Component({
   selector: 'app-register',
@@ -24,31 +24,32 @@ export class RegisterComponent implements OnInit {
     this.buildFormRegister();
   }
 
-  buildFormRegister(){
+  buildFormRegister() {
 
     this.formRegister = this.formBuilder.group({
 
       user: this.formBuilder.group({
-        username:[null, Validators.required],
-        identification:[null, Validators.required],
-        email:[null, Validators.required],
-        password:[null, Validators.required],
-        password_confirmation:[null, Validators.required],
-        address:[null, Validators.required],
-        location:[null,Validators.required],
-        status:[null,Validators.required],
-        identificationType:[null, Validators.required],
-        date:[null,[Validators.required,DateValidators.valid]]
-        
-      }), 
-      trade_name:[null, Validators.required],
-      comercial_activities:[null, Validators.required],
-      web:[null, Validators.required],
-      type:[null, Validators.required],
-      activityType:[null, Validators.required],
-      personType:[null, Validators.required],
-  
+        username: [null, Validators.required],
+        identification: [null, Validators.required],
+        email: [null, Validators.required],
+        password: [null, Validators.required],
+        password_confirmation: [null, Validators.required],
+        address: [null, Validators.required],
+        location: [null, Validators.required],
+        status: [null, Validators.required],
+        identificationType: [null, Validators.required],
+        date: [null, [Validators.required, DateValidators.valid]]
+      },{validator:Validations.confirmPasswordValidator}),
+      trade_name: [null, Validators.required],
+      comercial_activities: this.formBuilder.array([
+        this.formBuilder.control(null, Validators.required)
+      ]),
+      web: [null, Validators.required],
+      type: [null, Validators.required],
+      activityType: [null, Validators.required],
+      personType: [null, Validators.required],
+
     });
-    console.log(this.formRegister['controls']['user']['controls']['identificationType'])
+    console.log(this.formRegister['controls']['comercial_activities']);
   }
 }

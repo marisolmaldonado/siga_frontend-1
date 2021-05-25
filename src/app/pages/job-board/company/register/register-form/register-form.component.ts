@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Company} from '../../../../../models/job-board/company';
 import {MessageService} from '../../../../../services/app/message.service';
 import {NgxSpinnerService} from 'ngx-spinner';
@@ -17,6 +17,10 @@ export class RegisterFormComponent implements OnInit {
   @Input() formRegisterIn: FormGroup;
   @Output() displayOut = new EventEmitter<boolean>();
   identificationTypes:Catalogue[];
+  personType:Catalogue[];
+  activityType:Catalogue[];
+  filteredactivityType:any[];
+  filteredpersonType:any[];
   filteredidentificationTypes: any[];
 
   constructor(
@@ -29,7 +33,9 @@ export class RegisterFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getIdentificationTypes();
+    this.getIdentificationTypes(),
+    this.getPersonType(),
+    this.getActivityType()
   }
    // Fields of Form
    get usernameField() {
@@ -56,6 +62,10 @@ export class RegisterFormComponent implements OnInit {
         return this.formRegisterIn['controls']['user'].get('address');
     }
 
+    get locationField() {
+        return this.formRegisterIn['controls']['user'].get('location');
+    }
+
     get statusField() {
         return this.formRegisterIn['controls']['user'].get('status');
     }
@@ -69,7 +79,14 @@ export class RegisterFormComponent implements OnInit {
     }
 
     get comercialActivitiesField() {
-        return this.formRegisterIn.get('comercial_activities');
+        return this.formRegisterIn.get('comercial_activities') as FormArray;
+    }
+
+    addComercialActivity(){
+        this.comercialActivitiesField.push(this.formBuilder.control(null,Validators.required));
+    }
+    removeComercialActivity(index){
+        this.comercialActivitiesField.removeAt(index);
     }
 
     get webField() {
@@ -95,7 +112,7 @@ export class RegisterFormComponent implements OnInit {
 
   register(company: Company, flag = false) {
     this.spinnerService.show();
-    this.jobBoardHttpService.store('register', {company}).subscribe(response => {
+    this.jobBoardHttpService.store('company/register', {company}).subscribe(response => {
         this.spinnerService.hide();
         this.messageService.success(response); 
         this.router.navigate(['/auth/login'])
@@ -124,7 +141,23 @@ onSubmit(event: Event, flag = false) {
                 this.messageService.error(error);
             });
         } 
-        // Filter type of skills
+        getPersonType() {
+            const params = new HttpParams().append('type', 'COMPANY_PERSON_TYPE');
+            this.appHttpService.getCatalogues(params).subscribe(response => {
+                this.personType = response['data'];
+            }, error => {
+                this.messageService.error(error);
+            });
+        } 
+        getActivityType() {
+            const params = new HttpParams().append('type', 'COMPANY_ACTIVITY_TYPE');
+            this.appHttpService.getCatalogues(params).subscribe(response => {
+                this.activityType = response['data'];
+            }, error => {
+                this.messageService.error(error);
+            });
+        } 
+        // Filter type of companies
     filterType(event) {
         const filtered: any[] = [];
         const query = event.query;
@@ -134,6 +167,26 @@ onSubmit(event: Event, flag = false) {
             }
         }
         this.filteredidentificationTypes = filtered;
+    }
+    filterPersonType(event){
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const type of this.personType) {
+            if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(type);
+            }
+        }
+        this.filteredpersonType = filtered;
+    }
+    filterActivityType(event){
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const type of this.activityType) {
+            if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(type);
+            }
+        }
+        this.filteredactivityType = filtered;
     }
 
 }

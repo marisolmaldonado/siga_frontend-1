@@ -2,35 +2,28 @@
 <div class="p-fluid">
   <form [formGroup]="formRegisterIn" (ngSubmit)="onSubmit($event)">
     <div formGroupName="user">
-      <div class="p-field">
-        <label for="username">Nombre de Usuario</label>
-        <input id="username" formControlName="username" pInputText>
-        <div *ngIf="usernameField.errors && (usernameField.touched || usernameField.dirty)">
-          <small *ngIf="usernameField.hasError('required')" id="user-help-1" class="p-error">
-            El campo es obligatorio.
-          </small>
+      <div class="p-formgrid p-grid">
+        <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
+          <label for="username">Nombre de Usuario</label>
+          <input id="username" formControlName="username" pInputText>
+          <div *ngIf="usernameField.errors && (usernameField.touched || usernameField.dirty)">
+            <small *ngIf="usernameField.hasError('required')" id="user-help-1" class="p-error">
+              El campo es obligatorio.
+            </small>
+          </div>
+        </div>
+        <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
+          <label for="identification">Identificación</label>
+          <input id="identification" formControlName="identification" pInputText>
+          <div *ngIf="identificationField.errors && (identificationField.touched || identificationField.dirty)">
+            <small *ngIf="identificationField.hasError('required')" id="identification-help-1" class="p-error">
+              El campo es obligatorio.
+            </small>
+          </div>
         </div>
       </div>
-      <div class="p-field">
-        <label for="username">Nombre de Usuario</label>
-        <app-date id="date" name="date" formControlName="date"></app-date>
-        <div *ngIf="dateField.errors && (dateField.touched || dateField.dirty)">
-          <small *ngIf="dateField.hasError('required')" id="type-help-1" class="p-error">
-            El campo es obligatorio.
-          </small>
-        </div>
-      </div>
-      <div class="p-field">
-        <label for="identification">Identificación</label>
-        <input id="identification" formControlName="identification" pInputText>
-        <div *ngIf="identificationField.errors && (identificationField.touched || identificationField.dirty)">
-          <small *ngIf="identificationField.hasError('required')" id="identification-help-1" class="p-error">
-            El campo es obligatorio.
-          </small>
-        </div>
-      </div>
-      <div class="p-fluid p-formgrid p-grid">
-        <div class="p-field p-col">
+      <div class="p-formgrid p-grid">
+        <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
           <label for="email">Email</label>
           <input id="email" formControlName="email" pInputText>
           <div *ngIf="emailField.errors && (emailField.touched || emailField.dirty)">
@@ -39,7 +32,7 @@
             </small>
           </div>
         </div>
-        <div class="p-field p-col">
+        <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
           <label for="identificationType">Tipo</label>
           <p-autoComplete id="identificationType" formControlName="identificationType"
             [suggestions]="filteredidentificationTypes" (completeMethod)="filterType($event)" field="name"
@@ -58,8 +51,8 @@
           </div>
         </div>
       </div>
-      <div class="p-fluid p-formgrid p-grid">
-        <div class="p-field p-col">
+      <div class="p-formgrid p-grid">
+        <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
           <label for="password">Contraseña</label>
           <p-password id="password" formControlName="password" [feedback]="false" [toggleMask]="true"></p-password>
           <div *ngIf="passwordField.errors && (passwordField.touched || passwordField.dirty)">
@@ -68,42 +61,128 @@
             </small>
           </div>
         </div>
-        <div class="p-field p-col">
+        <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
           <label for="passwordConfirmation">Cofirmación de Contraseña</label>
           <p-password id="passwordConfirmation" formControlName="password_confirmation" [feedback]="false"
             [toggleMask]="true">
           </p-password>
-          <div
-            *ngIf="passwordConfirmationField.errors && (passwordConfirmationField.touched || passwordConfirmationField.dirty)">
-            <small *ngIf="passwordConfirmationField.hasError('required')" id="password-help-1" class="p-error">
+          <div *ngIf="passwordConfirmationField.errors && (passwordConfirmationField.touched || passwordConfirmationField.dirty)">
+            <small *ngIf="passwordConfirmationField.hasError('required')" id="passwordConfirmation-help-1" class="p-error">
               El campo es obligatorio.
             </small>
+            <small *ngIf="passwordConfirmationField.hasError('invalidPassword')" id="passwordConfirmation-help-1" class="p-error">
+              No coinciden las contraseñas
+            </small>
           </div>
-          <div *ngIf="passwordConfirmationField.valid && passwordConfirmationField.value != passwordField.value"
-            id="passwordConfirmation-help-1" class="p-error">
-            No coinciden las contraseñas
-          </div>
+          {{formRegisterIn['controls']['user'].get("password_confirmation").errors| json}}
         </div>
       </div>
       <div class="p-field">
-        <app-location  id="location" name="location" formControlName="location">
-
+        <app-location [option]="1" id="location" name="location" formControlName="location">
         </app-location>
+        <div *ngIf="locationField.errors && (locationField.touched || locationField.dirty)">
+          <small *ngIf="locationField.hasError('required')" id="location-help-1" class="p-error">
+            Los campos con * son obligatorios.
+          </small>
+        </div>
       </div>
       <div class="p-field">
-        <app-location-address id="address" name="address" formControlName="address">
-
-        </app-location-address>
+        <app-location-address id="address" name="address" formControlName="address"></app-location-address>
+        <div *ngIf="addressField.errors && (addressField.touched || addressField.dirty)">
+          <small *ngIf="addressField.hasError('required')" id="address-help-1" class="p-error">
+            El campo es obligatorio.
+          </small>
+        </div>
       </div>
-      
     </div>
-
+    <div class="p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="personType">Tipo de Persona</label>
+        <p-autoComplete id="personType" formControlName="personType" [suggestions]="filteredpersonType"
+          (completeMethod)="filterPersonType($event)" field="name" [dropdown]="true">
+          <ng-template let-type pTemplate="item">
+            <div class="country-item">
+              <div>{{type.name}}</div>
+            </div>
+          </ng-template>
+        </p-autoComplete>
+        <div *ngIf="personTypeField.errors && (personTypeField.touched || personTypeField.dirty)">
+          <small *ngIf="personTypeField.hasError('required')" id="personType-help-1" class="p-error">
+            El campo es obligatorio.
+          </small>
+        </div>
+      </div>
+      <div class="p-field p-col">
+        <label for="activityType">Tipo de Actividad</label>
+        <p-autoComplete id="activityType" formControlName="activityType" [suggestions]="filteredactivityType"
+          (completeMethod)="filterActivityType($event)" field="name" [dropdown]="true">
+          <ng-template let-type pTemplate="item">
+            <div class="country-item">
+              <div>{{type.name}}</div>
+            </div>
+          </ng-template>
+        </p-autoComplete>
+        <div *ngIf="activityTypeField.errors && (activityTypeField.touched || activityTypeField.dirty)">
+          <small *ngIf="activityTypeField.hasError('required')" id="activityType-help-1" class="p-error">
+            El campo es obligatorio.
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
+        <label for="tradename">Nombre Comercial</label>
+        <input id="tradename" formControlName="trade_name" pInputText>
+        <div *ngIf="tradeNameField.errors && (tradeNameField.touched || tradeNameField.dirty)">
+          <small *ngIf="tradeNameField.hasError('required')" id="tradename-help-1" class="p-error">
+            El campo es obligatorio.
+          </small>
+        </div>
+      </div>
+      <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
+        <label for="web">Sitio Web</label>
+        <input id="web" formControlName="web" pInputText>
+        <div *ngIf="webField.errors && (webField.touched || webField.dirty)">
+          <small *ngIf="webField.hasError('required')" id="web-help-1" class="p-error">
+            El campo es obligatorio.
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-xl-1 p-lg-1 p-md-1 p-sm-12">
+        <label for="comercialActivities">Actividades Comerciales</label>
+      </div>
+      <div class="p-field p-xl-2 p-lg-2 p-md-2 p-sm-12">
+        <button pButton pRipple type="button" (click)="addComercialActivity()" iconPos="right" icon="pi pi-plus"
+          class="p-button-success p-button-raised" label="Añadir"></button>
+      </div>
+    </div>
+    <div formArrayName="comercial_activities">
+      <div *ngFor="let comercial_activity of comercialActivitiesField.controls; let i = index;">
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-xl-11 p-lg-11 p-md-6 p-sm-12">
+            <input id="comercialActivities" [formControlName]="i" pInputText>
+          </div>
+          <div class="p-field p-xl-1 p-lg-1 p-md-1 p-sm-12">
+            <button pButton pRipple type="button" (click)="removeComercialActivity(i)" iconPos="right"
+              icon="pi pi-trash" class="p-button-danger p-button-rounded"></button>
+          </div>
+          <div
+            *ngIf="comercialActivitiesField.errors && (comercialActivitiesField.touched || comercialActivitiesField.dirty)">
+            <small *ngIf="comercialActivitiesField.hasError('required')" id="comercialActivities-help-1"
+              class="p-error">
+              El campo es obligatorio.
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="p-formgrid p-grid">
       <div class="p-field p-col">
         <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
           class="p-button-success p-button-raised"></button>
       </div>
-
     </div>
   </form>
 </div>
