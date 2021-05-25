@@ -38,7 +38,7 @@ export class AppTopBarComponent {
     }
 
     getMegaMenus() {
-        this.permissions = JSON.parse(localStorage.getItem('permissions'));
+        this.permissions = this.authService.getPermissions();
         this.megaMenus = [];
         if (this.permissions) {
             this.permissions.forEach(permission => {

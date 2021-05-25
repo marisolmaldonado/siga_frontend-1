@@ -2,7 +2,8 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AuthHttpService} from '../../../../services/auth/auth-http.service';
-import {MessageService} from '../../../../services/app/message.service';
+import {MessageService} from '../../../shared/services/message.service';
+import {CustomValidators} from '../../../shared/validators/custom-validators';
 
 @Component({
     selector: 'app-change-password',
@@ -16,7 +17,7 @@ export class ChangePasswordComponent implements OnInit {
 
     constructor(private formBuilder: FormBuilder,
                 private spinnerService: NgxSpinnerService,
-                private messageService: MessageService,
+                public messageService: MessageService,
                 private authHttpService: AuthHttpService
     ) {
     }
@@ -30,35 +31,28 @@ export class ChangePasswordComponent implements OnInit {
             password_old: [this.passwordOld],
             password: ['', [Validators.required, Validators.minLength(8)]],
             password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
-        });
+        }, {validators: CustomValidators.passwordMatchValidator});
     }
 
     changePassword() {
-        if (this.checkPasswords()) {
-            this.spinnerService.show();
-            this.authHttpService.changePassword(this.formChangePassword.value).subscribe(
-                response => {
-                    this.spinnerService.hide();
-                    this.flagLogin.emit('selectInstitutionRole');
-                },
-                error => {
-                    this.spinnerService.hide();
-                    this.messageService.error(error);
-                });
-        }
+        this.spinnerService.show();
+        this.authHttpService.changePassword(this.formChangePassword.value).subscribe(
+            response => {
+                this.spinnerService.hide();
+                this.flagLogin.emit('selectInstitutionRole');
+            },
+            error => {
+                this.spinnerService.hide();
+                this.messageService.error(error);
+            });
     }
 
-    onSubmitChangePassword(event: Event) {
-        event.preventDefault();
+    onSubmitChangePassword() {
         if (this.formChangePassword.valid) {
             this.changePassword();
         } else {
             this.formChangePassword.markAllAsTouched();
         }
-    }
-
-    checkPasswords() {
-        return this.passwordField.value === this.passwordConfirmationField.value;
     }
 
     get passwordField() {

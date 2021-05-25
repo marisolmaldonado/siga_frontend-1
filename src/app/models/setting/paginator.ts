@@ -1,5 +1,5 @@
 export interface Paginator {
-    current_page: string;
+    current_page: number;
     first_page_url?: string;
     from?: string;
     last_page?: string;
@@ -7,10 +7,10 @@ export interface Paginator {
     links?: Link[];
     next_page_url?: string;
     path?: string;
-    per_page: string;
+    per_page: number;
     prev_page_url?: string;
     to?: string;
-    total?: string;
+    total?: number;
 }
 
 export interface Link {
