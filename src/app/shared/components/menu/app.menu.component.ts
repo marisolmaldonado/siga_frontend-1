@@ -61,6 +61,8 @@ export class AppMenuComponent implements OnInit {
                 i++;
             }
         }, error => {
+            console.log('errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
+            console.log(error);
             this.messageService.error(error);
         });
     }

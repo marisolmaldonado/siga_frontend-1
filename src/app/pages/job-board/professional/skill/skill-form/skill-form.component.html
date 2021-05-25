@@ -25,7 +25,7 @@
             <div *ngIf="typeField.invalid && (typeField.touched || typeField.dirty)">
                 <small *ngIf="typeField.errors?.required"
                        id="type-help-1" class="p-error">
-                    El campo es obligatorio.
+                    {{messageService.fieldRequired}}
                 </small>
             </div>
         </div>
@@ -40,7 +40,7 @@
             <div *ngIf="descriptionField.errors && (descriptionField.touched || descriptionField.dirty)">
                 <small *ngIf="descriptionField.hasError('required')"
                        id="description-help-1" class="p-error">
-                    El campo es obligatorio.
+                    {{messageService.fieldRequired}}
                 </small>
                 <small *ngIf="descriptionField.hasError('minlength')"
                        id="description-help-2" class="p-error">

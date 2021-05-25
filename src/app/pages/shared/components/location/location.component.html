@@ -19,7 +19,7 @@
                     <div *ngIf="countryField.invalid && (countryField.touched || countryField.dirty)">
                         <small *ngIf="countryField.errors?.required"
                                id="country-help-1" class="p-error">
-                            El campo es obligatorio.
+                            {{messageService.fieldRequired}}
                         </small>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     <div *ngIf="provinceField.invalid && (provinceField.touched || provinceField.dirty)">
                         <small *ngIf="provinceField.errors?.required"
                                id="province-help-1" class="p-error">
-                            El campo es obligatorio.
+                            {{messageService.fieldRequired}}
                         </small>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                     <div *ngIf="cantonField.invalid && (cantonField.touched || cantonField.dirty)">
                         <small *ngIf="cantonField.errors?.required"
                                id="canton-help-1" class="p-error">
-                            El campo es obligatorio.
+                            {{messageService.fieldRequired}}
                         </small>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                     <div *ngIf="parishField.errors && (parishField.touched || parishField.dirty)">
                         <small *ngIf="parishField.errors?.required"
                                id="parish-help-1" class="p-error">
-                            El campo es obligatorio.
+                            {{messageService.fieldRequired}}
                         </small>
                     </div>
                 </div>

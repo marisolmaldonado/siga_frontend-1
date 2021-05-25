@@ -1,11 +1,11 @@
 import {PreloadAllModules, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 
-// Application Components
+// Components
 import {AppMainComponent} from './shared/components/main/app.main.component';
 import {AppBlankComponent} from './shared/components/blank/app.blank.component';
 
-// Application Guards
+// Guards
 import {AuthGuard} from './shared/guards/auth.guard';
 
 @NgModule({
@@ -39,8 +39,8 @@ import {AuthGuard} from './shared/guards/auth.guard';
             },
             {path: '**', redirectTo: '/auth/not-found'},
         ], {
-            enableTracing: true,
-            preloadingStrategy: PreloadAllModules,
+            // enableTracing: true,
+            // preloadingStrategy: PreloadAllModules,
             scrollPositionRestoration: 'enabled'
         })
     ],

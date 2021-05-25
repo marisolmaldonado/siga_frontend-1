@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -12,15 +12,16 @@ import {MessageService} from '../../shared/services/message.service';
     styleUrls: ['./user-unlocked.component.scss']
 })
 export class UserUnlockedComponent implements OnInit {
+    @ViewChild('grecaptchaUserUnlock') captcha: any;
     dark: boolean;
     checked: boolean;
     formPasswordReset: FormGroup;
-    flagPasswordReset: boolean;
+    flagUserLocked: boolean;
     SITE_KEY: string;
 
     constructor(private authHttpService: AuthHttpService,
                 private spinnerService: NgxSpinnerService,
-                private messageService: MessageService,
+                public messageService: MessageService,
                 private router: Router,
                 private formBuilder: FormBuilder) {
         this.SITE_KEY = environment.SITE_KEY;
@@ -36,35 +37,34 @@ export class UserUnlockedComponent implements OnInit {
         });
     }
 
-    onSubmitForgotPassword(event: Event, grecaptcha) {
-        event.preventDefault();
+    onSubmitForgotPassword() {
         if (this.formPasswordReset.valid) {
-            this.forgotPassword(grecaptcha);
+            this.forgotPassword();
         } else {
             this.formPasswordReset.markAllAsTouched();
         }
     }
 
-    forgotPassword(grecaptcha) {
+    forgotPassword() {
         this.spinnerService.show();
         this.authHttpService.userUnlock(this.formPasswordReset.controls['username'].value).subscribe(response => {
             this.spinnerService.hide();
-            this.flagPasswordReset = false;
-            grecaptcha.reset();
+            this.flagUserLocked = false;
+            this.captcha.reset();
             this.messageService.success(response);
         }, error => {
             this.spinnerService.hide();
-            this.flagPasswordReset = false;
-            grecaptcha.reset();
+            this.flagUserLocked = false;
+            this.captcha.reset();
             this.messageService.error(error);
         });
     }
 
     showResponse() {
-        this.flagPasswordReset = true;
+        this.flagUserLocked = true;
     }
 
-    get username() {
+    get usernameField() {
         return this.formPasswordReset.get('username');
     }
 }

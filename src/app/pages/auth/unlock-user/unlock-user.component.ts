@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../../../models/auth/user';
 import {AuthHttpService} from '../../../services/auth/auth-http.service';
 import {MessageService} from '../../shared/services/message.service';
+import {CustomValidators} from '../../shared/validators/custom-validators';
 
 @Component({
     selector: 'app-unlock-user',
@@ -20,7 +21,7 @@ export class UnlockUserComponent implements OnInit {
     constructor(
         private authHttpService: AuthHttpService,
         private spinnerService: NgxSpinnerService,
-        private messageService: MessageService,
+        public messageService: MessageService,
         private router: Router,
         private formBuilder: FormBuilder,
         private activatedRoute: ActivatedRoute) {
@@ -36,11 +37,10 @@ export class UnlockUserComponent implements OnInit {
             username: [this.activatedRoute.snapshot.queryParams.username, Validators.required],
             password: ['', [Validators.required, Validators.minLength(8)]],
             password_confirmation: ['', [Validators.required, Validators.minLength(8)]],
-        });
+        }, {validators: CustomValidators.passwordMatchValidator});
     }
 
-    onSubmitResetPassword(event: Event) {
-        event.preventDefault();
+    onSubmitResetPassword() {
         if (this.formPasswordReset.valid) {
             this.resetPassword();
         } else {
@@ -49,21 +49,15 @@ export class UnlockUserComponent implements OnInit {
     }
 
     resetPassword() {
-        if (this.checkPasswords()) {
-            this.spinnerService.show();
-            this.authHttpService.unlock(this.formPasswordReset.value).subscribe(
-                response => {
-                    this.spinnerService.hide();
-                    this.messageService.success(response);
-                }, error => {
-                    this.spinnerService.hide();
-                    this.messageService.error(error);
-                });
-        }
-    }
-
-    checkPasswords() {
-        return this.passwordField.value === this.passwordConfirmationField.value;
+        this.spinnerService.show();
+        this.authHttpService.unlock(this.formPasswordReset.value).subscribe(
+            response => {
+                this.spinnerService.hide();
+                this.messageService.success(response);
+            }, error => {
+                this.spinnerService.hide();
+                this.messageService.error(error);
+            });
     }
 
     get usernameField() {
