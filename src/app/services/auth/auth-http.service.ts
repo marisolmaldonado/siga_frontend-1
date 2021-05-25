@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {environment, WEB} from '../../../environments/environment';
 import {User} from '../../models/auth/models.index';
 import {URL} from '../../../environments/environment';
-import {MessageService} from '../app/message.service';
+import {MessageService} from '../../pages/shared/services/message.service';
 import {AuthService} from './auth.service';
 
 @Injectable({

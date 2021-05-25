@@ -2,7 +2,7 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AuthHttpService} from '../../../../services/auth/auth-http.service';
-import {MessageService} from '../../../../services/app/message.service';
+import {MessageService} from '../../../shared/services/message.service';
 
 @Component({
     selector: 'app-change-password',

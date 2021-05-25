@@ -1,101 +1,116 @@
 <app-skeleton *ngIf="flagSkills"></app-skeleton>
-<p-dialog [(visible)]="dialogUploadFiles" [style]="{width: '75%'}" header="Subir archivos" [modal]="true"
-          styleClass="p-fluid" (onHide)="dialogUploadFiles=false">
-    <app-upload-files (files)="upload($event,selectedSkill.id)"></app-upload-files>
-</p-dialog>
 
-<p-dialog [(visible)]="dialogViewFiles" [style]="{width: '75%'}" header="Subir Archivos" [modal]="true"
-          styleClass="p-fluid" (onHide)="dialogViewFiles=false;resetPaginator()">
-    <app-view-files
-            (files)="upload($event,selectedSkill.id)"
-            [filesIn]="files"
-            (searchOut)="searchFiles($event)"
-            [paginatorIn]="paginatorFiles"
-            (paginatorOut)="getFiles($event)"></app-view-files>
-</p-dialog>
-
-<div class="card">
+<div class="card" [hidden]="flagSkills">
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
+            <button pButton pRipple label="Crear" icon="pi pi-plus" class="p-button-success p-button-rounded"
                     (click)="openNewFormSkill()"></button>
-            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-mr-2 p-mb-2"
+            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-button-rounded p-ml-2"
                     (click)="deleteSkills()"
                     [disabled]="!selectedSkills || !selectedSkills.length"></button>
-            <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info p-mb-2"
-                    (click)="paginatorOut.emit(paginatorIn)"></button>
         </ng-template>
 
         <ng-template pTemplate="right">
-            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
-                          chooseLabel="Import" class="p-mr-2 p-mb-2 p-d-inline-block"></p-fileUpload>
-            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help p-mb-2"
-                    (click)="dt.exportCSV()"></button>
+            <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info"
+                    (click)="paginatorOut.emit(paginatorIn)"></button>
         </ng-template>
     </p-toolbar>
     <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total"
-                 (onPageChange)="pageChange($event)"></p-paginator>
+                 (onPageChange)="paginateSkill($event)"></p-paginator>
     <p-table #dt
              [value]="skillsIn"
-             [rows]="paginatorIn.per_page"
+             [columns]="colsSkill"
              [paginator]="false"
              [(selection)]="selectedSkills"
              [rowHover]="true"
+             [responsive]="true"
              dataKey="id"
              styleClass="p-datatable-customers"
              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
              [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
-            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
-                <h5 class="p-m-0">Habilidades</h5>
-                <span class="p-input-icon-left">
-                        <i class="pi pi-search" (click)="searchSkills($event,search.value)"></i>
-                        <input #search pInputText type="text" (keyup)="searchSkills($event,$event.target.value)"
+            <div class="p-fluid">
+                <div class="p-field">
+                    <h5>Mis Habilidades</h5>
+                </div>
+                <div class="p-field">
+                    <i class="p-input-icon-left">
+                        <i class="pi pi-search" (click)="searchSkills($event,searchSkill.value)"></i>
+                        <input #searchSkill pInputText type="text" class="p-text-uppercase"
+                               (keyup)="searchSkills($event,$event.target.value)"
                                placeholder="Buscar..."/>
-                    </span>
+                    </i>
+                </div>
             </div>
         </ng-template>
-        <ng-template pTemplate="header">
+        <ng-template pTemplate="header" let-columns>
             <tr>
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th pSortableColumn="type">
-                    Tipo
-                    <p-sortIcon field="type"></p-sortIcon>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
                 </th>
-                <th pSortableColumn="description">
-                    Descripción
-                    <p-sortIcon field="description"></p-sortIcon>
+                <th style="text-align:center">
+                    <button pButton pRipple
+                            type="button" id="btnOptions"
+                            icon="pi pi-cog" class="p-button-secondary"
+                            disabled></button>
                 </th>
-                <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-skill>
+        <ng-template pTemplate="body" let-columns="columns" let-rowData>
             <tr>
                 <td>
-                    <p-tableCheckbox [value]="skill"></p-tableCheckbox>
+                    <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
                 </td>
-                <td>
-                    {{skill.type.name}}
+                <td *ngFor="let col of columns">
+                    {{rowData[col.field]?.name ? rowData[col.field]?.name : rowData[col.field]}}
                 </td>
-                <td>
-                    {{skill.description}}
-                </td>
-                <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
-                            (click)="openEditFormSkill(skill)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-ml-2"
-                            (click)="deleteSkills(skill)"></button>
-                    <button pButton pRipple icon="pi pi-paperclip" class="p-button-rounded p-ml-2"
-                            (click)="selectSkill(skill);openViewFilesSkill()"></button>
+                <td style="text-align:center">
+                    <button pButton pRipple
+                            type="button" id="btnEdit"
+                            pTooltip="Editar" icon="pi pi-pencil"
+                            class="p-button-rounded p-button-warning"
+                            (click)="openEditFormSkill(rowData)"></button>
+                    <button pButton pRipple
+                            type="button" id="btnDelete"
+                            pTooltip="Eliminar" icon="pi pi-trash"
+                            class="p-button-rounded p-button-danger p-ml-2"
+                            (click)="deleteSkills(rowData)"></button>
+                    <button pButton pRipple type="button" id="btnAttach" pTooltip="Adjuntar Archivos"
+                            icon="pi pi-paperclip" class="p-button-rounded p-ml-2"
+                            (click)="selectSkill(rowData);openViewFilesSkill()"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="p-d-flex p-ai-center p-jc-between">
-                En total hay {{paginatorIn ? paginatorIn.total : 0 }} habilidades.
+                En total hay {{paginatorIn?.total ? paginatorIn.total : 0 }} registros.
             </div>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="columns?.length">
+                    No se encontraron registros
+                </td>
+            </tr>
         </ng-template>
     </p-table>
 </div>
+
+<p-dialog [(visible)]="dialogViewFiles"
+          [style]="{width: '75%'}"
+          header="Subir Archivos"
+          [modal]="true"
+          styleClass="p-fluid"
+          (onHide)="dialogViewFiles=false">
+    <app-view-files
+            (files)="upload($event,selectedSkill.id)"
+            [filesIn]="files"
+            [title]="'Habilidades'"
+            (searchOut)="searchFiles($event)"
+            [paginatorIn]="paginatorFiles"
+            (paginatorOut)="getFiles($event)"></app-view-files>
+</p-dialog>

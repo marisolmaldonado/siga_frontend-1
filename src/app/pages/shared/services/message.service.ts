@@ -21,7 +21,7 @@ export class MessageService {
             return Swal.fire({
                 title: error.error.msg.summary,
                 text: error.error.msg.detail,
-                icon: 'info'
+                icon: 'warning'
             });
         }
         if (error.status === 422) {
