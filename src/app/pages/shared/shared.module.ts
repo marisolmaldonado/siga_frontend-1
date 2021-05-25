@@ -41,6 +41,7 @@ import {CardModule} from 'primeng/card';
         // PrimeNg Modules
         AutoCompleteModule,
         ButtonModule,
+        CardModule,
         DropdownModule,
         FieldsetModule,
         FileUploadModule,
@@ -54,12 +55,8 @@ import {CardModule} from 'primeng/card';
         ToastModule,
         ToolbarModule,
         TooltipModule,
-        CardModule,
     ],
     declarations: [
-        // Pipes
-        ExtensionsPipe,
-        MonthsPipe,
         // Components
         DateComponent,
         LocationAddressComponent,
@@ -67,6 +64,9 @@ import {CardModule} from 'primeng/card';
         SkeletonComponent,
         UploadFilesComponent,
         ViewFilesComponent,
+        // Pipes
+        ExtensionsPipe,
+        MonthsPipe,
     ],
     exports: [
         DateComponent,

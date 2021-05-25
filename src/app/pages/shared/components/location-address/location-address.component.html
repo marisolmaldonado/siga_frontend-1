@@ -23,7 +23,7 @@
                 <div *ngIf="sectorField.errors && (sectorField.touched || sectorField.dirty)">
                     <small *ngIf="sectorField.hasError('required')"
                            id="sector-help-1" class="p-error">
-                        El campo es obligatorio.
+                        {{messageService.fieldRequired}}
                     </small>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                     <div *ngIf="mainStreetField.errors && (mainStreetField.touched || mainStreetField.dirty)">
                         <small *ngIf="mainStreetField.hasError('required')"
                                id="main-street-help-1" class="p-error">
-                            El campo es obligatorio.
+                            {{messageService.fieldRequired}}
                         </small>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     <div *ngIf="secondaryStreet.invalid && (secondaryStreet.touched || secondaryStreet.dirty)">
                         <small *ngIf="secondaryStreet.errors?.required"
                                id="secondary-street-help-1" class="p-error">
-                            El campo es obligatorio.
+                            {{messageService.fieldRequired}}
                         </small>
                     </div>
                 </div>

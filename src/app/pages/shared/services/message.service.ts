@@ -66,4 +66,16 @@ export class MessageService {
             confirmButtonText: '<i class="pi pi-trash"> Si, eliminar</i>'
         });
     }
+
+    get fieldRequired(): string {
+        return 'El campo es obligatorio.';
+    }
+
+    fieldMinLength(field) {
+        return `Mínimo de caracteres es ${field.errors.minlength.requiredLength}.`;
+    }
+
+    get fieldNoPasswordMatch(): string {
+        return 'Las contraseñas no coinciden.';
+    }
 }

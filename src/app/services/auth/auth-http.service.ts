@@ -58,7 +58,7 @@ export class AuthHttpService {
     }
 
     userUnlock(username: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/user-unlocked-user';
+        const url = environment.API_URL_AUTHENTICATION + 'auth/user-locked';
         return this.httpClient.post(url, {username}, {params});
     }
 
