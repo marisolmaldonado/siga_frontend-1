@@ -1,4 +1,4 @@
-{{formOfferIn.errors|json}}
+{{formOfferIn.value|json}}
 <div class="p-fluid">
     <form [formGroup]="formOfferIn" (ngSubmit)="onSubmit($event)">
         <!--NOTA el codigo de la empresa solo deben pedirle una vez para que cada codigo en la oferta tenga el numero incremental

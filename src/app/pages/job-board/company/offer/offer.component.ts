@@ -60,7 +60,7 @@ export class OfferComponent implements OnInit {
         working_day: [null, Validators.required],
         experience_time: [null, Validators.required],
         training_hours: [null, Validators.required],
-        location: [null, Validators.required],
+        location: [null],
         status: [null, Validators.required],
         start_date: [null, Validators.required],
         end_date: [null, Validators.required],

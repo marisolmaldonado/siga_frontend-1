@@ -112,6 +112,8 @@ export class OfferFormComponent implements OnInit {
                 this.storeOffer(this.formOfferIn.value, flag);
             }
         } else {
+            // quitar validaciones y llenar todos los campos requeridos
+            // quitar end_date de todo angular 
             this.formOfferIn.markAllAsTouched();
         }
     }
