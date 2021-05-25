@@ -1,8 +1,10 @@
-import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {Component, forwardRef, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
 import {AppHttpService} from '../../../../services/app/app-http.service';
 import {Location} from '../../../../models/app/location';
-import {MessageService} from 'primeng/api';
+import {MessageService as MessagePnService} from 'primeng/api';
+import {MessageService} from '../../services/message.service';
+import {SharedService} from '../../services/shared.service';
 
 @Component({
     selector: 'app-location',
@@ -19,13 +21,14 @@ import {MessageService} from 'primeng/api';
 
 export class LocationComponent implements OnInit, ControlValueAccessor {
     @Input() option: number;
+    @Output() formLocationOut = new EventEmitter<FormGroup>();
     formLocation: FormGroup;
     countries: Location[];
     provinces: Location[];
     cantons: Location[];
     parishes: Location[];
-    value: string;
-    onChange: (value: string) => void;
+    value: Location;
+    onChange: (value: Location) => void;
     onTouch: () => void;
     isDisabled: boolean;
     filteredCountries: any[];
@@ -33,19 +36,24 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     filteredCantons: any[];
     filteredParishes: any[];
 
-    constructor(private formBuilder: FormBuilder, private appService: AppHttpService, private messageService: MessageService) {
+    constructor(private formBuilder: FormBuilder,
+                private appHttpService: AppHttpService,
+                private sharedService: SharedService,
+                private messagePnService: MessagePnService,
+                private messageService: MessageService) {
         this.countries = [];
         this.provinces = [];
         this.cantons = [];
         this.parishes = [];
+        this.option = 4;
     }
 
     ngOnInit(): void {
-        this.buildForm();
+        this.buildFormLocation();
         this.getLocations();
     }
 
-    buildForm() {
+    buildFormLocation() {
         this.formLocation = this.formBuilder.group({
             country: [null, Validators.required],
             province: [null, Validators.required],
@@ -66,11 +74,14 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
                 this.parishField.setValidators(null);
                 break;
         }
+        this.formLocationOut.emit(this.formLocation);
     }
 
     getLocations() {
-        this.appService.getLocations().subscribe(response => {
+        this.appHttpService.getLocations().subscribe(response => {
             this.countries = response['data'];
+        }, error => {
+            this.messageService.error(error);
         });
     }
 
@@ -96,29 +107,38 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
         }
 
         if (filtered.length === 0) {
-            this.messageService.add({
+            this.messagePnService.clear();
+            this.messagePnService.add({
                 severity: 'error',
-                summary: 'No existen paises disponibles',
-                detail: 'Por favor escriba el nombre!'
+                summary: 'Por favor seleccione un país del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
             });
+            this.countryField.setValue(null);
         }
+
         this.filteredCountries = filtered;
     }
 
     filterProvince(event) {
         const filtered: any[] = [];
         const query = event.query;
-        if (this.provinces.length === 0) {
-            this.messageService.add({
-                severity: 'error',
-                summary: 'No existen provincias disponibles',
-                detail: 'Comuníquese con el administrador!'
-            });
-        }
+
         for (const province of this.provinces) {
             if (province.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(province);
             }
+        }
+
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione una provincia del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.provinceField.setValue(null);
         }
 
         this.filteredProvinces = filtered;
@@ -127,17 +147,22 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     filterCanton(event) {
         const filtered: any[] = [];
         const query = event.query;
-        if (this.cantons.length === 0) {
-            this.messageService.add({
-                severity: 'error',
-                summary: 'No existen cantones disponibles',
-                detail: 'Comuníquese con el administrador!'
-            });
-        }
+
         for (const canton of this.cantons) {
             if (canton.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(canton);
             }
+        }
+
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un cantón del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.cantonField.setValue(null);
         }
 
         this.filteredCantons = filtered;
@@ -146,18 +171,24 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     filterParish(event) {
         const filtered: any[] = [];
         const query = event.query;
-        if (this.parishes.length === 0 && !this.parishField.value) {
-            this.messageService.add({
-                severity: 'info',
-                summary: 'No existen parroquias disponibles',
-                detail: 'Por favor ingrese una!'
-            });
-        }
+
         for (const parish of this.parishes) {
             if (parish.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(parish);
             }
         }
+
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione una parroquia del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.parishField.setValue(null);
+        }
+
         this.filteredParishes = filtered;
     }
 
@@ -173,7 +204,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
         this.isDisabled = isDisabled;
     }
 
-    writeValue(value: string): void {
+    writeValue(value: Location): void {
         this.value = value;
         switch (this.option) {
             case 1:
@@ -192,9 +223,10 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     }
 
     updateValue(field): void {
-        if (this.formLocation.valid) {
-            this.value = field.value.id;
+        if (this.formLocation.valid && field.value?.id) {
+            this.value = {id: field.value.id};
             this.onChange(this.value);
+            // this.formLocationOut.emit(this.formLocation);
         }
     }
 

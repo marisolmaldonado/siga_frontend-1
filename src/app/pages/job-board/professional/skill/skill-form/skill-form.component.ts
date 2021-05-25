@@ -1,12 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Skill} from '../../../../../models/job-board/skill';
-import {MessageService} from '../../../../../services/app/message.service';
+import {MessageService} from '../../../../shared/services/message.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
 import {AppHttpService} from '../../../../../services/app/app-http.service';
 import {HttpParams} from '@angular/common/http';
 import {Catalogue} from '../../../../../models/app/catalogue';
+import {MessageService as MessagePnService} from 'primeng/api';
+import {SharedService} from '../../../../shared/services/shared.service';
 
 @Component({
     selector: 'app-skill-form',
@@ -21,11 +23,15 @@ export class SkillFormComponent implements OnInit {
     @Output() displayOut = new EventEmitter<boolean>();
     filteredTypes: any[];
     types: Catalogue[];
+    formAddress: FormGroup;
+    formLocation: FormGroup;
 
     constructor(private formBuilder: FormBuilder,
                 private messageService: MessageService,
+                private messagePnService: MessagePnService,
                 private spinnerService: NgxSpinnerService,
                 private appHttpService: AppHttpService,
+                private sharedService: SharedService,
                 private jobBoardHttpService: JobBoardHttpService) {
     }
 
@@ -72,7 +78,7 @@ export class SkillFormComponent implements OnInit {
                 this.storeSkill(this.formSkillIn.value, flag);
             }
         } else {
-            this.formSkillIn.markAllAsTouched();
+            this.markAllAsTouchedFormSkill();
         }
     }
 
@@ -93,11 +99,10 @@ export class SkillFormComponent implements OnInit {
             this.spinnerService.hide();
             this.messageService.success(response);
             this.saveSkill(response['data']);
-            if (flag) {
-                this.formSkillIn.reset();
-            } else {
+            if (!flag) {
                 this.displayOut.emit(false);
             }
+            this.resetFormSkill();
 
         }, error => {
             this.spinnerService.hide();
@@ -140,6 +145,36 @@ export class SkillFormComponent implements OnInit {
                 filtered.push(type);
             }
         }
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.typeField.setValue(null);
+        }
         this.filteredTypes = filtered;
+    }
+
+    test(event) {
+        event.markAllAsTouched();
+    }
+
+    resetFormSkill() {
+        this.formSkillIn.reset();
+        this.formLocation.reset();
+        this.formAddress.reset();
+    }
+
+    markAllAsTouchedFormSkill() {
+        this.formSkillIn.markAllAsTouched();
+        this.formLocation.markAllAsTouched();
+        this.formAddress.markAllAsTouched();
+    }
+
+    setFormLocation(event) {
+        this.formLocation = event;
     }
 }

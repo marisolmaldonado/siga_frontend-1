@@ -2,14 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {BreadcrumbService} from '../../shared/services/breadcrumb.service';
 import {Role} from '../../models/auth/role';
 import {Permission} from '../../models/auth/permission';
-import {environment} from '../../../environments/environment';
 import {AuthService} from '../../services/auth/auth.service';
 import {User} from '../../models/auth/user';
 import {Institution} from '../../models/app/institution';
 import {Message} from 'primeng/api';
 import {NgxSpinnerService} from 'ngx-spinner';
-import * as moment from 'moment';
+import {format} from 'date-fns';
 import {AuthHttpService} from '../../services/auth/auth-http.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
     selector: 'app-dashboard',
@@ -99,7 +99,7 @@ export class DashboardComponent implements OnInit {
 
     showBirthdate() {
         if (!localStorage.getItem('birthdate')) {
-            if (this.auth && this.auth.birthdate && this.auth.birthdate.toString().substr(5, 5) === moment().format('MM-DD')) {
+            if (this.auth && this.auth.birthdate && this.auth.birthdate.toString().substr(5, 5) === format(new Date(), 'LL-dd')) {
                 this.randomNumber = Math.floor(Math.random() * (5 - 1) + 1);
                 localStorage.setItem('birthdate', 'true');
                 this.flagBirhday = true;

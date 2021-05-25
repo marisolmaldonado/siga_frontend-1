@@ -10,6 +10,7 @@ export class ExtensionsPipe implements PipeTransform {
         switch (value.toLowerCase()) {
             case 'pdf':
                 return pathAssets + 'pdf.png';
+
             case 'jpg':
             case 'jpeg':
             case 'png':
@@ -18,21 +19,27 @@ export class ExtensionsPipe implements PipeTransform {
             case 'tif':
             case 'svg':
                 return pathAssets + 'image.png';
+
             case 'txt':
             case 'doc':
             case 'docx':
                 return pathAssets + 'doc.png';
+
             case 'xls':
             case 'xlsx':
             case 'csv':
                 return pathAssets + 'excel.png';
+
             case 'zip':
             case 'rar':
             case '7z':
             case 'tar':
                 return pathAssets + 'zip.png';
-            case 'ptt': case 'pptx':
+
+            case 'ptt':
+            case 'pptx':
                 return pathAssets + 'powerpoint.png';
+
             default:
                 return pathAssets + 'other.png';
         }
