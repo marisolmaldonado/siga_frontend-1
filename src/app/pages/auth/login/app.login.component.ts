@@ -31,7 +31,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
 
     constructor(private authService: AuthService,
                 private authHttpService: AuthHttpService,
-                private messageService: MessageService,
+                public messageService: MessageService,
                 private spinnerService: NgxSpinnerService,
                 private router: Router,
                 private formBuilder: FormBuilder,
@@ -56,7 +56,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
         if (this.activatedRoute.snapshot.queryParams.token) {
             this.usernameField.setValue(this.activatedRoute.snapshot.queryParams.username);
             this.authService.setToken({access_token: this.activatedRoute.snapshot.queryParams.token});
-            this.getUser();
+            this.getUser(true);
         }
     }
 
@@ -113,7 +113,7 @@ export class AppLoginComponent implements OnInit, OnDestroy {
         this.authHttpService.loginGoogle();
     }
 
-    getUser() {
+    getUser(isOtherSession = false) {
         this.spinnerService.show();
         this.authHttpService.getUser(this.usernameField.value)
             .subscribe(
@@ -124,17 +124,11 @@ export class AppLoginComponent implements OnInit, OnDestroy {
                     this.institutions = response['data']['institutions'];
                     this.authService.institutions = response['data']['institutions'];
 
-                    // Error cuando no tiene asiganda una institucion
-                    if (this.institutions?.length === 0) {
-                        swal.fire({
-                            title: 'No tiene una institucion asignada!',
-                            text: 'Comuníquese con el administrador!',
-                            icon: 'warning'
-                        });
-                        this.flagLogin = 'login';
-                        return;
+                    if (isOtherSession) {
+                        this.flagLogin = 'selectRole';
+                    } else {
+                        this.flagLogin = this.auth['is_changed_password'] ? 'selectRole' : 'changePassword';
                     }
-                    this.flagLogin = this.auth['is_changed_password'] ? 'selectInstitutionRole' : 'changePassword';
                 },
                 error => {
                     this.spinnerService.hide();
@@ -162,4 +156,5 @@ export class AppLoginComponent implements OnInit, OnDestroy {
     get keepSessionField() {
         return this.formLogin.get('keep_session');
     }
+
 }

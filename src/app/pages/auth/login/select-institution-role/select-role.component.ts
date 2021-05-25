@@ -11,15 +11,14 @@ import {AuthHttpService} from '../../../../services/auth/auth-http.service';
 import {AuthService} from '../../../../services/auth/auth.service';
 
 @Component({
-    selector: 'app-select-institution-role',
-    templateUrl: './select-institution-role.component.html',
-    styleUrls: ['./select-institution-role.component.css']
+    selector: 'app-select-role',
+    templateUrl: './select-role.component.html',
+    styleUrls: ['./select-role.component.css']
 })
-export class SelectInstitutionRoleComponent implements OnInit {
+export class SelectRoleComponent implements OnInit {
     @Output() flagLogin = new EventEmitter<string>();
-    formInstitutionRole: FormGroup;
+    formRole: FormGroup;
     roles: Role[];
-    institutions: Institution[];
     auth: User;
     STORAGE_URL: string = environment.STORAGE_URL;
 
@@ -31,42 +30,42 @@ export class SelectInstitutionRoleComponent implements OnInit {
                 private authService: AuthService
     ) {
         this.auth = authService.auth;
-        this.institutions = authService.institutions;
     }
 
     ngOnInit(): void {
-        this.buildFormInstitutionRole();
+        this.buildFormRole();
+        this.getRoles();
     }
 
-    buildFormInstitutionRole() {
-        this.formInstitutionRole = this.formBuilder.group({
-            institution: [null, Validators.required],
+    buildFormRole() {
+        this.formRole = this.formBuilder.group({
             role: [null, Validators.required],
         });
     }
 
     onSubmitContinue() {
-        if (this.formInstitutionRole.valid) {
+        if (this.formRole.valid) {
             this.continueLogin();
         } else {
-            this.formInstitutionRole.markAllAsTouched();
+            this.formRole.markAllAsTouched();
         }
     }
 
     continueLogin() {
         this.authService.setAuth(this.authService.auth);
-        this.authService.setInstitution(this.institutionField.value);
         this.authService.setRole(this.roleField.value);
         this.router.navigate(['/']);
     }
 
     getRoles() {
-        const params = new HttpParams().append('institution', this.institutionField.value['id']);
         this.spinnerService.show();
-
-        this.authHttpService.get('auth/roles', params).subscribe(response => {
+        this.authHttpService.get('auth/roles').subscribe(response => {
             this.spinnerService.hide();
             this.roles = response['data'];
+            if (this.roles?.length === 1) {
+                this.roleField.setValue(this.roles[0]);
+                this.getPermissions();
+            }
         }, error => {
             this.spinnerService.hide();
             this.messageService.error(error);
@@ -75,9 +74,7 @@ export class SelectInstitutionRoleComponent implements OnInit {
     }
 
     getPermissions() {
-        const params = new HttpParams()
-            .append('role', this.roleField.value['id'])
-            .append('institution', this.institutionField.value['id']);
+        const params = new HttpParams().append('role', this.roleField.value['id']);
         this.spinnerService.show();
         this.authHttpService.get('auth/permissions', params).subscribe(response => {
             this.spinnerService.hide();
@@ -94,11 +91,7 @@ export class SelectInstitutionRoleComponent implements OnInit {
         this.flagLogin.emit('login');
     }
 
-    get institutionField() {
-        return this.formInstitutionRole.get('institution');
-    }
-
     get roleField() {
-        return this.formInstitutionRole.get('role');
+        return this.formRole.get('role');
     }
 }

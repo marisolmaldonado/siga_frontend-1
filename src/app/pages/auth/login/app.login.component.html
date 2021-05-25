@@ -16,9 +16,10 @@
             <div class="p-fluid" style="width: 100%;">
                 <form [formGroup]="formLogin" (ngSubmit)="onSubmitLogin()">
                     <div class="p-field">
-                        <label for="username">Cédula:</label>
-                        <input id="username" name="username" pInputText formControlName="username"
-                               placeholder="Ej. 0504172422" maxlength="13"/>
+                        <input pInputText id="username"
+                               formControlName="username"
+                               placeholder="Documento de Identificación"
+                               maxlength="13"/>
                         <div *ngIf="usernameField.errors && usernameField.touched">
                             <small *ngIf="usernameField.hasError('required')"
                                    id="username-help-1" class="p-error">
@@ -27,9 +28,9 @@
                         </div>
                     </div>
                     <div class="p-field">
-                        <label for="password">Contraseña:</label>
                         <p-password id="password"
                                     formControlName="password"
+                                    placeholder="Contraseña"
                                     [feedback]="false"
                                     [toggleMask]="true">
                         </p-password>
@@ -85,8 +86,8 @@
 </div>
 
 <!-- Seleccionar Institutcion -->
-<app-select-institution-role (flagLogin)="flagLogin=$event"
-                             *ngIf="flagLogin==='selectInstitutionRole'"></app-select-institution-role>
+<app-select-role (flagLogin)="flagLogin=$event"
+                             *ngIf="flagLogin==='selectRole'"></app-select-role>
 
 <!-- Formulario cambiar contraseña -->
 <app-change-password (flagLogin)="flagLogin=$event" [passwordOld]="passwordField.value"
