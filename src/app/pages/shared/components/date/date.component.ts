@@ -1,7 +1,8 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
-import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
-import {SelectItem} from "primeng/api";
-import * as moment from 'moment';
+import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
+import {SelectItem} from 'primeng/api';
+import {format} from 'date-fns';
+import {SharedService} from '../../services/shared.service';
 
 @Component({
     selector: 'app-date',
@@ -24,11 +25,10 @@ export class DateComponent implements OnInit, ControlValueAccessor {
     onChange: (value: string) => void;
     onTouch: () => void;
     isDisabled: boolean;
-    year: FormControl;
-    month: FormControl;
-    day: FormControl;
+    formDate: FormGroup;
 
-    constructor(private _formBuilder: FormBuilder) {
+    constructor(private sharedService: SharedService, private formBuilder: FormBuilder) {
+
     }
 
     ngOnInit(): void {
@@ -39,9 +39,11 @@ export class DateComponent implements OnInit, ControlValueAccessor {
     }
 
     buildFormDate() {
-        this.year = this._formBuilder.control('', Validators.required);
-        this.month = this._formBuilder.control('', Validators.required);
-        this.day = this._formBuilder.control('', Validators.required);
+        this.formDate = this.formBuilder.group({
+            year: [null, Validators.required],
+            month: [null, Validators.required],
+            day: [null, Validators.required],
+        });
     }
 
     generateDays(totalDays: number) {
@@ -60,51 +62,40 @@ export class DateComponent implements OnInit, ControlValueAccessor {
 
     generateYears() {
         this.years = [];
-        const currentYear = parseInt(moment().format('YYYY'), 10);
+        const currentYear = parseInt(format(new Date(), 'yyyy'), 10);
         for (let i = currentYear; i >= (currentYear - 100); i--) {
             this.years.push({label: i.toString(), value: i.toString()});
         }
     }
 
     calculateTotalDays() {
-        if (this.month.valid) {
-            switch (this.month.value) {
+        if (this.dayField.value > 28) {
+            this.dayField.setValue(null);
+        }
+        if (this.monthField.valid) {
+            switch (this.monthField.value) {
                 case '01':
-                    this.generateDays(31);
-                    break;
-                case '02':
-                    this.generateDays(this.validateLeapYear(this.year.value) ? 29 : 28);
-                    break;
                 case '03':
-                    this.generateDays(31);
-                    break;
-                case '04':
-                    this.generateDays(30);
-                    break;
                 case '05':
-                    this.generateDays(31);
-                    break;
-                case '06':
-                    this.generateDays(30);
-                    break;
                 case '07':
-                    this.generateDays(31);
-                    break;
                 case '08':
-                    this.generateDays(31);
-                    break;
-                case '09':
-                    this.generateDays(30);
-                    break;
                 case '10':
-                    this.generateDays(31);
-                    break;
-                case '11':
-                    this.generateDays(30);
-                    break;
                 case '12':
                     this.generateDays(31);
                     break;
+
+                case '02':
+                    this.generateDays(this.validateLeapYear(this.yearField.value) ? 29 : 28);
+                    break;
+
+                case '04':
+                case '06':
+                case '09':
+                case '11':
+                    this.generateDays(30);
+                    break;
+                default:
+                    this.generateDays(31);
             }
         }
     }
@@ -133,16 +124,28 @@ export class DateComponent implements OnInit, ControlValueAccessor {
         this.value = value;
         if (this.value) {
             const [year, month, day] = this.value.split('-');
-            this.year.setValue(year);
-            this.month.setValue(month);
-            this.day.setValue(day);
+            this.yearField.setValue(year);
+            this.monthField.setValue(month);
+            this.dayField.setValue(day);
         }
     }
 
     updateValue(): void {
-        if (this.year.valid && this.month.valid && this.day.valid) {
-            this.value = `${this.year.value}-${this.month.value}-${this.day.value}`
+        if (this.formDate.valid) {
+            this.value = `${this.yearField.value}-${this.monthField.value}-${this.dayField.value}`;
             this.onChange(this.value);
         }
+    }
+
+    get yearField() {
+        return this.formDate.get('year');
+    }
+
+    get monthField() {
+        return this.formDate.get('month');
+    }
+
+    get dayField() {
+        return this.formDate.get('day');
     }
 }

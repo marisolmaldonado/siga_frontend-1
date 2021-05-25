@@ -8,7 +8,7 @@ import {Role, System, User} from '../../../models/auth/models.index';
 import {Institution} from '../../../models/app/institution';
 import swal from 'sweetalert2';
 import {environment} from '../../../../environments/environment';
-import {MessageService} from '../../../services/app/message.service';
+import {MessageService} from '../../shared/services/message.service';
 import {AuthHttpService} from '../../../services/auth/auth-http.service';
 
 @Component({

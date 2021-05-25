@@ -5,7 +5,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {environment} from '../../../../environments/environment';
 import {Institution} from '../../../models/app/institution';
 import {AuthHttpService} from '../../../services/auth/auth-http.service';
-import {MessageService} from '../../../services/app/message.service';
+import {MessageService} from '../../../pages/shared/services/message.service';
 
 
 @Component({

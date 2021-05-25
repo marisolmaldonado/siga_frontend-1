@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {File} from '../../../../models/app/file';
-import {AppHttpService} from '../../../../services/app/app-http.service';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {File} from '../../../../../models/app/file';
+import {AppHttpService} from '../../../../../services/app/app-http.service';
 import {HttpParams} from '@angular/common/http';
-import {Paginator} from '../../../../models/setting/paginator';
-import {MessageService} from '../../../../services/app/message.service';
+import {Paginator} from '../../../../../models/setting/paginator';
+import {MessageService} from '../../../services/message.service';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {JobBoardHttpService} from '../../../../services/job-board/job-board-http.service';
+import {Col} from '../../../../../models/setting/col';
 
 @Component({
     selector: 'app-view-files',
@@ -14,6 +14,7 @@ import {JobBoardHttpService} from '../../../../services/job-board/job-board-http
 })
 export class ViewFilesComponent implements OnInit {
     @Input() filesIn: File[];
+    @Input() title: string;
     @Output() filesOut = new EventEmitter<File[]>();
     @Output() files = new EventEmitter<any[]>();
     @Input() paginatorIn: Paginator;
@@ -21,12 +22,14 @@ export class ViewFilesComponent implements OnInit {
     @Output() searchOut = new EventEmitter<string>();
     selectedFiles: any[];
     clonedFiles: { [s: string]: File; } = {};
+    cols: Col[];
 
-    constructor(private appHttpService: AppHttpService, private jobBoardHttpService: JobBoardHttpService,
+    constructor(private appHttpService: AppHttpService,
                 private messageService: MessageService, private spinnerService: NgxSpinnerService) {
     }
 
     ngOnInit(): void {
+        this.loadCols();
     }
 
     upload(event) {
@@ -70,17 +73,14 @@ export class ViewFilesComponent implements OnInit {
     }
 
     remove(ids) {
-        console.log(ids);
         for (const id of ids) {
             this.filesIn = this.filesIn.filter(element => element.id !== id);
-            console.log(this.filesIn);
-            this.paginatorIn.total = (parseInt(this.paginatorIn.total, 10) - 1).toString();
+            this.paginatorIn.total = this.paginatorIn.total - 1;
         }
-        console.log(this.filesIn.length);
         this.filesOut.emit(this.filesIn);
     }
 
-    pageChange(event) {
+    paginate(event) {
         this.paginatorIn.current_page = event.page + 1;
         this.paginatorOut.emit(this.paginatorIn);
     }
@@ -96,15 +96,16 @@ export class ViewFilesComponent implements OnInit {
     }
 
     onRowEditInit(file: File) {
-         this.clonedFiles[file.id] = {...file};
+        this.clonedFiles[file.id] = {...file};
     }
 
-    onRowEditSave(file: File) {
+    onRowEditSave(file: File, index: number) {
         this.spinnerService.show();
         this.appHttpService.updateFile(file).subscribe(response => {
             this.spinnerService.hide();
             this.messageService.success(response);
         }, error => {
+            this.onRowEditCancel(file, index);
             this.spinnerService.hide();
             this.messageService.error(error);
         });
@@ -113,5 +114,13 @@ export class ViewFilesComponent implements OnInit {
     onRowEditCancel(file: File, index: number) {
         this.filesIn[index] = this.clonedFiles[file.id];
         delete this.clonedFiles[file.id];
+    }
+
+    loadCols() {
+        this.cols = [
+            {field: 'name', header: 'Nombre'},
+            {field: 'description', header: 'Descripción'},
+            {field: 'extension', header: 'Tipo'},
+        ];
     }
 }

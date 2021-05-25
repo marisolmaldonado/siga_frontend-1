@@ -61,7 +61,7 @@ export class AppHttpService {
     }
 
     getLocations(params = new HttpParams()) {
-        const url = environment.API_URL_APP + 'locations';
+        const url = environment.API_URL_APP + 'location/get';
         return this.httpClient.get(url, {params});
     }
 

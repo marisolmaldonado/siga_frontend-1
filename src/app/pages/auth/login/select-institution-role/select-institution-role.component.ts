@@ -11,7 +11,7 @@ import {User} from '../../../../models/auth/user';
 import {HttpParams} from '@angular/common/http';
 import {environment} from '../../../../../environments/environment';
 import {AuthHttpService} from '../../../../services/auth/auth-http.service';
-import {MessageService} from '../../../../services/app/message.service';
+import {MessageService} from '../../../shared/services/message.service';
 
 @Component({
     selector: 'app-select-institution-role',
