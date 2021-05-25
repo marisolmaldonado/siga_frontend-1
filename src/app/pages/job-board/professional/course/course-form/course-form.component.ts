@@ -1,12 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Course} from '../../../../../models/job-board/course';
-import {MessageService} from '../../../../../services/app/message.service';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
-import {AppHttpService} from '../../../../../services/app/app-http.service';
-import {HttpParams} from '@angular/common/http';
-import {Catalogue} from '../../../../../models/app/catalogue';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Course } from '../../../../../models/job-board/course';
+import { MessageService } from '../../../../../services/app/message.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { JobBoardHttpService } from '../../../../../services/job-board/job-board-http.service';
+import { AppHttpService } from '../../../../../services/app/app-http.service';
+import { HttpParams } from '@angular/common/http';
+import { Catalogue } from '../../../../../models/app/catalogue';
 
 @Component({
     selector: 'app-course-form',
@@ -17,16 +17,16 @@ import {Catalogue} from '../../../../../models/app/catalogue';
 export class CourseFormComponent implements OnInit {
     @Input() formCourseIn: FormGroup;
     @Input() coursesIn: Course[];
-    @Output()coursesOut = new EventEmitter<Course[]>();
+    @Output() coursesOut = new EventEmitter<Course[]>();
     @Output() displayOut = new EventEmitter<boolean>();
     filteredTypes: any[];
     types: Catalogue[];
 
     constructor(private formBuilder: FormBuilder,
-                private messageService: MessageService,
-                private spinnerService: NgxSpinnerService,
-                private appHttpService: AppHttpService,
-                private jobBoardHttpService: JobBoardHttpService) {
+        private messageService: MessageService,
+        private spinnerService: NgxSpinnerService,
+        private appHttpService: AppHttpService,
+        private jobBoardHttpService: JobBoardHttpService) {
     }
 
     ngOnInit(): void {
@@ -34,12 +34,32 @@ export class CourseFormComponent implements OnInit {
     }
 
     // Fields of Form
-    get addressField() {
-        return this.formCourseIn.get('address');
+    get professionalfield() {
+        return this.formCourseIn.get('professional');
     }
 
-    get locationField() {
-        return this.formCourseIn.get('location');
+    get typeField() {
+        return this.formCourseIn.get('type');
+    }
+
+    get institutionField() {
+        return this.formCourseIn.get('institution');
+    }
+
+    get certificationTypeField() {
+        return this.formCourseIn.get('certification_type');
+    }
+
+    get areaField() {
+        return this.formCourseIn.get('area');
+    }
+
+    get nameField() {
+        return this.formCourseIn.get('name');
+    }
+
+    get descriptionField() {
+        return this.formCourseIn.get('description');
     }
 
     get startDateField() {
@@ -50,16 +70,20 @@ export class CourseFormComponent implements OnInit {
         return this.formCourseIn.get('start_date');
     }
 
+    get hourField() {
+        return this.formCourseIn.get('hour');
+    }
+
+    get addressField() {
+        return this.formCourseIn.get('address');
+    }
+
+    get locationField() {
+        return this.formCourseIn.get('location');
+    }
+
     get idField() {
         return this.formCourseIn.get('id');
-    }
-
-    get typeField() {
-        return this.formCourseIn.get('type');
-    }
-
-    get descriptionField() {
-        return this.formCourseIn.get('description');
     }
 
     // Submit Form
@@ -89,7 +113,7 @@ export class CourseFormComponent implements OnInit {
     // Save in backend
     storeCourse(course: Course, flag = false) {
         this.spinnerService.show();
-        this.jobBoardHttpService.store('courses', {course}).subscribe(response => {
+        this.jobBoardHttpService.store('courses', { course }).subscribe(response => {
             this.spinnerService.hide();
             this.messageService.success(response);
             this.saveCourse(response['data']);
@@ -108,7 +132,7 @@ export class CourseFormComponent implements OnInit {
     // Save in backend
     updateCourse(course: Course) {
         this.spinnerService.show();
-        this.jobBoardHttpService.update('courses/' + course.id, {course})
+        this.jobBoardHttpService.update('courses/' + course.id, { course })
             .subscribe(response => {
                 this.spinnerService.hide();
                 this.messageService.success(response);

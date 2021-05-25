@@ -1,13 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Reference} from '../../../../../models/job-board/reference';
-import {FormGroup} from '@angular/forms';
-import {Col} from '../../../../../models/setting/col';
-import {Paginator} from '../../../../../models/setting/paginator';
-import {MessageService} from '../../../../../services/app/message.service';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
-import {HttpParams} from '@angular/common/http';
-import {File} from "../../../../../models/app/file";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Reference } from '../../../../../models/job-board/reference';
+import { FormGroup } from '@angular/forms';
+import { Col } from '../../../../../models/setting/col';
+import { Paginator } from '../../../../../models/setting/paginator';
+import { MessageService } from '../../../../../services/app/message.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { JobBoardHttpService } from '../../../../../services/job-board/job-board-http.service';
+import { HttpParams } from '@angular/common/http';
+import { File } from '../../../../../models/app/file';
 
 @Component({
     selector: 'app-reference-list',
@@ -16,7 +16,7 @@ import {File} from "../../../../../models/app/file";
 })
 export class ReferenceListComponent implements OnInit {
     @Input() flagReferences: boolean;
-    @Input()referencesIn: Reference[];
+    @Input() referencesIn: Reference[];
     @Input() paginatorIn: Paginator;
     @Input() formReferenceIn: FormGroup;
     @Input() displayIn: boolean;
@@ -32,13 +32,13 @@ export class ReferenceListComponent implements OnInit {
     paginatorFiles: Paginator;
 
     constructor(private messageService: MessageService,
-                private spinnerService: NgxSpinnerService,
-                private jobBoardHttpService: JobBoardHttpService) {
+        private spinnerService: NgxSpinnerService,
+        private jobBoardHttpService: JobBoardHttpService) {
         this.resetPaginator();
     }
 
     resetPaginator() {
-        this.paginatorFiles = {current_page: '1', per_page: '5'};
+        this.paginatorFiles = { current_page: '1', per_page: '5' };
     }
 
     ngOnInit(): void {
@@ -107,7 +107,7 @@ export class ReferenceListComponent implements OnInit {
         this.paginatorOut.emit(this.paginatorIn);
     }
 
-    deleteReferences(reference = null) {
+    deletReferences(reference = null) {
         this.messageService.questionDelete({})
             .then((result) => {
                 if (result.isConfirmed) {

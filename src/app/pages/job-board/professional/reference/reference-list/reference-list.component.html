@@ -1,13 +1,13 @@
-<app-skeleton *ngIf="flagSkills"></app-skeleton>
+<app-skeleton *ngIf="flagReferences"></app-skeleton>
 <p-dialog [(visible)]="dialogUploadFiles" [style]="{width: '75%'}" header="Subir archivos" [modal]="true"
           styleClass="p-fluid" (onHide)="dialogUploadFiles=false">
-    <app-upload-files (files)="upload($event,selectedSkill.id)"></app-upload-files>
+    <app-upload-files (files)="upload($event,selectedReference.id)"></app-upload-files>
 </p-dialog>
 
 <p-dialog [(visible)]="dialogViewFiles" [style]="{width: '75%'}" header="Subir Archivos" [modal]="true"
           styleClass="p-fluid" (onHide)="dialogViewFiles=false;resetPaginator()">
     <app-view-files
-            (files)="upload($event,selectedSkill.id)"
+            (files)="upload($event,selectedReference.id)"
             [filesIn]="files"
             (searchOut)="searchFiles($event)"
             [paginatorIn]="paginatorFiles"
@@ -18,10 +18,10 @@
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
             <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
-                    (click)="openNewFormSkill()"></button>
+                    (click)="openNewFormReference()"></button>
             <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-mr-2 p-mb-2"
-                    (click)="deleteSkills()"
-                    [disabled]="!selectedSkills || !selectedSkills.length"></button>
+                    (click)="deleteReferences()"
+                    [disabled]="!selectedReferences || !selectedReferences.length"></button>
             <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info p-mb-2"
                     (click)="paginatorOut.emit(paginatorIn)"></button>
         </ng-template>
@@ -36,10 +36,10 @@
     <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total"
                  (onPageChange)="pageChange($event)"></p-paginator>
     <p-table #dt
-             [value]="skillsIn"
+             [value]="referencesIn"
              [rows]="paginatorIn.per_page"
              [paginator]="false"
-             [(selection)]="selectedSkills"
+             [(selection)]="selectedReferences"
              [rowHover]="true"
              dataKey="id"
              styleClass="p-datatable-customers"
@@ -47,10 +47,10 @@
              [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
-                <h5 class="p-m-0">Habilidades</h5>
+                <h5 class="p-m-0">Cursos</h5>
                 <span class="p-input-icon-left">
-                        <i class="pi pi-search" (click)="searchSkills($event,search.value)"></i>
-                        <input #search pInputText type="text" (keyup)="searchSkills($event,$event.target.value)"
+                        <i class="pi pi-search" (click)="searchReferences($event,search.value)"></i>
+                        <input #search pInputText type="text" (keyup)="searchReferences($event,$event.target.value)"
                                placeholder="Buscar..."/>
                     </span>
             </div>
@@ -71,30 +71,30 @@
                 <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-skill>
+        <ng-template pTemplate="body" let-reference>
             <tr>
                 <td>
-                    <p-tableCheckbox [value]="skill"></p-tableCheckbox>
+                    <p-tableCheckbox [value]="reference"></p-tableCheckbox>
                 </td>
                 <td>
-                    {{skill.type.name}}
+                    {{reference.type.name}}
                 </td>
                 <td>
-                    {{skill.description}}
+                    {{reference.description}}
                 </td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
-                            (click)="openEditFormSkill(skill)"></button>
+                            (click)="openEditFormReference(reference)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-ml-2"
-                            (click)="deleteSkills(skill)"></button>
+                            (click)="deleteReferences(reference)"></button>
                     <button pButton pRipple icon="pi pi-paperclip" class="p-button-rounded p-ml-2"
-                            (click)="selectSkill(skill);openViewFilesSkill()"></button>
+                            (click)="selectReference(reference);openViewFilesReference()"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="p-d-flex p-ai-center p-jc-between">
-                En total hay {{paginatorIn ? paginatorIn.total : 0 }} habilidades.
+                En total hay {{paginatorIn ? paginatorIn.total : 0 }} cursos.
             </div>
         </ng-template>
     </p-table>
