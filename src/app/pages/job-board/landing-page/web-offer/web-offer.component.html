@@ -12,7 +12,7 @@
     <div class="p-col-12 p-md-12 p-lg-10">
         <div class="card">
             <p-dataView #filterBy [value]="offers" [paginator]="true" [rows]="9" [totalRecords]="20" [pageLinks]="5"
-                        filterBy="description" layout="grid">
+                        filterBy="requirements" layout="grid">
                 <ng-template pTemplate="header">
                     <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
                         <!--<p-dropdown placeholder="Sort By Price" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>-->
@@ -30,7 +30,7 @@
                         <div class="offer-list-item">
                             <div class="offer-list-detail">
                                 <div class="offer-name">{{ offer.position.name  }}</div>
-                                <div class="offer-description">{{ offer.description }}</div>
+                                <div class="offer-description">{{ offer.requirements }}</div>
                                 <i class="pi pi-globe offer-category-icon"></i>
                                 <span class="offer-category">
                                         {{ offer.location.region }}, {{ offer.location.subregion }}</span>
@@ -57,7 +57,7 @@
                                     <span class="offer-category">
                                         {{ offer.location.region }}, {{ offer.location.subregion }}</span>
                                 </div>
-                                <!--                                <span [class]="'offer-badge'">status</span>-->
+                                <!--<span [class]="'offer-badge'">status</span>-->
                                 <div>
                                     <i class="pi pi-users offer-category-icon"></i>
                                     <span [class]="'offer-badge'">{{ offer.vacancies }} vacantes</span>

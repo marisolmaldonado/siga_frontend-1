@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 
 // servicios
 import {NgxSpinnerService} from 'ngx-spinner';
-import {MessageService} from '../../../../services/app/message.service';
+import {MessageService} from '../../../shared/services/message.service';
 import {FormBuilder} from '@angular/forms';
 import {JobBoardHttpService} from '../../../../services/job-board/job-board-http.service';
 import {HttpParams} from '@angular/common/http';
@@ -123,8 +123,8 @@ export class WebOfferComponent implements OnInit {
 
     getOffers(paginator: Paginator, searchParams: SearchParams) {
         const params = new HttpParams()
-            .append('page', paginator.current_page)
-            .append('per_page', paginator.per_page);
+            .append('page', String(paginator.current_page))
+            .append('per_page', String(paginator.per_page));
 
         this.spinnerService.show();
         this.jobBoardHttpService.store('web-offer/index', searchParams, params).subscribe(
