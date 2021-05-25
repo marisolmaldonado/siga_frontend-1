@@ -17,7 +17,7 @@ import {Catalogue} from '../../../../../models/app/catalogue';
 export class LanguageFormComponent implements OnInit {
     @Input() formLanguageIn: FormGroup;
     @Input() languagesIn: Language[];
-    @Output() languagesOut = new EventEmitter<Language[]>();
+    @Output()languagesOut = new EventEmitter<Language[]>();
     @Output() displayOut = new EventEmitter<boolean>();
     filteredTypes: any[];
     types: Catalogue[];
@@ -29,36 +29,38 @@ export class LanguageFormComponent implements OnInit {
                 private jobBoardHttpService: JobBoardHttpService) {
     }
 
-   ngOnInit(): void {
+    ngOnInit(): void {
         this.getTypes();
     }
 
     // Fields of Form
+    get addressField() {
+        return this.formLanguageIn.get('address');
+    }
+
+    get locationField() {
+        return this.formLanguageIn.get('location');
+    }
+
+    get startDateField() {
+        return this.formLanguageIn.get('start_date');
+    }
+
+    get endDateField() {
+        return this.formLanguageIn.get('start_date');
+    }
+
     get idField() {
         return this.formLanguageIn.get('id');
     }
 
-    get idProfessional() {
-        return this.formLanguageIn.get('professional');
+    get typeField() {
+        return this.formLanguageIn.get('type');
     }
 
-    get idIdiom() {
-        return this.formLanguageIn.get('idiom');
+    get descriptionField() {
+        return this.formLanguageIn.get('description');
     }
-
-    get idWritten_level() {
-        return this.formLanguageIn.get('written_level');
-    }
-
-    get idSpoken_level() {
-        return this.formLanguageIn.get('spoken_level');
-    }
-
-    get idRead_level() {
-        return this.formLanguageIn.get('read_level');
-    }
-
-
 
     // Submit Form
     onSubmit(event: Event, flag = false) {
@@ -76,7 +78,7 @@ export class LanguageFormComponent implements OnInit {
 
     // Types of catalogues
     getTypes() {
-        const params = new HttpParams().append('type', 'PROFESSIONAL');
+        const params = new HttpParams().append('type', 'SKILL_TYPE');
         this.appHttpService.getCatalogues(params).subscribe(response => {
             this.types = response['data'];
         }, error => {

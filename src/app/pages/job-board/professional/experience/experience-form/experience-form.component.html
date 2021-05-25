@@ -1,7 +1,17 @@
-{{formReferenceIn.value|json}}
+{{formExperienceIn.value|json}}
 <div class="p-fluid">
-    <form [formGroup]="formReferenceIn" (ngSubmit)="onSubmit($event)">
-            <div class="p-field">
+    <form [formGroup]="formExperienceIn" (ngSubmit)="onSubmit($event)">
+        <div class="p-field">
+            <label for="startDate">Fecha de inicio</label>
+            <app-date id="startDate" name="startDate" formControlName="start_date"></app-date>
+            <div *ngIf="startDateField.errors && (startDateField.touched || startDateField.dirty)">
+                <small *ngIf="startDateField.hasError('required')"
+                       id="start-date-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+            </div>
+        </div>
+        <div class="p-field">
             <app-location
                     [option]="4"
                     id="location"
@@ -42,34 +52,19 @@
             </div>
         </div>
         <div class="p-field">
-            <label for="position">posicion</label>
-            <textarea pInputTextarea id="position" formControlName="position" rows="5"></textarea>
-            <div *ngIf="positionField.errors && (positionField.touched || positionField.dirty)">
-                <small *ngIf="positionField.hasError('required')"
-                       id="position-help-1" class="p-error">
+            <label for="description">Descripción</label>
+            <textarea pInputTextarea id="description" formControlName="description" rows="5"></textarea>
+            <div *ngIf="descriptionField.errors && (descriptionField.touched || descriptionField.dirty)">
+                <small *ngIf="descriptionField.hasError('required')"
+                       id="description-help-1" class="p-error">
                     El campo es obligatorio.
                 </small>
-                <small *ngIf="positionField.hasError('minlength')"
-                       id="position-help-2" class="p-error">
-                    Mínimo de caracteres es {{positionField.errors.minlength.requiredLength}}.
+                <small *ngIf="descriptionField.hasError('minlength')"
+                       id="description-help-2" class="p-error">
+                    Mínimo de caracteres es {{descriptionField.errors.minlength.requiredLength}}.
                 </small>
             </div>
         </div>
-        <div class="p-field">
-            <label for="contact_name">nombre de contacto</label>
-            <textarea pInputTextarea id="contact_name" formControlName="contact_name" rows="5"></textarea>
-            <div *ngIf="contact_nameField.errors && (contact_nameField.touched || contact_nameField.dirty)">
-                <small *ngIf="contact_nameField.hasError('required')"
-                       id="contact_name-help-1" class="p-error">
-                    El campo es obligatorio.
-                </small>
-                <small *ngIf="contact_nameField.hasError('minlength')"
-                       id="contact_name-help-2" class="p-error">
-                    Mínimo de caracteres es {{contactNameField.errors.minlength.requiredLength}}.
-                </small>
-            </div>
-        </div>
-
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
                 <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"

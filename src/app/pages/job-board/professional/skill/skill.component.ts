@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {JobBoardHttpService} from '../../../../services/job-board/job-board-http.service';

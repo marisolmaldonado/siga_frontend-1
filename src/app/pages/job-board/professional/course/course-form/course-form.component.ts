@@ -17,7 +17,7 @@ import {Catalogue} from '../../../../../models/app/catalogue';
 export class CourseFormComponent implements OnInit {
     @Input() formCourseIn: FormGroup;
     @Input() coursesIn: Course[];
-    @Output() coursesOut = new EventEmitter<Course[]>();
+    @Output()coursesOut = new EventEmitter<Course[]>();
     @Output() displayOut = new EventEmitter<boolean>();
     filteredTypes: any[];
     types: Catalogue[];
@@ -34,32 +34,28 @@ export class CourseFormComponent implements OnInit {
     }
 
     // Fields of Form
+    get addressField() {
+        return this.formCourseIn.get('address');
+    }
+
+    get locationField() {
+        return this.formCourseIn.get('location');
+    }
+
+    get startDateField() {
+        return this.formCourseIn.get('start_date');
+    }
+
+    get endDateField() {
+        return this.formCourseIn.get('start_date');
+    }
+
     get idField() {
         return this.formCourseIn.get('id');
     }
 
-    get idProfessional() {
-        return this.formCourseIn.get('id');
-    }
-
-    get type() {
+    get typeField() {
         return this.formCourseIn.get('type');
-    }
-
-    get institutionField() {
-        return this.formCourseIn.get('institution');
-    }
-
-    get certificationTypeField() {
-        return this.formCourseIn.get('certification_type');
-    }
-
-    get areaField() {
-        return this.formCourseIn.get('area');
-    }
-
-    get nameField() {
-        return this.formCourseIn.get('name');
     }
 
     get descriptionField() {
@@ -82,7 +78,7 @@ export class CourseFormComponent implements OnInit {
 
     // Types of catalogues
     getTypes() {
-        const params = new HttpParams().append('type', 'COURSE_TYPE');
+        const params = new HttpParams().append('type', 'SKILL_TYPE');
         this.appHttpService.getCatalogues(params).subscribe(response => {
             this.types = response['data'];
         }, error => {

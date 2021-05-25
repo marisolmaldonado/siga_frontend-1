@@ -1,56 +1,56 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Reference} from '../../../../../models/job-board/reference';
-import {FormGroup} from '@angular/forms';
-import {Col} from '../../../../../models/setting/col';
-import {Paginator} from '../../../../../models/setting/paginator';
-import {MessageService} from '../../../../../services/app/message.service';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
-import {HttpParams} from '@angular/common/http';
-import {File} from '../../../../../models/app/file';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Experience } from '../../../../../models/job-board/experience';
+import { FormGroup } from '@angular/forms';
+import { Col } from '../../../../../models/setting/col';
+import { Paginator } from '../../../../../models/setting/paginator';
+import { MessageService } from '../../../../../services/app/message.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { JobBoardHttpService } from '../../../../../services/job-board/job-board-http.service';
+import { HttpParams } from '@angular/common/http';
+import { File } from '../../../../../models/app/file';
 
 @Component({
-    selector: 'app-reference-list',
-    templateUrl: './reference-list.component.html',
-    styleUrls: ['./reference-list.component.scss']
+    selector: 'app-experience-list',
+    templateUrl: './experience-list.component.html',
+    styleUrls: ['./experience-list.component.scss']
 })
-export class ReferenceListComponent implements OnInit {
-    @Input() flagReferences: boolean;
-    @Input() referencesIn: Reference[];
+export class ExperienceListComponent implements OnInit {
+    @Input() flagExperiences: boolean;
+    @Input() experiencesIn: Experience[];
     @Input() paginatorIn: Paginator;
-    @Input() formReferenceIn: FormGroup;
+    @Input() formExperienceIn: FormGroup;
     @Input() displayIn: boolean;
-    @Output() referencesOut = new EventEmitter<Reference[]>();
-    @Output() formReferenceOut = new EventEmitter<FormGroup>();
+    @Output() experiencesOut = new EventEmitter<Experience[]>();
+    @Output() formExperienceOut = new EventEmitter<FormGroup>();
     @Output() displayOut = new EventEmitter<boolean>();
     @Output() paginatorOut = new EventEmitter<Paginator>();
-    selectedReferences: any[];
-    selectedReference: Reference;
+    selectedExperiences: any[];
+    selectedExperience: Experience;
     dialogUploadFiles: boolean;
     dialogViewFiles: boolean;
     files: File[];
     paginatorFiles: Paginator;
 
     constructor(private messageService: MessageService,
-                private spinnerService: NgxSpinnerService,
-                private jobBoardHttpService: JobBoardHttpService) {
+        private spinnerService: NgxSpinnerService,
+        private jobBoardHttpService: JobBoardHttpService) {
         this.resetPaginator();
     }
 
     resetPaginator() {
-        this.paginatorFiles = {current_page: '1', per_page: '5'};
+        this.paginatorFiles = { current_page: '1', per_page: '5' };
     }
 
     ngOnInit(): void {
     }
 
-    // Search references in backend
-    searchReferences(event, search) {
+    // Search Experiences in backend
+    searchExperiences(event, search) {
         if (event.type === 'click' || event.keyCode === 13 || search.length === 0) {
             const params = search.length > 0 ? new HttpParams().append('search', search) : null;
             this.spinnerService.show();
-            this.jobBoardHttpService.get('references', params).subscribe(response => {
-                this.referencesIn = response['data'],
+            this.jobBoardHttpService.get('experiences', params).subscribe(response => {
+                this.experiencesIn = response['data'],
                     this.spinnerService.hide();
             }, error => {
                 this.spinnerService.hide();
@@ -59,37 +59,37 @@ export class ReferenceListComponent implements OnInit {
         }
     }
 
-    openNewFormReference() {
-        this.formReferenceIn.reset();
-        this.formReferenceOut.emit(this.formReferenceIn);
+    openNewFormExperience() {
+        this.formExperienceIn.reset();
+        this.formExperienceOut.emit(this.formExperienceIn);
         this.displayOut.emit(true);
     }
 
-    openEditFormReference(reference: Reference) {
-        this.formReferenceIn.patchValue(reference);
-        this.formReferenceOut.emit(this.formReferenceIn);
+    openEditFormExperience(experience: Experience) {
+        this.formExperienceIn.patchValue(experience);
+        this.formExperienceOut.emit(this.formExperienceIn);
         this.displayOut.emit(true);
     }
 
-    openUploadFilesReference() {
+    openUploadFilesExperience() {
         this.dialogUploadFiles = true;
     }
 
-    selectReference(reference: Reference) {
-        this.selectedReference = reference;
+    selectExperience(experience: Experience) {
+        this.selectedExperience = experience;
     }
 
-    openViewFilesReference() {
+    openViewFilesExperience() {
         this.getFiles(this.paginatorFiles);
     }
 
     getFiles(paginator: Paginator) {
         const params = new HttpParams()
-            .append('id', this.selectedReference.id.toString())
+            .append('id', this.selectedExperience.id.toString())
             .append('page', paginator.current_page)
             .append('per_page', paginator.per_page);
         this.spinnerService.show();
-        this.jobBoardHttpService.getFiles('reference/file', params).subscribe(response => {
+        this.jobBoardHttpService.getFiles('experience/file', params).subscribe(response => {
             this.spinnerService.hide();
             this.files = response['data'];
             this.paginatorFiles = response as Paginator;
@@ -107,23 +107,23 @@ export class ReferenceListComponent implements OnInit {
         this.paginatorOut.emit(this.paginatorIn);
     }
 
-    deleteReferences(reference = null) {
+    deleteExperiences(experience = null) {
         this.messageService.questionDelete({})
             .then((result) => {
                 if (result.isConfirmed) {
-                    if (reference) {
-                        this.selectedReferences = [];
-                        this.selectedReferences.push(reference);
+                    if (experience) {
+                        this.selectedExperiences = [];
+                        this.selectedExperiences.push(experience);
                     }
 
-                    const ids = this.selectedReferences.map(element => element.id);
+                    const ids = this.selectedExperiences.map(element => element.id);
                     this.spinnerService.show();
-                    this.jobBoardHttpService.delete('reference/delete', ids)
+                    this.jobBoardHttpService.delete('experience/delete', ids)
                         .subscribe(response => {
                             this.spinnerService.hide();
                             this.messageService.success(response);
-                            this.removeReferences(ids);
-                            this.selectedReferences = [];
+                            this.removeExperiences(ids);
+                            this.selectedExperiences = [];
                         }, error => {
                             this.spinnerService.hide();
                             this.messageService.error(error);
@@ -133,11 +133,11 @@ export class ReferenceListComponent implements OnInit {
 
     }
 
-    removeReferences(ids) {
+    removeExperiences(ids) {
         for (const id of ids) {
-            this.referencesIn = this.referencesIn.filter(element => element.id !== id);
+            this.experiencesIn = this.experiencesIn.filter(element => element.id !== id);
         }
-        this.referencesOut.emit(this.referencesIn);
+        this.experiencesOut.emit(this.experiencesIn);
     }
 
     upload(event, id) {
@@ -148,7 +148,7 @@ export class ReferenceListComponent implements OnInit {
         }
         formData.append('id', id.toString());
         this.spinnerService.show();
-        this.jobBoardHttpService.uploadFiles('reference/file', formData).subscribe(response => {
+        this.jobBoardHttpService.uploadFiles('experience/file', formData).subscribe(response => {
             this.spinnerService.hide();
             this.messageService.success(response);
             this.getFiles(this.paginatorFiles);
@@ -159,10 +159,10 @@ export class ReferenceListComponent implements OnInit {
     }
 
     searchFiles(search) {
-        let params = new HttpParams().append('id', this.selectedReference.id.toString());
+        let params = new HttpParams().append('id', this.selectedExperience.id.toString());
         params = search.length > 0 ? params.append('search', search) : params;
         this.spinnerService.show();
-        this.jobBoardHttpService.get('reference/file', params).subscribe(response => {
+        this.jobBoardHttpService.get('experience/file', params).subscribe(response => {
             this.files = response['data'];
             this.spinnerService.hide();
         }, error => {

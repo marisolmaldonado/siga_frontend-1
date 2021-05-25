@@ -1,13 +1,13 @@
-<app-skeleton *ngIf="flagReferences"></app-skeleton>
+<app-skeleton *ngIf="flagExperiences"></app-skeleton>
 <p-dialog [(visible)]="dialogUploadFiles" [style]="{width: '75%'}" header="Subir archivos" [modal]="true"
           styleClass="p-fluid" (onHide)="dialogUploadFiles=false">
-    <app-upload-files (files)="upload($event,selectedReference.id)"></app-upload-files>
+    <app-upload-files (files)="upload($event,selectedExperience.id)"></app-upload-files>
 </p-dialog>
 
 <p-dialog [(visible)]="dialogViewFiles" [style]="{width: '75%'}" header="Subir Archivos" [modal]="true"
           styleClass="p-fluid" (onHide)="dialogViewFiles=false;resetPaginator()">
     <app-view-files
-            (files)="upload($event,selectedReference.id)"
+            (files)="upload($event,selectedExperience.id)"
             [filesIn]="files"
             (searchOut)="searchFiles($event)"
             [paginatorIn]="paginatorFiles"
@@ -18,10 +18,10 @@
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
             <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
-                    (click)="openNewFormReference()"></button>
+                    (click)="openNewFormExperience()"></button>
             <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-mr-2 p-mb-2"
-                    (click)="deleteReferences()"
-                    [disabled]="!selectedReferences || !selectedReferences.length"></button>
+                    (click)="deleteExperiences()"
+                    [disabled]="!selectedExperiences || !selectedExperiences.length"></button>
             <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info p-mb-2"
                     (click)="paginatorOut.emit(paginatorIn)"></button>
         </ng-template>
@@ -36,10 +36,10 @@
     <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total"
                  (onPageChange)="pageChange($event)"></p-paginator>
     <p-table #dt
-             [value]="referencesIn"
+             [value]="experiencesIn"
              [rows]="paginatorIn.per_page"
              [paginator]="false"
-             [(selection)]="selectedReferences"
+             [(selection)]="selectedExperiences"
              [rowHover]="true"
              dataKey="id"
              styleClass="p-datatable-customers"
@@ -47,10 +47,10 @@
              [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
-                <h5 class="p-m-0">Referencias</h5>
+                <h5 class="p-m-0">Experiencias</h5>
                 <span class="p-input-icon-left">
-                        <i class="pi pi-search" (click)="searchReferences($event,search.value)"></i>
-                        <input #search pInputText type="text" (keyup)="searchReferences($event,$event.target.value)"
+                        <i class="pi pi-search" (click)="searchExperiences($event,search.value)"></i>
+                        <input #search pInputText type="text" (keyup)="searchExperiences($event,$event.target.value)"
                                placeholder="Buscar..."/>
                     </span>
             </div>
@@ -60,69 +60,41 @@
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th pSortableColumn="professional">
-                    profesional
-                     <p-sortIcon field="professional"></p-sortIcon>
-                 </th>
-                <th pSortableColumn="institution">
-                   institucion
-                    <p-sortIcon field="institution"></p-sortIcon>
+                <th pSortableColumn="type">
+                    Tipo
+                    <p-sortIcon field="type"></p-sortIcon>
                 </th>
-                <th pSortableColumn="position">
-                    posicion
-                    <p-sortIcon field="position"></p-sortIcon>
-                </th>
-                <th pSortableColumn="contact_name">
-                    Nombre de contacto
-                    <p-sortIcon field="contact_name"></p-sortIcon>
-                </th>
-                <th pSortableColumn="contact_phone">
-                    Contacto telefonico
-                    <p-sortIcon field="contact_phone"></p-sortIcon>
-                </th>
-                <th pSortableColumn="contact_email">
-                    Contacto email
-                    <p-sortIcon field="contact_email"></p-sortIcon>
+                <th pSortableColumn="description">
+                    Descripción
+                    <p-sortIcon field="description"></p-sortIcon>
                 </th>
                 <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-reference>
+        <ng-template pTemplate="body" let-experience>
             <tr>
                 <td>
-                    <p-tableCheckbox [value]="reference"></p-tableCheckbox>
+                    <p-tableCheckbox [value]="experience"></p-tableCheckbox>
                 </td>
                 <td>
-                    {{reference.professional}}
+                    {{experience.type.name}}
                 </td>
                 <td>
-                    {{reference.institution}}
-                </td>
-                <td>
-                    {{reference.position}}
-                </td>
-                <td>
-                    {{reference.contact_name}}
-                </td>
-                <td>
-                    {{reference.contact_phone}}
-                </td>
-                <td>
-                    {{reference.contact_email}}
+                    {{experience.description}}
                 </td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
-                            (click)="openEditFormReference(reference)"></button>
+                            (click)="openEditFormExperience(experience)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-ml-2"
-                            (click)="deleteReferences(reference)"></button>
+                            (click)="deleteExperiences(experience)"></button>
                     <button pButton pRipple icon="pi pi-paperclip" class="p-button-rounded p-ml-2"
-                            (click)="selectReference(reference);openViewFilesReference()"></button>
+                            (click)="selectExperience(experience);openViewFilesExperience()"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="p-d-flex p-ai-center p-jc-between">
-                En total hay {{paginatorIn ? paginatorIn.total : 0 }} referencias.
+                En total hay {{paginatorIn ? paginatorIn.total : 0 }} experiencias.
             </div>
         </ng-template>
     </p-table>

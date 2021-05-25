@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {JobBoardHttpService} from '../../../../services/job-board/job-board-http.service';
-import {Language} from '../../../../models/job-board/language';
-import {Paginator} from '../../../../models/setting/paginator';
-import {HttpParams} from '@angular/common/http';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {BreadcrumbService} from '../../../../shared/services/breadcrumb.service';
-import {MessageService} from '../../../../services/app/message.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { JobBoardHttpService } from '../../../../services/job-board/job-board-http.service';
+import { Language } from '../../../../models/job-board/language';
+import { Paginator } from '../../../../models/setting/paginator';
+import { HttpParams } from '@angular/common/http';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BreadcrumbService } from '../../../../shared/services/breadcrumb.service';
+import { MessageService } from '../../../../services/app/message.service';
 
 @Component({
   selector: 'app-language',
@@ -30,15 +30,15 @@ export class LanguageComponent implements OnInit {
 
     this.paginator = {current_page: '1', per_page: '5'};
     this.languages = [];
-}
+  }
 
   ngOnInit(): void {
     this.getLanguages(this.paginator);
-        this.buildFormLanguage();
-    }
-// Build form language
-buildFormLanguage() {
-  this.formLanguage = this.formBuilder.group({
+    this.buildFormLanguage();
+  }
+  // Build form language
+  buildFormLanguage() {
+    this.formLanguage = this.formBuilder.group({
       id: [null],
       professional_id: [null, Validators.required],
       idiom_id: [null, Validators.required],
@@ -46,10 +46,10 @@ buildFormLanguage() {
       spoken_level_id: [null, Validators.required],
       ead_level_id: [null, Validators.required],
 
-  });
-}// languages of backend
-getLanguages(paginator: Paginator) {
-  const params = new HttpParams()
+    });
+  }// languages of backend
+  getLanguages(paginator: Paginator) {
+    const params = new HttpParams()
       .append('page', paginator.current_page)
       .append('per_page', paginator.per_page);
 

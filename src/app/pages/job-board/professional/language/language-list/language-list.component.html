@@ -89,7 +89,7 @@
                     <p-tableCheckbox [value]="language"></p-tableCheckbox>
                 </td>
                 <td>
-                    {{language.professional.name}}
+                    {{language.professional}}
                 </td>
                 <td>
                     {{language.idiom}}
@@ -115,7 +115,7 @@
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="p-d-flex p-ai-center p-jc-between">
-                En total hay {{paginatorIn ? paginatorIn.total : 0 }}idiomas.
+                En total hay {{paginatorIn ? paginatorIn.total : 0 }} habilidades.
             </div>
         </ng-template>
     </p-table>
