@@ -27,7 +27,7 @@
                             <div *ngIf="firstNameField.errors && firstNameField.touched">
                                 <small *ngIf="firstNameField.hasError('required')"
                                        id="first-name-help-1" class="p-error">
-                                    El campo es obligatorio.
+                                    {{messageService.fieldRequired}}
                                 </small>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                             <div *ngIf="firstLastnameField.errors && firstLastnameField.touched">
                                 <small *ngIf="firstLastnameField.hasError('required')"
                                        id="first-lastname-help-1" class="p-error">
-                                    El campo es obligatorio.
+                                    {{messageService.fieldRequired}}
                                 </small>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                         <div *ngIf="usernameField.errors && usernameField.touched">
                             <small *ngIf="usernameField.hasError('required')"
                                    id="username-help-1" class="p-error">
-                                El campo es obligatorio.
+                                {{messageService.fieldRequired}}
                             </small>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                         <div *ngIf="passwordField.errors && passwordField.touched">
                             <small id="password-help-1" class="p-error"
                                    *ngIf="passwordField.hasError('required')">
-                                El campo es requerido.
+                                {{messageService.fieldRequired}}
                             </small>
                             <small id="password-help-2" class="p-error"
                                    *ngIf="passwordField.hasError('minlength')">
@@ -92,7 +92,7 @@
                         <div *ngIf="passwordConfirmationField.errors && passwordConfirmationField.touched">
                             <small id="password-confirmation-help-1" class="p-error"
                                    *ngIf="passwordConfirmationField.hasError('required')">
-                                El campos es requerido.
+                                {{messageService.fieldRequired}}
                             </small>
                             <small id="password-confirmation-help-2" class="p-error"
                                    *ngIf="passwordConfirmationField.hasError('minlength')">

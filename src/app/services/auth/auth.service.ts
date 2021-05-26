@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {Permission, Role, System, Token, User} from '../../models/auth/models.index';
 import {Institution} from '../../models/app/institution';
-import {MessageService} from '../app/message.service';
-import {Professional} from "../../models/job-board/professional";
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +13,7 @@ export class AuthService {
     auth: User;
     institutions: Institution[];
 
-    constructor(private httpClient: HttpClient, private router: Router, private messageService: MessageService) {
+    constructor(private router: Router) {
         this.urlAvatar = environment.STORAGE_URL;
     }
 
@@ -75,6 +72,10 @@ export class AuthService {
             : JSON.parse(localStorage.getItem('permissions')) as Permission[];
     }
 
+    setPermissions(permisions: Permission[]) {
+        localStorage.setItem('permissions', JSON.stringify(permisions));
+    }
+
     getRole(): Role {
         return localStorage.getItem('role') ? JSON.parse(localStorage.getItem('role')) : null;
     }
@@ -100,7 +101,7 @@ export class AuthService {
     }
 
     verifySession() {
-        if (localStorage.getItem('keepSession') === 'true') {
+        if (this.getKeepSession() === true) {
             this.router.navigate(['/dashboard']);
         }
     }

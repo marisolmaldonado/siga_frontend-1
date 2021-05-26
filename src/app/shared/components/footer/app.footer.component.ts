@@ -16,6 +16,6 @@ export class AppFooterComponent {
     constructor(private authService: AuthService) {
         this.institution = this.authService.getInstitution();
         this.STORAGE_URL = environment.STORAGE_URL;
-        this.system = JSON.parse(localStorage.getItem('system'));
+        this.system = authService.getSystem();
     }
 }

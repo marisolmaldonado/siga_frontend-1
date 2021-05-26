@@ -64,7 +64,6 @@ import {RippleModule} from 'primeng/ripple';
         TreeModule,
         AccordionModule,
         OverlayPanelModule,
-        SharedModule,
         CardModule,
         SkeletonModule,
         RippleModule,

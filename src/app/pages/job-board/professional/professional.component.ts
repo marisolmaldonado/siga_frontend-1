@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {BreadcrumbService} from '../../../shared/services/breadcrumb.service';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
     selector: 'app-professional',
@@ -7,12 +9,19 @@ import {Component, OnInit} from '@angular/core';
 })
 export class ProfessionalComponent implements OnInit {
 
-    constructor() {
-
+    constructor(private breadcrumbService: BreadcrumbService, private fb: FormBuilder) {
+        this.breadcrumbService.setItems([
+            {label: 'Dashboard', routerLink: ['/dashboard']},
+            {label: 'Profesional'}
+        ]);
     }
 
-    ngOnInit(): void {
+    form: FormGroup;
 
+    ngOnInit(): void {
+        this.form = this.fb.group({
+            location: [null]
+        });
     }
 
 }

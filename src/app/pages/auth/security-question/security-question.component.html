@@ -34,7 +34,7 @@
                             <button id="goToLogin" name="goToLogin" type="button" pButton label="Regresar al Login"
                                     icon="pi pi-arrow-left" [routerLink]="['/auth/login']"></button>
                         </div>
-                        <hr>
+                        <p-divider></p-divider>
                         <p-captcha #grecaptchaSecurityQuestion [siteKey]="SITE_KEY"
                                    (onResponse)="showResponse($event)" initCallback="loadCaptcha"></p-captcha>
                     </form>

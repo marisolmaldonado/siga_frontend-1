@@ -21,7 +21,7 @@ export class MessageService {
             return Swal.fire({
                 title: error.error.msg.summary,
                 text: error.error.msg.detail,
-                icon: 'info'
+                icon: 'warning'
             });
         }
         if (error.status === 422) {
@@ -65,5 +65,17 @@ export class MessageService {
             cancelButtonColor: '#3085d6',
             confirmButtonText: '<i class="pi pi-trash"> Si, eliminar</i>'
         });
+    }
+
+    get fieldRequired(): string {
+        return 'El campo es obligatorio.';
+    }
+
+    fieldMinLength(field) {
+        return `Mínimo de caracteres es ${field.errors.minlength.requiredLength}.`;
+    }
+
+    get fieldNoPasswordMatch(): string {
+        return 'Las contraseñas no coinciden.';
     }
 }

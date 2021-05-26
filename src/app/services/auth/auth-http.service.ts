@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {environment, WEB} from '../../../environments/environment';
 import {User} from '../../models/auth/models.index';
 import {URL} from '../../../environments/environment';
-import {MessageService} from '../app/message.service';
+import {MessageService} from '../../pages/shared/services/message.service';
 import {AuthService} from './auth.service';
 
 @Injectable({
@@ -58,7 +58,7 @@ export class AuthHttpService {
     }
 
     userUnlock(username: any, params = new HttpParams()) {
-        const url = environment.API_URL_AUTHENTICATION + 'auth/user-unlocked-user';
+        const url = environment.API_URL_AUTHENTICATION + 'auth/user-locked';
         return this.httpClient.post(url, {username}, {params});
     }
 
