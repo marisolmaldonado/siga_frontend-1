@@ -16,8 +16,12 @@ export class FilterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getSearch(event): void {
-    this.searchEmitter.emit(this.searchControl.value);
+  getSearch(): void {
+    if (this.searchControl.value == '') {
+      this.searchEmitter.emit(null);
+    } else {
+      this.searchEmitter.emit(this.searchControl.value);
+    }
   }
 
 }

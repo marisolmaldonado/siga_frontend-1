@@ -3,6 +3,7 @@ export interface Category {
     code?: string;
     name?: string;
     icon?: string;
+    is_principal?: boolean;
     parent?: Category;
     children?: Category[];
     type?: Category;

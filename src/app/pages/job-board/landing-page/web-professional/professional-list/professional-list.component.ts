@@ -15,6 +15,7 @@ import { MessageService } from 'src/app/services/app/message.service';
 export class ProfessionalListComponent implements OnInit {
   paginator: Paginator;
   professionals: Professional[];
+  body: any;
 
   constructor(
     private jobBoardHttpService: JobBoardHttpService,
@@ -22,13 +23,14 @@ export class ProfessionalListComponent implements OnInit {
     private messageService: MessageService) {
       this.paginator = {current_page: '1', per_page: '9'};
       this.professionals = [];
+      this.body = {ids: null, search: null};
     }
 
   ngOnInit(): void {
-    this.getProfessionals(this.paginator);
+    this.getProfessionals(this.paginator, this.body);
   }
 
-  getProfessionals(paginator: Paginator, body?: any): void {
+  getProfessionals(paginator: Paginator, body: any): void {
     const params = new HttpParams()
             .append('page', paginator.current_page)
             .append('per_page', paginator.per_page);
@@ -46,17 +48,19 @@ export class ProfessionalListComponent implements OnInit {
     );
   }
 
-  paginate(event): void {
+  pageChange(event): void {
     this.paginator.current_page = event.page + 1;
-    this.getProfessionals(this.paginator);
+    this.getProfessionals(this.paginator, this.body);
   }
 
   getSelectedCategories(event: number[]): void {
-    console.log(event);
+    this.body.ids = event;
+    this.getProfessionals(this.paginator, this.body);
   }
 
   getSearch(event: string): void {
-    console.log(event);
+    this.body.search = event;
+    this.getProfessionals(this.paginator, this.body);
   }
 
 }

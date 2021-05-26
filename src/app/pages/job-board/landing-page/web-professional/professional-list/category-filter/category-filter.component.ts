@@ -49,18 +49,17 @@ export class CategoryFilterComponent implements OnInit {
   }
 
   categoryToTreeNode(categories: Category[]): TreeNode[] {
-    let treeNode: TreeNode[] = [];
+    const treeNode: TreeNode[] = [];
 
-    categories.forEach(category => {
-      let treeNodeChildren: TreeNode[] = [];
+    for (const category of categories) {
+      const treeNodeChildren: TreeNode[] = [];
 
-      category.children.forEach(child => {
+      for (const child of category.children) {
         treeNodeChildren.push({label: child.name});
-      })
-
+      }
       treeNode.push({label: category.name, children: treeNodeChildren});
-    });
-
+      
+    }
     return treeNode;
   }
 
@@ -90,6 +89,12 @@ export class CategoryFilterComponent implements OnInit {
         });
       });
     });
+
+    if (this.selectedCategories.length > 0) {
+      this.selectedCategoriesEmitter.emit(this.selectedCategories);
+    } else {
+      this.selectedCategoriesEmitter.emit(null);
+    }
   }
 
 }
