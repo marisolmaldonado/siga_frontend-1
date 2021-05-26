@@ -3,7 +3,9 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {environment, WEB} from '../../../environments/environment';
 import {Institution} from '../../models/app/institution';
-import {MessageService} from '../app/message.service';
+
+import {MessageService} from '../../pages/shared/services/message.service';
+
 
 import {Course} from '../../models/job-board/course';
 import {Experience} from '../../models/job-board/experience';

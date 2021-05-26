@@ -7,7 +7,7 @@ import { Paginator } from '../../../../models/setting/paginator';
 import { HttpParams } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BreadcrumbService } from '../../../../shared/services/breadcrumb.service';
-import { MessageService } from '../../../../services/app/message.service';
+import {MessageService} from '../../../shared/services/message.service';
 
 @Component({
   selector: 'app-language',
@@ -28,7 +28,7 @@ export class LanguageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private jobBoardHttpService: JobBoardHttpService) {
 
-    this.paginator = {current_page: '1', per_page: '5'};
+    this.paginator = {current_page: 1, per_page: 5};
     this.languages = [];
   }
 
@@ -50,8 +50,8 @@ export class LanguageComponent implements OnInit {
   }// languages of backend
   getLanguages(paginator: Paginator) {
     const params = new HttpParams()
-      .append('page', paginator.current_page)
-      .append('per_page', paginator.per_page);
+      .append('page', paginator.current_page.toString())
+      .append('per_page', paginator.per_page.toString());
 
   this.flagLanguages = true;
       // this.spinnerService.show();

@@ -7,7 +7,7 @@ import { Paginator } from '../../../../models/setting/paginator';
 import { HttpParams } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BreadcrumbService } from '../../../../shared/services/breadcrumb.service';
-import { MessageService } from '../../../../services/app/message.service';
+import {MessageService} from '../../../shared/services/message.service';
 import { DateValidators } from "../../../shared/validators/date.validators";
 
 @Component({
@@ -30,7 +30,7 @@ export class CourseComponent implements OnInit {
         private jobBoardHttpService: JobBoardHttpService,
         private breadcrumbService: BreadcrumbService) {
 
-        this.paginator = { current_page: '1', per_page: '5' };
+        this.paginator = { current_page: 1, per_page: 5 };
         this.courses = [];
     }
 
@@ -55,8 +55,8 @@ export class CourseComponent implements OnInit {
     // courses of backend
     getCourses(paginator: Paginator) {
         const params = new HttpParams()
-            .append('page', paginator.current_page)
-            .append('per_page', paginator.per_page);
+            .append('page', paginator.current_page.toString())
+            .append('per_page', paginator.per_page.toString());
 
         this.flagCourses = true;
         // this.spinnerService.show();

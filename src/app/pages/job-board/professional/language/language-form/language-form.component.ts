@@ -1,7 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Language} from '../../../../../models/job-board/language';
-import {MessageService} from '../../../../../services/app/message.service';
+import {MessageService} from '../../../../shared/services/message.service';
+import {MessageService as MessagePnService} from 'primeng/api';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
 import {AppHttpService} from '../../../../../services/app/app-http.service';
@@ -24,6 +25,7 @@ export class LanguageFormComponent implements OnInit {
 
     constructor(private formBuilder: FormBuilder,
                 private messageService: MessageService,
+                private messagePnService: MessagePnService,
                 private spinnerService: NgxSpinnerService,
                 private appHttpService: AppHttpService,
                 private jobBoardHttpService: JobBoardHttpService) {
