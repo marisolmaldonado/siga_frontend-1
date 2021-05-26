@@ -5,9 +5,11 @@
                 [usersIn]="users"
                 [paginatorIn]="paginator"
                 [formUserIn]="formUser"
+                [flagUsers]="flagUsers"
                 (formUserOut)="formUser=$event"
                 (displayOut)="userDialog=$event"
-                (usersOut)="setUsers($event)">
+                (usersOut)="setUsers($event)"
+                (paginatorOut)="getUsers($event)">
             </app-user-list>
         </p-tabPanel>
         <p-tabPanel header="Asignar Roles" leftIcon="pi pi-shield">

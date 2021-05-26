@@ -51,9 +51,11 @@ export class UserListComponent implements OnInit {
   }
 
   paginateUser(event) {
+    console.log(event);
     this.paginatorIn.current_page = event.page + 1;
     this.paginatorOut.emit(this.paginatorIn);
-}
+    
+  }
 
 resetPaginatorUsers() {
   this.paginatorIn = {current_page: 1, per_page: 5};
