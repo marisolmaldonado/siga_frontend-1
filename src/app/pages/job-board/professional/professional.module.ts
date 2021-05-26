@@ -40,6 +40,9 @@ import { SkillListComponent } from "./skill/skill-list/skill-list.component";
 import { CourseComponent } from './course/course.component';
 import { CourseFormComponent } from './course/course-form/course-form.component';
 import { CourseListComponent } from "./course/course-list/course-list.Component";
+import { ReferenceComponent } from './reference/reference.component';
+import { ReferenceFormComponent } from './reference/reference-form/reference-form.component';
+import { ReferenceListComponent } from "./reference/reference-list/reference-list.Component";
 import { ExperienceComponent } from './experience/experience.component';
 import { ExperienceFormComponent } from './experience/experience-form/experience-form.component';
 import { ExperienceListComponent } from "./experience/experience-list/experience-list.Component";
@@ -90,6 +93,9 @@ import {LanguageListComponent} from "./language/language-list/language-list.comp
         CourseComponent,
         CourseFormComponent,
         CourseListComponent,
+        ReferenceComponent,
+        ReferenceListComponent,
+        ReferenceFormComponent,
         ExperienceComponent,
         ExperienceListComponent,
         ExperienceFormComponent,

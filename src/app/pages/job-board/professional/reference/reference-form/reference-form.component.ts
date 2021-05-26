@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Course } from '../../../../../models/job-board/course';
+import { Reference } from '../../../../../models/job-board/reference';
 import { MessageService } from '../../../../../services/app/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { JobBoardHttpService } from '../../../../../services/job-board/job-board-http.service';
@@ -9,15 +9,15 @@ import { HttpParams } from '@angular/common/http';
 import { Catalogue } from '../../../../../models/app/catalogue';
 
 @Component({
-    selector: 'app-course-form',
-    templateUrl: './course-form.component.html',
-    styleUrls: ['./course-form.component.scss']
+    selector: 'app-reference-form',
+    templateUrl: './referene-form.component.html',
+    styleUrls: ['./reference-form.component.scss']
 })
 
-export class CourseFormComponent implements OnInit {
-    @Input() formCourseIn: FormGroup;
-    @Input() coursesIn: Course[];
-    @Output() coursesOut = new EventEmitter<Course[]>();
+export class ReferenceFormComponent implements OnInit {
+    @Input() formReferenceIn: FormGroup;
+    @Input() referencesIn: Reference[];
+    @Output() referencesOut = new EventEmitter<Reference[]>();
     @Output() displayOut = new EventEmitter<boolean>();
     filteredTypes: any[];
     types: Catalogue[];
@@ -35,68 +35,68 @@ export class CourseFormComponent implements OnInit {
 
     // Fields of Form
     get professionalfield() {
-        return this.formCourseIn.get('professional');
+        return this.formReferenceIn.get('professional');
     }
 
     get typeField() {
-        return this.formCourseIn.get('type');
+        return this.formReferenceIn.get('type');
     }
 
     get institutionField() {
-        return this.formCourseIn.get('institution');
+        return this.formReferenceIn.get('institution');
     }
 
     get certificationTypeField() {
-        return this.formCourseIn.get('certification_type');
+        return this.formReferenceIn.get('certification_type');
     }
 
     get areaField() {
-        return this.formCourseIn.get('area');
+        return this.formReferenceIn.get('area');
     }
 
     get nameField() {
-        return this.formCourseIn.get('name');
+        return this.formReferenceIn.get('name');
     }
 
     get descriptionField() {
-        return this.formCourseIn.get('description');
+        return this.formReferenceIn.get('description');
     }
 
     get startDateField() {
-        return this.formCourseIn.get('start_date');
+        return this.formReferenceIn.get('start_date');
     }
 
     get endDateField() {
-        return this.formCourseIn.get('start_date');
+        return this.formReferenceIn.get('start_date');
     }
 
     get hourField() {
-        return this.formCourseIn.get('hour');
+        return this.formReferenceIn.get('hour');
     }
 
     get addressField() {
-        return this.formCourseIn.get('address');
+        return this.formReferenceIn.get('address');
     }
 
     get locationField() {
-        return this.formCourseIn.get('location');
+        return this.formReferenceIn.get('location');
     }
 
     get idField() {
-        return this.formCourseIn.get('id');
+        return this.formReferenceIn.get('id');
     }
 
     // Submit Form
     onSubmit(event: Event, flag = false) {
         event.preventDefault();
-        if (this.formCourseIn.valid) {
+        if (this.formReferenceIn.valid) {
             if (this.idField.value) {
-                this.updateCourse(this.formCourseIn.value);
+                this.updateReference(this.formReferenceIn.value);
             } else {
-                this.storeCourse(this.formCourseIn.value, flag);
+                this.storeReference(this.formReferenceIn.value, flag);
             }
         } else {
-            this.formCourseIn.markAllAsTouched();
+            this.formReferenceIn.markAllAsTouched();
         }
     }
 
@@ -111,14 +111,14 @@ export class CourseFormComponent implements OnInit {
     }
 
     // Save in backend
-    storeCourse(course: Course, flag = false) {
+    storeReference(reference: Reference, flag = false) {
         this.spinnerService.show();
-        this.jobBoardHttpService.store('courses', { course }).subscribe(response => {
+        this.jobBoardHttpService.store('references', { reference }).subscribe(response => {
             this.spinnerService.hide();
             this.messageService.success(response);
-            this.saveCourse(response['data']);
+            this.saveReference(response['data']);
             if (flag) {
-                this.formCourseIn.reset();
+                this.formReferenceIn.reset();
             } else {
                 this.displayOut.emit(false);
             }
@@ -130,13 +130,13 @@ export class CourseFormComponent implements OnInit {
     }
 
     // Save in backend
-    updateCourse(course: Course) {
+    updateReference(reference: Reference) {
         this.spinnerService.show();
-        this.jobBoardHttpService.update('courses/' + course.id, { course })
+        this.jobBoardHttpService.update('references/' + reference.id, { reference })
             .subscribe(response => {
                 this.spinnerService.hide();
                 this.messageService.success(response);
-                this.saveCourse(response['data']);
+                this.saveReference(response['data']);
                 this.displayOut.emit(false);
             }, error => {
                 this.spinnerService.hide();
@@ -145,17 +145,17 @@ export class CourseFormComponent implements OnInit {
     }
 
     // Save in frontend
-    saveCourse(course: Course) {
-        const index = this.coursesIn.findIndex(element => element.id === course.id);
+    saveReference(reference: Reference) {
+        const index = this.referencesIn.findIndex(element => element.id === reference.id);
         if (index === -1) {
-            this.coursesIn.push(course);
+            this.referencesIn.push(reference);
         } else {
-            this.coursesIn[index] = course;
+            this.referencesIn[index] = reference;
         }
-        this.coursesOut.emit(this.coursesIn);
+        this.referencesOut.emit(this.referencesIn);
     }
 
-    // Filter type of courses
+    // Filter type of references
     filterType(event) {
         const filtered: any[] = [];
         const query = event.query;

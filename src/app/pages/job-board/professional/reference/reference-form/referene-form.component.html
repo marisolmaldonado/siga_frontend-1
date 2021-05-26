@@ -1,6 +1,6 @@
-<!-- {{formCourseIn.value|json}} -->
+<!-- {{formReferenceIn.value|json}} -->
 <div class="p-fluid">
-    <form [formGroup]="formCourseIn" (ngSubmit)="onSubmit($event)">
+    <form [formGroup]="formReferenceIn" (ngSubmit)="onSubmit($event)">
         <div class="p-field">
             <label for="startDate">Fecha de inicio</label>
             <app-date id="startDate" name="startDate" formControlName="start_date"></app-date>
