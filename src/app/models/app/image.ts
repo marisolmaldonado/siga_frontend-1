@@ -4,5 +4,4 @@ export interface Image {
     description: string;
     extension: string;
     directory: string;
-    
 }
