@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {environment} from '../../../../environments/environment';
 import {AuthHttpService} from '../../../services/auth/auth-http.service';
-import {MessageService} from '../../../services/app/message.service';
+import {MessageService} from '../../shared/services/message.service';
 
 @Component({
     selector: 'app-password-forgot',
@@ -12,6 +12,7 @@ import {MessageService} from '../../../services/app/message.service';
     styleUrls: ['./password-forgot.component.scss']
 })
 export class PasswordForgotComponent implements OnInit {
+    @ViewChild('grecaptchaPasswordForgot') captcha: any;
     dark: boolean;
     checked: boolean;
     formPasswordReset: FormGroup;
@@ -21,7 +22,7 @@ export class PasswordForgotComponent implements OnInit {
     constructor(
         private authHttpService: AuthHttpService,
         private spinnerService: NgxSpinnerService,
-        private messageService: MessageService,
+        public messageService: MessageService,
         private router: Router,
         private formBuilder: FormBuilder) {
         this.SITE_KEY = environment.SITE_KEY;
@@ -37,35 +38,35 @@ export class PasswordForgotComponent implements OnInit {
         });
     }
 
-    onSubmitForgotPassword(event: Event, grecaptcha) {
-        event.preventDefault();
+    onSubmitForgotPassword() {
         if (this.formPasswordReset.valid) {
-            this.forgotPassword(grecaptcha);
+            this.forgotPassword();
         } else {
             this.formPasswordReset.markAllAsTouched();
         }
     }
 
-    forgotPassword(grecaptcha) {
+    forgotPassword() {
         this.spinnerService.show();
-        this.authHttpService.passwordForgot(this.formPasswordReset.controls['username'].value).subscribe(response => {
-            this.spinnerService.hide();
-            this.flagPasswordReset = false;
-            grecaptcha.reset();
-            this.messageService.success(response);
-        }, error => {
-            this.spinnerService.hide();
-            this.flagPasswordReset = false;
-            grecaptcha.reset();
-            this.messageService.error(error);
-        });
+        this.authHttpService.passwordForgot(this.formPasswordReset.controls['username'].value).subscribe(
+            response => {
+                this.spinnerService.hide();
+                this.flagPasswordReset = false;
+                this.captcha.reset();
+                this.messageService.success(response);
+            }, error => {
+                this.spinnerService.hide();
+                this.flagPasswordReset = false;
+                this.captcha.reset();
+                this.messageService.error(error);
+            });
     }
 
     showResponse() {
         this.flagPasswordReset = true;
     }
 
-    get username() {
+    get usernameField() {
         return this.formPasswordReset.get('username');
     }
 }

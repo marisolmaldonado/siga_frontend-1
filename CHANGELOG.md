@@ -31,5 +31,5 @@ Angular 9 and PrimeNG 9
 *   Update dependencies with <a href="https://angular.io/cli/update">ng update</a>.
 *   Update theme.css and layout.css files.
 *   Update app.menu.component.ts and app.menu.component.html while retaining your MenuModel.
-*   Include app.menuitem.component.ts under app folder and define it app.module.ts with declarations property.
-*   Include app.menu.service.ts under app folder and define it app.module.ts with providers property.
+*   Include app.menuitem.component.ts under app folder and define it app.skill.ts with declarations property.
+*   Include app.menu.service.ts under app folder and define it app.skill.ts with providers property.

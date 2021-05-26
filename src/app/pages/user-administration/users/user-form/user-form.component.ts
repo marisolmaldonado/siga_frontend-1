@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from '../../../../services/app/message.service';
+import { MessageService } from '../../../shared/services/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../../../../models/auth/user';
 import { UserAdministrationService } from '../../../../services/auth/user-administration.service';

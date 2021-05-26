@@ -20,13 +20,13 @@
 <div class="landing-body">
     <div id="meet-mirage" class="section">
         <div class="section-title">
-            <h3 *ngIf="!flagShortcuts">DASHBOARD - {{role.name}}</h3>
+            <h3 *ngIf="!flagShortcuts">DASHBOARD - {{role?.name}}</h3>
             <h3 *ngIf="flagShortcuts">
                 Editando accesos directos
                 <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
             </h3>
         </div>
-        <hr>
+        <p-divider></p-divider>
         <p-message *ngIf="editShortcuts.length===0 && flagShortcuts" severity="warn"
                    text="No tiene accesos directos para seleccionar"></p-message>
         <p-message *ngIf="editShortcuts.length>0 && flagShortcuts" severity="info"
@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-        <hr *ngIf="flagShortcuts">
+        <p-divider *ngIf="flagShortcuts"></p-divider>
         <p-message *ngIf="flagShortcuts" severity="info"
                    text="Accesos directos que se van a mostrar"></p-message>
         <div class="feature-cards">
@@ -74,4 +74,3 @@
         </div>
     </div>
 </div>
-

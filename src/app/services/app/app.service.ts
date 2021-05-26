@@ -1,80 +1,48 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class AppService {
-    private headers: HttpHeaders;
+    formAddress: FormGroup;
+    formDate: FormGroup;
+    formLocation: FormGroup;
 
-    constructor(private _http: HttpClient) {
-
+    constructor(private formBuilder: FormBuilder) {
+        this.formAddress = this.buildFormAddress();
+        this.formDate = this.buildFormDate();
+        this.formLocation = this.buildFormLocation();
     }
 
-    get(url: string) {
-        this.headers = new HttpHeaders()
-            .set('X-Requested-With', 'XMLHttpRequest')
-            .append('Content-Type', 'application/json')
-            .append('Accept', 'application/json');
-        // .append('Authorization', 'Bearer ' + localStorage.getItem('accessToken').replace('"', ''));
-        url = environment.API_URL_APP + url;
-        return this._http.get(url, {headers: this.headers});
+    buildFormAddress() {
+        return this.formBuilder.group({
+            main_street: [null, Validators.required],
+            secondary_street: [null, Validators.required],
+            number: [null],
+            post_code: [null],
+            sector: [null, Validators.required],
+            reference: [null],
+            latitude: [null],
+            longitude: [null]
+        });
     }
 
-    post(url: string, data: any) {
-        this.headers = new HttpHeaders()
-            .set('X-Requested-With', 'XMLHttpRequest')
-            .append('Content-Type', 'application/json')
-            .append('Accept', 'application/json');
-        // .append('Authorization', 'Bearer ' + localStorage.getItem('accessToken').replace('"', ''));
-        url = environment.API_URL_APP + url;
-        return this._http.post(url, data, {headers: this.headers});
+    buildFormDate() {
+        return this.formBuilder.group({
+            year: [null, Validators.required],
+            month: [null, Validators.required],
+            day: [null, Validators.required],
+        });
     }
 
-    update(url: string, data: any) {
-        this.headers = new HttpHeaders()
-            .set('X-Requested-With', 'XMLHttpRequest')
-            .append('Content-Type', 'application/json')
-            .append('Accept', 'application/json');
-        // .append('Authorization', 'Bearer ' + localStorage.getItem('accessToken').replace('"', ''));
-        url = environment.API_URL_APP + url;
-        return this._http.put(url, data, {headers: this.headers});
-    }
-
-    delete(url: string) {
-        this.headers = new HttpHeaders()
-            .set('X-Requested-With', 'XMLHttpRequest')
-            .append('Content-Type', 'application/json')
-            .append('Accept', 'application/json');
-        // .append('Authorization', 'Bearer ' + localStorage.getItem('accessToken').replace('"', ''));
-        url = environment.API_URL_APP + url;
-        return this._http.delete(url, {headers: this.headers});
-    }
-
-    uploadFiles(data: FormData,params = new HttpParams()) {
-        const url = environment.API_URL_APP + 'files';
-        return this._http.post(url, data, {params});
-    }
-
-    uploadImages(data: FormData,params = new HttpParams()) {
-        const url = environment.API_URL_APP + 'images';
-        return this._http.post(url, data, {params});
-    }
-
-    getCatalogues(params = new HttpParams()) {
-        const url = environment.API_URL_APP + 'catalogues';
-        return this._http.get(url, {params});
-    }
-
-    getLocations(params = new HttpParams()) {
-        const url = environment.API_URL_APP + 'locations';
-        return this._http.get(url, {params});
-    }
-    getCountries(params = new HttpParams()) {
-        const url = environment.API_URL_APP + 'countries';
-        return this._http.get(url, {params});
+    buildFormLocation() {
+        return this.formBuilder.group({
+            country: [null, Validators.required],
+            province: [null, Validators.required],
+            canton: [null, Validators.required],
+            parish: [null, Validators.required],
+        });
     }
 }
