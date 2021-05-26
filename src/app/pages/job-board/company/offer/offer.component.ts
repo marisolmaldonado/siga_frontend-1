@@ -7,7 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Offer } from '../../../../models/job-board/offer';
 import { Paginator } from '../../../../models/setting/paginator';
 import { JobBoardHttpService } from '../../../../services/job-board/job-board-http.service';
-import { MessageService } from '../../../../services/app/message.service';
+import { MessageService } from '../../../../pages/shared/services/message.service';
 
 @Component({
   selector: 'app-offer',
@@ -30,7 +30,7 @@ export class OfferComponent implements OnInit {
         {label: 'Compania', routerLink: ['/job-board/company']},
         {label: 'Oferta'}
     ]);
-    this.paginator = {current_page: '1', per_page: '2'};
+    this.paginator = {current_page: 1, per_page: 2};
     this.offers = [];
   }
 
@@ -74,8 +74,8 @@ export class OfferComponent implements OnInit {
     const params = new HttpParams()
     //compania id de donde saaco?
       .append('company_id', "1")
-      .append('page', paginator.current_page)
-      .append('per_page', paginator.per_page);
+      .append('page', paginator.current_page.toString())
+      .append('per_page', paginator.per_page.toString());
 
     this.spinnerService.show();
     this.jobBoardHttpService.get('offers', params).subscribe(
