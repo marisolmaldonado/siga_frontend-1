@@ -1,11 +1,9 @@
 import { Component, forwardRef, OnInit } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators } from "@angular/forms";
-import { SelectItem } from 'primeng/api';
-import * as moment from 'moment';
 import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { SelectItem } from 'primeng/api';
 import { format } from 'date-fns';
 import { SharedService } from '../../services/shared.service';
+
 @Component({
     selector: 'app-date',
     templateUrl: './date.component.html',

@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-import {Component, forwardRef, OnInit} from '@angular/core';
-import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
-=======
-=======
->>>>>>> u_6_faz-evelyn
 import {
     Component,
     EventEmitter,
@@ -13,26 +6,13 @@ import {
     OnInit,
     Output
 } from '@angular/core';
-import {ControlValueAccessor, Form, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
-<<<<<<< HEAD
->>>>>>> mod_6_jobboard
-=======
->>>>>>> u_6_faz-evelyn
-import {Address} from '../../../../models/app/address';
-import {AppHttpService} from '../../../../services/app/app-http.service';
-import {HttpParams} from '@angular/common/http';
-import {Catalogue} from '../../../../models/app/catalogue';
-<<<<<<< HEAD
-<<<<<<< HEAD
-import {MessageService} from '../../../../services/app/message.service';
-=======
-import {MessageService} from '../../services/message.service';
-import {SharedService} from '../../services/shared.service';
->>>>>>> mod_6_jobboard
-=======
-import {MessageService} from '../../services/message.service';
-import {SharedService} from '../../services/shared.service';
->>>>>>> u_6_faz-evelyn
+import { ControlValueAccessor, Form, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { Address } from '../../../../models/app/address';
+import { AppHttpService } from '../../../../services/app/app-http.service';
+import { HttpParams } from '@angular/common/http';
+import { Catalogue } from '../../../../models/app/catalogue';
+import { MessageService } from '../../services/message.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
     selector: 'app-location-address',
@@ -58,47 +38,22 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
     isDisabled: boolean;
     sectors: Catalogue[];
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    constructor(private formBuilder: FormBuilder, private appHttpService: AppHttpService, private messageService: MessageService) {
-=======
-=======
->>>>>>> u_6_faz-evelyn
     constructor(private formBuilder: FormBuilder,
-                private appHttpService: AppHttpService,
-                private sharedService: SharedService,
-                private messageService: MessageService) {
-<<<<<<< HEAD
->>>>>>> mod_6_jobboard
-=======
->>>>>>> u_6_faz-evelyn
+        private appHttpService: AppHttpService,
+        private sharedService: SharedService,
+        private messageService: MessageService) {
 
     }
 
     ngOnInit(): void {
         this.getSectors();
         this.buildFormAddress();
-<<<<<<< HEAD
-<<<<<<< HEAD
-        this.getSectors();
-=======
         this.formAddressOut.emit(this.formAddress);
->>>>>>> mod_6_jobboard
-=======
-        this.formAddressOut.emit(this.formAddress);
->>>>>>> u_6_faz-evelyn
     }
 
     buildFormAddress() {
         this.formAddress = this.formBuilder.group({
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
             location: [null, Validators.required],
->>>>>>> mod_6_jobboard
-=======
-            location: [null, Validators.required],
->>>>>>> u_6_faz-evelyn
             main_street: [null, Validators.required],
             secondary_street: [null, Validators.required],
             number: [null],
@@ -177,18 +132,9 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
     get longitudeField() {
         return this.formAddress.get('longitude');
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> u_6_faz-evelyn
 
     emitFormLocation(event) {
         console.log(event);
         this.formLocationOut.emit(event);
     }
-<<<<<<< HEAD
->>>>>>> mod_6_jobboard
-=======
->>>>>>> u_6_faz-evelyn
 }
