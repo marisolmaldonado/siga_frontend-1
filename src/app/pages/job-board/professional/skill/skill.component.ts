@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,6 +10,17 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { BreadcrumbService } from '../../../../shared/services/breadcrumb.service';
 import { MessageService } from '../../../../services/app/message.service';
 import { DateValidators } from "../../../shared/validators/date.validators";
+=======
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {JobBoardHttpService} from '../../../../services/job-board/job-board-http.service';
+import {Skill} from '../../../../models/job-board/skill';
+import {Paginator} from '../../../../models/setting/paginator';
+import {HttpParams} from '@angular/common/http';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {MessageService} from '../../../shared/services/message.service';
+import {DateValidators} from '../../../shared/validators/date.validators';
+>>>>>>> mod_6_jobboard
 
 @Component({
     selector: 'app-skill',
@@ -30,7 +42,11 @@ export class SkillComponent implements OnInit {
         private formBuilder: FormBuilder,
         private jobBoardHttpService: JobBoardHttpService) {
 
+<<<<<<< HEAD
         this.paginator = { current_page: '1', per_page: '5' };
+=======
+        this.paginator = {current_page: 1, per_page: 2};
+>>>>>>> mod_6_jobboard
         this.skills = [];
     }
 
@@ -43,10 +59,14 @@ export class SkillComponent implements OnInit {
     buildFormSkill() {
         this.formSkill = this.formBuilder.group({
             id: [null],
+<<<<<<< HEAD
             address: [null, Validators.required],
             location: [null, Validators.required],
             start_date: [null, Validators.required, DateValidators.valid],
             end_date: [null, Validators.required, DateValidators.valid],
+=======
+            address: [null],
+>>>>>>> mod_6_jobboard
             type: [null, Validators.required],
             description: [null, [Validators.required, Validators.minLength(10)]],
         });
@@ -55,8 +75,8 @@ export class SkillComponent implements OnInit {
     // skills of backend
     getSkills(paginator: Paginator) {
         const params = new HttpParams()
-            .append('page', paginator.current_page)
-            .append('per_page', paginator.per_page);
+            .append('page', paginator.current_page.toString())
+            .append('per_page', paginator.per_page.toString());
 
         this.flagSkills = true;
         // this.spinnerService.show();

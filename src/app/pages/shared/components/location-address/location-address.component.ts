@@ -1,10 +1,27 @@
+<<<<<<< HEAD
 import {Component, forwardRef, OnInit} from '@angular/core';
 import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
+=======
+import {
+    Component,
+    EventEmitter,
+    forwardRef,
+    Input,
+    OnInit,
+    Output
+} from '@angular/core';
+import {ControlValueAccessor, Form, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
+>>>>>>> mod_6_jobboard
 import {Address} from '../../../../models/app/address';
 import {AppHttpService} from '../../../../services/app/app-http.service';
 import {HttpParams} from '@angular/common/http';
 import {Catalogue} from '../../../../models/app/catalogue';
+<<<<<<< HEAD
 import {MessageService} from '../../../../services/app/message.service';
+=======
+import {MessageService} from '../../services/message.service';
+import {SharedService} from '../../services/shared.service';
+>>>>>>> mod_6_jobboard
 
 @Component({
     selector: 'app-location-address',
@@ -20,6 +37,9 @@ import {MessageService} from '../../../../services/app/message.service';
 })
 
 export class LocationAddressComponent implements OnInit, ControlValueAccessor {
+    @Input() option: number;
+    @Output() formAddressOut = new EventEmitter<FormGroup>();
+    @Output() formLocationOut = new EventEmitter<FormGroup>();
     formAddress: FormGroup;
     value: Address;
     onChange: (value: Address) => void;
@@ -27,17 +47,33 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
     isDisabled: boolean;
     sectors: Catalogue[];
 
+<<<<<<< HEAD
     constructor(private formBuilder: FormBuilder, private appHttpService: AppHttpService, private messageService: MessageService) {
+=======
+    constructor(private formBuilder: FormBuilder,
+                private appHttpService: AppHttpService,
+                private sharedService: SharedService,
+                private messageService: MessageService) {
+>>>>>>> mod_6_jobboard
 
     }
 
     ngOnInit(): void {
-        this.buildFormAddress();
         this.getSectors();
+        this.buildFormAddress();
+<<<<<<< HEAD
+        this.getSectors();
+=======
+        this.formAddressOut.emit(this.formAddress);
+>>>>>>> mod_6_jobboard
     }
 
     buildFormAddress() {
         this.formAddress = this.formBuilder.group({
+<<<<<<< HEAD
+=======
+            location: [null, Validators.required],
+>>>>>>> mod_6_jobboard
             main_street: [null, Validators.required],
             secondary_street: [null, Validators.required],
             number: [null],
@@ -70,6 +106,7 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
 
     updateValue(): void {
         if (this.formAddress.valid) {
+            this.formAddressOut.emit(this.formAddress);
             this.value = this.formAddress.value;
             this.onChange(this.value);
         }
@@ -115,4 +152,12 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
     get longitudeField() {
         return this.formAddress.get('longitude');
     }
+<<<<<<< HEAD
+=======
+
+    emitFormLocation(event) {
+        console.log(event);
+        this.formLocationOut.emit(event);
+    }
+>>>>>>> mod_6_jobboard
 }

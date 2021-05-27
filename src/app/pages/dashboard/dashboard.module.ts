@@ -13,6 +13,7 @@ import {DashboardComponent} from './dashboard.component';
 import {TooltipModule} from 'primeng/tooltip';
 import {DialogModule} from 'primeng/dialog';
 import {MessagesModule} from 'primeng/messages';
+import {DividerModule} from 'primeng/divider';
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import {MessagesModule} from 'primeng/messages';
         TooltipModule,
         DialogModule,
         MessagesModule,
+        DividerModule,
     ],
     declarations: [DashboardComponent],
     providers: []
