@@ -1,7 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Language} from '../../../../../models/job-board/language';
-import {MessageService} from '../../../../../services/app/message.service';
+import {MessageService} from '../../../../shared/services/message.service';
+import {MessageService as MessagePnService} from 'primeng/api';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
 import {AppHttpService} from '../../../../../services/app/app-http.service';
@@ -17,13 +18,14 @@ import {Catalogue} from '../../../../../models/app/catalogue';
 export class LanguageFormComponent implements OnInit {
     @Input() formLanguageIn: FormGroup;
     @Input() languagesIn: Language[];
-    @Output() languagesOut = new EventEmitter<Language[]>();
+    @Output()languagesOut = new EventEmitter<Language[]>();
     @Output() displayOut = new EventEmitter<boolean>();
     filteredTypes: any[];
     types: Catalogue[];
 
     constructor(private formBuilder: FormBuilder,
                 private messageService: MessageService,
+                private messagePnService: MessagePnService,
                 private spinnerService: NgxSpinnerService,
                 private appHttpService: AppHttpService,
                 private jobBoardHttpService: JobBoardHttpService) {
@@ -34,31 +36,33 @@ export class LanguageFormComponent implements OnInit {
     }
 
     // Fields of Form
+    get addressField() {
+        return this.formLanguageIn.get('address');
+    }
+
+    get locationField() {
+        return this.formLanguageIn.get('location');
+    }
+
+    get startDateField() {
+        return this.formLanguageIn.get('start_date');
+    }
+
+    get endDateField() {
+        return this.formLanguageIn.get('start_date');
+    }
+
     get idField() {
         return this.formLanguageIn.get('id');
     }
 
-    get idProfessional() {
-        return this.formLanguageIn.get('id');
+    get typeField() {
+        return this.formLanguageIn.get('type');
     }
 
-    get idIdiom() {
-        return this.formLanguageIn.get('id');
+    get descriptionField() {
+        return this.formLanguageIn.get('description');
     }
-
-    get idWritten_level() {
-        return this.formLanguageIn.get('id');
-    }
-
-    get idSpoken_level() {
-        return this.formLanguageIn.get('id');
-    }
-
-    get idRead_level() {
-        return this.formLanguageIn.get('id');
-    }
-
-
 
     // Submit Form
     onSubmit(event: Event, flag = false) {

@@ -19,9 +19,12 @@ import {TableModule} from 'primeng/table';
 import {ToastModule} from 'primeng/toast';
 import {ToolbarModule} from 'primeng/toolbar';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { ExtensionsPipe } from './pipes/extensions.pipe';
 import {RadioButtonModule} from "primeng/radiobutton";
 =======
+=======
+>>>>>>> u_6_faz-evelyn
 import {TooltipModule} from 'primeng/tooltip';
 
 // Components
@@ -36,7 +39,10 @@ import {ViewFilesComponent} from './components/file/view-files/view-files.compon
 import {ExtensionsPipe} from './pipes/extensions.pipe';
 import {MonthsPipe} from './pipes/months.pipe';
 import {CardModule} from 'primeng/card';
+<<<<<<< HEAD
 >>>>>>> mod_6_jobboard
+=======
+>>>>>>> u_6_faz-evelyn
 
 @NgModule({
     imports: [
@@ -60,10 +66,14 @@ import {CardModule} from 'primeng/card';
         ToastModule,
         ToolbarModule,
 <<<<<<< HEAD
+<<<<<<< HEAD
         RadioButtonModule,
 =======
         TooltipModule,
 >>>>>>> mod_6_jobboard
+=======
+        TooltipModule,
+>>>>>>> u_6_faz-evelyn
     ],
     declarations: [
         // Components

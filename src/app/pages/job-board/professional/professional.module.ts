@@ -47,6 +47,9 @@ import { ExperienceComponent } from './experience/experience.component';
 import { ExperienceFormComponent } from './experience/experience-form/experience-form.component';
 import { ExperienceListComponent } from "./experience/experience-list/experience-list.Component";
 import { LanguageComponent } from './language/language.component';
+import {LanguageFormComponent} from "./language/language-form/language-form.component";
+import {LanguageListComponent} from "./language/language-list/language-list.component";
+
 
 @NgModule({
     imports: [
@@ -96,7 +99,10 @@ import { LanguageComponent } from './language/language.component';
         ExperienceComponent,
         ExperienceListComponent,
         ExperienceFormComponent,
-        LanguageComponent
+        LanguageComponent,
+        LanguageFormComponent,
+        LanguageListComponent
+
     ],
     providers: []
 })

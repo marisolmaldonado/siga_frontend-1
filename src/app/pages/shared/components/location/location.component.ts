@@ -1,10 +1,13 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {Component, forwardRef, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
 import {AppHttpService} from '../../../../services/app/app-http.service';
 import {Location} from '../../../../models/app/location';
 import {MessageService} from 'primeng/api';
 =======
+=======
+>>>>>>> u_6_faz-evelyn
 import {Component, forwardRef, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
 import {AppHttpService} from '../../../../services/app/app-http.service';
@@ -12,7 +15,10 @@ import {Location} from '../../../../models/app/location';
 import {MessageService as MessagePnService} from 'primeng/api';
 import {MessageService} from '../../services/message.service';
 import {SharedService} from '../../services/shared.service';
+<<<<<<< HEAD
 >>>>>>> mod_6_jobboard
+=======
+>>>>>>> u_6_faz-evelyn
 
 @Component({
     selector: 'app-location',
@@ -30,14 +36,19 @@ import {SharedService} from '../../services/shared.service';
 export class LocationComponent implements OnInit, ControlValueAccessor {
     @Input() option: number;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     @Output() formLocationOut = new EventEmitter<FormGroup>();
 >>>>>>> mod_6_jobboard
+=======
+    @Output() formLocationOut = new EventEmitter<FormGroup>();
+>>>>>>> u_6_faz-evelyn
     formLocation: FormGroup;
     countries: Location[];
     provinces: Location[];
     cantons: Location[];
     parishes: Location[];
+<<<<<<< HEAD
 <<<<<<< HEAD
     value: string;
     onChange: (value: string) => void;
@@ -45,6 +56,10 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     value: Location;
     onChange: (value: Location) => void;
 >>>>>>> mod_6_jobboard
+=======
+    value: Location;
+    onChange: (value: Location) => void;
+>>>>>>> u_6_faz-evelyn
     onTouch: () => void;
     isDisabled: boolean;
     filteredCountries: any[];
@@ -66,6 +81,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
 
     ngOnInit(): void {
 <<<<<<< HEAD
+<<<<<<< HEAD
         this.buildForm();
         this.getLocations();
     }
@@ -78,6 +94,13 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
 
     buildFormLocation() {
 >>>>>>> mod_6_jobboard
+=======
+        this.buildFormLocation();
+        this.getLocations();
+    }
+
+    buildFormLocation() {
+>>>>>>> u_6_faz-evelyn
         this.formLocation = this.formBuilder.group({
             country: [null, Validators.required],
             province: [null, Validators.required],
@@ -99,6 +122,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
                 break;
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
     }
 
     getLocations() {
@@ -110,6 +134,13 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     getLocations() {
         this.appHttpService.getLocations().subscribe(response => {
 >>>>>>> mod_6_jobboard
+=======
+        this.formLocationOut.emit(this.formLocation);
+    }
+
+    getLocations() {
+        this.appHttpService.getLocations().subscribe(response => {
+>>>>>>> u_6_faz-evelyn
             this.countries = response['data'];
         }, error => {
             this.messageService.error(error);
@@ -142,6 +173,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
             this.messagePnService.add({
                 severity: 'error',
 <<<<<<< HEAD
+<<<<<<< HEAD
                 summary: 'No existen paises disponibles',
                 detail: 'Por favor escriba el nombre!'
 =======
@@ -149,6 +181,11 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
                 detail: 'En el caso de no existir comuníquese con el administrador!',
                 life: 5000
 >>>>>>> mod_6_jobboard
+=======
+                summary: 'Por favor seleccione un país del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+>>>>>>> u_6_faz-evelyn
             });
             this.countryField.setValue(null);
         }
@@ -208,6 +245,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
         const filtered: any[] = [];
         const query = event.query;
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (this.parishes.length === 0 && !this.parishField.value) {
             this.messageService.add({
                 severity: 'info',
@@ -218,6 +256,9 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
 =======
 
 >>>>>>> mod_6_jobboard
+=======
+
+>>>>>>> u_6_faz-evelyn
         for (const parish of this.parishes) {
             if (parish.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(parish);
@@ -270,12 +311,17 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
 
     updateValue(field): void {
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (this.formLocation.valid) {
             this.value = field.value.id;
 =======
         if (this.formLocation.valid && field.value?.id) {
             this.value = {id: field.value.id};
 >>>>>>> mod_6_jobboard
+=======
+        if (this.formLocation.valid && field.value?.id) {
+            this.value = {id: field.value.id};
+>>>>>>> u_6_faz-evelyn
             this.onChange(this.value);
             // this.formLocationOut.emit(this.formLocation);
         }

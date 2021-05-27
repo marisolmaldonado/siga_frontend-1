@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Reference } from '../../../../../models/job-board/reference';
-import { MessageService } from '../../../../../services/app/message.service';
+import {MessageService as MessagePnService} from 'primeng/api';
+import {MessageService} from '../../../../shared/services/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { JobBoardHttpService } from '../../../../../services/job-board/job-board-http.service';
 import { AppHttpService } from '../../../../../services/app/app-http.service';
@@ -24,7 +25,8 @@ export class ReferenceFormComponent implements OnInit {
 
     constructor(private formBuilder: FormBuilder,
         private messageService: MessageService,
-        private spinnerService: NgxSpinnerService,
+        private messagePnService: MessagePnService,
+         private spinnerService: NgxSpinnerService,
         private appHttpService: AppHttpService,
         private jobBoardHttpService: JobBoardHttpService) {
     }

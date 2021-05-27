@@ -2,7 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment, WEB} from '../../../environments/environment';
 import {Router} from '@angular/router';
-import {MessageService} from '../app/message.service';
+
+import {MessageService} from '../../pages/shared/services/message.service';
+
 
 
 @Injectable({

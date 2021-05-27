@@ -3,7 +3,7 @@ import { Reference } from '../../../../../models/job-board/reference';
 import { FormGroup } from '@angular/forms';
 import { Col } from '../../../../../models/setting/col';
 import { Paginator } from '../../../../../models/setting/paginator';
-import { MessageService } from '../../../../../services/app/message.service';
+import {MessageService} from '../../../../shared/services/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { JobBoardHttpService } from '../../../../../services/job-board/job-board-http.service';
 import { HttpParams } from '@angular/common/http';
@@ -34,11 +34,16 @@ export class ReferenceListComponent implements OnInit {
     constructor(private messageService: MessageService,
         private spinnerService: NgxSpinnerService,
         private jobBoardHttpService: JobBoardHttpService) {
-        this.resetPaginator();
+            this.resetPaginatorReferences();
+            this.resetPaginatorFiles();
     }
 
-    resetPaginator() {
-        this.paginatorFiles = { current_page: '1', per_page: '5' };
+   resetPaginatorReferences() {
+        this.paginatorIn = {current_page: 1, per_page: 5};
+    }
+
+    resetPaginatorFiles() {
+        this.paginatorFiles = {current_page: 1, per_page: 5};
     }
 
     ngOnInit(): void {
@@ -83,11 +88,12 @@ export class ReferenceListComponent implements OnInit {
         this.getFiles(this.paginatorFiles);
     }
 
-    getFiles(paginator: Paginator) {
-        const params = new HttpParams()
-            .append('id', this.selectedReference.id.toString())
-            .append('page', paginator.current_page)
-            .append('per_page', paginator.per_page);
+    getFiles(paginator: Paginator = null) {
+        let params = new HttpParams().append('id', this.selectedReference.id.toString());
+        if (paginator) {
+            params = params.append('page', paginator.current_page.toString())
+                .append('per_page', paginator.per_page.toString());
+        }
         this.spinnerService.show();
         this.jobBoardHttpService.getFiles('reference/file', params).subscribe(response => {
             this.spinnerService.hide();
@@ -101,6 +107,7 @@ export class ReferenceListComponent implements OnInit {
             this.messageService.error(error);
         });
     }
+
 
     pageChange(event) {
         this.paginatorIn.current_page = event.page + 1;
