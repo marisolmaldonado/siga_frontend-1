@@ -1,0 +1,65 @@
+<!-- {{formReferenceIn.value|json}} -->
+<div class="p-fluid">
+    <form [formGroup]="formReferenceIn" (ngSubmit)="onSubmit($event)">
+
+        <div class="p-field">
+            <label for="professional">Profesional</label>
+            <textarea pInputTextarea id="professional" formControlName="professional" rows="1"></textarea>
+            <div *ngIf="descriptionField.errors && (descriptionField.touched || descriptionField.dirty)">
+                <small *ngIf="professionalField.hasError('required')"
+                       id="professional-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+                <small *ngIf="professionalField.hasError('minlength')"
+                       id="professional-help-2" class="p-error">
+                    Mí nimo de caracteres es {{professionalField.errors.minlength.requiredLength}}.
+                </small>
+            </div>
+        </div>
+
+        <div class="p-field">
+            <label for="institution">institution</label>
+            <textarea pInputTextarea id="institution" formControlName="institution" rows="1"></textarea>
+            <div *ngIf="descriptionField.errors && (descriptionField.touched || descriptionField.dirty)">
+                <small *ngIf="institutionField.hasError('required')"
+                       id="institution-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+                <small *ngIf="institutionField.hasError('minlength')"
+                       id="institution-help-2" class="p-error">
+                    Mí nimo de caracteres es {{institutionField.errors.minlength.requiredLength}}.
+                </small>
+            </div>
+        </div>
+
+        <div class="p-field">
+            <label for="position">Posicion</label>
+            <textarea pInputTextarea id="position" formControlName="position" rows="1"></textarea>
+            <div *ngIf="descriptionField.errors && (descriptionField.touched || descriptionField.dirty)">
+                <small *ngIf="positionField.hasError('required')"
+                       id="position-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+                <small *ngIf="positionField.hasError('minlength')"
+                       id="position-help-2" class="p-error">
+                    Mí nimo de caracteres es {{positionField.errors.minlength.requiredLength}}.
+                </small>
+            </div>
+        </div>
+
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
+                        class="p-button-success p-button-raised"></button>
+            </div>
+            <div *ngIf="!idField.value" class="p-field p-col">
+                <button type="button" pButton pRipple
+                        label="Guardar"
+                        icon="pi pi-arrow-right"
+                        class="p-button-raised"
+                        (click)="onSubmit($event,true)"
+                ></button>
+            </div>
+        </div>
+    </form>
+</div>

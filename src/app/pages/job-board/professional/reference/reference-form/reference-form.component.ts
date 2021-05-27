@@ -11,7 +11,7 @@ import { Catalogue } from '../../../../../models/app/catalogue';
 
 @Component({
     selector: 'app-reference-form',
-    templateUrl: './referene-form.component.html',
+    templateUrl: './reference-form.component.html',
     styleUrls: ['./reference-form.component.scss']
 })
 
@@ -40,9 +40,6 @@ export class ReferenceFormComponent implements OnInit {
         return this.formReferenceIn.get('professional');
     }
 
-    get typeField() {
-        return this.formReferenceIn.get('type');
-    }
 
     get institutionField() {
         return this.formReferenceIn.get('institution');
