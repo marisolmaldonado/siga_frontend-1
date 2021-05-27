@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Course } from '../../../../../models/job-board/course';
-import {MessageService} from '../../../../shared/services/message.service';
+import { MessageService } from '../../../../../pages/shared/services/message.service';
+import { MessageService as MessagePnService } from 'primeng/api';
+
 import { NgxSpinnerService } from 'ngx-spinner';
 import { JobBoardHttpService } from '../../../../../services/job-board/job-board-http.service';
 import { AppHttpService } from '../../../../../services/app/app-http.service';
 import { HttpParams } from '@angular/common/http';
+import { Course } from '../../../../../models/job-board/course';
 import { Catalogue } from '../../../../../models/app/catalogue';
 
 @Component({
@@ -21,6 +23,13 @@ export class CourseFormComponent implements OnInit {
     @Output() displayOut = new EventEmitter<boolean>();
     filteredTypes: any[];
     types: Catalogue[];
+    filteredInstitutions: any[];
+    institutions: Catalogue[];
+    filteredCertificationTypes: any[];
+    certificationTypes: Catalogue[];
+    filteredAreas: any[];
+    areas: Catalogue[];
+
 
     constructor(private formBuilder: FormBuilder,
         private messageService: MessageService,
@@ -31,6 +40,9 @@ export class CourseFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.getTypes();
+        this.getInstitution();
+        this.getCertificationType();
+        this.getArea();
     }
 
     // Fields of Form
@@ -70,16 +82,8 @@ export class CourseFormComponent implements OnInit {
         return this.formCourseIn.get('start_date');
     }
 
-    get hourField() {
-        return this.formCourseIn.get('hour');
-    }
-
-    get addressField() {
-        return this.formCourseIn.get('address');
-    }
-
-    get locationField() {
-        return this.formCourseIn.get('location');
+    get hoursField() {
+        return this.formCourseIn.get('hours');
     }
 
     get idField() {
@@ -105,6 +109,30 @@ export class CourseFormComponent implements OnInit {
         const params = new HttpParams().append('type', 'SKILL_TYPE');
         this.appHttpService.getCatalogues(params).subscribe(response => {
             this.types = response['data'];
+        }, error => {
+            this.messageService.error(error);
+        });
+    }
+    getInstitution() {
+        const params = new HttpParams().append('type', 'COURSE_INSTITUTION');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.institutions = response['data'];
+        }, error => {
+            this.messageService.error(error);
+        });
+    }
+    getCertificationType() {
+        const params = new HttpParams().append('type', 'COURSE_CERTIFICATION_TYPE');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.certificationTypes = response['data'];
+        }, error => {
+            this.messageService.error(error);
+        });
+    }
+    getArea() {
+        const params = new HttpParams().append('type', 'COURSE_AREA');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.areas = response['data'];
         }, error => {
             this.messageService.error(error);
         });
@@ -155,7 +183,7 @@ export class CourseFormComponent implements OnInit {
         this.coursesOut.emit(this.coursesIn);
     }
 
-    // Filter type of courses
+    // Filters courses
     filterType(event) {
         const filtered: any[] = [];
         const query = event.query;
@@ -164,6 +192,77 @@ export class CourseFormComponent implements OnInit {
                 filtered.push(type);
             }
         }
+        //    if (filtered.length === 0) {
+        //         this.messagePnService.clear();
+        //         this.messagePnService.add({
+        //             severity: 'error',
+        //             summary: 'Por favor seleccione un tipo del listado',
+        //             detail: 'En el caso de no existir comuníquese con el administrador!',
+        //             life: 5000
+        //         });
+        //         this.typeField.setValue(null);
+        //     }
         this.filteredTypes = filtered;
+    }
+
+    filterInstitution(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const institution of this.institutions) {
+            if (institution.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(institution);
+            }
+        }
+        // if (filtered.length === 0) {
+        //     this.messagePnService.clear();
+        //     this.messagePnService.add({
+        //         severity: 'error',
+        //         summary: 'Por favor seleccione un tipo del listado',
+        //         detail: 'En el caso de no existir comuníquese con el administrador!',
+        //         life: 5000
+        //     });
+        //     this.institutionField.setValue(null);
+        // }
+        this.filteredInstitutions = filtered;
+    }
+    filterCertificationType(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const certificationType of this.certificationTypes) {
+            if (certificationType.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(certificationType);
+            }
+        }
+        // if (filtered.length === 0) {
+        //     this.messagePnService.clear();
+        //     this.messagePnService.add({
+        //         severity: 'error',
+        //         summary: 'Por favor seleccione un tipo del listado',
+        //         detail: 'En el caso de no existir comuníquese con el administrador!',
+        //         life: 5000
+        //     });
+        //     this.certificationTypeField.setValue(null);
+        // }
+        this.filteredCertificationTypes = filtered;
+    }
+    filterArea(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const area of this.areas) {
+            if (area.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(area);
+            }
+        }
+        // if (filtered.length === 0) {
+        //     this.messagePnService.clear();
+        //     this.messagePnService.add({
+        //         severity: 'error',
+        //         summary: 'Por favor seleccione un tipo del listado',
+        //         detail: 'En el caso de no existir comuníquese con el administrador!',
+        //         life: 5000
+        //     });
+        //     this.areaField.setValue(null);
+        // }
+        this.filteredAreas = filtered;
     }
 }
