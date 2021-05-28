@@ -36,9 +36,9 @@
           </div>
         </div>
         <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
-          <label for="identificationType">Tipo</label>
+          <label for="identificationType">Tipo de identificación: </label>
           <p-autoComplete id="identificationType" formControlName="identificationType"
-            [suggestions]="filteredidentificationTypes" (completeMethod)="filterType($event)" field="name"
+            [suggestions]="filteredidentificationTypes" (completeMethod)="filterIdentificationType($event)" field="name"
             [dropdown]="true">
             <ng-template let-type pTemplate="item">
               <div class="country-item">
@@ -98,7 +98,7 @@
       </div>
     </div>
     <div class="p-formgrid p-grid">
-      <div class="p-field p-col">
+      <div class="p-field p-xl-4 p-lg-4 p-md-4 p-sm-12">
         <label for="personType">Tipo de Persona</label>
         <p-autoComplete id="personType" formControlName="person_type" [suggestions]="filteredpersonType"
           (completeMethod)="filterPersonType($event)" field="name" [dropdown]="true">
@@ -114,7 +114,23 @@
           </small>
         </div>
       </div>
-      <div class="p-field p-col">
+      <div class="p-field p-xl-4 p-lg-4 p-md-4 p-sm-12">
+        <label for="type">Tipo de Compañia</label>
+        <p-autoComplete id="type" formControlName="type" [suggestions]="filteredTypes"
+          (completeMethod)="filterType($event)" field="name" [dropdown]="true">
+          <ng-template let-type pTemplate="item">
+            <div class="country-item">
+              <div>{{type.name}}</div>
+            </div>
+          </ng-template>
+        </p-autoComplete>
+        <div *ngIf="personTypeField.errors && (personTypeField.touched || personTypeField.dirty)">
+          <small *ngIf="personTypeField.hasError('required')" id="personType-help-1" class="p-error">
+            El campo es obligatorio.
+          </small>
+        </div>
+      </div>
+      <div class="p-field p-xl-4 p-lg-4 p-md-4 p-sm-12">
         <label for="activityType">Tipo de Actividad</label>
         <p-autoComplete id="activityType" formControlName="activity_type" [suggestions]="filteredactivityType"
           (completeMethod)="filterActivityType($event)" field="name" [dropdown]="true">
@@ -131,7 +147,7 @@
         </div>
       </div>
     </div>
-    <div class="p-fluid p-formgrid p-grid">
+    <div class="p-formgrid p-grid">
       <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
         <label for="tradename">Nombre Comercial</label>
         <input id="tradename" formControlName="trade_name" pInputText>

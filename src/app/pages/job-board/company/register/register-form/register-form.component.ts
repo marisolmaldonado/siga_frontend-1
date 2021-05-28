@@ -19,6 +19,8 @@ export class RegisterFormComponent implements OnInit {
   identificationTypes:Catalogue[];
   personType:Catalogue[];
   activityType:Catalogue[];
+  types: Catalogue[];
+  filteredTypes: any[];
   filteredactivityType:any[];
   filteredpersonType:any[];
   filteredidentificationTypes: any[];
@@ -38,7 +40,8 @@ export class RegisterFormComponent implements OnInit {
   ngOnInit() {
     this.getIdentificationTypes(),
     this.getPersonType(),
-    this.getActivityType()
+    this.getActivityType(),
+    this.getTypes()
   }
    // Fields of Form
    get usernameField() {
@@ -136,8 +139,17 @@ onSubmit(event: Event, flag = false) {
    
     }
         // Types of catalogues
-        getIdentificationTypes() {
+        getTypes() {
             const params = new HttpParams().append('type', 'COMPANY_TYPE');
+            this.appHttpService.getCatalogues(params).subscribe(response => {
+              this.types = response['data'];
+            }, error => {
+              this.messageService.error(error);
+            });
+          }
+
+        getIdentificationTypes() {
+            const params = new HttpParams().append('type', 'IDENTIFICATION_TYPE');
             this.appHttpService.getCatalogues(params).subscribe(response => {
                 this.identificationTypes = response['data'];
             }, error => {
@@ -164,13 +176,24 @@ onSubmit(event: Event, flag = false) {
     filterType(event) {
         const filtered: any[] = [];
         const query = event.query;
-        for (const type of this.identificationTypes) {
+        for (const type of this.types) {
             if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(type);
             }
         }
-        this.filteredidentificationTypes = filtered;
+        this.filteredTypes = filtered;
     }
+
+    filterIdentificationType(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const type of this.identificationTypes) {
+          if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+            filtered.push(type);
+          }
+        }
+        this.filteredidentificationTypes = filtered;
+      }
     filterPersonType(event){
         const filtered: any[] = [];
         const query = event.query;

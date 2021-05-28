@@ -26,10 +26,7 @@ export class ProfileComponent implements OnInit {
   user: User;
 
   constructor(
-    private spinnerService: NgxSpinnerService,
-    private messageService: MessageService,
     private formBuilder: FormBuilder,
-    private jobBoardHttpService: JobBoardHttpService
   ) {
     this.paginator = { current_page: 1, per_page: 3 };
     this.professionals = [];
@@ -49,6 +46,7 @@ export class ProfileComponent implements OnInit {
         identification_type: [null, Validators.required],   
       }),
       trade_name: [null, Validators.required],
+      prefix:[null,Validators.required],
       comercial_activities: this.formBuilder.array([
         this.formBuilder.control(null, Validators.required)
       ]),

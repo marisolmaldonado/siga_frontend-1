@@ -24,6 +24,8 @@ export class ProfileFormComponent implements OnInit {
   identificationTypes:Catalogue[];
   personType:Catalogue[];
   activityTypes:Catalogue[];
+  types: Catalogue[];
+  filteredTypes: any[];
   filteredActivityTypes:any[];
   filteredpersonTypes:any[];
   filteredidentificationTypes: any[];
@@ -49,15 +51,28 @@ export class ProfileFormComponent implements OnInit {
     this.getActivityTypes();
     this. getIdentificationTypes();
     this.getPersonType();
+    this.getTypes();
   }
   get identificationField() {
     return this.formCompanyIn['controls']['user'].get('identification');
+  }
+  get emailField() {
+    return this.formCompanyIn['controls']['user'].get('email');
+  }
+  get phoneField() {
+    return this.formCompanyIn['controls']['user'].get('phone');
+  }
+  get identificationTypeField() {
+    return this.formCompanyIn['controls']['user'].get('identificationType');
   }
   get addressField() {
     return this.formCompanyIn['controls']['user'].get('address');
   }
   get tradeNameField() {
     return this.formCompanyIn.get('trade_name');
+  }
+  get prefixField(){
+    return this.formCompanyIn.get('prefix');
   }
   get comercialActivitiesField() {
     return this.formCompanyIn.get('comercial_activities')as FormArray;
@@ -114,7 +129,6 @@ export class ProfileFormComponent implements OnInit {
         .subscribe(response => {
             this.spinnerService.hide();
             this.messageService.success(response);
-            console.log(response);
             this.formCompanyIn.patchValue(response['data']);
         }, error => {
             this.spinnerService.hide();
@@ -128,10 +142,17 @@ export class ProfileFormComponent implements OnInit {
 
   // Types of catalogues
   getIdentificationTypes() {
-    const params = new HttpParams().append('type', 'COMPANY_TYPE');
+    const params = new HttpParams().append('type', 'IDENTIFICATION_TYPE');
     this.appHttpService.getCatalogues(params).subscribe(response => {
       this.identificationTypes = response['data'];
-      console.log(this.identificationTypes);
+    }, error => {
+      this.messageService.error(error);
+    });
+  }
+  getTypes() {
+    const params = new HttpParams().append('type', 'COMPANY_TYPE');
+    this.appHttpService.getCatalogues(params).subscribe(response => {
+      this.types = response['data'];
     }, error => {
       this.messageService.error(error);
     });
@@ -140,7 +161,6 @@ export class ProfileFormComponent implements OnInit {
     const params = new HttpParams().append('type', 'COMPANY_PERSON_TYPE');
     this.appHttpService.getCatalogues(params).subscribe(response => {
       this.personType = response['data'];
-      console.log(this.personType);
     }, error => {
       this.messageService.error(error);
     });
@@ -149,13 +169,22 @@ export class ProfileFormComponent implements OnInit {
     const params = new HttpParams().append('type', 'COMPANY_ACTIVITY_TYPE');
     this.appHttpService.getCatalogues(params).subscribe(response => {
       this.activityTypes = response['data'];
-      console.log(this.activityTypes);
     }, error => {
       this.messageService.error(error);
     });
   }
   // Filter type of companies
-  filterType(event) {
+  filterTypes(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const type of this.types) {
+      if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+        filtered.push(type);
+      }
+    }
+    this.filteredTypes = filtered;
+  }
+  filterIdentificationType(event) {
     const filtered: any[] = [];
     const query = event.query;
     for (const type of this.identificationTypes) {

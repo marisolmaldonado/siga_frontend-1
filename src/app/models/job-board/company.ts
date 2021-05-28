@@ -9,6 +9,7 @@ import { User } from '../auth/user';
 export interface Company {
     id?: number;
     trade_name?:string;
+    prefix?:string;
     comercial_activities?:string[];
     web?:string;
     professionals?: Professional;
