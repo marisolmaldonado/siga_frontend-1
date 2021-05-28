@@ -16,8 +16,11 @@
           <label for="identification">Identificación</label>
           <input id="identification" formControlName="identification" pInputText>
           <div *ngIf="identificationField.errors && (identificationField.touched || identificationField.dirty)">
-            <small *ngIf="identificationField.hasError('required')" id="identification-help-1" class="p-error">
+            <small *ngIf="identificationField.errors?.required" id="identification-help-1" class="p-error">
               El campo es obligatorio.
+            </small>
+            <small *ngIf="identificationField.errors?.notAvaibleUser" id="identification-help-1" class="p-error">
+              Usuario existente
             </small>
           </div>
         </div>
@@ -59,6 +62,9 @@
             <small *ngIf="passwordField.hasError('required')" id="password-help-1" class="p-error">
               El campo es obligatorio.
             </small>
+            <small *ngIf="passwordField.errors?.noPasswordMatch" id="password-help-1" class="p-error">
+              {{messageService.fieldNoPasswordMatch}}
+            </small>
           </div>
         </div>
         <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
@@ -70,24 +76,20 @@
             <small *ngIf="passwordConfirmationField.hasError('required')" id="passwordConfirmation-help-1" class="p-error">
               El campo es obligatorio.
             </small>
-            <small *ngIf="passwordConfirmationField.hasError('invalidPassword')" id="passwordConfirmation-help-1" class="p-error">
-              No coinciden las contraseñas
+            <small *ngIf="passwordConfirmationField.errors?.noPasswordMatch" id="passwordConfirmation-help-1" class="p-error">
+              {{messageService.fieldNoPasswordMatch}}
             </small>
           </div>
           {{formRegisterIn['controls']['user'].get("password_confirmation").errors| json}}
         </div>
       </div>
       <div class="p-field">
-        <app-location [option]="1" id="location" name="location" formControlName="location">
-        </app-location>
-        <div *ngIf="locationField.errors && (locationField.touched || locationField.dirty)">
-          <small *ngIf="locationField.hasError('required')" id="location-help-1" class="p-error">
-            Los campos con * son obligatorios.
-          </small>
-        </div>
-      </div>
-      <div class="p-field">
-        <app-location-address id="address" name="address" formControlName="address"></app-location-address>
+        <app-location-address
+         [option]="2"
+         (formAddressOut)="formAddress=$event"
+         (formLocationOut)="setFormLocation($event)"
+         id="address" name="address" formControlName="address">
+        </app-location-address>
         <div *ngIf="addressField.errors && (addressField.touched || addressField.dirty)">
           <small *ngIf="addressField.hasError('required')" id="address-help-1" class="p-error">
             El campo es obligatorio.
@@ -98,7 +100,7 @@
     <div class="p-formgrid p-grid">
       <div class="p-field p-col">
         <label for="personType">Tipo de Persona</label>
-        <p-autoComplete id="personType" formControlName="personType" [suggestions]="filteredpersonType"
+        <p-autoComplete id="personType" formControlName="person_type" [suggestions]="filteredpersonType"
           (completeMethod)="filterPersonType($event)" field="name" [dropdown]="true">
           <ng-template let-type pTemplate="item">
             <div class="country-item">
@@ -114,7 +116,7 @@
       </div>
       <div class="p-field p-col">
         <label for="activityType">Tipo de Actividad</label>
-        <p-autoComplete id="activityType" formControlName="activityType" [suggestions]="filteredactivityType"
+        <p-autoComplete id="activityType" formControlName="activity_type" [suggestions]="filteredactivityType"
           (completeMethod)="filterActivityType($event)" field="name" [dropdown]="true">
           <ng-template let-type pTemplate="item">
             <div class="country-item">

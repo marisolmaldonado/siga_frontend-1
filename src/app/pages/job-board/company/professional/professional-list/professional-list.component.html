@@ -1,3 +1,5 @@
+<button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info"
+        (click)="paginatorOut.emit(paginatorIn)"></button>
 <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total"
                  (onPageChange)="pageChange($event)"></p-paginator>
 <p-card header="Datos Profesional" *ngFor="let professional of professionalsIn"

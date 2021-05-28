@@ -16,10 +16,9 @@
         </ng-template>
     </p-toolbar>
     <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total"
-                 (onPageChange)="paginateSkill($event)"></p-paginator>
+                 (onPageChange)="pageChange($event)"></p-paginator>
     <p-table #dt
              [value]="skillsIn"
-             [columns]="colsSkill"
              [paginator]="false"
              [(selection)]="selectedSkills"
              [rowHover]="true"

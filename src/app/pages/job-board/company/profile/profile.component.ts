@@ -5,7 +5,9 @@ import { Company } from 'src/app/models/job-board/company';
 import { Paginator } from '../../../../models/setting/paginator';
 import { HttpParams } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { MessageService } from '../../../../services/app/message.service';
+import {MessageService} from '../../../shared/services/message.service'
+import { User } from 'src/app/models/auth/user';
+
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +23,7 @@ export class ProfileComponent implements OnInit {
   formProfessional:FormGroup;
   company: Company;
   companyDialog: boolean;
-
+  user: User;
 
   constructor(
     private spinnerService: NgxSpinnerService,
@@ -29,54 +31,33 @@ export class ProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private jobBoardHttpService: JobBoardHttpService
   ) {
-    this.paginator = { current_page: '1', per_page: '3' };
+    this.paginator = { current_page: 1, per_page: 3 };
     this.professionals = [];
   }
 
   ngOnInit(): void {
     this.buildFormCompany();
-    this.buildFormProfessional();
-    this.getProfesionals(this.paginator);
   }
   //Formulario de compañia//
   buildFormCompany() {
     this.formCompany = this.formBuilder.group({
+      user: this.formBuilder.group({
+        identification: [null, Validators.required],
+        email: [null, Validators.required],
+        phone:[null, Validators.required],
+        address: [null],
+        identification_type: [null, Validators.required],   
+      }),
       trade_name: [null, Validators.required],
       comercial_activities: this.formBuilder.array([
         this.formBuilder.control(null, Validators.required)
       ]),
       web: [null, Validators.required],
       type: [null, Validators.required],
-      activityType: [null, Validators.required],
-      personType: [null, Validators.required],
+      activity_type: [null, Validators.required],
+      person_type: [null, Validators.required],
     });
-  }
-  // Formulario de profesional//
-  buildFormProfessional() {
-    this.formProfessional = this.formBuilder.group({
-      user: this.formBuilder.group({
-        full_name: [null, Validators.required],
-        personal_email: [null, Validators.required],
-        phone: [null, Validators.required],
-      }),
-    });
-    console.log(this.formProfessional['controls']['user']);
+   console.log(this.formCompany['controls']['user']);
   }
 
-  getProfesionals(paginator: Paginator) {
-    const params = new HttpParams()
-      .append('page', paginator.current_page)
-      .append('per_page', paginator.per_page);
-    this.spinnerService.show();
-    this.jobBoardHttpService.get('company/professionals', params).subscribe(
-      response => {
-        this.spinnerService.hide();
-        this.professionals = response['data'];
-        console.log(this.professionals)
-        this.paginator = response as Paginator;
-      }, error => {
-        this.spinnerService.hide();
-        this.messageService.error(error);
-      });
-  }
 }

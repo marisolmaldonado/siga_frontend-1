@@ -1,13 +1,22 @@
 import { AbstractControl } from "@angular/forms";
+import { map } from "rxjs/operators";
+import { JobBoardHttpService } from "src/app/services/job-board/job-board-http.service";
 
 export class Validations{
 
-    static confirmPasswordValidator(control: AbstractControl) {
-        const password: string = control.get('password').value;
-        const confirmPassword: string = control.get('password_confirmation').value; 
-        if (password !== confirmPassword) {
-            control.get('password_confirmation').setErrors({ invalidPassword: true });
+    static validateIdentification(jobBoardHttpService:JobBoardHttpService) {
+        return(control: AbstractControl)=>{
+            const value = control.value;
+            return jobBoardHttpService.verifyIdentification(value)
+            .pipe(
+                map(
+                    response=>{
+                        return response['data']?{notAvaibleUser:true}:null;
+                    }
+                )
+            )
+
         }
-        return null
+        
     }
 }

@@ -39,8 +39,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProfessionalComponent } from './professional/professional.component';
 import { RegisterComponent } from './register/register.component';
 import { RegisterFormComponent } from './register/register-form/register-form.component';
-import { ProfileListComponent } from './profile/profile-list/profile-list.component';
 import { ProfileFormComponent } from './profile/profile-form/profile-form.component';
+import { ProfessionalListComponent } from './professional/professional-list/professional-list.component';
 
 @NgModule({
     imports: [
@@ -80,9 +80,9 @@ import { ProfileFormComponent } from './profile/profile-form/profile-form.compon
         CompanyComponent, 
         OfferComponent,
         ProfileComponent,
-        ProfileListComponent,
         ProfileFormComponent,
         ProfessionalComponent,
+        ProfessionalListComponent,
         RegisterComponent,
         RegisterFormComponent,
     ],

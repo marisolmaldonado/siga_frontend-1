@@ -1,3 +1,75 @@
-<p>
-  profile-form works!
-</p>
+<div class="p-field">
+  <form [formGroup]="formCompanyIn" (ngSubmit)="onSubmit($event)">
+    <div formGroupName="user">
+        <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
+            <label for="identification">Identificación: </label>
+            <input id="identification" formControlName="identification" pInputText>
+            <div *ngIf="identificationField.errors && (identificationField.touched || identificationField.dirty)">
+              <small *ngIf="identificationField.errors?.required" id="user-help-1" class="p-error">
+                {{messageService.fieldRequired}}
+              </small>
+            </div>
+          </div>
+    </div>
+    <div class="p-field">
+      <label for="activityType">
+          <i class="p-error">*</i> Tipo de Actividad:
+          <i *ngIf="activityTypesField.valid" class="pi pi-check-circle icon-valid"></i>
+          <i *ngIf="activityTypesField.invalid && (activityTypesField.touched || activityTypesField.dirty)"
+             class="pi pi-times-circle icon-invalid"></i>
+      </label>
+      <p-autoComplete id="activityType"  
+      formControlName="activity_type" 
+      [suggestions]="filteredActivityTypes"
+                      (completeMethod)="filterActivityType($event)" 
+                      field="name" [dropdown]="true">
+          <ng-template let-item pTemplate="item">
+              <div class="country-item">
+                  <div>{{item.name}}</div>
+              </div>
+          </ng-template>
+      </p-autoComplete>
+      <div *ngIf="typeField.invalid && (typeField.touched || typeField.dirty)">
+          <small *ngIf="typeField.errors?.required"
+                 id="type-help-1" class="p-error">
+              {{messageService.fieldRequired}}
+          </small>
+      </div>
+  </div>
+  <div class="p-field">
+      <label for="personType">
+        <i class="p-error">*</i> Tipo de Persona:
+        <i *ngIf="personTypeField.valid" class="pi pi-check-circle icon-valid"></i>
+        <i *ngIf="personTypeField.invalid && (personTypeField.touched || personTypeField.dirty)"
+           class="pi pi-times-circle icon-invalid"></i>
+      </label>
+      <p-autoComplete id="personType"  
+      formControlName="person_type" 
+      [suggestions]="filteredpersonTypes"
+                      (completeMethod)="filterPersonType($event)" 
+                      field="name" [dropdown]="true">
+          <ng-template let-item pTemplate="item">
+              <div class="country-item">
+                  <div>{{item.name}}</div>
+              </div>
+          </ng-template>
+      </p-autoComplete>
+  </div>
+  <div class="p-field">
+    <label for="web">Web</label>
+    <input id="web" formControlName="web" pInputText>
+    <div *ngIf="webField.errors && (webField.touched || webField.dirty)">
+      <small *ngIf="webField.hasError('required')" id="email-help-1" class="p-error">
+        El campo es obligatorio.
+      </small>
+    </div>
+  </div>
+  <div class="p-field">
+    <app-location-address [option]="2"
+                          (formAddressOut)="formAddress=$event"
+                          (formLocationOut)="setFormLocation($event)"
+                          id="address" name="address" formControlName="address">
+    </app-location-address>
+  </div>
+  </form>
+</div>

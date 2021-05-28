@@ -1,11 +1,16 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Company } from 'src/app/models/job-board/company';
-import {Paginator} from '../../../../../models/setting/paginator';
-import {MessageService} from '../../../../../services/app/message.service'; 
+import {MessageService} from '../../../../shared/services/message.service'; 
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
-import {FormGroup} from '@angular/forms';
+import {FormArray,FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpParams} from '@angular/common/http';
+import {Catalogue} from '../../../../../models/app/catalogue';
+import {MessageService as MessagePnService} from 'primeng/api';
+import {SharedService} from '../../../../shared/services/shared.service';
+import {AppHttpService} from '../../../../../services/app/app-http.service';
+import { User } from 'src/app/models/auth/user';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-profile-form',
@@ -15,9 +20,179 @@ import {HttpParams} from '@angular/common/http';
 export class ProfileFormComponent implements OnInit {
 
   @Input() formCompanyIn: FormGroup;
-  constructor() { }
+  @Output() displayOut = new EventEmitter<boolean>();
+  identificationTypes:Catalogue[];
+  personType:Catalogue[];
+  activityTypes:Catalogue[];
+  filteredActivityTypes:any[];
+  filteredpersonTypes:any[];
+  filteredidentificationTypes: any[];
+  formAddress: FormGroup;
+  formLocation: FormGroup;
+  auth:User;
+
+  constructor(
+    private formBuilder: FormBuilder,
+                public messageService: MessageService,
+                private messagePnService: MessagePnService,
+                private spinnerService: NgxSpinnerService,
+                private appHttpService: AppHttpService,
+                private sharedService: SharedService,
+                private jobBoardHttpService: JobBoardHttpService,
+                private authServices:AuthService,
+  ) {
+    this.auth = this.authServices.getAuth();
+   }
 
   ngOnInit() {
+    this.getCompany();
+    this.getActivityTypes();
+    this. getIdentificationTypes();
+    this.getPersonType();
+  }
+  get identificationField() {
+    return this.formCompanyIn['controls']['user'].get('identification');
+  }
+  get addressField() {
+    return this.formCompanyIn['controls']['user'].get('address');
+  }
+  get tradeNameField() {
+    return this.formCompanyIn.get('trade_name');
+  }
+  get comercialActivitiesField() {
+    return this.formCompanyIn.get('comercial_activities')as FormArray;
   }
 
+  addComercialActivity(){
+      this.comercialActivitiesField.push(this.formBuilder.control(null,Validators.required));
+  }
+  removeComercialActivity(index){
+      this.comercialActivitiesField.removeAt(index);
+  }
+
+  get webField() {
+    return this.formCompanyIn.get('web');
+  }
+
+  get typeField() {
+      return this.formCompanyIn.get('type');
+  }
+
+  get activityTypesField() {
+      return this.formCompanyIn.get('activity_type');
+  }
+
+  get personTypeField() {
+      return this.formCompanyIn.get('person_type');
+  }
+
+  onSubmit(flag = false) {
+   
+    if (this.formCompanyIn.valid) {
+        this.updateCompany(this.formCompanyIn.value);
+    } else {
+        this.markAllAsTouchedFormCompany();
+    }
+}
+  updateCompany(company: Company) {
+    this.spinnerService.show();
+    this.jobBoardHttpService.update('company/update', {company})
+        .subscribe(response => {
+            this.spinnerService.hide();
+            this.messageService.success(response);
+            console.log(response);
+            this.displayOut.emit(false);
+        }, error => {
+            this.spinnerService.hide();
+            this.messageService.error(error);
+        });
+  }
+
+  getCompany(){
+    this.spinnerService.show();
+    this.jobBoardHttpService.get('company/show')
+        .subscribe(response => {
+            this.spinnerService.hide();
+            this.messageService.success(response);
+            console.log(response);
+            this.formCompanyIn.patchValue(response['data']);
+        }, error => {
+            this.spinnerService.hide();
+            this.messageService.error(error);
+        });
+  }
+
+  markAllAsTouchedFormCompany(){
+    this.formCompanyIn.markAllAsTouched();
+  }
+
+  // Types of catalogues
+  getIdentificationTypes() {
+    const params = new HttpParams().append('type', 'COMPANY_TYPE');
+    this.appHttpService.getCatalogues(params).subscribe(response => {
+      this.identificationTypes = response['data'];
+      console.log(this.identificationTypes);
+    }, error => {
+      this.messageService.error(error);
+    });
+  }
+  getPersonType() {
+    const params = new HttpParams().append('type', 'COMPANY_PERSON_TYPE');
+    this.appHttpService.getCatalogues(params).subscribe(response => {
+      this.personType = response['data'];
+      console.log(this.personType);
+    }, error => {
+      this.messageService.error(error);
+    });
+  }
+  getActivityTypes() {
+    const params = new HttpParams().append('type', 'COMPANY_ACTIVITY_TYPE');
+    this.appHttpService.getCatalogues(params).subscribe(response => {
+      this.activityTypes = response['data'];
+      console.log(this.activityTypes);
+    }, error => {
+      this.messageService.error(error);
+    });
+  }
+  // Filter type of companies
+  filterType(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const type of this.identificationTypes) {
+      if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+        filtered.push(type);
+      }
+    }
+    this.filteredidentificationTypes = filtered;
+  }
+  filterPersonType(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const type of this.personType) {
+      if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+        filtered.push(type);
+      }
+    }
+    this.filteredpersonTypes = filtered;
+  }
+  filterActivityType(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const type of this.activityTypes) {
+      if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+        filtered.push(type);
+      }
+    }
+    this.filteredActivityTypes = filtered;
+  }
+
+  markAllAsTouchedFormSkill() {
+    this.formCompanyIn.markAllAsTouched();
+    this.formLocation.markAllAsTouched();
+    this.formAddress.markAllAsTouched();
+  }
+
+  setFormLocation(event) {
+    this.formLocation = event;
+}
 }

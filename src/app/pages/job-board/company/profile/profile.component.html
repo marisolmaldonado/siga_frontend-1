@@ -1,22 +1,9 @@
 <div class="p-grid">
-    <div class="p-col-12">
-        <app-profile-list
-                [professionalsIn]="professionals"
-                [paginatorIn]="paginator"
-                [formProfessionalIn]="formProfessional"
-                (professionalsOut)="professionals=$event"
-                (displayOut)="companyDialog=$event"
-                (formProfessionalOut)="formProfessional=$event"
-                (paginatorOut)="getProfesionals($event)">
-        </app-profile-list>
-
-        <p-dialog [(visible)]="companyDialog" [style]="{width: '450px'}" header="Compania" [modal]="true"
-                  styleClass="p-fluid" (onHide)="companyDialog=false">
+    <div class="p-col-12"> 
             <app-profile-form
                     [formCompanyIn]="formCompany"
                     (displayOut)="companyDialog=$event">
             </app-profile-form>
-        </p-dialog>
     </div>
 </div>
 

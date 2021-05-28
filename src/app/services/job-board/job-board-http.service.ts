@@ -16,6 +16,11 @@ export class JobBoardHttpService {
         url = this.API_URL_JOB_BOARD + url;
         return this.httpClient.get(url, {params});
     }
+    verifyIdentification(identification) {
+        const params = new HttpParams().append('identification',identification);
+        const url = this.API_URL_JOB_BOARD +'company/verify';
+        return this.httpClient.get(url, {params});
+    }
 
     store(url: string, data: any, params = new HttpParams()) {
         url = this.API_URL_JOB_BOARD + url;

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Company} from '../../../../../models/job-board/company';
-import {MessageService} from '../../../../../services/app/message.service';
+import {MessageService} from '../../../../shared/services/message.service'; 
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
 import {AppHttpService} from '../../../../../services/app/app-http.service';
@@ -23,9 +23,12 @@ export class RegisterFormComponent implements OnInit {
   filteredpersonType:any[];
   filteredidentificationTypes: any[];
 
+  formAddress: FormGroup;
+  formLocation: FormGroup;
+
   constructor(
     private formBuilder: FormBuilder,
-                private messageService: MessageService,
+                public messageService: MessageService,
                 private spinnerService: NgxSpinnerService,
                 private appHttpService: AppHttpService,
                 private jobBoardHttpService: JobBoardHttpService,
@@ -98,11 +101,11 @@ export class RegisterFormComponent implements OnInit {
     }
 
     get activityTypeField() {
-        return this.formRegisterIn.get('activityType');
+        return this.formRegisterIn.get('activity_type');
     }
 
     get personTypeField() {
-        return this.formRegisterIn.get('personType');
+        return this.formRegisterIn.get('person_type');
     }
 
     get dateField() {
@@ -189,4 +192,7 @@ onSubmit(event: Event, flag = false) {
         this.filteredactivityType = filtered;
     }
 
+    setFormLocation(event) {
+        this.formLocation = event;
+    }
 }
