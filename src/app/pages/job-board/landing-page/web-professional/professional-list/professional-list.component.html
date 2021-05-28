@@ -1,0 +1,26 @@
+<div class="p-grid">
+    <div class="p-col-4">
+        <app-category-filter (selectedCategoriesEmitter)="getSelectedCategories($event)"></app-category-filter>
+    </div>
+    <div class="p-col-8">
+        <app-filter (searchEmitter)="getSearch($event)"></app-filter>
+        <br>
+        <p-paginator [rows]="paginator.per_page" [totalRecords]="paginator.total" (onPageChange)="pageChange($event)"></p-paginator>
+        <br>
+        <div class="p-grid">
+            <div class="p-col-4" *ngFor="let professional of professionals">
+                <p-card>
+                    <ng-template pTemplate="title" *ngFor="let academicFormation of professional.academic_formations">
+                        {{academicFormation.professional_degree.name}}
+                    </ng-template>
+                    {{professional.about_me}}
+                    <ng-template pTemplate="footer">
+                        Más información
+                    </ng-template>
+                </p-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+
