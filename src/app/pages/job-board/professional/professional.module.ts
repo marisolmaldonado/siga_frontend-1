@@ -88,7 +88,7 @@ import {ProfileComponent} from './profile/profile.component';
     ],
     declarations: [
         ProfessionalComponent,
-        ProfileComponent,
+        // ProfileComponent,
         SkillComponent,
         SkillFormComponent,
         SkillListComponent,
