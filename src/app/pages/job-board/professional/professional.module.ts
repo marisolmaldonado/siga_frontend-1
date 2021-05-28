@@ -87,7 +87,7 @@ import {LanguageListComponent} from "./language/language-list/language-list.comp
     ],
     declarations: [
         ProfessionalComponent,
-        ProfileComponent,
+        // ProfileComponent,
         SkillComponent,
         SkillFormComponent,
         SkillListComponent,
