@@ -3,24 +3,27 @@
 <hr>
 
 <div class="p-grid">
-    <div class="p-col-12 p-md-12 p-lg-2">
+    <div class="p-col-12 p-md-12 p-lg-3">
         <div class="card">
             <h4>Filtrado por categorias.</h4>
-            <p-tree [value]="files2" selectionMode="checkbox" [(selection)]="selectedFile" [filter]="true"></p-tree>
+            <p-button icon="pi pi-filter" label="Filtrar por categorias" styleClass="p-mb-2"
+                      (click)="test()"></p-button>
+            <p-tree [value]="treeData" [virtualScroll]="true" scrollHeight="50vh" [virtualNodeHeight]="33" selectionMode="checkbox" [(selection)]="selectedCategories" [filter]="true"></p-tree>
         </div>
     </div>
-    <div class="p-col-12 p-md-12 p-lg-10">
+    <div class="p-col-12 p-md-12 p-lg-9">
         <div class="card">
             <p-dataView #filterBy [value]="offers" [paginator]="true" [rows]="9" [totalRecords]="20" [pageLinks]="5"
                         filterBy="requirements" layout="grid">
                 <ng-template pTemplate="header">
                     <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
                         <!--<p-dropdown placeholder="Sort By Price" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>-->
-                        <p-button icon="pi pi-filter" label="Filtrar" styleClass="p-mb-2"
+                        <p-button icon="pi pi-filter" label="Filtros" styleClass="p-mb-2"
                                   (click)="showModalFilter()"></p-button>
                         <span class="p-input-icon-left p-mb-2 p-mb-md-0">
                             <i class="pi pi-search"></i>
-                            <input type="search" pInputText placeholder="Buscar" (input)="filterBy.filter($event.target.value)">
+                            <input type="search" pInputText placeholder="Buscar"
+                                   (input)="filterBy.filter($event.target.value)">
                         </span>
                         <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
                     </div>
@@ -39,7 +42,8 @@
                                 <p-button icon="pi pi-check" label="Aplicar" styleClass="p-col-12"
                                           [style]="{'width': '100%'}"></p-button>
                                 <p-button icon="pi pi-eye" label="Ver más" styleClass="p-button-secondary p-col-12"
-                                          [style]="{'width': '100%'}" (click)="showModalMoreInformation(offer);" ></p-button>
+                                          [style]="{'width': '100%'}"
+                                          (click)="showModalMoreInformation(offer);"></p-button>
                                 <div class="p-col-12">
                                     <i class="pi pi-users offer-category-icon"></i>
                                     <span [class]="'offer-badge'">{{ offer.vacancies }} vacantes</span>
@@ -82,50 +86,46 @@
     </div>
 </div>
 
-<p-dialog header="Filtros" [(visible)]="displayModalFilter" [modal]="true" [style]="{width: '50vw'}"
-          [maximizable]="true" [baseZIndex]="10000"
-          [draggable]="false" [resizable]="false">
+<p-dialog header="Filtros" [(visible)]="displayModalFilter" [modal]="true"
+          [maximizable]="true" [draggable]="false" [resizable]="false">
 
     <div class="p-fluid">
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="code">Código:</label>
-                <p-inputNumber [(ngModel)]="value2" mode="decimal" inputId="code" [useGrouping]="false">
-                </p-inputNumber>
+                <input id="code" type="text" pInputText pKeyFilter="int" placeholder="1231654">
                 <small id="username-help">Si busca por el código, se desabilita los demas filtros.</small>
             </div>
 
             <div class="p-field p-col">
-                <label for="username1">Cargo:</label>
-                <input id="username1" type="code" aria-describedby="username1-help" pInputText [(ngModel)]="value4"/>
+                <label for="position">Cargo:</label>
+                <input id="position" type="text" pInputText placeholder="cargo"/>
             </div>
         </div>
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
-                <span class="p-field p-col">
-                <label for="username">Provincia:</label>
-                    <!--[options]="cities" [(ngModel)]="selectedCity1"-->
-                <p-dropdown placeholder="Select a City" optionLabel="name" styleClass="p-field p-col"
+                <label for="region">Provincia:</label>
+                <!--[options]="cities" [(ngModel)]="selectedCity1"-->
+                <p-dropdown id="region" placeholder="Selecciona tu provincia." optionLabel="region" styleClass="p-col-12"
                             [showClear]="true"></p-dropdown>
-                </span>
             </div>
 
             <div class="p-field p-col">
-                <label for="username1">Cantón:</label>
-                <p-dropdown placeholder="Select a City" optionLabel="name"
+                <label for="subregion">Cantón:</label>
+                <p-dropdown id="subregion" placeholder="Selecciona tu ciudad " optionLabel="subregion"
                             [showClear]="true"></p-dropdown>
             </div>
         </div>
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
-                <label for="username">Campo Amplio:</label>
-                <p-dropdown placeholder="Select a City" optionLabel="name"
+                <label for="parentCategory">Campo Amplio:</label>
+                <p-dropdown id="parentCategory" placeholder="Campo amplio" optionLabel="parentCategory"
                             [showClear]="true"></p-dropdown>
             </div>
 
             <div class="p-field p-col">
-                <label for="username1">Campo Específico:</label>
-                <p-dropdown placeholder="Select a City" optionLabel="name"
+                <label for="specificCategory">Campo Específico:</label>
+                <p-dropdown id="specificCategory" placeholder="Campo especifico." optionLabel="specificCategory"
                             [showClear]="true"></p-dropdown>
             </div>
         </div>
@@ -133,7 +133,7 @@
     </div>
 
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-check" (click)="displayModalFilter=false" label="Yes" class="p-button-text"></p-button>
+            <p-button icon="pi pi-check" (click)="displayModalFilter=false" label="Yes" class="p-button-text"></p-button>
         <p-button icon="pi pi-times" (click)="displayModalFilter=false" label="No"></p-button>
     </ng-template>
 </p-dialog>
@@ -152,7 +152,8 @@
         cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
     <ng-template pTemplate="footer">
-        <p-button icon="pi pi-check" (click)="displayMoreInformation=false" label="Yes" class="p-button-text"></p-button>
+        <p-button icon="pi pi-check" (click)="displayMoreInformation=false" label="Yes"
+                  class="p-button-text"></p-button>
         <p-button icon="pi pi-times" (click)="displayMoreInformation=false" label="No"></p-button>
     </ng-template>
 </p-dialog>

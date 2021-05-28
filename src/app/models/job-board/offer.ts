@@ -37,8 +37,9 @@ export interface Offer {
 }
 
 export interface SearchParams {
-    searchCode?: null;
-    searchWideField?: null;
-    searchSpecificField?: null;
-    searchLocation?: null;
+    searchCode?: string;
+    searchLocation?: string;
+    searchProvince?: string;
+    searchCanton?: string;
+    searchPosition?: string;
 }
