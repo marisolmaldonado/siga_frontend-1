@@ -17,7 +17,6 @@ import { CustomValidators } from 'src/app/pages/shared/validators/custom-validat
 export class RegisterComponent implements OnInit {
   formRegister: FormGroup;
   company: Company;
-  user: User;
   registerDialog: boolean;
 
   constructor(
@@ -40,7 +39,7 @@ export class RegisterComponent implements OnInit {
         email: [null, Validators.required],
         password: [null, Validators.required],
         password_confirmation: [null, Validators.required],
-        address: [null],
+        address: [null, Validators.required],
         status: [null, Validators.required],
         identificationType: [null, Validators.required],
       },{validator:CustomValidators.passwordMatchValidator}),
@@ -50,10 +49,10 @@ export class RegisterComponent implements OnInit {
       ]),
       web: [null, Validators.required],
       type: [null, Validators.required],
-      activity_type: [null, Validators.required],
-      person_type: [null, Validators.required],
+      activityType: [null, Validators.required],
+      personType: [null, Validators.required],
 
     });
-    console.log(this.formRegister['controls']['comercial_activities']);
+    console.log(this.formRegister['controls']['user']);
   }
 }

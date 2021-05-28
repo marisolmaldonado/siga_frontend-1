@@ -1,6 +1,6 @@
 {{formRegisterIn.value|json}}
 <div class="p-fluid">
-  <form [formGroup]="formRegisterIn" (ngSubmit)="onSubmit($event)">
+  <form [formGroup]="formRegisterIn" (ngSubmit)="onSubmit()">
     <div formGroupName="user">
       <p-card header="Datos de Usuario">
         <div class="p-formgrid p-grid">
@@ -138,7 +138,7 @@
             <i *ngIf="personTypeField.invalid && (personTypeField.touched || personTypeField.dirty)"
               class="pi pi-times-circle icon-invalid"></i>
           </label>
-          <p-autoComplete id="personType" formControlName="person_type" [suggestions]="filteredpersonType"
+          <p-autoComplete id="personType" formControlName="personType" [suggestions]="filteredpersonType"
             (completeMethod)="filterPersonType($event)" field="name" [dropdown]="true">
             <ng-template let-type pTemplate="item">
               <div class="country-item">
@@ -180,7 +180,7 @@
             <i *ngIf="activityTypeField.invalid && (activityTypeField.touched || activityTypeField.dirty)"
               class="pi pi-times-circle icon-invalid"></i>
           </label>
-          <p-autoComplete id="activityType" formControlName="activity_type" [suggestions]="filteredactivityType"
+          <p-autoComplete id="activityType" formControlName="activityType" [suggestions]="filteredactivityType"
             (completeMethod)="filterActivityType($event)" field="name" [dropdown]="true">
             <ng-template let-type pTemplate="item">
               <div class="country-item">

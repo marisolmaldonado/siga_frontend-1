@@ -63,7 +63,7 @@ export class ProfileFormComponent implements OnInit {
     return this.formCompanyIn['controls']['user'].get('phone');
   }
   get identificationTypeField() {
-    return this.formCompanyIn['controls']['user'].get('identificationType');
+    return this.formCompanyIn['controls']['user'].get('identification_type');
   }
   get addressField() {
     return this.formCompanyIn['controls']['user'].get('address');

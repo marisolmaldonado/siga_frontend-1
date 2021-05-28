@@ -41,7 +41,7 @@ export class RegisterFormComponent implements OnInit {
     this.getIdentificationTypes(),
     this.getPersonType(),
     this.getActivityType(),
-    this.getTypes()
+    this.getTypes();
   }
    // Fields of Form
    get usernameField() {
@@ -104,11 +104,11 @@ export class RegisterFormComponent implements OnInit {
     }
 
     get activityTypeField() {
-        return this.formRegisterIn.get('activity_type');
+        return this.formRegisterIn.get('activityType');
     }
 
     get personTypeField() {
-        return this.formRegisterIn.get('person_type');
+        return this.formRegisterIn.get('personType');
     }
 
     get dateField() {
@@ -129,13 +129,12 @@ export class RegisterFormComponent implements OnInit {
     });
 } 
 
-onSubmit(event: Event, flag = false) {
-    event.preventDefault();
-    if (this.formRegisterIn.valid) {
+onSubmit(flag = false) {
+    //if (this.formRegisterIn.valid) {
          this.register(this.formRegisterIn.value, flag);
-        }else {
-            this.formRegisterIn.markAllAsTouched();
-        }
+      //  }else {
+          //  this.formRegisterIn.markAllAsTouched();
+       // }
    
     }
         // Types of catalogues

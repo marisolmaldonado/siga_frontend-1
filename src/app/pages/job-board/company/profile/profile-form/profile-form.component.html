@@ -160,7 +160,7 @@
             <i *ngIf="activityTypesField.invalid && (activityTypesField.touched || activityTypesField.dirty)"
               class="pi pi-times-circle icon-invalid"></i>
           </label>
-          <p-autoComplete id="personType" formControlName="person_type" [suggestions]="filteredActivityTypes"
+          <p-autoComplete id="activityType" formControlName="activity_type" [suggestions]="filteredActivityTypes"
             (completeMethod)="filterActivityType($event)" field="name" [dropdown]="true">
             <ng-template let-item pTemplate="item">
               <div class="country-item">
