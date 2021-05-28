@@ -30,22 +30,24 @@ export class CourseListComponent implements OnInit {
     dialogViewFiles: boolean;
     files: File[];
     paginatorFiles: Paginator;
+    colsCourse: Col[];
 
     constructor(private messageService: MessageService,
         private spinnerService: NgxSpinnerService,
         private jobBoardHttpService: JobBoardHttpService) {
         this.resetPaginatorCourses();
-        this.resetPaginatorFiles();
+        //this.resetPaginatorFiles();
     }
 
     resetPaginatorCourses() {
         this.paginatorIn = { current_page: 1, per_page: 5 };
     }
 
-    resetPaginatorFiles() {
-        this.paginatorFiles = { current_page: 1, per_page: 5 };
-    }
+    // resetPaginatorFiles() {
+    //     this.paginatorFiles = { current_page: 1, per_page: 5 };
+    // }
     ngOnInit(): void {
+
     }
 
     // Search courses in backend

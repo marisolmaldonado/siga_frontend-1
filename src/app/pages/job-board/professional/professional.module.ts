@@ -49,7 +49,7 @@ import { ExperienceListComponent } from './experience/experience-list/experience
 import { LanguageComponent } from './language/language.component';
 import {LanguageFormComponent} from './language/language-form/language-form.component';
 import {LanguageListComponent} from './language/language-list/language-list.component';
-import {ProfileComponent} from './profile/profile.component';
+import {ProfileComponent} from '../company/profile/profile.component';
 
 
 @NgModule({

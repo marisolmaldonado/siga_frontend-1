@@ -71,7 +71,11 @@ export class MessageService {
         return 'El campo es obligatorio.';
     }
 
-    fieldMinLength(field): string {
+    get fieldEmail(): string {
+        return 'El campo debe tener un fomato de correo valido.';
+    }
+
+    fieldMinLength(field) {
         return `Mínimo de caracteres es ${field.errors.minlength.requiredLength}.`;
     }
 

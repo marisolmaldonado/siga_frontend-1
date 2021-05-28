@@ -11,7 +11,7 @@
                 (paginatorOut)="getReferences($event)">
         </app-reference-list>
 
-        <p-dialog [(visible)]="referenceDialog" [style]="{width: '450px'}" header="Cursos" [modal]="true"
+        <p-dialog [(visible)]="referenceDialog" [style]="{width: '450px'}" header="Referencias" [modal]="true"
                   styleClass="p-fluid" (onHide)="referenceDialog=false">
             <app-reference-form
                     [referencesIn]="references"
@@ -21,4 +21,4 @@
             </app-reference-form>
         </p-dialog>
     </div>
-</div> 
+</div>

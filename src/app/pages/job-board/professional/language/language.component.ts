@@ -40,14 +40,15 @@ export class LanguageComponent implements OnInit {
   buildFormLanguage() {
     this.formLanguage = this.formBuilder.group({
       id: [null],
-      professional_id: [null, Validators.required],
-      idiom_id: [null, Validators.required],
-      written_level_id: [null, Validators.required],
-      spoken_level_id: [null, Validators.required],
-      ead_level_id: [null, Validators.required],
+      professional: [null, Validators.required],
+      idiom: [null, Validators.required],
+      written_level: [null, Validators.required],
+      spoken_level: [null, Validators.required],
+      read_level: [null, Validators.required],
 
     });
-  }// languages of backend
+  }
+  // languages of backend
   getLanguages(paginator: Paginator) {
     const params = new HttpParams()
       .append('page', paginator.current_page.toString())

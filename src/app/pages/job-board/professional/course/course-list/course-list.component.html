@@ -18,42 +18,30 @@
 <div class="card" [hidden]="flagCourses">
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
-                    (click)="openNewFormCourse()"></button>
-            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-mr-2 p-mb-2"
-                    (click)="deleteCourses()"
-                    [disabled]="!selectedCourses || !selectedCourses.length"></button>
-            <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info p-mb-2"
-                    (click)="paginatorOut.emit(paginatorIn)"></button>
+            <button pButton pRipple label="Crear" icon="pi pi-plus" class="p-button-success p-button-rounded"
+                (click)="openNewFormCourse()"></button>
+            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-button-rounded p-ml-2"
+                (click)="deleteCourses()" [disabled]="!selectedCourses || !selectedCourses.length"></button>
         </ng-template>
 
         <ng-template pTemplate="right">
-            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
-                          chooseLabel="Import" class="p-mr-2 p-mb-2 p-d-inline-block"></p-fileUpload>
-            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help p-mb-2"
-                    (click)="dt.exportCSV()"></button>
+            <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info"
+                (click)="paginatorOut.emit(paginatorIn)"></button>
         </ng-template>
     </p-toolbar>
-    <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total"
-                 (onPageChange)="pageChange($event)"></p-paginator>
-    <p-table #dt
-             [value]="coursesIn"
-             [rows]="paginatorIn.per_page"
-             [paginator]="false"
-             [(selection)]="selectedCourses"
-             [rowHover]="true"
-             dataKey="id"
-             styleClass="p-datatable-customers"
-             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-             [showCurrentPageReport]="true">
+    <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total" (onPageChange)="pageChange($event)">
+    </p-paginator>
+    <p-table #dt [value]="coursesIn" [columns]="colsCourse" [paginator]="false" [(selection)]="selectedCourses"
+        [rowHover]="true" [responsive]="true" dataKey="id" styleClass="p-datatable-customers"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
                 <h5 class="p-m-0">Cursos y Capacitaciones</h5>
                 <span class="p-input-icon-left">
-                        <i class="pi pi-search" (click)="searchCourses($event,search.value)"></i>
-                        <input #search pInputText type="text" (keyup)="searchCourses($event,$event.target.value)"
-                               placeholder="Buscar..."/>
-                    </span>
+                    <i class="pi pi-search" (click)="searchCourses($event,search.value)"></i>
+                    <input #search pInputText type="text" (keyup)="searchCourses($event,$event.target.value)"
+                        placeholder="Buscar..." />
+                </span>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -85,11 +73,11 @@
                 </td>
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
-                            (click)="openEditFormCourse(course)"></button>
+                        (click)="openEditFormCourse(course)"></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-ml-2"
-                            (click)="deleteCourses(course)"></button>
+                        (click)="deleteCourses(course)"></button>
                     <button pButton pRipple icon="pi pi-paperclip" class="p-button-rounded p-ml-2"
-                            (click)="selectCourse(course);openViewFilesCourse()"></button>
+                        (click)="selectCourse(course);openViewFilesCourse()"></button>
                 </td>
             </tr>
         </ng-template>

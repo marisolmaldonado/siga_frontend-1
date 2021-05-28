@@ -38,33 +38,34 @@ export class OfferComponent implements OnInit {
         this.buildFormSkill();
     }
 
-    buildFormSkill() {
-        this.formOffer = this.formBuilder.group({
-            // VERIFICAR CAMPOS Y SI TODOS SON REQUERIDOS Y CON EL MINIMO
-            id: [null],
-            vacancies: [null, Validators.required],
-            code: [null, Validators.required],
-            aditional_information: [null],
-            contact_name: [null, Validators.required],
-            contact_email: [null, Validators.required],
-            contact_phone: [null],
-            contact_cellphone: [null],
-            remuneration: [null, Validators.required],
-            contract_type: [null, Validators.required],
-            position: [null, Validators.required],
-            sector: [null, Validators.required],
-            working_day: [null, Validators.required],
-            experience_time: [null, Validators.required],
-            training_hours: [null, Validators.required],
-            location: [null],
-            status: [null, Validators.required],
-            start_date: [null, Validators.required],
-            end_date: [null, Validators.required],
-            activities: [null, Validators.required],
-            requirements: [null, Validators.required],
-            //company: [null, Validators.required],
-        });
-    }
+  buildFormSkill() {
+    this.formOffer = this.formBuilder.group({
+      // VERIFICAR CAMPOS Y SI TODOS SON REQUERIDOS Y CON EL MINIMO
+        id: [null],
+        vacancies: [null],
+        //TRAER DE EMPRESA
+        code: [null],
+        aditional_information: [null],
+        contact_name: [null, Validators.required],
+        contact_email: [null, [Validators.required, Validators.email]],
+        contact_phone: [null, Validators.required],
+        contact_cellphone: [null, Validators.required],
+        remuneration: [null, Validators.required],
+        contract_type: [null, Validators.required],
+        position: [null],
+        sector: [null],
+        working_day: [null, Validators.required],
+        experience_time: [null],
+        training_hours: [null, Validators.required],
+        location: [null],
+        status: [null],
+        start_date: [null],
+        end_date: [null],
+        activities: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
+        requirements: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
+        //company: [null],
+    });
+}
 
     getOffers(paginator: Paginator) {
         const params = new HttpParams()

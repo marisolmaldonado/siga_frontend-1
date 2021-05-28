@@ -37,7 +37,8 @@
                 <h5 class="p-m-0">Mis Ofertas</h5>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search" (click)="searchOffers($event,search.value)"></i>
-                    <input #search pInputText type="text" (keyup)="searchOffers($event,$event.target.value)"
+                    <input pInputText #search type="text" 
+                        (keyup)="searchOffers($event,$event.target.value)"
                         placeholder="Buscar..." />
                 </span>
             </div>
@@ -55,7 +56,8 @@
                     <button pButton pRipple
                             type="button" id="btnOptions"
                             icon="pi pi-cog" class="p-button-secondary"
-                            disabled></button>
+                            disabled>
+                    </button>
                 </th>
             </tr>
         </ng-template>
