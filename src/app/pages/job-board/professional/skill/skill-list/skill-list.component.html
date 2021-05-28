@@ -46,8 +46,7 @@
                     <i class="p-input-icon-left">
                         <i class="pi pi-search" (click)="searchSkills($event,searchSkill.value)"></i>
                         <input #searchSkill pInputText type="text" class="p-text-uppercase"
-                               (keyup)="searchSkills($event,$event.target.value)"
-                               placeholder="Buscar..."/>
+                            (keyup)="searchSkills($event,$event.target.value)" placeholder="Buscar..." />
                     </i>
                 </div>
             </div>
@@ -110,17 +109,9 @@
     </p-table>
 </div>
 
-<p-dialog [(visible)]="dialogViewFiles"
-          [style]="{width: '75%'}"
-          header="Subir Archivos"
-          [modal]="true"
-          styleClass="p-fluid"
-          (onHide)="dialogViewFiles=false">
-    <app-view-files
-            (files)="upload($event,selectedSkill.id)"
-            [filesIn]="files"
-            [title]="'Habilidades'"
-            (searchOut)="searchFiles($event)"
-            [paginatorIn]="paginatorFiles"
-            (paginatorOut)="getFiles($event)"></app-view-files>
+<p-dialog [(visible)]="dialogViewFiles" [style]="{width: '75%'}" header="Subir Archivos" [modal]="true"
+    styleClass="p-fluid" (onHide)="dialogViewFiles=false">
+    <app-view-files (files)="upload($event,selectedSkill.id)" [filesIn]="files" [title]="'Habilidades'"
+        (searchOut)="searchFiles($event)" [paginatorIn]="paginatorFiles" (paginatorOut)="getFiles($event)">
+    </app-view-files>
 </p-dialog>
