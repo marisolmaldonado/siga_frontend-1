@@ -8,5 +8,4 @@ export interface System {
     date?: Date;
     type?: string;
     icon?: string;
-    
 }

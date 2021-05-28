@@ -27,6 +27,7 @@ import {DialogModule} from 'primeng/dialog';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import {ListboxModule} from 'primeng/listbox';
 import {PaginatorModule} from 'primeng/paginator';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {TabViewModule} from 'primeng/tabview';
@@ -79,6 +80,7 @@ import { UserFormComponent } from './users/user-form/user-form.component';
         EditorModule,
         SkeletonModule,
         DividerModule,
+        ListboxModule,
     ],
     declarations: [
         UserAdministrationComponent,

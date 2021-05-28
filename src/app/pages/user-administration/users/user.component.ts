@@ -7,7 +7,7 @@ import { Paginator } from '../../../models/setting/paginator';
 import { HttpParams } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BreadcrumbService } from '../../../shared/services/breadcrumb.service';
-import { MessageService } from '../../../services/app/message.service';
+import { MessageService } from '../../shared/services/message.service';
 
 @Component({
     selector: 'app-users',
@@ -22,8 +22,6 @@ export class UserComponent implements OnInit {
     user: User;
     userDialog: boolean;
     flagUsers: boolean;
-
-    displayUserForm: boolean;
 
     constructor(
         private spinnerService: NgxSpinnerService,
@@ -45,7 +43,6 @@ export class UserComponent implements OnInit {
         this.buildFormUser();
     }
 
-    // Build form skill
     buildFormUser() {
         this.formUser = this.formBuilder.group({
             id: [null],
@@ -62,26 +59,20 @@ export class UserComponent implements OnInit {
         });
     }
 
-    // Users of backend
     getUsers(paginator: Paginator) {
         const params = new HttpParams()
             .append('page', paginator.current_page.toString())
             .append('per_page', paginator.per_page.toString());
 
         this.flagUsers = true;
-        this.spinnerService.show();
         this.userAdministrationService.get('user-admins', params).subscribe(
             response => {
-                this.spinnerService.hide();
                 this.flagUsers = false;
                 this.users = response['data'];
                 this.paginator = response as Paginator;
-                //console.log(this.users);
             }, error => {
-                this.spinnerService.hide();
                 this.flagUsers = false;
                 this.messageService.error(error);
             });
     }
-
 }

@@ -1,96 +1,93 @@
-<div class="card">
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
             <button pButton pRipple label="Nuevos" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
-                    (click)="openNewFormUser()"></button>
+                (click)="openNewFormUser()"></button>
             <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-mr-2 p-mb-2"
-                    (click)="deleteUsers()"
-                    [disabled]="!selectedUsers || !selectedUsers.length"></button>
-            <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info p-mb-2"
-                    (click)="paginatorOut.emit(paginatorIn)"></button>
+                (click)="deleteUsers()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
+            <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info"
+                (click)="paginatorOut.emit(paginatorIn)"></button>
         </ng-template>
-
         <ng-template pTemplate="right">
-            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
-                          chooseLabel="Import" class="p-mr-2 p-mb-2 p-d-inline-block"></p-fileUpload>
             <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help p-mb-2"
-                    (click)="dt.exportCSV()"></button>
+                (click)="dt.exportCSV()"></button>
         </ng-template>
     </p-toolbar>
-    <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total"
-                 (onPageChange)="pageChange($event)"></p-paginator>
-    <p-table #dt
-             [value]="usersIn"
-             [rows]="paginatorIn.per_page"
-             [paginator]="false"
-             [(selection)]="selectedUsers"
-             [rowHover]="true"
-             dataKey="id"
-             styleClass="p-datatable-customers"
-             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-             [showCurrentPageReport]="true">
+    <app-skeleton *ngIf="flagUsers" [type]="'user-admin'"></app-skeleton>
+    <div class="card" [hidden]="flagUsers">
+    <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total" (onPageChange)="paginateUser($event)">
+    </p-paginator>
+    <p-table #dt [value]="usersIn" [columns]="colsUser" [paginator]="false" [(selection)]="selectedUsers"
+        [rowHover]="true" [responsive]="true" dataKey="id" styleClass="p-datatable-customers"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
-            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
-                <h5 class="p-m-0">Usuarios</h5>
-                <span class="p-input-icon-left">
-                        <i class="pi pi-search" (click)="searchUsers($event,search.value)"></i>
-                        <input #search pInputText type="text" (keyup)="searchUsers($event,$event.target.value)"
-                               placeholder="Buscar..."/>
-                    </span>
+            <div class="p-fluid">
+                <div class="p-field">
+                    <h5>Usuarios</h5>
+                </div>
+                <div class="p-field">
+                    <i class="p-input-icon-left">
+                        <i class="pi pi-search" (click)="searchUsers($event,searchUser.value)"></i>
+                        <input #searchSkill pInputText type="text" class="p-text-uppercase"
+                            (keyup)="searchUsers($event,$event.target.value)" placeholder="Buscar..." />
+                    </i>
+                </div>
             </div>
         </ng-template>
-        <ng-template pTemplate="header">
+        <ng-template pTemplate="header" let-columns>
             <tr>
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th pSortableColumn="full_name">
-                    Nombres y Apellidos
-                    <p-sortIcon field="full_name"></p-sortIcon>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
                 </th>
-                <th pSortableColumn="identification">
-                    Identificación
-                    <p-sortIcon field="identification"></p-sortIcon>
-                </th>
-                <th pSortableColumn="identification">
-                    Username
-                    <p-sortIcon field="identification"></p-sortIcon>
-                </th>
-                <th pSortableColumn="options">
-                    <i class="pi pi-cog"></i>
-                    &nbsp;Opciones
-                    
+                <th style="text-align:center">
+                    <button pButton pRipple type="button" id="btnOptions" icon="pi pi-cog" class="p-button-secondary"
+                        disabled></button>
                 </th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-user>
+        <ng-template pTemplate="body" let-columns="columns" let-rowData>
             <tr>
                 <td>
-                    <p-tableCheckbox [value]="user"></p-tableCheckbox>
+                    <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
                 </td>
-                <td>
-                    {{user.partial_lastname}}
+                <td *ngFor="let col of columns">
+                    {{rowData[col.field]?.name ? rowData[col.field]?.name : rowData[col.field]}}
                 </td>
-                <td>
-                    {{user.identification}}
-                </td>
-                <td>
-                    {{user.username}}
-                </td>
-                <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
-                            (click)="openEditFormUser(user)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-ml-2"
-                            (click)="deleteUsers(user)"></button>
-                    <button pButton pRipple icon="pi pi-paperclip" class="p-button-rounded p-ml-2"
-                            (click)="selectUser(user);openViewFilesUser()"></button>
+                <td style="text-align:center">
+                    <button pButton pRipple type="button" id="btnEdit" pTooltip="Editar" icon="pi pi-pencil"
+                        class="p-button-rounded p-button-warning" (click)="openEditFormSkill(rowData)"></button>
+                    <button pButton pRipple type="button" id="btnDelete" pTooltip="Eliminar" icon="pi pi-trash"
+                        class="p-button-rounded p-button-danger p-ml-2" (click)="deleteSkills(rowData)"></button>
+                    <button pButton pRipple type="button" id="btnAttach" pTooltip="Ver Roles"
+                        icon="pi pi-sitemap" class="p-button-rounded p-ml-2"
+                        (click)="selectUser(rowData);openViewRoles()"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="p-d-flex p-ai-center p-jc-between">
-                En total hay {{paginatorIn ? paginatorIn.total : 0 }} usuarios.
+                En total hay {{paginatorIn?.total ? paginatorIn.total : 0 }} registros.
             </div>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="columns?.length">
+                    No se encontraron registros
+                </td>
+            </tr>
         </ng-template>
     </p-table>
 </div>
+
+<p-dialog [(visible)]="dialogViewRoles"
+          [style]="{width: '30%'}"
+          header="Roles"
+          [modal]="true"
+          styleClass="p-fluid"
+          (onHide)="dialogViewRoles=false"
+          position="top-right">
+    <app-dialog></app-dialog>
+</p-dialog>

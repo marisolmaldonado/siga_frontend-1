@@ -1,10 +1,10 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
-import {HttpParams} from "@angular/common/http";
-import {ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from "@angular/forms";
-import {AppService} from "../../../../services/app/app.service";
-import {Location} from "../../../../models/app/location";
-import {MessageService} from "primeng/api";
-
+import {Component, forwardRef, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
+import {AppHttpService} from '../../../../services/app/app-http.service';
+import {Location} from '../../../../models/app/location';
+import {MessageService as MessagePnService} from 'primeng/api';
+import {MessageService} from '../../services/message.service';
+import {SharedService} from '../../services/shared.service';
 
 @Component({
     selector: 'app-location',
@@ -20,17 +20,15 @@ import {MessageService} from "primeng/api";
 })
 
 export class LocationComponent implements OnInit, ControlValueAccessor {
-    locations: Location[];
+    @Input() option: number;
+    @Output() formLocationOut = new EventEmitter<FormGroup>();
+    formLocation: FormGroup;
     countries: Location[];
-    country: FormControl;
     provinces: Location[];
-    province: FormControl;
     cantons: Location[];
-    canton: FormControl;
     parishes: Location[];
-    parish: FormControl;
-    value: string;
-    onChange: (value: string) => void;
+    value: Location;
+    onChange: (value: Location) => void;
     onTouch: () => void;
     isDisabled: boolean;
     filteredCountries: any[];
@@ -38,135 +36,159 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     filteredCantons: any[];
     filteredParishes: any[];
 
-    constructor(private formBuilder: FormBuilder, private appService: AppService, private messageService: MessageService) {
+    constructor(private formBuilder: FormBuilder,
+                private appHttpService: AppHttpService,
+                private sharedService: SharedService,
+                private messagePnService: MessagePnService,
+                private messageService: MessageService) {
         this.countries = [];
         this.provinces = [];
         this.cantons = [];
         this.parishes = [];
+        this.option = 4;
     }
 
     ngOnInit(): void {
-        this.buildFormDate();
-        this.getCountries();
+        this.buildFormLocation();
         this.getLocations();
     }
 
-    buildFormDate() {
-        this.country = this.formBuilder.control('', Validators.required);
-        this.province = this.formBuilder.control('', Validators.required);
-        this.canton = this.formBuilder.control('', Validators.required);
-        this.parish = this.formBuilder.control('', Validators.required);
+    buildFormLocation() {
+        this.formLocation = this.formBuilder.group({
+            country: [null, Validators.required],
+            province: [null, Validators.required],
+            canton: [null, Validators.required],
+            parish: [null, Validators.required],
+        });
+        switch (this.option) {
+            case 1:
+                this.provinceField.setValidators(null);
+                this.cantonField.setValidators(null);
+                this.parishField.setValidators(null);
+                break;
+            case 2:
+                this.cantonField.setValidators(null);
+                this.parishField.setValidators(null);
+                break;
+            case 3:
+                this.parishField.setValidators(null);
+                break;
+        }
+        this.formLocationOut.emit(this.formLocation);
     }
 
     getLocations() {
-        const params = new HttpParams().append('id', 'ETHNIC_ORIGIN_TYPE');
-        this.appService.getLocations(params).subscribe(response => {
-            this.locations = response['data'];
-            const catalogues = [];
-            for (const i in this.locations) {
-                if (catalogues.indexOf(this.locations[i].type.id) === -1) {
-                    catalogues.push(this.locations[i]);
-                }
-            }
-            this.countries = this.locations.filter(element => element.type)
-        });
-    }
-
-    getCountries() {
-        this.appService.getCountries().subscribe(response => {
+        this.appHttpService.getLocations().subscribe(response => {
             this.countries = response['data'];
-            console.log(this.countries);
+        }, error => {
+            this.messageService.error(error);
         });
     }
 
     loadProvinces() {
-        this.provinces = this.locations.find(element => element.id === this.country.value.id)['children'];
+        this.provinces = this.countries.find(element => element.id === this.countryField.value.id)['children'];
     }
 
     loadCantons() {
-        this.cantons = this.provinces.find(element => element.id === this.province.value.id)['children'];
+        this.cantons = this.provinces.find(element => element.id === this.provinceField.value.id)['children'];
     }
 
     loadParishes() {
-        this.parishes = this.cantons.find(element => element.id === this.canton.value.id)['children'];
+        this.parishes = this.cantons.find(element => element.id === this.cantonField.value.id)['children'];
     }
 
     filterCountry(event) {
-        let filtered: any[] = [];
-        let query = event.query;
-        for (let i = 0; i < this.countries.length; i++) {
-            let country = this.countries[i];
-            if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const country of this.countries) {
+            if (country.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(country);
             }
         }
 
         if (filtered.length === 0) {
-            this.messageService.add({
+            this.messagePnService.clear();
+            this.messagePnService.add({
                 severity: 'error',
-                summary: 'No existen paises disponibles',
-                detail: 'Comuníquese con el administrador!'
+                summary: 'Por favor seleccione un país del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
             });
+            this.countryField.setValue(null);
         }
+
         this.filteredCountries = filtered;
     }
 
     filterProvince(event) {
-        let filtered: any[] = [];
-        let query = event.query;
-        if (this.provinces.length === 0) {
-            this.messageService.add({
-                severity: 'error',
-                summary: 'No existen provincias disponibles',
-                detail: 'Comuníquese con el administrador!'
-            });
-        }
-        for (let i = 0; i < this.provinces.length; i++) {
-            let province = this.provinces[i];
-            if (province.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        const filtered: any[] = [];
+        const query = event.query;
+
+        for (const province of this.provinces) {
+            if (province.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(province);
             }
+        }
+
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione una provincia del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.provinceField.setValue(null);
         }
 
         this.filteredProvinces = filtered;
     }
 
     filterCanton(event) {
-        let filtered: any[] = [];
-        let query = event.query;
-        if (this.cantons.length === 0) {
-            this.messageService.add({
-                severity: 'error',
-                summary: 'No existen cantones disponibles',
-                detail: 'Comuníquese con el administrador!'
-            });
-        }
-        for (let i = 0; i < this.cantons.length; i++) {
-            let canton = this.cantons[i];
-            if (canton.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        const filtered: any[] = [];
+        const query = event.query;
+
+        for (const canton of this.cantons) {
+            if (canton.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(canton);
             }
+        }
+
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un cantón del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.cantonField.setValue(null);
         }
 
         this.filteredCantons = filtered;
     }
 
     filterParish(event) {
-        let filtered: any[] = [];
-        if (this.parishes.length === 0) {
-            this.messageService.add({
-                severity: 'error',
-                summary: 'No existen parroquias disponibles',
-                detail: 'Comuníquese con el administrador!'
-            });
-        }
-        let query = event.query;
-        for (let i = 0; i < this.parishes.length; i++) {
-            let parish = this.parishes[i];
-            if (parish.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        const filtered: any[] = [];
+        const query = event.query;
+
+        for (const parish of this.parishes) {
+            if (parish.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(parish);
             }
         }
+
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione una parroquia del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.parishField.setValue(null);
+        }
+
         this.filteredParishes = filtered;
     }
 
@@ -182,17 +204,45 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
         this.isDisabled = isDisabled;
     }
 
-    writeValue(value: string): void {
+    writeValue(value: Location): void {
         this.value = value;
-        if (this.value) {
-            this.parish.setValue(this.value);
+        switch (this.option) {
+            case 1:
+                this.countryField.setValue(value);
+                break;
+            case 2:
+                this.provinceField.setValue(value);
+                break;
+            case 3:
+                this.cantonField.setValue(value);
+                break;
+            case 4:
+                this.parishField.setValue(value);
+                break;
         }
     }
 
-    updateValue(): void {
-        if (this.country.valid && this.province.valid && this.canton.valid, this.parish.valid) {
-            this.value = this.parish.value.id;
+    updateValue(field): void {
+        if (this.formLocation.valid && field.value?.id) {
+            this.value = {id: field.value.id};
             this.onChange(this.value);
+            // this.formLocationOut.emit(this.formLocation);
         }
+    }
+
+    get countryField() {
+        return this.formLocation.get('country');
+    }
+
+    get provinceField() {
+        return this.formLocation.get('province');
+    }
+
+    get cantonField() {
+        return this.formLocation.get('canton');
+    }
+
+    get parishField() {
+        return this.formLocation.get('parish');
     }
 }

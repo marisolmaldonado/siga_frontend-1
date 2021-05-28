@@ -3,7 +3,7 @@ import {Role} from '../../models/auth/role';
 import {AuthService} from '../../services/auth/auth.service';
 
 @Component({
-    selector: 'app-error',
+    selector: 'app-under-maintenance',
     template: `
         <div class="exception-body error">
             <div class="exception-content">
@@ -16,10 +16,15 @@ import {AuthService} from '../../services/auth/auth.service';
                         <h1>Página en Mantenimiento</h1>
                         <div class="seperator"></div>
                         <p>Disculpe las molestias, pero estamos realizando un mantenimiento en este momento.</p>
-                        <button pButton type="button" icon="pi pi-sign-in" class="p-mr-6" [routerLink]="['/auth/login']"
-                                label="Regresar al Login"></button>
-                        <button pButton type="button" icon="pi pi-home" *ngIf="role"
-                                [routerLink]="['/dashboard']" label="Ir al Dashboard"></button>
+                        <button pButton pRipple type="button" id="btnToLogin"
+                                label="Regresar al Login"
+                                icon="pi pi-sign-in"
+                                class="p-mr-6"
+                                [routerLink]="['/auth/login']"></button>
+                        <button *ngIf="role" pButton pRipple type="button" id="btnToDashboard"
+                                label="Ir al Dashboard"
+                                icon="pi pi-home"
+                                [routerLink]="['/dashboard']"></button>
                     </div>
                 </div>
                 <div class="desert"></div>

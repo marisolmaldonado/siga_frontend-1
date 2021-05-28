@@ -3,7 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {Permission, Role, System, Token, User} from '../../models/auth/models.index';
-import {MessageService} from '../app/message.service';
+import {MessageService} from '../../pages/shared/services/message.service';
 
 @Injectable({
     providedIn: 'root'
