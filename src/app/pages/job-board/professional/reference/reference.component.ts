@@ -42,12 +42,12 @@ export class ReferenceComponent implements OnInit {
   buildFormReference() {
     this.formReference = this.formBuilder.group({
       id: [null],
-      address: [null, Validators.required],
-      location: [null, Validators.required],
-      start_date: [null, Validators.required, DateValidators.valid],
-      end_date: [null, Validators.required, DateValidators.valid],
-      type: [null, Validators.required],
-      description: [null, [Validators.required, Validators.minLength(10)]],
+      professional: [null],
+      institution: [null, Validators.required],
+      position: [null, Validators.required],
+      contact_name: [null, Validators.required],
+      contact_phone: [null, Validators.required],
+      contact_email: [null, Validators.required],
     });
   }
 

@@ -1,11 +1,11 @@
-import {FormControl, ValidationErrors} from '@angular/forms';
-import {isDate, isBefore, isAfter} from 'date-fns';
+import { FormControl, ValidationErrors } from '@angular/forms';
+import { isDate, isBefore, isAfter } from 'date-fns';
 
 export class DateValidators {
     static valid(control: FormControl): ValidationErrors {
         const value = control.value;
         const isValid = value ? isDate(new Date(value)) : true;
-        return isValid ? null : {valid: true};
+        return isValid ? null : { valid: true };
     }
 
     static max(maxDate: string): (control: FormControl) => ValidationErrors {
@@ -13,7 +13,7 @@ export class DateValidators {
             const max = new Date(maxDate);
             const value = control.value;
             const isValid = value ? isBefore(value, max) : true;
-            return isValid ? null : {max: true};
+            return isValid ? null : { max: true };
         };
     }
 
@@ -22,7 +22,7 @@ export class DateValidators {
             const min = new Date(minDate);
             const value = control.value;
             const isValid = value ? isAfter(value, min) : true;
-            return isValid ? null : {min: true};
+            return isValid ? null : { min: true };
         };
     }
 }

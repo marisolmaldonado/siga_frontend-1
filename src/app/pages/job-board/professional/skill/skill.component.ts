@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {JobBoardHttpService} from '../../../../services/job-board/job-board-http.service';
-import {Skill} from '../../../../models/job-board/skill';
-import {Paginator} from '../../../../models/setting/paginator';
-import {HttpParams} from '@angular/common/http';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {MessageService} from '../../../shared/services/message.service';
-import {DateValidators} from '../../../shared/validators/date.validators';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { JobBoardHttpService } from '../../../../services/job-board/job-board-http.service';
+import { Skill } from '../../../../models/job-board/skill';
+import { Paginator } from '../../../../models/setting/paginator';
+import { HttpParams } from '@angular/common/http';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageService } from '../../../shared/services/message.service';
+import { DateValidators } from '../../../shared/validators/date.validators';
 
 @Component({
     selector: 'app-skill',
@@ -28,7 +28,7 @@ export class SkillComponent implements OnInit {
         private formBuilder: FormBuilder,
         private jobBoardHttpService: JobBoardHttpService) {
 
-        this.paginator = {current_page: 1, per_page: 2};
+        this.paginator = { current_page: 1, per_page: 2 };
         this.skills = [];
     }
 

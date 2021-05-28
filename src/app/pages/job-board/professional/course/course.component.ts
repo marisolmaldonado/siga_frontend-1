@@ -1,3 +1,5 @@
+import { Professional } from './../../../../models/job-board/professional';
+import { Institution } from './../../../../models/app/institution';
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -7,7 +9,7 @@ import { Paginator } from '../../../../models/setting/paginator';
 import { HttpParams } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BreadcrumbService } from '../../../../shared/services/breadcrumb.service';
-import {MessageService} from '../../../shared/services/message.service';
+import { MessageService } from '../../../shared/services/message.service';
 import { DateValidators } from "../../../shared/validators/date.validators";
 
 @Component({
@@ -29,7 +31,6 @@ export class CourseComponent implements OnInit {
         private formBuilder: FormBuilder,
         private jobBoardHttpService: JobBoardHttpService,
         private breadcrumbService: BreadcrumbService) {
-
         this.paginator = { current_page: 1, per_page: 5 };
         this.courses = [];
     }
@@ -43,18 +44,24 @@ export class CourseComponent implements OnInit {
     buildFormCourse() {
         this.formCourse = this.formBuilder.group({
             id: [null],
-            address: [null, Validators.required],
-            location: [null, Validators.required],
+            name: [null, Validators.required],
+            description: [null, [Validators.required, Validators.minLength(10)]],
             start_date: [null, Validators.required, DateValidators.valid],
             end_date: [null, Validators.required, DateValidators.valid],
+            hours: [null, Validators.required],
+            professional: [null, Validators.required],
             type: [null, Validators.required],
-            description: [null, [Validators.required, Validators.minLength(10)]],
+            Institution: [null, Validators.required],
+            certification_type: [null, Validators.required],
+            area: [null, Validators.required],
+
         });
     }
 
     // courses of backend
     getCourses(paginator: Paginator) {
         const params = new HttpParams()
+            // .append('professional_id', "1")
             .append('page', paginator.current_page.toString())
             .append('per_page', paginator.per_page.toString());
 

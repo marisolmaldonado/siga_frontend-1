@@ -1,5 +1,6 @@
-<app-skeleton *ngIf="flagCourses"></app-skeleton>
-<p-dialog [(visible)]="dialogUploadFiles" [style]="{width: '75%'}" header="Subir archivos" [modal]="true"
+<app-skeleton *ngIf="flagCourses" [type]="'table'"></app-skeleton>
+
+<!-- <p-dialog [(visible)]="dialogUploadFiles" [style]="{width: '75%'}" header="Subir archivos" [modal]="true"
           styleClass="p-fluid" (onHide)="dialogUploadFiles=false">
     <app-upload-files (files)="upload($event,selectedCourse.id)"></app-upload-files>
 </p-dialog>
@@ -12,9 +13,9 @@
             (searchOut)="searchFiles($event)"
             [paginatorIn]="paginatorFiles"
             (paginatorOut)="getFiles($event)"></app-view-files>
-</p-dialog>
+</p-dialog> -->
 
-<div class="card">
+<div class="card" [hidden]="flagCourses">
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
             <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
@@ -47,7 +48,7 @@
              [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
-                <h5 class="p-m-0">Cursos</h5>
+                <h5 class="p-m-0">Cursos y Capacitaciones</h5>
                 <span class="p-input-icon-left">
                         <i class="pi pi-search" (click)="searchCourses($event,search.value)"></i>
                         <input #search pInputText type="text" (keyup)="searchCourses($event,$event.target.value)"
