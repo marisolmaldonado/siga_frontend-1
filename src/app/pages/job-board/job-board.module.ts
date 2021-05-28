@@ -69,7 +69,7 @@ import {RippleModule} from 'primeng/ripple';
         RippleModule,
     ],
     declarations: [
-        JobBoardComponent
+        JobBoardComponent,
     ],
     exports: [],
     providers: []

@@ -11,6 +11,9 @@ import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {DropdownModule} from 'primeng/dropdown';
 import {SkeletonModule} from 'primeng/skeleton';
+import {DataViewModule} from 'primeng/dataview';
+
+// My Components
 import {TooltipModule} from 'primeng/tooltip';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ToastModule} from 'primeng/toast';
@@ -34,12 +37,12 @@ import {RippleModule} from 'primeng/ripple';
 // My Components
 import {SharedModule} from '../../shared/shared.module';
 import {LandingPageComponent} from './landing-page.component';
-import { WebProfessionalComponent } from './web-professional/web-professional.component';
-import { TotalComponent } from './total/total.component';
-import { ProfessionalListComponent } from './web-professional/professional-list/professional-list.component';
-import { CategoryFilterComponent } from './web-professional/professional-list/category-filter/category-filter.component';
-import { FilterComponent } from './web-professional/professional-list/filter/filter.component';
 import {WebOfferComponent} from './web-offer/web-offer.component';
+import {WebProfessionalComponent} from './web-professional/web-professional.component';
+import {TotalComponent} from './total/total.component';
+import {ProfessionalListComponent} from './web-professional/professional-list/professional-list.component';
+import {CategoryFilterComponent} from './web-professional/professional-list/category-filter/category-filter.component';
+import {FilterComponent} from './web-professional/professional-list/filter/filter.component';
 
 @NgModule({
     imports: [
@@ -74,15 +77,16 @@ import {WebOfferComponent} from './web-offer/web-offer.component';
         CardModule,
         SkeletonModule,
         RippleModule,
+        DataViewModule
     ],
     declarations: [
         LandingPageComponent,
+        WebOfferComponent,
         WebProfessionalComponent,
+        TotalComponent,
+        ProfessionalListComponent,
         CategoryFilterComponent,
         FilterComponent,
-        ProfessionalListComponent,
-        TotalComponent,
-        WebOfferComponent
     ],
     providers: []
 })
