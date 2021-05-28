@@ -13,8 +13,7 @@
     </div>
     <div class="p-col-12 p-md-12 p-lg-9">
         <div class="card">
-            <p-dataView #filterBy [value]="offers" [paginator]="true" [rows]="9" [totalRecords]="20" [pageLinks]="5"
-                        filterBy="requirements" layout="grid">
+            <p-dataView #filterBy [value]="offers" [paginator]="false" filterBy="requirements" layout="grid">
                 <ng-template pTemplate="header">
                     <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
                         <!--<p-dropdown placeholder="Sort By Price" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>-->
@@ -137,9 +136,6 @@
         <p-button icon="pi pi-times" (click)="displayModalFilter=false" label="No"></p-button>
     </ng-template>
 </p-dialog>
-
-
-<!--<p-button (click)="showModalMoreInformation()" icon="pi pi-external-link" label="Show"></p-button>-->
 
 <p-dialog header="Godfather I" [(visible)]="displayMoreInformation" [modal]="true" [style]="{width: '50vw'}"
           [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
