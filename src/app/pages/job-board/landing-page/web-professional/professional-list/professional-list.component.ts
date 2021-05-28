@@ -5,7 +5,7 @@ import { Professional } from 'src/app/models/job-board/professional';
 import { Paginator } from '../../../../../models/setting/paginator';
 import { HttpParams } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { MessageService } from 'src/app/services/app/message.service';
+import { MessageService } from 'src/app/pages/shared/services/message.service';
 
 @Component({
   selector: 'app-professional-list',
@@ -21,7 +21,7 @@ export class ProfessionalListComponent implements OnInit {
     private jobBoardHttpService: JobBoardHttpService,
     private spinnerService: NgxSpinnerService,
     private messageService: MessageService) {
-      this.paginator = {current_page: '1', per_page: '9'};
+      this.paginator = {current_page: 1, per_page: 9};
       this.professionals = [];
       this.body = {ids: null, search: null};
     }
@@ -32,8 +32,8 @@ export class ProfessionalListComponent implements OnInit {
 
   getProfessionals(paginator: Paginator, body: any): void {
     const params = new HttpParams()
-            .append('page', paginator.current_page)
-            .append('per_page', paginator.per_page);
+            .append('page', paginator.current_page.toString())
+            .append('per_page', paginator.per_page.toString());
 
     this.spinnerService.show();
     this.jobBoardHttpService.store('web-professional/professionals', body, params).subscribe(

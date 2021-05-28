@@ -34,21 +34,22 @@ import { CardModule } from 'primeng/card';
 import { SharedModule } from '../../shared/shared.module';
 import { RippleModule } from 'primeng/ripple';
 import { ProfessionalComponent } from './professional.component';
-import { SkillComponent } from "./skill/skill.component";
-import { SkillFormComponent } from "./skill/skill-form/skill-form.component";
-import { SkillListComponent } from "./skill/skill-list/skill-list.component";
+import { SkillComponent } from './skill/skill.component';
+import { SkillFormComponent } from './skill/skill-form/skill-form.component';
+import { SkillListComponent } from './skill/skill-list/skill-list.component';
 import { CourseComponent } from './course/course.component';
 import { CourseFormComponent } from './course/course-form/course-form.component';
-import { CourseListComponent } from "./course/course-list/course-list.Component";
+import { CourseListComponent } from './course/course-list/course-list.Component';
 import { ReferenceComponent } from './reference/reference.component';
 import { ReferenceFormComponent } from './reference/reference-form/reference-form.component';
-import { ReferenceListComponent } from "./reference/reference-list/reference-list.Component";
+import { ReferenceListComponent } from './reference/reference-list/reference-list.Component';
 import { ExperienceComponent } from './experience/experience.component';
 import { ExperienceFormComponent } from './experience/experience-form/experience-form.component';
-import { ExperienceListComponent } from "./experience/experience-list/experience-list.Component";
+import { ExperienceListComponent } from './experience/experience-list/experience-list.Component';
 import { LanguageComponent } from './language/language.component';
-import {LanguageFormComponent} from "./language/language-form/language-form.component";
-import {LanguageListComponent} from "./language/language-list/language-list.component";
+import {LanguageFormComponent} from './language/language-form/language-form.component';
+import {LanguageListComponent} from './language/language-list/language-list.component';
+import {ProfileComponent} from './profile/profile.component';
 
 
 @NgModule({

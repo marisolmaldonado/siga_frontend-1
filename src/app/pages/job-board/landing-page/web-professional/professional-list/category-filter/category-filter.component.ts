@@ -1,10 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-
 import { JobBoardHttpService } from 'src/app/services/job-board/job-board-http.service';
 import { Category } from 'src/app/models/job-board/category';
 import { TreeNode } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { MessageService } from 'src/app/services/app/message.service';
+import { MessageService } from 'src/app/pages/shared/services/message.service';
 
 @Component({
   selector: 'app-category-filter',
