@@ -1,1 +1,123 @@
-<p>user-form works!</p>
+<div class="p-fluid">
+    <form [formGroup]="formUserIn" (ngSubmit)="onSubmit($event)">
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="username">Nombre de Usuario</label>
+                <input pInputText id="username" type="text" formControlName="username">
+                <div *ngIf="usernameField.errors && (usernameField.touched || usernameField.dirty)">
+                    <small *ngIf="usernameField.hasError('required')" id="username-help-1" class="p-error">
+                        El campo es obligatorio.
+                    </small>
+                    <small *ngIf="usernameField.hasError('minlength')" id="username-help-2" class="p-error">
+                        Mínimo de caracteres es {{usernameField.errors.minlength.requiredLength}}.
+                    </small>
+                </div>
+            </div>
+            <div class="p-field p-col">
+                <label for="identification">Identificación</label>
+                <input pInputText id="identification" type="text" formControlName="identification">
+                <div *ngIf="identificationField.errors && identificationField.touched">
+                    <small *ngIf="identificationField.hasError('required')" id="identification-help-1" class="p-error">
+                        El campo es obligatorio.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="first_name">Primer Nombre</label>
+                <input pInputText id="first_name" type="text" formControlName="first_name">
+                <div *ngIf="firstNameField.errors && firstNameField.touched">
+                    <small *ngIf="firstNameField.hasError('required')" id="first_name-help-1" class="p-error">
+                        El campo es obligatorio.
+                    </small>
+                </div>
+            </div>
+            <div class="p-field p-col">
+                <label for="second_name">Segundo Nombre</label>
+                <input pInputText id="second_name" type="text" formControlName="second_name">
+                <div *ngIf="secondNameField.errors && secondNameField.touched">
+                    <small *ngIf="secondNameField.hasError('required')" id="second_name-help-1" class="p-error">
+                        El campo es obligatorio.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="first_lastname">Primer Apellido</label>
+                <input pInputText id="first_lastname" type="text" formControlName="first_lastname">
+                <div *ngIf="firstLastnameField.errors && firstLastnameField.touched">
+                    <small *ngIf="firstLastnameField.hasError('required')" id="first_lastname-help-1" class="p-error">
+                        El campo es obligatorio.
+                    </small>
+                </div>
+            </div>
+            <div class="p-field p-col">
+                <label for="second_lastname">Segundo Apellido</label>
+                <input pInputText id="second_lastname" type="text" formControlName="second_lastname">
+                <div *ngIf="secondLastnameField.errors && secondLastnameField.touched">
+                    <small *ngIf="secondLastnameField.hasError('required')" id="second_lastname-help-1" class="p-error">
+                        El campo es obligatorio.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="email">Correo electrónico</label>
+                <input pInputText id="email" type="text" formControlName="email">
+                <div *ngIf="emailField.errors && emailField.touched">
+                    <small *ngIf="emailField.hasError('required')" id="email-help-1" class="p-error">
+                        El campo es obligatorio.
+                    </small>
+                </div>
+                <div *ngIf="emailField.errors && (emailField.touched || emailField.dirty)">
+                    <small *ngIf="emailField.hasError('email')" id="email-help-1" class="p-error">
+                        Correo No valido
+                    </small>
+                </div>
+            </div>
+            <div class="p-field p-col">
+                <label for="password">Contraseña</label>
+                <p-password id="password" formControlName="password"></p-password>
+                <div *ngIf="passwordField.errors && passwordField.touched">
+                    <small *ngIf="passwordField.hasError('required')" id="password-help-1" class="p-error">
+                        El campo es obligatorio.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="phone">Telefono</label>
+                <input pInputText id="phone" type="text" formControlName="phone">
+                <div *ngIf="phoneField.errors && phoneField.touched">
+                    <small *ngIf="phoneField.hasError('required')" id="phone-help-1" class="p-error">
+                        El campo es obligatorio.
+                    </small>
+                </div>
+            </div>
+            <div class="p-field p-col">
+                <label for="personal_email">Correo electrónico personal</label>
+                <input pInputText id="personal_email" type="text" formControlName="personal_email">
+                <div *ngIf="personalEmailField.errors && (personalEmailField.touched || personalEmailField.dirty)">
+                    <small *ngIf="personalEmailField.hasError('personal_email')" id="personal_email-help-1"
+                        class="p-error">
+                        Correo No valido
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
+                    class="p-button-success p-button-raised"></button>
+            </div>
+            <div *ngIf="!idField.value" class="p-field p-col">
+                <button type="button" pButton pRipple label="Guardar" icon="pi pi-arrow-right" class="p-button-raised"
+                    (click)="onSubmit($event,true)"></button>
+            </div>
+        </div>
+    </form>
+</div>

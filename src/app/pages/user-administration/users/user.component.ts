@@ -1,19 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UserAdministrationService} from '../../../services/auth/user-administration.service';
-import {User} from '../../../models/auth/user';
-import {Paginator} from '../../../models/setting/paginator';
-import {HttpParams} from '@angular/common/http';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {BreadcrumbService} from '../../../shared/services/breadcrumb.service';
-import {MessageService} from '../../../services/app/message.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserAdministrationService } from '../../../services/auth/user-administration.service';
+import { User } from '../../../models/auth/user';
+import { Paginator } from '../../../models/setting/paginator';
+import { HttpParams } from '@angular/common/http';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { BreadcrumbService } from '../../../shared/services/breadcrumb.service';
+import { MessageService } from '../../../services/app/message.service';
 
 @Component({
     selector: 'app-users',
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.scss']
 })
+
 export class UserComponent implements OnInit {
     paginator: Paginator;
     users: User[];
@@ -32,15 +33,33 @@ export class UserComponent implements OnInit {
         private breadcrumbService: BreadcrumbService) {
 
         this.breadcrumbService.setItems([
-            {label: 'Dashboard', routerLink: ['/dashboard']},
-            {label: 'user administration'}
+            { label: 'Dashboard', routerLink: ['/dashboard'] },
+            { label: 'user administration' }
         ]);
-        this.paginator = {current_page: 1, per_page: 5};
+        this.paginator = { current_page: 1, per_page: 5 };
         this.users = [];
     }
 
     ngOnInit(): void {
         this.getUsers(this.paginator);
+        this.buildFormUser();
+    }
+
+    // Build form skill
+    buildFormUser() {
+        this.formUser = this.formBuilder.group({
+            id: [null],
+            username: [null, [Validators.required, Validators.minLength(7)]],
+            identification: [null, [Validators.required]],
+            first_name: [null, [Validators.required]],
+            second_name: [null, [Validators.required]],
+            first_lastname: [null, [Validators.required]],
+            second_lastname: [null, [Validators.required]],
+            email: [null, [Validators.email, Validators.required]],
+            password: [null, [Validators.required]],
+            phone: [null, [Validators.required]],
+            personal_email: [null, [Validators.email]],
+        });
     }
 
     // Users of backend
@@ -57,14 +76,12 @@ export class UserComponent implements OnInit {
                 this.flagUsers = false;
                 this.users = response['data'];
                 this.paginator = response as Paginator;
-                console.log(this.users);
+                //console.log(this.users);
             }, error => {
                 this.spinnerService.hide();
                 this.flagUsers = false;
                 this.messageService.error(error);
             });
     }
-    setUsers(users: User[]){
-        console.log('users');
-    }
+
 }
