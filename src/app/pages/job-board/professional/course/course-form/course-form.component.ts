@@ -79,7 +79,7 @@ export class CourseFormComponent implements OnInit {
     }
 
     get endDateField() {
-        return this.formCourseIn.get('start_date');
+        return this.formCourseIn.get('end_date');
     }
 
     get hoursField() {

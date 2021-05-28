@@ -1,114 +1,99 @@
 {{formLanguageIn.value|json}}
 <div class="p-fluid">
     <form [formGroup]="formLanguageIn" (ngSubmit)="onSubmit($event)">
-       
+
         <div class="p-field">
-                    <label for="professional">profesional</label>
-                    <p-autoComplete id="professional" formControlName="professional" [suggestions]="filteredProfessionals"
-                                    (completeMethod)="filterProfessional($event)" field="name" [dropdown]="true">
-                        <ng-template let-professional pTemplate="item">
-                            <div class="country-item">
-                                <div>{{professional.name}}</div>
-                            </div>
-                        </ng-template>
-                    </p-autoComplete>
-                    <div *ngIf="professionalField.errors && (professionalField.touched || idiomField.dirty)">
-                        <small *ngIf="professionalField.hasError('required')"
-                               id="professional-help-1" class="p-error">
-                            El campo es obligatorio.
-                        </small>
+            <label for="professional">profesional</label>
+            <p-autoComplete id="professional" formControlName="professional" [suggestions]="filteredProfessionals"
+                (completeMethod)="filterProfessional($event)" field="name" [dropdown]="true">
+                <ng-template let-professional pTemplate="item">
+                    <div class="country-item">
+                        <div>{{professional.name}}</div>
                     </div>
-                </div>
+                </ng-template>
+            </p-autoComplete>
+            <div *ngIf="professionalField.errors && (professionalField.touched || idiomField.dirty)">
+                <small *ngIf="professionalField.hasError('required')" id="professional-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+            </div>
+        </div>
 
-                <div class="p-field">
-                    <label for="idiom">Idioma</label>
-                    <p-autoComplete id="idiom" formControlName="idiom" [suggestions]="filteredIdioms"
-                                    (completeMethod)="filterIdiom($event)" field="name" [dropdown]="true">
-                        <ng-template let-idiom pTemplate="item">
-                            <div class="country-item">
-                                <div>{{idiom.name}}</div>
-                            </div>
-                        </ng-template>
-                    </p-autoComplete>
-                    <div *ngIf="idiomField.errors && (idiomField.touched || idiomField.dirty)">
-                        <small *ngIf="idiomField.hasError('required')"
-                               id="idiom-help-1" class="p-error">
-                            El campo es obligatorio.
-                        </small>
+        <div class="p-field">
+            <label for="idiom">Idioma</label>
+            <p-autoComplete id="idiom" formControlName="idiom" [suggestions]="filteredIdioms"
+                (completeMethod)="filterIdiom($event)" field="name" [dropdown]="true">
+                <ng-template let-idiom pTemplate="item">
+                    <div class="country-item">
+                        <div>{{idiom.name}}</div>
                     </div>
-                </div>
+                </ng-template>
+            </p-autoComplete>
+            <div *ngIf="idiomField.errors && (idiomField.touched || idiomField.dirty)">
+                <small *ngIf="idiomField.hasError('required')" id="idiom-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+            </div>
+        </div>
 
-                <div class="p-field">
-                    <label for="written_level">nivel escrito</label>
-                    <p-autoComplete id="written_level" formControlName="written_level" [suggestions]="filteredWritten_levels"
-                                    (completeMethod)="filterWritten_level($event)" field="name" [dropdown]="true">
-                        <ng-template let-written_level pTemplate="item">
-                            <div class="country-item">
-                                <div>{{written_level.name}}</div>
-                            </div>
-                        </ng-template>
-                    </p-autoComplete>
-                    <div *ngIf="written_levelField.errors && (written_levelField.touched || written_levelField.dirty)">
-                        <small *ngIf="written_levelField.hasError('required')"
-                               id="written_level-help-1" class="p-error">
-                            El campo es obligatorio.
-                        </small>
+        <div class="p-field">
+            <label for="written_level">nivel escrito</label>
+            <p-autoComplete id="written_level" formControlName="written_level" [suggestions]="filteredWritten_levels"
+                (completeMethod)="filterWritten_level($event)" field="name" [dropdown]="true">
+                <ng-template let-written_level pTemplate="item">
+                    <div class="country-item">
+                        <div>{{written_level.name}}</div>
                     </div>
-                </div>
+                </ng-template>
+            </p-autoComplete>
+            <div *ngIf="written_levelField.errors && (written_levelField.touched || written_levelField.dirty)">
+                <small *ngIf="written_levelField.hasError('required')" id="written_level-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+            </div>
+        </div>
 
-                <div class="p-field">
-                    <label for="spoken_level">nivel hablado</label>
-                    <p-autoComplete id="spoken_level" formControlName="spoken_level" [suggestions]="filteredSpoken_level"
-                                    (completeMethod)="filterSpoken_level($event)" field="name" [dropdown]="true">
-                        <ng-template let-spoken_level pTemplate="item">
-                            <div class="country-item">
-                                <div>{{spoken_level.name}}</div>
-                            </div>
-                        </ng-template>
-                    </p-autoComplete>
-                    <div *ngIf="spoken_levelField.errors && (spoken_levelField.touched || spoken_levelField.dirty)">
-                        <small *ngIf="spoken_levelField.hasError('required')"
-                               id="spoken_level-help-1" class="p-error">
-                            El campo es obligatorio.
-                        </small>
+        <div class="p-field">
+            <label for="spoken_level">nivel hablado</label>
+            <p-autoComplete id="spoken_level" formControlName="spoken_level" [suggestions]="filteredSpoken_level"
+                (completeMethod)="filterSpoken_level($event)" field="name" [dropdown]="true">
+                <ng-template let-spoken_level pTemplate="item">
+                    <div class="country-item">
+                        <div>{{spoken_level.name}}</div>
                     </div>
-                </div>
+                </ng-template>
+            </p-autoComplete>
+            <div *ngIf="spoken_levelField.errors && (spoken_levelField.touched || spoken_levelField.dirty)">
+                <small *ngIf="spoken_levelField.hasError('required')" id="spoken_level-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+            </div>
+        </div>
 
-                <div class="p-field">
-                    <label for="read_level">nivel de lectura</label>
-                    <p-autoComplete id="read_level" formControlName="read_level" [suggestions]="filteredRead_level"
-                                    (completeMethod)="filterRead_level($event)" field="name" [dropdown]="true">
-                        <ng-template let-read_level pTemplate="item">
-                            <div class="country-item">
-                                <div>{{read_level.name}}</div>
-                            </div>
-                        </ng-template>
-                    </p-autoComplete>
-                    <div *ngIf="read_levelField.errors && (read_levelField.touched ||read_levelField.dirty)">
-                        <small *ngIf="read_levelField.hasError('required')"
-                               id="read_level-help-1" class="p-error">
-                            El campo es obligatorio.
-                        </small>
+        <div class="p-field">
+            <label for="read_level">nivel de lectura</label>
+            <p-autoComplete id="read_level" formControlName="read_level" [suggestions]="filteredRead_level"
+                (completeMethod)="filterRead_level($event)" field="name" [dropdown]="true">
+                <ng-template let-read_level pTemplate="item">
+                    <div class="country-item">
+                        <div>{{read_level.name}}</div>
                     </div>
-                </div>
-
-
- 
- 
-
-
+                </ng-template>
+            </p-autoComplete>
+            <div *ngIf="read_levelField.errors && (read_levelField.touched ||read_levelField.dirty)">
+                <small *ngIf="read_levelField.hasError('required')" id="read_level-help-1" class="p-error">
+                    El campo es obligatorio.
+                </small>
+            </div>
+        </div>
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
                 <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
-                        class="p-button-success p-button-raised"></button>
+                    class="p-button-success p-button-raised"></button>
             </div>
             <div *ngIf="!idField.value" class="p-field p-col">
-                <button type="button" pButton pRipple
-                        label="Guardar"
-                        icon="pi pi-arrow-right"
-                        class="p-button-raised"
-                        (click)="onSubmit($event,true)"
-                ></button>
+                <button type="button" pButton pRipple label="Guardar" icon="pi pi-arrow-right" class="p-button-raised"
+                    (click)="onSubmit($event,true)"></button>
             </div>
         </div>
     </form>
