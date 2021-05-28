@@ -2,7 +2,6 @@ import {Category} from './category';
 import {Location as LocationOffer} from './locationOffer';
 import {ContractType} from './contractType';
 
-
 export interface Offer {
     id: number;
     company_id: number;

@@ -38,6 +38,11 @@ import {RippleModule} from 'primeng/ripple';
 import {SharedModule} from '../../shared/shared.module';
 import {LandingPageComponent} from './landing-page.component';
 import {WebOfferComponent} from './web-offer/web-offer.component';
+import {WebProfessionalComponent} from './web-professional/web-professional.component';
+import {TotalComponent} from './total/total.component';
+import {ProfessionalListComponent} from './web-professional/professional-list/professional-list.component';
+import {CategoryFilterComponent} from './web-professional/professional-list/category-filter/category-filter.component';
+import {FilterComponent} from './web-professional/professional-list/filter/filter.component';
 
 @NgModule({
     imports: [
@@ -76,7 +81,12 @@ import {WebOfferComponent} from './web-offer/web-offer.component';
     ],
     declarations: [
         LandingPageComponent,
-        WebOfferComponent
+        WebOfferComponent,
+        WebProfessionalComponent,
+        TotalComponent,
+        ProfessionalListComponent,
+        CategoryFilterComponent,
+        FilterComponent,
     ],
     providers: []
 })

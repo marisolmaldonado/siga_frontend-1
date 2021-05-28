@@ -10,6 +10,8 @@ import {HttpParams} from '@angular/common/http';
 // Modelos
 import {Paginator} from '../../../../models/setting/paginator';
 import {Offer, Category, SearchParams} from '../../../../models/job-board/models.index';
+import {User} from '../../../../models/auth/user';
+import {AuthService} from '../../../../services/auth/auth.service';
 
 @Component({
     selector: 'app-web-offer',
@@ -27,7 +29,7 @@ export class WebOfferComponent implements OnInit {
     categories: Category[];
     displayModalFilter: boolean;
     selectedCategories: any;
-
+    auth: User;
 
     offerView: Offer;
     displayMoreInformation: boolean;
@@ -45,8 +47,10 @@ export class WebOfferComponent implements OnInit {
 
     constructor(private spinnerService: NgxSpinnerService,
                 private messageService: MessageService,
+                private authService: AuthService,
                 private formBuilder: FormBuilder,
                 private jobBoardHttpService: JobBoardHttpService) {
+        this.auth = authService.getAuth();
     }
 
     ngOnInit() {
@@ -59,8 +63,10 @@ export class WebOfferComponent implements OnInit {
             .append('page', String(paginator.current_page))
             .append('per_page', String(paginator.per_page));
 
+        const rutaFiltro = this.auth ? 'private-offers' : 'public-offers';
+
         this.spinnerService.show();
-        this.jobBoardHttpService.get('web-offer/private-offers', params).subscribe(
+        this.jobBoardHttpService.get('web-offer/' + rutaFiltro, params).subscribe(
             response => {
                 this.spinnerService.hide();
                 this.offers = response['data'];
