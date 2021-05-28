@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Col} from '../../../../../models/setting/col';
 import {Paginator} from '../../../../../models/setting/paginator';
-import {MessageService} from '../../../../../services/app/message.service';
+import {MessageService} from '../../../../../pages/shared/services/message.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
 import { Offer } from 'src/app/models/job-board/offer';
@@ -14,6 +14,7 @@ import {HttpParams} from '@angular/common/http';
     styleUrls: ['./offer-list.component.scss']
 })
 export class OfferListComponent implements OnInit {
+    @Input() flagOffers: boolean;
     @Input() offersIn: Offer[];
     @Input() paginatorIn: Paginator;
     @Input() formOfferIn: FormGroup;
@@ -22,16 +23,25 @@ export class OfferListComponent implements OnInit {
     @Output() formOfferOut = new EventEmitter<FormGroup>();
     @Output() displayOut = new EventEmitter<boolean>();
     @Output() paginatorOut = new EventEmitter<Paginator>();
-    colsOffer: Col;
+    colsOffer: Col[];
     selectedOffers: any[];
 
     constructor(private messageService: MessageService,
                 private spinnerService: NgxSpinnerService,
                 private jobBoardHttpService: JobBoardHttpService) {
-        this.colsOffer = {header: 'Descripción', field: 'description'};
+        this.resetPaginatorOffers();
     }
 
     ngOnInit(): void {
+        this.loadColsOffer();
+    }
+
+    loadColsOffer() {
+        this.colsOffer = [
+            {field: 'id', header: 'Id'},
+            {field: 'code', header: 'Codigo'},
+            {field: 'vacancies', header: 'Vacantes'},
+        ];
     }
 
     searchOffers(event, search) {
@@ -60,9 +70,13 @@ export class OfferListComponent implements OnInit {
         this.displayOut.emit(true);
     }
 
-    pageChange(event) {
+    paginateOffer(event) {
         this.paginatorIn.current_page = event.page + 1;
         this.paginatorOut.emit(this.paginatorIn);
+    }
+
+    resetPaginatorOffers() {
+        this.paginatorIn = {current_page: 1, per_page: 5};
     }
 
     deleteOffer(offer: Offer) {
@@ -89,7 +103,6 @@ export class OfferListComponent implements OnInit {
         this.offersOut.emit(this.offersIn);
     }
 
-    // no se utiliza
     deleteOffers() {
         this.messageService.questionDelete({})
             .then((result) => {
