@@ -11,7 +11,7 @@ import { Catalogue } from '../../../../../models/app/catalogue';
 
 @Component({
     selector: 'app-reference-form',
-    templateUrl: './referene-form.component.html',
+    templateUrl: './reference-form.component.html',
     styleUrls: ['./reference-form.component.scss']
 })
 
@@ -40,48 +40,25 @@ export class ReferenceFormComponent implements OnInit {
         return this.formReferenceIn.get('professional');
     }
 
-    get typeField() {
-        return this.formReferenceIn.get('type');
-    }
 
     get institutionField() {
         return this.formReferenceIn.get('institution');
     }
 
-    get certificationTypeField() {
-        return this.formReferenceIn.get('certification_type');
+    get positionField() {
+        return this.formReferenceIn.get('position');
     }
 
-    get areaField() {
-        return this.formReferenceIn.get('area');
+    get contactNameField() {
+        return this.formReferenceIn.get('contact_name');
     }
 
-    get nameField() {
-        return this.formReferenceIn.get('name');
+    get contactPhoneField() {
+        return this.formReferenceIn.get('contact_phone');
     }
 
-    get descriptionField() {
-        return this.formReferenceIn.get('description');
-    }
-
-    get startDateField() {
-        return this.formReferenceIn.get('start_date');
-    }
-
-    get endDateField() {
-        return this.formReferenceIn.get('start_date');
-    }
-
-    get hourField() {
-        return this.formReferenceIn.get('hour');
-    }
-
-    get addressField() {
-        return this.formReferenceIn.get('address');
-    }
-
-    get locationField() {
-        return this.formReferenceIn.get('location');
+    get contactEmailField() {
+        return this.formReferenceIn.get('contact_email');
     }
 
     get idField() {
