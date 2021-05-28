@@ -75,26 +75,22 @@
                 </div>
 
                 <div class="p-field">
-                    <label for="read_level">nivel de lectura</label>
-                    <p-autoComplete id="read_level" formControlName="read_level" [suggestions]="filteredRead_level"
-                                    (completeMethod)="filterRead_level($event)" field="name" [dropdown]="true">
+                    <label for="readLevel">nivel de lectura</label>
+                    <p-autoComplete id="readLevel" formControlName="readLevel" [suggestions]="filteredReadLevel"
+                                    (completeMethod)="filterReadLevel($event)" field="name" [dropdown]="true">
                         <ng-template let-read_level pTemplate="item">
                             <div class="country-item">
                                 <div>{{read_level.name}}</div>
                             </div>
                         </ng-template>
                     </p-autoComplete>
-                    <div *ngIf="read_levelField.errors && (read_levelField.touched ||read_levelField.dirty)">
-                        <small *ngIf="read_levelField.hasError('required')"
-                               id="read_level-help-1" class="p-error">
+                    <div *ngIf="readLevelField.errors && (readLevelField.touched ||readLevelField.dirty)">
+                        <small *ngIf="readLevelField.hasError('required')"
+                               id="readLevel-help-1" class="p-error">
                             El campo es obligatorio.
                         </small>
                     </div>
                 </div>
-
-
- 
- 
 
 
         <div class="p-formgrid p-grid">
