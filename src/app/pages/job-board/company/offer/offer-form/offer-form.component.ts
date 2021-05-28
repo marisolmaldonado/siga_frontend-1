@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MessageService} from '../../../../../pages/shared/services/message.service';
 import {MessageService as MessagePnService} from 'primeng/api';
 
@@ -101,10 +101,40 @@ export class OfferFormComponent implements OnInit {
     get locationField() {
         return this.formOfferIn.get('location');
     }
+    get activitiesField() {
+        return this.formOfferIn.get('activities') as FormArray;
+    }
+    get requirementsField() {
+        return this.formOfferIn.get('requirements') as FormArray;
+    }
+
+    addActivities(){
+        this.activitiesField.push(this.formBuilder.control(null, Validators.required));
+    }
+    removeActivities(activity){
+        this.activitiesField.removeAt(activity);
+    }
+    addRequirements(){
+        this.requirementsField.push(this.formBuilder.control(null, Validators.required));
+    }
+    removeRequirements(requirement){
+        this.requirementsField.removeAt(requirement);
+    }
 
     // Submit Form
+    /**
+     * codigo mandar con la empresa (de donde saco?)
+     * actividades y requerimientos sin arrays de strings como deberia llenar el uuario?
+     * campo remuneration debe validaarse como numerico en html?
+     * campo email como le valido el email
+     * 
+     * 
+     * 
+     * 
+     */
     onSubmit(event: Event, flag = false) {
         event.preventDefault();
+        console.log(this.formOfferIn.valid);
         if (this.formOfferIn.valid) {
             if (this.idField.value) {
                 this.updateOffer(this.formOfferIn.value);
@@ -112,8 +142,6 @@ export class OfferFormComponent implements OnInit {
                 this.storeOffer(this.formOfferIn.value, flag);
             }
         } else {
-            // quitar validaciones y llenar todos los campos requeridos
-            // quitar end_date de todo angular 
             this.formOfferIn.markAllAsTouched();
         }
     }
@@ -171,7 +199,6 @@ export class OfferFormComponent implements OnInit {
         const params = new HttpParams().append('type', 'LOCATION');
         this.appHttpService.getCatalogues(params).subscribe(response => {
             this.locations = response['data'];
-            console.log(this.locations);
         }, error => {
             this.messageService.error(error);
         });
