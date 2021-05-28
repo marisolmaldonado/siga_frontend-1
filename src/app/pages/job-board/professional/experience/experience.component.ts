@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { JobBoardHttpService } from '../../../../services/job-board/job-board-http.service';
 import { Experience } from '../../../../models/job-board/experience';
 import { Paginator } from '../../../../models/setting/paginator';
 import { HttpParams } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { BreadcrumbService } from '../../../../shared/services/breadcrumb.service';
-import {MessageService} from '../../../shared/services/message.service';
-import { DateValidators } from "../../../shared/validators/date.validators";
+import { MessageService } from '../../../shared/services/message.service';
+import { DateValidators } from '../../../shared/validators/date.validators';
 
 @Component({
   selector: 'app-experience',
@@ -30,7 +28,7 @@ export class ExperienceComponent implements OnInit {
     private formBuilder: FormBuilder,
     private jobBoardHttpService: JobBoardHttpService) {
 
-    this.paginator = { current_page: 1, per_page: 5 };
+    this.paginator = { current_page: 1, per_page: 2 };
     this.experiences = [];
   }
 
@@ -43,18 +41,21 @@ export class ExperienceComponent implements OnInit {
   buildFormExperience() {
     this.formExperience = this.formBuilder.group({
       id: [null],
-      address: [null, Validators.required],
-      location: [null, Validators.required],
+      professional: [null, Validators.required],
+      area: [null, Validators.required],
+      employer: [null, Validators.required],
+      position: [null, [Validators.required, Validators.minLength(10)]],
       start_date: [null, Validators.required, DateValidators.valid],
       end_date: [null, Validators.required, DateValidators.valid],
-      type: [null, Validators.required],
-      description: [null, [Validators.required, Validators.minLength(10)]],
+      activities: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
+      is_working: [null, Validators.required],
     });
   }
 
   // experiences of backend
   getExperiences(paginator: Paginator) {
     const params = new HttpParams()
+      .append('professional_id', "1")
       .append('page', paginator.current_page.toString())
       .append('per_page', paginator.per_page.toString());
 

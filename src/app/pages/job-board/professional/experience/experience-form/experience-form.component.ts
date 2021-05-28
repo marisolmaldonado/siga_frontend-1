@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Experience } from '../../../../../models/job-board/experience';
 import { MessageService } from '../../../../shared/services/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -7,6 +7,8 @@ import { JobBoardHttpService } from '../../../../../services/job-board/job-board
 import { AppHttpService } from '../../../../../services/app/app-http.service';
 import { HttpParams } from '@angular/common/http';
 import { Catalogue } from '../../../../../models/app/catalogue';
+import { MessageService as MessagePnService } from 'primeng/api';
+import { SharedService } from '../../../../shared/services/shared.service';
 
 @Component({
     selector: 'app-experience-form',
@@ -19,27 +21,44 @@ export class ExperienceFormComponent implements OnInit {
     @Input() experiencesIn: Experience[];
     @Output() experiencesOut = new EventEmitter<Experience[]>();
     @Output() displayOut = new EventEmitter<boolean>();
-    filteredTypes: any[];
-    types: Catalogue[];
+    // filteredProfessionals: any[];
+    // professionals: Catalogue[];
+    filteredAreas: any[];
+    areas: Catalogue[];
 
     constructor(private formBuilder: FormBuilder,
         private messageService: MessageService,
+        private messagePnService: MessagePnService,
         private spinnerService: NgxSpinnerService,
         private appHttpService: AppHttpService,
+        private sharedService: SharedService,
         private jobBoardHttpService: JobBoardHttpService) {
     }
 
     ngOnInit(): void {
-        this.getTypes();
+        //this.getProfessional();
+        this.getArea();
     }
 
     // Fields of Form
-    get addressField() {
-        return this.formExperienceIn.get('address');
+    get idField() {
+        return this.formExperienceIn.get('id');
     }
 
-    get locationField() {
-        return this.formExperienceIn.get('location');
+    get professionalField() {
+        return this.formExperienceIn.get('professional');
+    }
+
+    get areaField() {
+        return this.formExperienceIn.get('area');
+    }
+
+    get employerField() {
+        return this.formExperienceIn.get('employer');
+    }
+
+    get positionField() {
+        return this.formExperienceIn.get('position');
     }
 
     get startDateField() {
@@ -50,19 +69,27 @@ export class ExperienceFormComponent implements OnInit {
         return this.formExperienceIn.get('start_date');
     }
 
-    get idField() {
-        return this.formExperienceIn.get('id');
+    get activitiesField() {
+        return this.formExperienceIn.get('activities') as FormArray;
     }
 
-    get typeField() {
-        return this.formExperienceIn.get('type');
+    get reasonLeaveField() {
+        return this.formExperienceIn.get('reason_leave');
     }
 
-    get descriptionField() {
-        return this.formExperienceIn.get('description');
+    get isWorkingField() {
+        return this.formExperienceIn.get('is_working');
+    }
+
+    addActivities() {
+        this.activitiesField.push(this.formBuilder.control(null, Validators.required));
+    }
+    removeActivities(activity) {
+        this.activitiesField.removeAt(activity);
     }
 
     // Submit Form
+
     onSubmit(event: Event, flag = false) {
         event.preventDefault();
         if (this.formExperienceIn.valid) {
@@ -77,14 +104,22 @@ export class ExperienceFormComponent implements OnInit {
     }
 
     // Types of catalogues
-    getTypes() {
-        const params = new HttpParams().append('type', 'SKILL_TYPE');
+    getArea() {
+        const params = new HttpParams().append('type', 'EXPERIENCE_AREA');
         this.appHttpService.getCatalogues(params).subscribe(response => {
-            this.types = response['data'];
+            this.areas = response['data'];
         }, error => {
             this.messageService.error(error);
         });
     }
+    // getProfessional() {
+    //     const params = new HttpParams().append('type', 'EXPERIENCE_PROFESSIONAL');
+    //     this.appHttpService.getCatalogues(params).subscribe(response => {
+    //         this.areas = response['data'];
+    //     }, error => {
+    //         this.messageService.error(error);
+    //     });
+    // }
 
     // Save in backend
     storeExperience(experience: Experience, flag = false) {
@@ -93,11 +128,10 @@ export class ExperienceFormComponent implements OnInit {
             this.spinnerService.hide();
             this.messageService.success(response);
             this.saveExperience(response['data']);
-            if (flag) {
-                this.formExperienceIn.reset();
-            } else {
+            if (!flag) {
                 this.displayOut.emit(false);
             }
+            this.resetFormExperience();
 
         }, error => {
             this.spinnerService.hide();
@@ -131,15 +165,59 @@ export class ExperienceFormComponent implements OnInit {
         this.experiencesOut.emit(this.experiencesIn);
     }
 
-    // Filter type of experiences
-    filterType(event) {
+    // Filter area of experiences
+    filterArea(event) {
         const filtered: any[] = [];
         const query = event.query;
-        for (const type of this.types) {
-            if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-                filtered.push(type);
+        for (const area of this.areas) {
+            if (area.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(area);
             }
         }
-        this.filteredTypes = filtered;
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.areaField.setValue(null);
+        }
+        this.filteredAreas = filtered;
     }
+    // filterProfessional(event) {
+    //     const filtered: any[] = [];
+    //     const query = event.query;
+    //     for (const professional of this.professionals) {
+    //         if (professional.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+    //             filtered.push(professional);
+    //         }
+    //     }
+    //     if (filtered.length === 0) {
+    //         this.messagePnService.clear();
+    //         this.messagePnService.add({
+    //             severity: 'error',
+    //             summary: 'Por favor seleccione un tipo del listado',
+    //             detail: 'En el caso de no existir comuníquese con el administrador!',
+    //             life: 5000
+    //         });
+    //         this.professionalField.setValue(null);
+    //     }
+    //     this.filteredProfessionals = filtered;
+    // }
+
+
+    test(event) {
+        event.markAllAsTouched();
+    }
+
+    resetFormExperience() {
+        this.formExperienceIn.reset();
+    }
+
+    markAllAsTouchedFormExperience() {
+        this.formExperienceIn.markAllAsTouched();
+    }
+
 }

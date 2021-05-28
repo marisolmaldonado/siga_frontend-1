@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from '../../../../../pages/shared/services/message.service';
-import { MessageService as MessagePnService } from 'primeng/api';
-
+import { Course } from '../../../../../models/job-board/course';
+import { MessageService } from '../../../../shared/services/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { JobBoardHttpService } from '../../../../../services/job-board/job-board-http.service';
 import { AppHttpService } from '../../../../../services/app/app-http.service';
 import { HttpParams } from '@angular/common/http';
-import { Course } from '../../../../../models/job-board/course';
 import { Catalogue } from '../../../../../models/app/catalogue';
+import { MessageService as MessagePnService } from 'primeng/api';
+import { SharedService } from '../../../../shared/services/shared.service';
 
 @Component({
     selector: 'app-course-form',
@@ -21,6 +21,8 @@ export class CourseFormComponent implements OnInit {
     @Input() coursesIn: Course[];
     @Output() coursesOut = new EventEmitter<Course[]>();
     @Output() displayOut = new EventEmitter<boolean>();
+    // filteredProfessionals: any[];
+    // professionals: Catalogue[];
     filteredTypes: any[];
     types: Catalogue[];
     filteredInstitutions: any[];
@@ -33,8 +35,10 @@ export class CourseFormComponent implements OnInit {
 
     constructor(private formBuilder: FormBuilder,
         private messageService: MessageService,
+        private messagePnService: MessagePnService,
         private spinnerService: NgxSpinnerService,
         private appHttpService: AppHttpService,
+        private sharedService: SharedService,
         private jobBoardHttpService: JobBoardHttpService) {
     }
 
@@ -192,16 +196,16 @@ export class CourseFormComponent implements OnInit {
                 filtered.push(type);
             }
         }
-        //    if (filtered.length === 0) {
-        //         this.messagePnService.clear();
-        //         this.messagePnService.add({
-        //             severity: 'error',
-        //             summary: 'Por favor seleccione un tipo del listado',
-        //             detail: 'En el caso de no existir comuníquese con el administrador!',
-        //             life: 5000
-        //         });
-        //         this.typeField.setValue(null);
-        //     }
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.typeField.setValue(null);
+        }
         this.filteredTypes = filtered;
     }
 
@@ -213,16 +217,16 @@ export class CourseFormComponent implements OnInit {
                 filtered.push(institution);
             }
         }
-        // if (filtered.length === 0) {
-        //     this.messagePnService.clear();
-        //     this.messagePnService.add({
-        //         severity: 'error',
-        //         summary: 'Por favor seleccione un tipo del listado',
-        //         detail: 'En el caso de no existir comuníquese con el administrador!',
-        //         life: 5000
-        //     });
-        //     this.institutionField.setValue(null);
-        // }
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.institutionField.setValue(null);
+        }
         this.filteredInstitutions = filtered;
     }
     filterCertificationType(event) {
@@ -233,16 +237,16 @@ export class CourseFormComponent implements OnInit {
                 filtered.push(certificationType);
             }
         }
-        // if (filtered.length === 0) {
-        //     this.messagePnService.clear();
-        //     this.messagePnService.add({
-        //         severity: 'error',
-        //         summary: 'Por favor seleccione un tipo del listado',
-        //         detail: 'En el caso de no existir comuníquese con el administrador!',
-        //         life: 5000
-        //     });
-        //     this.certificationTypeField.setValue(null);
-        // }
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.certificationTypeField.setValue(null);
+        }
         this.filteredCertificationTypes = filtered;
     }
     filterArea(event) {
@@ -264,5 +268,16 @@ export class CourseFormComponent implements OnInit {
         //     this.areaField.setValue(null);
         // }
         this.filteredAreas = filtered;
+    }
+    test(event) {
+        event.markAllAsTouched();
+    }
+
+    resetFormCourse() {
+        this.formCourseIn.reset();
+    }
+
+    markAllAsTouchedFormCourse() {
+        this.formCourseIn.markAllAsTouched();
     }
 }

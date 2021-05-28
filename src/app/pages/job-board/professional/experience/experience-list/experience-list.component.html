@@ -1,101 +1,91 @@
-<app-skeleton *ngIf="flagExperiences"></app-skeleton>
-<p-dialog [(visible)]="dialogUploadFiles" [style]="{width: '75%'}" header="Subir archivos" [modal]="true"
-          styleClass="p-fluid" (onHide)="dialogUploadFiles=false">
-    <app-upload-files (files)="upload($event,selectedExperience.id)"></app-upload-files>
-</p-dialog>
+<app-skeleton *ngIf="flagExperiences" [type]="'table'"></app-skeleton>
 
-<p-dialog [(visible)]="dialogViewFiles" [style]="{width: '75%'}" header="Subir Archivos" [modal]="true"
-          styleClass="p-fluid" (onHide)="dialogViewFiles=false;resetPaginator()">
-    <app-view-files
-            (files)="upload($event,selectedExperience.id)"
-            [filesIn]="files"
-            (searchOut)="searchFiles($event)"
-            [paginatorIn]="paginatorFiles"
-            (paginatorOut)="getFiles($event)"></app-view-files>
-</p-dialog>
-
-<div class="card">
+<div class="card" [hidden]="flagExperiences">
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
-                    (click)="openNewFormExperience()"></button>
-            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-mr-2 p-mb-2"
-                    (click)="deleteExperiences()"
-                    [disabled]="!selectedExperiences || !selectedExperiences.length"></button>
-            <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info p-mb-2"
-                    (click)="paginatorOut.emit(paginatorIn)"></button>
+            <button pButton pRipple label="Crear" icon="pi pi-plus" class="p-button-success p-button-rounded"
+                (click)="openNewFormExperience()"></button>
+            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-button-rounded p-ml-2"
+                (click)="deleteExperiences()" [disabled]="!selectedExperiences || !selectedExperiences.length"></button>
         </ng-template>
 
         <ng-template pTemplate="right">
-            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
-                          chooseLabel="Import" class="p-mr-2 p-mb-2 p-d-inline-block"></p-fileUpload>
-            <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help p-mb-2"
-                    (click)="dt.exportCSV()"></button>
+            <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info"
+                (click)="paginatorOut.emit(paginatorIn)"></button>
         </ng-template>
     </p-toolbar>
     <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total"
-                 (onPageChange)="pageChange($event)"></p-paginator>
-    <p-table #dt
-             [value]="experiencesIn"
-             [rows]="paginatorIn.per_page"
-             [paginator]="false"
-             [(selection)]="selectedExperiences"
-             [rowHover]="true"
-             dataKey="id"
-             styleClass="p-datatable-customers"
-             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-             [showCurrentPageReport]="true">
+        (onPageChange)="paginateExperience($event)"></p-paginator>
+    <p-table #dt [value]="experiencesIn" [columns]="colsExperience" [paginator]="false"
+        [(selection)]="selectedExperiences" [rowHover]="true" [responsive]="true" dataKey="id"
+        styleClass="p-datatable-customers"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
-            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
-                <h5 class="p-m-0">Experiencias</h5>
-                <span class="p-input-icon-left">
-                        <i class="pi pi-search" (click)="searchExperiences($event,search.value)"></i>
-                        <input #search pInputText type="text" (keyup)="searchExperiences($event,$event.target.value)"
-                               placeholder="Buscar..."/>
-                    </span>
+            <div class="p-fluid">
+                <div class="p-field">
+                    <h5>Mis Habilidades</h5>
+                </div>
+                <div class="p-field">
+                    <i class="p-input-icon-left">
+                        <i class="pi pi-search" (click)="searchExperiences($event,searchExperience.value)"></i>
+                        <input #searchExperience pInputText type="text" class="p-text-uppercase"
+                            (keyup)="searchExperiences($event,$event.target.value)" placeholder="Buscar..." />
+                    </i>
+                </div>
             </div>
         </ng-template>
-        <ng-template pTemplate="header">
+        <ng-template pTemplate="header" let-columns>
             <tr>
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th pSortableColumn="type">
-                    Tipo
-                    <p-sortIcon field="type"></p-sortIcon>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
                 </th>
-                <th pSortableColumn="description">
-                    Descripción
-                    <p-sortIcon field="description"></p-sortIcon>
+                <th style="text-align:center">
+                    <button pButton pRipple type="button" id="btnOptions" icon="pi pi-cog" class="p-button-secondary"
+                        disabled></button>
                 </th>
-                <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-experience>
+        <ng-template pTemplate="body" let-columns="columns" let-rowData>
             <tr>
                 <td>
-                    <p-tableCheckbox [value]="experience"></p-tableCheckbox>
+                    <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
                 </td>
-                <td>
-                    {{experience.type.name}}
+                <td *ngFor="let col of columns">
+                    {{rowData[col.field]?.name ? rowData[col.field]?.name : rowData[col.field]}}
                 </td>
-                <td>
-                    {{experience.description}}
-                </td>
-                <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
-                            (click)="openEditFormExperience(experience)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-ml-2"
-                            (click)="deleteExperiences(experience)"></button>
-                    <button pButton pRipple icon="pi pi-paperclip" class="p-button-rounded p-ml-2"
-                            (click)="selectExperience(experience);openViewFilesExperience()"></button>
+                <td style="text-align:center">
+                    <button pButton pRipple type="button" id="btnEdit" pTooltip="Editar" icon="pi pi-pencil"
+                        class="p-button-rounded p-button-warning" (click)="openEditFormExperience(rowData)"></button>
+                    <button pButton pRipple type="button" id="btnDelete" pTooltip="Eliminar" icon="pi pi-trash"
+                        class="p-button-rounded p-button-danger p-ml-2" (click)="deleteExperiences(rowData)"></button>
+                    <button pButton pRipple type="button" id="btnAttach" pTooltip="Adjuntar Archivos"
+                        icon="pi pi-paperclip" class="p-button-rounded p-ml-2"
+                        (click)="selectExperience(rowData);openViewFilesExperience()"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="p-d-flex p-ai-center p-jc-between">
-                En total hay {{paginatorIn ? paginatorIn.total : 0 }} experiencias.
+                En total hay {{paginatorIn?.total ? paginatorIn.total : 0 }} registros.
             </div>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="columns?.length">
+                    No se encontraron registros
+                </td>
+            </tr>
         </ng-template>
     </p-table>
 </div>
+
+<p-dialog [(visible)]="dialogViewFiles" [style]="{width: '75%'}" header="Subir Archivos" [modal]="true"
+    styleClass="p-fluid" (onHide)="dialogViewFiles=false">
+    <app-view-files (files)="upload($event,selectedExperience.id)" [filesIn]="files" [title]="'Habilidades'"
+        (searchOut)="searchFiles($event)" [paginatorIn]="paginatorFiles" (paginatorOut)="getFiles($event)">
+    </app-view-files>
+</p-dialog>
