@@ -20,8 +20,15 @@ export class LanguageFormComponent implements OnInit {
     @Input() languagesIn: Language[];
     @Output()languagesOut = new EventEmitter<Language[]>();
     @Output() displayOut = new EventEmitter<boolean>();
-    filteredTypes: any[];
-    types: Catalogue[];
+    filteredIdioms: any[];
+    filteredWrittenLevels: any[];
+    filteredSpokenLevels: any[];
+    filteredReadLevels: any[];
+  
+    idioms: Catalogue[];
+    writtenLevels: Catalogue[];
+    spokenLevels: Catalogue[];
+    readLevels: Catalogue[];
 
     constructor(private formBuilder: FormBuilder,
                 private messageService: MessageService,
@@ -32,36 +39,35 @@ export class LanguageFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.getTypes();
+        this.getIdioms();
+        this.getWrittenLevels();
+        this.getSpokenLevels();
+        this.getReadLevels();
     }
 
     // Fields of Form
-    get addressField() {
-        return this.formLanguageIn.get('address');
-    }
-
-    get locationField() {
-        return this.formLanguageIn.get('location');
-    }
-
-    get startDateField() {
-        return this.formLanguageIn.get('start_date');
-    }
-
-    get endDateField() {
-        return this.formLanguageIn.get('start_date');
-    }
-
     get idField() {
         return this.formLanguageIn.get('id');
     }
 
-    get typeField() {
-        return this.formLanguageIn.get('type');
+    get professionalField() {
+        return this.formLanguageIn.get('professional');
+    }
+    
+    get idiomField() {
+        return this.formLanguageIn.get('idiom');
     }
 
-    get descriptionField() {
-        return this.formLanguageIn.get('description');
+    get writtenLevelField() {
+        return this.formLanguageIn.get('written_level');
+    }
+
+    get spokenLevelField() {
+        return this.formLanguageIn.get('spoken_level');
+    }
+
+    get readLevelField() {
+        return this.formLanguageIn.get('read_level');
     }
 
     // Submit Form
@@ -78,16 +84,45 @@ export class LanguageFormComponent implements OnInit {
         }
     }
 
-    // Types of catalogues
-    getTypes() {
-        const params = new HttpParams().append('type', 'SKILL_TYPE');
+    // Idiom of catalogues
+    getIdioms() {
+        const params = new HttpParams().append('idiom', 'LANGUAGE_IDIOM');
         this.appHttpService.getCatalogues(params).subscribe(response => {
-            this.types = response['data'];
+            this.idioms = response['data'];
         }, error => {
             this.messageService.error(error);
         });
     }
+    // Types of catalogues
+getWrittenLevels() {
+    const params = new HttpParams().append('writtenLevel', 'LANGUAGE_WRITTENLEVEL');
+    this.appHttpService.getCatalogues(params).subscribe(response => {
+        this.writtenLevels = response['data'];
+    }, error => {
+        this.messageService.error(error);
+    });
+}
+  // Types of catalogues
+  getSpokenLevels() {
+    const params = new HttpParams().append('spokenLevel', 'LANGUAGE_SPOKENLEVEL');
+    this.appHttpService.getCatalogues(params).subscribe(response => {
+        this.spokenLevels = response['data'];
+    }, error => {
+        this.messageService.error(error);
+    });
+}
 
+
+
+// Types of catalogues
+getReadLevels() {
+    const params = new HttpParams().append('readLevel', 'LANGUAGE_READLEVEL');
+    this.appHttpService.getCatalogues(params).subscribe(response => {
+        this.readLevels = response['data'];
+    }, error => {
+        this.messageService.error(error);
+    });
+}
     // Save in backend
     storeLanguage(language: Language, flag = false) {
         this.spinnerService.show();
@@ -133,15 +168,72 @@ export class LanguageFormComponent implements OnInit {
         this.languagesOut.emit(this.languagesIn);
     }
 
-    // Filter type of languages
-    filterType(event) {
+    // Filter idiom of languages
+    filterIdiom(event) {
         const filtered: any[] = [];
         const query = event.query;
-        for (const type of this.types) {
-            if (type.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-                filtered.push(type);
+        for (const idiom of this.idioms) {
+            if (idiom.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(idiom);
             }
         }
-        this.filteredTypes = filtered;
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.idiomField.setValue(null);
+        }
+        this.filteredIdioms = filtered;
     }
+
+
+ // Filter writtenLevel of languages
+ filterWrittenLevel(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const writtenLevel of this.writtenLevels) {
+        if (writtenLevel.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+            filtered.push(writtenLevel);
+        }
+    }
+    if (filtered.length === 0) {
+        this.messagePnService.clear();
+        this.messagePnService.add({
+            severity: 'error',
+            summary: 'Por favor seleccione un tipo del listado',
+            detail: 'En el caso de no existir comuníquese con el administrador!',
+            life: 5000
+        });
+        this.writtenLevelField.setValue(null);
+    }
+    this.filteredWrittenLevels = filtered;
+}
+ 
+// Filter type of skills
+filterReadLevel(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const readLevel of this.readLevels) {
+        if (readLevel.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+            filtered.push(readLevel);
+        }
+    }
+    if (filtered.length === 0) {
+        this.messagePnService.clear();
+        this.messagePnService.add({
+            severity: 'error',
+            summary: 'Por favor seleccione un tipo del listado',
+            detail: 'En el caso de no existir comuníquese con el administrador!',
+            life: 5000
+        });
+        this.readLevelField.setValue(null);
+    }
+    this.filteredReadLevels = filtered;
+}
+
+
 }

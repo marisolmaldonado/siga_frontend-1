@@ -51,7 +51,7 @@ export class CourseComponent implements OnInit {
             hours: [null, Validators.required],
             professional: [null, Validators.required],
             type: [null, Validators.required],
-            Institution: [null, Validators.required],
+            institution: [null, Validators.required],
             certification_type: [null, Validators.required],
             area: [null, Validators.required],
 
@@ -61,7 +61,7 @@ export class CourseComponent implements OnInit {
     // courses of backend
     getCourses(paginator: Paginator) {
         const params = new HttpParams()
-            // .append('professional_id', "1")
+            .append('professional_id', "1")
             .append('page', paginator.current_page.toString())
             .append('per_page', paginator.per_page.toString());
 
