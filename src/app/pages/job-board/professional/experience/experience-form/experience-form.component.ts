@@ -25,6 +25,7 @@ export class ExperienceFormComponent implements OnInit {
     // professionals: Catalogue[];
     filteredAreas: any[];
     areas: Catalogue[];
+    isWorking: boolean;
 
     constructor(private formBuilder: FormBuilder,
         private messageService: MessageService,
@@ -101,6 +102,16 @@ export class ExperienceFormComponent implements OnInit {
         } else {
             this.formExperienceIn.markAllAsTouched();
         }
+    }
+    working() {
+        const params = new HttpParams().append('type', 'EXPERIENCE_IS-WORKING');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.isWorking = false;
+            this.messageService.success(response);
+        }, error => {
+            this.isWorking = false;
+            this.messageService.error(error);
+        });
     }
 
     // Types of catalogues
@@ -206,6 +217,9 @@ export class ExperienceFormComponent implements OnInit {
     //     }
     //     this.filteredProfessionals = filtered;
     // }
+    showResponse() {
+        this.isWorking = true;
+    }
 
 
     test(event) {
