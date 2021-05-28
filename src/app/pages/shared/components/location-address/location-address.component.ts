@@ -6,13 +6,13 @@ import {
     OnInit,
     Output
 } from '@angular/core';
-import {ControlValueAccessor, Form, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
-import {Address} from '../../../../models/app/address';
-import {AppHttpService} from '../../../../services/app/app-http.service';
-import {HttpParams} from '@angular/common/http';
-import {Catalogue} from '../../../../models/app/catalogue';
-import {MessageService} from '../../services/message.service';
-import {SharedService} from '../../services/shared.service';
+import { ControlValueAccessor, Form, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { Address } from '../../../../models/app/address';
+import { AppHttpService } from '../../../../services/app/app-http.service';
+import { HttpParams } from '@angular/common/http';
+import { Catalogue } from '../../../../models/app/catalogue';
+import { MessageService } from '../../services/message.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
     selector: 'app-location-address',
