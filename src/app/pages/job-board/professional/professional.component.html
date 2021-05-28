@@ -2,12 +2,10 @@
     <h5>Hoja de Vida</h5>
     <p-tabView>
         <p-tabPanel header="Datos Personales" leftIcon="pi pi-id-card" tooltip="">
-            <app-skill></app-skill>
+            <app-profile></app-profile>
         </p-tabPanel>
         <p-tabPanel header="Habilidades" leftIcon="pi pi-heart" tooltip="">
-            <form [formGroup]="form">
-                <app-location id="location" name="location" formControlName="location"></app-location>
-            </form>
+            <app-skill></app-skill>
         </p-tabPanel>
         <p-tabPanel header="Cursos y Capacitaciones" leftIcon="pi pi-star-o" tooltip="">
         </p-tabPanel>

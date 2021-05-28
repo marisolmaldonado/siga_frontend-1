@@ -71,11 +71,19 @@ export class MessageService {
         return 'El campo es obligatorio.';
     }
 
-    fieldMinLength(field) {
+    fieldMinLength(field): string {
         return `Mínimo de caracteres es ${field.errors.minlength.requiredLength}.`;
+    }
+
+    fieldMaxLength(field): string {
+        return `Máximo de caracteres es ${field.errors.maxlength.requiredLength}.`;
     }
 
     get fieldNoPasswordMatch(): string {
         return 'Las contraseñas no coinciden.';
+    }
+
+    paginatorTotalRegisters(paginator): string {
+        return 'En total hay ' + (paginator?.total ? paginator.total : 0) + ' registros.';
     }
 }

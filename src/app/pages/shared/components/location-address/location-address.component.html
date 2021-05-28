@@ -4,7 +4,7 @@
         <app-location [option]="option" name="location" formControlName="location"
                       (formLocationOut)="emitFormLocation($event)"></app-location>
         <br>
-        <p-card header="Dirección">
+        <p-card header="Dirección:">
             <div class="p-field">
                 <label><i class="p-error">*</i> Sector:
                     <i *ngIf="sectorField.valid" class="pi pi-check-circle icon-valid"></i>

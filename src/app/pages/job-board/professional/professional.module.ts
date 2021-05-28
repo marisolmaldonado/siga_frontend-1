@@ -37,6 +37,7 @@ import {ProfessionalComponent} from './professional.component';
 import {SkillComponent} from "./skill/skill.component";
 import {SkillFormComponent} from "./skill/skill-form/skill-form.component";
 import {SkillListComponent} from "./skill/skill-list/skill-list.component";
+import {ProfileComponent} from './profile/profile.component';
 
 @NgModule({
     imports: [
@@ -74,6 +75,7 @@ import {SkillListComponent} from "./skill/skill-list/skill-list.component";
     ],
     declarations: [
         ProfessionalComponent,
+        ProfileComponent,
         SkillComponent,
         SkillFormComponent,
         SkillListComponent

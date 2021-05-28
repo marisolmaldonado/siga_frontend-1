@@ -21,13 +21,12 @@ export class SkillFormComponent implements OnInit {
     @Input() skillsIn: Skill[];
     @Output() skillsOut = new EventEmitter<Skill[]>();
     @Output() displayOut = new EventEmitter<boolean>();
+    @Output() paginatorAdd = new EventEmitter<number>();
     filteredTypes: any[];
     types: Catalogue[];
-    formAddress: FormGroup;
-    formLocation: FormGroup;
 
     constructor(private formBuilder: FormBuilder,
-                private messageService: MessageService,
+                public messageService: MessageService,
                 private messagePnService: MessagePnService,
                 private spinnerService: NgxSpinnerService,
                 private appHttpService: AppHttpService,
@@ -40,22 +39,6 @@ export class SkillFormComponent implements OnInit {
     }
 
     // Fields of Form
-    get addressField() {
-        return this.formSkillIn.get('address');
-    }
-
-    get locationField() {
-        return this.formSkillIn.get('location');
-    }
-
-    get startDateField() {
-        return this.formSkillIn.get('start_date');
-    }
-
-    get endDateField() {
-        return this.formSkillIn.get('start_date');
-    }
-
     get idField() {
         return this.formSkillIn.get('id');
     }
@@ -69,8 +52,7 @@ export class SkillFormComponent implements OnInit {
     }
 
     // Submit Form
-    onSubmit(event: Event, flag = false) {
-        event.preventDefault();
+    onSubmit(flag = false) {
         if (this.formSkillIn.valid) {
             if (this.idField.value) {
                 this.updateSkill(this.formSkillIn.value);
@@ -82,7 +64,7 @@ export class SkillFormComponent implements OnInit {
         }
     }
 
-    // Types of catalogues
+    // Catalogues
     getTypes() {
         const params = new HttpParams().append('type', 'SKILL_TYPE');
         this.appHttpService.getCatalogues(params).subscribe(response => {
@@ -130,13 +112,14 @@ export class SkillFormComponent implements OnInit {
         const index = this.skillsIn.findIndex(element => element.id === skill.id);
         if (index === -1) {
             this.skillsIn.push(skill);
+            this.paginatorAdd.emit(1);
         } else {
             this.skillsIn[index] = skill;
         }
         this.skillsOut.emit(this.skillsIn);
     }
 
-    // Filter type of skills
+    // Filters
     filterType(event) {
         const filtered: any[] = [];
         const query = event.query;
@@ -158,23 +141,13 @@ export class SkillFormComponent implements OnInit {
         this.filteredTypes = filtered;
     }
 
-    test(event) {
-        event.markAllAsTouched();
-    }
-
+    // Reset Forms
     resetFormSkill() {
         this.formSkillIn.reset();
-        this.formLocation.reset();
-        this.formAddress.reset();
     }
 
+    // Mark as touched
     markAllAsTouchedFormSkill() {
         this.formSkillIn.markAllAsTouched();
-        this.formLocation.markAllAsTouched();
-        this.formAddress.markAllAsTouched();
-    }
-
-    setFormLocation(event) {
-        this.formLocation = event;
     }
 }

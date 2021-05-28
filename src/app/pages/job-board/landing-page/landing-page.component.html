@@ -2,33 +2,40 @@
     <div class="landing-nav-menu">
         <div class="logo">
             <a href="#">
-                <img src="../layout/images/logo-mirage@2x.png" alt="mirage-layout"/>
-                <span class="app-name">Mirage</span>
+                <img src="assets/layout/images/landing/logo-1.png" alt="mirage-layout"/>
+                <span class="app-name">Bolsa de Empleo</span>
             </a>
         </div>
         <div class="nav-menu-wrapper">
             <ul class="nav-menu" id="landing-menu">
                 <li class="active-link">
-                    <a href="#home">Home</a>
+                    <a href="" [routerLink]="['/job-board-web/web/professionals']">
+                        <i class="pi pi-info-circle"></i> Acerca de Nosotros
+                    </a>
                 </li>
                 <li>
-                    <a href="#meet-mirage">Meet Mirage</a>
+                    <a href="" [routerLink]="['/job-board-web/web/offers']">
+                        <i class="pi pi-users"></i> Soy Profesional
+                    </a>
                 </li>
                 <li>
-                    <a href="#features">Features</a>
-                </li>
-                <li>
-                    <a href="#pricing">Pricing</a>
-                </li>
-                <li>
-                    <a href="#multimedia">Videos</a>
+                    <a href="" [routerLink]="['/job-board-web/web/offers']">
+                        <i class="pi pi-briefcase"></i> Soy Empresa
+                    </a>
                 </li>
             </ul>
         </div>
-        <div class="buy-button">
-            <button type="button" class="p-button">
-                Buy Mirage Now
-            </button>
+
+        <div style="text-align: right">
+            <button pButton pRipple type="button" id="btnLogin"
+                    label="Iniciar Sesión"
+                    class="p-button-rounded"
+                    icon="pi pi-sign-in"></button>
+            <button pButton pRipple type="button" id="btnRegister"
+                    label="Registro"
+                    class="p-button-success p-button-rounded p-ml-2"
+                    icon="pi pi-user-edit"
+            ></button>
         </div>
         <div class="menu-button">
             <a href="#" class="landing-menu-button" id="landing-menu-button">
@@ -59,7 +66,7 @@
         <div class="feature-cards">
             <div class="feature-card">
                 <div class="feature-card-img">
-                    <img src="../layout/images/pages/landing/asset-responsivelayout.svg" alt="mirage-layout"/>
+                    <img src="assets/layout/images/pages/landing/asset-responsivelayout.svg" alt="mirage-layout"/>
                 </div>
                 <div class="feature-card-title">Responsive Layout</div>
                 <div class="feature-card-content">Feature subtitle sentence. Lorem ipsum dolor sit amet.</div>
@@ -73,14 +80,14 @@
             </div>
             <div class="feature-card">
                 <div class="feature-card-img">
-                    <img src="assets/images/pages/landing/asset-welldocumented.svg" alt="mirage-layout"/>
+                    <img src="assets/layout/images/pages/landing/asset-welldocumented.svg" alt="mirage-layout"/>
                 </div>
                 <div class="feature-card-title">Well Documented</div>
                 <div class="feature-card-content">Feature subtitle sentence. Lorem ipsum dolor sit amet.</div>
             </div>
             <div class="feature-card">
                 <div class="feature-card-img">
-                    <img src="assets/images/pages/landing/asset-unlimited.svg" alt="mirage-layout"/>
+                    <img src="assets/layout/images/pages/landing/asset-unlimited.svg" alt="mirage-layout"/>
                 </div>
                 <div class="feature-card-title">Unlimited Possibilities</div>
                 <div class="feature-card-content">Feature subtitle sentence. Lorem ipsum dolor sit amet.</div>

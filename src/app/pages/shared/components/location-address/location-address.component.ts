@@ -41,7 +41,7 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
     constructor(private formBuilder: FormBuilder,
                 private appHttpService: AppHttpService,
                 private sharedService: SharedService,
-                private messageService: MessageService) {
+                public messageService: MessageService) {
 
     }
 

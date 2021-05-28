@@ -1,9 +1,9 @@
 <p-toast></p-toast>
 <div class="p-fluid">
     <form [formGroup]="formLocation">
-        <p-card header="Localización">
+        <p-card header="Localización:">
             <div class="p-formgrid p-grid">
-                <div class="p-lg-6 p-md-6 p-sm-12">
+                <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
                     <p-autoComplete formControlName="country" [suggestions]="filteredCountries"
                                     (completeMethod)="filterCountry($event)"
                                     field="name" [dropdown]="true"
@@ -23,7 +23,7 @@
                         </small>
                     </div>
                 </div>
-                <div *ngIf="option>1" class="p-lg-6 p-md-6 p-sm-12">
+                <div *ngIf="option>1" class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
                     <p-autoComplete formControlName="province" [suggestions]="filteredProvinces"
                                     (completeMethod)="filterProvince($event)"
                                     field="name" [dropdown]="true"
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="p-formgrid p-grid">
-                <div *ngIf="option>2" class="p-lg-6 p-md-6 p-sm-12">
+                <div *ngIf="option>2" class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
                     <p-autoComplete formControlName="canton" [suggestions]="filteredCantons"
                                     (completeMethod)="filterCanton($event)"
                                     field="name" [dropdown]="true" placeholder="* Cantón"
@@ -64,7 +64,7 @@
                         </small>
                     </div>
                 </div>
-                <div *ngIf="option>3" class="p-lg-6 p-md-6 p-sm-12">
+                <div *ngIf="option>3" class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
                     <p-autoComplete formControlName="parish" [suggestions]="filteredParishes"
                                     (completeMethod)="filterParish($event)"
                                     field="name" [dropdown]="true" placeholder="* Parroquia"

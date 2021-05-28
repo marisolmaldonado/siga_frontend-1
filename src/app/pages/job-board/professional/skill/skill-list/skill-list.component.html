@@ -3,21 +3,31 @@
 <div class="card" [hidden]="flagSkills">
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="Crear" icon="pi pi-plus" class="p-button-success p-button-rounded"
+            <button pButton pRipple type="button" id="btnOpenFormSkill"
+                    label="Crear"
+                    class="p-button-success p-button-rounded"
+                    icon="pi pi-plus"
                     (click)="openNewFormSkill()"></button>
-            <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-button-rounded p-ml-2"
+            <button pButton pRipple type="button" id="btnOpenDeletes"
+                    label="Eliminar"
+                    class="p-button-danger p-button-rounded p-ml-2"
+                    icon="pi pi-trash"
                     (click)="deleteSkills()"
                     [disabled]="!selectedSkills || !selectedSkills.length"></button>
         </ng-template>
-
         <ng-template pTemplate="right">
-            <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info"
+            <button pButton pRipple type="button" id="btnFresh"
+                    label="Actualizar"
+                    class="p-button-info"
+                    icon="pi pi-refresh"
                     (click)="paginatorOut.emit(paginatorIn)"></button>
         </ng-template>
     </p-toolbar>
-    <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total"
-                 (onPageChange)="paginateSkill($event)"></p-paginator>
-    <p-table #dt
+    <p-paginator [rows]="paginatorIn.per_page"
+                 [totalRecords]="paginatorIn.total"
+                 (onPageChange)="paginateSkill($event)">
+    </p-paginator>
+    <p-table #dtSkill
              [value]="skillsIn"
              [columns]="colsSkill"
              [paginator]="false"
@@ -53,9 +63,9 @@
                     <p-sortIcon [field]="col.field"></p-sortIcon>
                 </th>
                 <th style="text-align:center">
-                    <button pButton pRipple
-                            type="button" id="btnOptions"
-                            icon="pi pi-cog" class="p-button-secondary"
+                    <button pButton pRipple type="button" id="btnOptions"
+                            class="p-button-secondary"
+                            icon="pi pi-cog"
                             disabled></button>
                 </th>
             </tr>
@@ -69,25 +79,26 @@
                     {{rowData[col.field]?.name ? rowData[col.field]?.name : rowData[col.field]}}
                 </td>
                 <td style="text-align:center">
-                    <button pButton pRipple
-                            type="button" id="btnEdit"
-                            pTooltip="Editar" icon="pi pi-pencil"
+                    <button pButton pRipple type="button" id="btnEdit"
+                            pTooltip="Editar"
                             class="p-button-rounded p-button-warning"
+                            icon="pi pi-pencil"
                             (click)="openEditFormSkill(rowData)"></button>
-                    <button pButton pRipple
-                            type="button" id="btnDelete"
-                            pTooltip="Eliminar" icon="pi pi-trash"
+                    <button pButton pRipple type="button" id="btnDelete"
+                            pTooltip="Eliminar"
                             class="p-button-rounded p-button-danger p-ml-2"
+                            icon="pi pi-trash"
                             (click)="deleteSkills(rowData)"></button>
-                    <button pButton pRipple type="button" id="btnAttach" pTooltip="Adjuntar Archivos"
-                            icon="pi pi-paperclip" class="p-button-rounded p-ml-2"
+                    <button pButton pRipple type="button" id="btnAttach"
+                            pTooltip="Adjuntar Archivos" icon="pi pi-paperclip"
+                            class="p-button-rounded p-ml-2"
                             (click)="selectSkill(rowData);openViewFilesSkill()"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="p-d-flex p-ai-center p-jc-between">
-                En total hay {{paginatorIn?.total ? paginatorIn.total : 0 }} registros.
+                {{messageService.paginatorTotalRegisters(paginatorIn)}}
             </div>
         </ng-template>
         <ng-template pTemplate="emptymessage" let-columns>

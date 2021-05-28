@@ -18,7 +18,6 @@ export class SkillComponent implements OnInit {
     paginator: Paginator;
     skills: Skill[];
     formSkill: FormGroup;
-    skill: Skill;
     skillDialog: boolean;
     flagSkills: boolean;
 
@@ -41,7 +40,6 @@ export class SkillComponent implements OnInit {
     buildFormSkill() {
         this.formSkill = this.formBuilder.group({
             id: [null],
-            address: [null],
             type: [null, Validators.required],
             description: [null, [Validators.required, Validators.minLength(10)]],
         });
@@ -54,15 +52,12 @@ export class SkillComponent implements OnInit {
             .append('per_page', paginator.per_page.toString());
 
         this.flagSkills = true;
-        // this.spinnerService.show();
         this.jobBoardHttpService.get('skills', params).subscribe(
             response => {
-                // this.spinnerService.hide();
                 this.flagSkills = false;
                 this.skills = response['data'];
                 this.paginator = response as Paginator;
             }, error => {
-                // this.spinnerService.hide();
                 this.flagSkills = false;
                 this.messageService.error(error);
             });

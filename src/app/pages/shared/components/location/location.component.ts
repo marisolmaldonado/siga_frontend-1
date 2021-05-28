@@ -40,7 +40,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
                 private appHttpService: AppHttpService,
                 private sharedService: SharedService,
                 private messagePnService: MessagePnService,
-                private messageService: MessageService) {
+                public messageService: MessageService) {
         this.countries = [];
         this.provinces = [];
         this.cantons = [];

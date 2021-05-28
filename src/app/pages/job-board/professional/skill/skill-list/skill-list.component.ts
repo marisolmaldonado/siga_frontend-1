@@ -32,7 +32,7 @@ export class SkillListComponent implements OnInit {
     paginatorFiles: Paginator;
     colsSkill: Col[];
 
-    constructor(private messageService: MessageService,
+    constructor(public messageService: MessageService,
                 private spinnerService: NgxSpinnerService,
                 private jobBoardHttpService: JobBoardHttpService) {
         this.resetPaginatorSkills();
@@ -43,6 +43,7 @@ export class SkillListComponent implements OnInit {
         this.loadColsSkill();
     }
 
+    // Columns table
     loadColsSkill() {
         this.colsSkill = [
             {field: 'type', header: 'Tipo'},
