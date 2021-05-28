@@ -39,6 +39,7 @@ import { TotalComponent } from './total/total.component';
 import { ProfessionalListComponent } from './web-professional/professional-list/professional-list.component';
 import { CategoryFilterComponent } from './web-professional/professional-list/category-filter/category-filter.component';
 import { FilterComponent } from './web-professional/professional-list/filter/filter.component';
+import {WebOfferComponent} from './web-offer/web-offer.component';
 
 @NgModule({
     imports: [
@@ -80,7 +81,8 @@ import { FilterComponent } from './web-professional/professional-list/filter/fil
         CategoryFilterComponent,
         FilterComponent,
         ProfessionalListComponent,
-        TotalComponent
+        TotalComponent,
+        WebOfferComponent
     ],
     providers: []
 })

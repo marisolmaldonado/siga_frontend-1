@@ -3,14 +3,14 @@ import {Skill} from '../../../../../models/job-board/skill';
 import {FormGroup} from '@angular/forms';
 import {Col} from '../../../../../models/setting/col';
 import {Paginator} from '../../../../../models/setting/paginator';
-import {MessageService} from '../../../../shared/services/message.service'; 
+import {MessageService} from '../../../../shared/services/message.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
 import {HttpParams} from '@angular/common/http';
-import {File} from '../../../../../models/app/file'; 
+import {File} from '../../../../../models/app/file';
 
 @Component({
-    selector: 'app-skill-list', 
+    selector: 'app-skill-list',
     templateUrl: './skill-list.component.html',
     styleUrls: ['./skill-list.component.scss']
 })
@@ -30,6 +30,7 @@ export class SkillListComponent implements OnInit {
     dialogViewFiles: boolean;
     files: File[];
     paginatorFiles: Paginator;
+    colsSkill: Col[];
 
     constructor(public messageService: MessageService,
                 private spinnerService: NgxSpinnerService,
@@ -39,6 +40,10 @@ export class SkillListComponent implements OnInit {
 
     resetPaginator() {
         this.paginatorFiles = {current_page: 1, per_page: 5};
+    }
+
+    ngOnInit(): void {
+        this.loadColsSkill();
     }
 
     // Columns table

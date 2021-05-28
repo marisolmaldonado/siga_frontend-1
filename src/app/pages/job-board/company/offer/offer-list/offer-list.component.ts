@@ -129,5 +129,5 @@ export class OfferListComponent implements OnInit {
             this.offersIn = this.offersIn.filter(element => element.id !== id);
         }
         this.offersOut.emit(this.offersIn);
-    } 
+    }
 }

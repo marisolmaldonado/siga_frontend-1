@@ -35,12 +35,14 @@ import {SharedModule} from '../../shared/shared.module';
 import {RippleModule} from 'primeng/ripple';
 import {CompanyComponent} from './company.component';
 import {OfferComponent} from "./offer/offer.component";
-import { ProfileComponent } from './profile/profile.component';
-import { ProfessionalComponent } from './professional/professional.component';
-import { RegisterComponent } from './register/register.component';
-import { RegisterFormComponent } from './register/register-form/register-form.component';
-import { ProfileFormComponent } from './profile/profile-form/profile-form.component';
-import { ProfessionalListComponent } from './professional/professional-list/professional-list.component';
+import {ProfileComponent} from './profile/profile.component';
+import {ProfessionalComponent} from './professional/professional.component';
+import {RegisterComponent} from './register/register.component';
+import {RegisterFormComponent} from './register/register-form/register-form.component';
+import {ProfileFormComponent} from './profile/profile-form/profile-form.component';
+import {ProfessionalListComponent} from './professional/professional-list/professional-list.component';
+import {OfferListComponent} from './offer/offer-list/offer-list.component';
+import {OfferFormComponent} from './offer/offer-form/offer-form.component';
 
 @NgModule({
     imports: [
@@ -77,8 +79,10 @@ import { ProfessionalListComponent } from './professional/professional-list/prof
         RippleModule,
     ],
     declarations: [
-        CompanyComponent, 
+        CompanyComponent,
         OfferComponent,
+        OfferListComponent,
+        OfferFormComponent,
         ProfileComponent,
         ProfileFormComponent,
         ProfessionalComponent,
