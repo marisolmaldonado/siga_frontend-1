@@ -1,5 +1,7 @@
-<p>Administrador</p>
-<p>Docente</p>
-<p>Estudiante</p>
-<p>Coordinador</p>
-<p>Rector</p>
+<table>
+    <tr *ngFor="let role of rolesIn">
+      <td>
+              {{role.name}}
+    </td>
+      </tr>
+  </table>

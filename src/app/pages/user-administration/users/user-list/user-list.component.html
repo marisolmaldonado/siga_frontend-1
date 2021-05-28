@@ -58,12 +58,12 @@
                 </td>
                 <td style="text-align:center">
                     <button pButton pRipple type="button" id="btnEdit" pTooltip="Editar" icon="pi pi-pencil"
-                        class="p-button-rounded p-button-warning" (click)="openEditFormSkill(rowData)"></button>
+                        class="p-button-rounded p-button-warning" (click)="openEditFormUser(rowData)"></button>
                     <button pButton pRipple type="button" id="btnDelete" pTooltip="Eliminar" icon="pi pi-trash"
-                        class="p-button-rounded p-button-danger p-ml-2" (click)="deleteSkills(rowData)"></button>
+                        class="p-button-rounded p-button-danger p-ml-2" (click)="deleteUsers(rowData)"></button>
                     <button pButton pRipple type="button" id="btnAttach" pTooltip="Ver Roles"
                         icon="pi pi-sitemap" class="p-button-rounded p-ml-2"
-                        (click)="selectUser(rowData);openViewRoles()"></button>
+                        (click)="selectUser(rowData);getRoles();openViewRoles()"></button>
                 </td>
             </tr>
         </ng-template>
@@ -83,11 +83,14 @@
 </div>
 
 <p-dialog [(visible)]="dialogViewRoles"
-          [style]="{width: '30%'}"
-          header="Roles"
+          [style]="{width: '20%'}"
+          header="{{userRole}}"
           [modal]="true"
           styleClass="p-fluid"
           (onHide)="dialogViewRoles=false"
-          position="top-right">
-    <app-dialog></app-dialog>
+          position="right">
+    <app-dialog
+    [rolesIn]="roles"
+    [userRole]="userRole">
+</app-dialog>
 </p-dialog>

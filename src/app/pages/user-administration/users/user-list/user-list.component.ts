@@ -7,6 +7,7 @@ import {MessageService} from '../../../shared/services/message.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {UserAdministrationService } from '../../../../services/auth/user-administration.service';
 import {HttpParams} from '@angular/common/http';
+import { Role } from 'src/app/models/auth/role';
 
 @Component({
   selector: 'app-user-list',
@@ -24,13 +25,17 @@ export class UserListComponent implements OnInit {
   @Output() formUserOut = new EventEmitter<FormGroup>();
   @Output() displayOut = new EventEmitter<boolean>();
   @Output() paginatorOut = new EventEmitter<Paginator>();
+  @Output() rolesOut = new EventEmitter<Role[]>();
+  @Output() userRoleOut = new EventEmitter<String>();
 
 
   selectedUsers: any[];
   selectedUser: User;
-  files: File[];
+  roles: Role[];
   colsUser: Col[];
   dialogViewRoles: boolean;
+  paginatorRoles: Paginator;
+  userRole: String;
 
   constructor(private messageService: MessageService,
     private spinnerService: NgxSpinnerService,
@@ -89,13 +94,13 @@ resetPaginatorUsers() {
     this.displayOut.emit(true);
   }
 
-  deleteUsers(skill = null) {
+  deleteUsers(user = null) {
     this.messageService.questionDelete({})
         .then((result) => {
             if (result.isConfirmed) {
-                if (skill) {
+                if (user) {
                     this.selectedUsers = [];
-                    this.selectedUsers.push(skill);
+                    this.selectedUsers.push(user);
                 }
 
                 const ids = this.selectedUsers.map(element => element.id);
@@ -122,11 +127,28 @@ removeUsers(ids) {
   this.usersOut.emit(this.usersIn);
 }
 
-openViewRoles(){
-  this.dialogViewRoles = true;
-}
-
 selectUser(user: User) {
   this.selectedUser = user;
+}
+
+openViewRoles() {
+  this.getRoles();
+}
+
+getRoles(paginator: Paginator = null) {
+  let params = new HttpParams().append('id', this.selectedUser.id.toString());
+  this.userRole = this.selectedUser.partial_name;
+  this.spinnerService.show();
+  this.userAdministrationService.get('auth/roles', params).subscribe(response => {
+      this.spinnerService.hide();
+      this.roles = response['data'];
+      this.paginatorRoles = response as Paginator;
+      this.dialogViewRoles = true;
+  }, error => {
+      this.spinnerService.hide();
+      this.roles = [];
+      this.dialogViewRoles = true;
+      this.messageService.error(error);
+  });
 }
 }

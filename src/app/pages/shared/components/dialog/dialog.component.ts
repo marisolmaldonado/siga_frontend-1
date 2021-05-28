@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import { User } from '../../../../models/auth/user';
+import {Paginator} from '../../../../models/setting/paginator';
+import { Role } from 'src/app/models/auth/role';
 
 @Component({
   selector: 'app-dialog',
@@ -8,23 +9,12 @@ import { User } from '../../../../models/auth/user';
 })
 export class DialogComponent implements OnInit {
 
-  roles: any[];
+  @Input() rolesIn: Role[];
+  @Input() userRole: String;
   
   constructor() {
-    this.roles = [
-        {name: 'Australia', code: 'AU'},
-        {name: 'Brazil', code: 'BR'},
-        {name: 'China', code: 'CN'},
-        {name: 'Egypt', code: 'EG'},
-        {name: 'France', code: 'FR'},
-        {name: 'Germany', code: 'DE'},
-        {name: 'India', code: 'IN'},
-        {name: 'Japan', code: 'JP'},
-        {name: 'Spain', code: 'ES'},
-        {name: 'United States', code: 'US'}
-    ];
-}
+  }
 
   ngOnInit(): void {
   }
-}
+  }
