@@ -13,21 +13,21 @@ import { MessageService } from 'src/app/pages/shared/services/message.service';
 export class CategoryFilterComponent implements OnInit {
 
   @Output() selectedCategoriesEmitter = new EventEmitter<number[]>();
-  
+
   categories: Category[];
   selectedCategories: number[];
   treeNode: TreeNode[];
   selectedTreeNodes: TreeNode[];
-  
+
   constructor(
     private jobBoardHttpService: JobBoardHttpService,
     private spinnerService: NgxSpinnerService,
     private messageService: MessageService) {
-      this.categories = [];
-      this.treeNode = [];
-      this.selectedCategories = [];
-      this.selectedTreeNodes = [];
-    }
+    this.categories = [];
+    this.treeNode = [];
+    this.selectedCategories = [];
+    this.selectedTreeNodes = [];
+  }
 
   ngOnInit(): void {
     this.getFilterCategories();
@@ -54,10 +54,10 @@ export class CategoryFilterComponent implements OnInit {
       const treeNodeChildren: TreeNode[] = [];
 
       for (const child of category.children) {
-        treeNodeChildren.push({label: child.name});
+        treeNodeChildren.push({ label: child.name });
       }
-      treeNode.push({label: category.name, children: treeNodeChildren});
-      
+      treeNode.push({ label: category.name, children: treeNodeChildren });
+
     }
     return treeNode;
   }
