@@ -11,6 +11,7 @@ import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {DropdownModule} from 'primeng/dropdown';
 import {SkeletonModule} from 'primeng/skeleton';
+import {DataViewModule} from 'primeng/dataview';
 
 // My Components
 import {TooltipModule} from 'primeng/tooltip';
@@ -31,9 +32,17 @@ import {TreeModule} from 'primeng/tree';
 import {AccordionModule} from 'primeng/accordion';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {CardModule} from 'primeng/card';
-import {SharedModule} from '../../shared/shared.module';
 import {RippleModule} from 'primeng/ripple';
+
+// My Components
+import {SharedModule} from '../../shared/shared.module';
 import {LandingPageComponent} from './landing-page.component';
+import {WebOfferComponent} from './web-offer/web-offer.component';
+import {WebProfessionalComponent} from './web-professional/web-professional.component';
+import {TotalComponent} from './total/total.component';
+import {ProfessionalListComponent} from './web-professional/professional-list/professional-list.component';
+import {CategoryFilterComponent} from './web-professional/professional-list/category-filter/category-filter.component';
+import {FilterComponent} from './web-professional/professional-list/filter/filter.component';
 
 @NgModule({
     imports: [
@@ -68,9 +77,16 @@ import {LandingPageComponent} from './landing-page.component';
         CardModule,
         SkeletonModule,
         RippleModule,
+        DataViewModule
     ],
     declarations: [
         LandingPageComponent,
+        WebOfferComponent,
+        WebProfessionalComponent,
+        TotalComponent,
+        ProfessionalListComponent,
+        CategoryFilterComponent,
+        FilterComponent,
     ],
     providers: []
 })

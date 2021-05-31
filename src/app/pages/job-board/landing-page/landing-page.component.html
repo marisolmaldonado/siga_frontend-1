@@ -9,19 +9,22 @@
         <div class="nav-menu-wrapper">
             <ul class="nav-menu" id="landing-menu">
                 <li class="active-link">
-                    <a href="" [routerLink]="['/job-board-web/web/professionals']">
-                        <i class="pi pi-info-circle"></i> Acerca de Nosotros
-                    </a>
+                    <button pButton pRipple type="button"
+                            label="Acerca de Nosotros"
+                            icon="pi pi-info-circle"
+                            (click)="flagActualPage='about'"></button>
                 </li>
                 <li>
-                    <a href="" [routerLink]="['/job-board-web/web/offers']">
-                        <i class="pi pi-users"></i> Soy Profesional
-                    </a>
+                    <button pButton pRipple type="button"
+                            label="Profesionales"
+                            icon="pi pi-users"
+                            (click)="flagActualPage='professionals'"></button>
                 </li>
                 <li>
-                    <a href="" [routerLink]="['/job-board-web/web/offers']">
-                        <i class="pi pi-briefcase"></i> Soy Empresa
-                    </a>
+                    <button pButton pRipple type="button"
+                            label="Ofertas"
+                            icon="pi pi-briefcase"
+                            (click)="flagActualPage='offers'"></button>
                 </li>
             </ul>
         </div>
@@ -30,11 +33,14 @@
             <button pButton pRipple type="button" id="btnLogin"
                     label="Iniciar Sesión"
                     class="p-button-rounded"
-                    icon="pi pi-sign-in"></button>
+                    icon="pi pi-sign-in"
+                    [routerLink]="['/auth/login']">
+            </button>
             <button pButton pRipple type="button" id="btnRegister"
                     label="Registro"
                     class="p-button-success p-button-rounded p-ml-2"
                     icon="pi pi-user-edit"
+                    [routerLink]="['/job-board-web/company/register']"
             ></button>
         </div>
         <div class="menu-button">
@@ -64,34 +70,37 @@
             <p>Full Customizable Template</p>
         </div>
         <div class="feature-cards">
-            <div class="feature-card">
-                <div class="feature-card-img">
-                    <img src="assets/layout/images/pages/landing/asset-responsivelayout.svg" alt="mirage-layout"/>
-                </div>
-                <div class="feature-card-title">Responsive Layout</div>
-                <div class="feature-card-content">Feature subtitle sentence. Lorem ipsum dolor sit amet.</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-card-img">
-                    <img src="assets/layout/images/pages/landing/asset-moderndesign.svg" alt="mirage-layout"/>
-                </div>
-                <div class="feature-card-title">Modern Design</div>
-                <div class="feature-card-content">Feature subtitle sentence. Lorem ipsum dolor sit amet.</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-card-img">
-                    <img src="assets/layout/images/pages/landing/asset-welldocumented.svg" alt="mirage-layout"/>
-                </div>
-                <div class="feature-card-title">Well Documented</div>
-                <div class="feature-card-content">Feature subtitle sentence. Lorem ipsum dolor sit amet.</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-card-img">
-                    <img src="assets/layout/images/pages/landing/asset-unlimited.svg" alt="mirage-layout"/>
-                </div>
-                <div class="feature-card-title">Unlimited Possibilities</div>
-                <div class="feature-card-content">Feature subtitle sentence. Lorem ipsum dolor sit amet.</div>
-            </div>
+            <app-web-professional *ngIf="flagActualPage==='professionals'"></app-web-professional>
+            <app-web-professional *ngIf="flagActualPage==='professionals'"></app-web-professional>
+            <app-web-offer *ngIf="flagActualPage==='offers'"></app-web-offer>
+            <!--            <div class="feature-card">-->
+            <!--                <div class="feature-card-img">-->
+            <!--                    <img src="assets/layout/images/pages/landing/asset-responsivelayout.svg" alt="mirage-layout"/>-->
+            <!--                </div>-->
+            <!--                <div class="feature-card-title">Responsive Layout</div>-->
+            <!--                <div class="feature-card-content">Feature subtitle sentence. Lorem ipsum dolor sit amet.</div>-->
+            <!--            </div>-->
+            <!--            <div class="feature-card">-->
+            <!--                <div class="feature-card-img">-->
+            <!--                    <img src="assets/layout/images/pages/landing/asset-moderndesign.svg" alt="mirage-layout"/>-->
+            <!--                </div>-->
+            <!--                <div class="feature-card-title">Modern Design</div>-->
+            <!--                <div class="feature-card-content">Feature subtitle sentence. Lorem ipsum dolor sit amet.</div>-->
+            <!--            </div>-->
+            <!--            <div class="feature-card">-->
+            <!--                <div class="feature-card-img">-->
+            <!--                    <img src="assets/layout/images/pages/landing/asset-welldocumented.svg" alt="mirage-layout"/>-->
+            <!--                </div>-->
+            <!--                <div class="feature-card-title">Well Documented</div>-->
+            <!--                <div class="feature-card-content">Feature subtitle sentence. Lorem ipsum dolor sit amet.</div>-->
+            <!--            </div>-->
+            <!--            <div class="feature-card">-->
+            <!--                <div class="feature-card-img">-->
+            <!--                    <img src="assets/layout/images/pages/landing/asset-unlimited.svg" alt="mirage-layout"/>-->
+            <!--                </div>-->
+            <!--                <div class="feature-card-title">Unlimited Possibilities</div>-->
+            <!--                <div class="feature-card-content">Feature subtitle sentence. Lorem ipsum dolor sit amet.</div>-->
+            <!--            </div>-->
         </div>
 
         <div class="buy-mirage-promo-wrapper">
