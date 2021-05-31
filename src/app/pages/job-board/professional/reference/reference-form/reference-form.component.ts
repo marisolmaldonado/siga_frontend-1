@@ -8,6 +8,7 @@ import { JobBoardHttpService } from '../../../../../services/job-board/job-board
 import { AppHttpService } from '../../../../../services/app/app-http.service';
 import { HttpParams } from '@angular/common/http';
 import { Catalogue } from '../../../../../models/app/catalogue';
+import { SharedService } from '../../../../shared/services/shared.service';
 
 @Component({
     selector: 'app-reference-form',
@@ -22,18 +23,23 @@ export class ReferenceFormComponent implements OnInit {
     @Output() displayOut = new EventEmitter<boolean>();
     filteredTypes: any[];
     types: Catalogue[];
+    filteredInstitutions: any[];
     institutions: Catalogue[];
+
 
     constructor(private formBuilder: FormBuilder,
         private messageService: MessageService,
         private messagePnService: MessagePnService,
          private spinnerService: NgxSpinnerService,
         private appHttpService: AppHttpService,
+        private sharedService: SharedService,
         private jobBoardHttpService: JobBoardHttpService) {
     }
 
     ngOnInit(): void {
         this.getTypes();
+        this.getInstitution();
+
     }
 
     // Fields of Form
@@ -50,7 +56,7 @@ export class ReferenceFormComponent implements OnInit {
         return this.formReferenceIn.get('position');
     }
 
-    get contactNameField() {
+    get contact_nameField() {
         return this.formReferenceIn.get('contact_name');
     }
 
@@ -85,6 +91,15 @@ export class ReferenceFormComponent implements OnInit {
         const params = new HttpParams().append('type', 'SKILL_TYPE');
         this.appHttpService.getCatalogues(params).subscribe(response => {
             this.types = response['data'];
+        }, error => {
+            this.messageService.error(error);
+        });
+    }
+
+    getInstitution() {
+        const params = new HttpParams().append('type', 'REFERENCE_INSTITUTION');
+        this.appHttpService.getCatalogues(params).subscribe(response => {
+            this.institutions = response['data'];
         }, error => {
             this.messageService.error(error);
         });
@@ -146,4 +161,36 @@ export class ReferenceFormComponent implements OnInit {
         }
         this.filteredTypes = filtered;
     }
+    filterInstitution(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const institution of this.institutions) {
+            if (institution.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(institution);
+            }
+        }
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.institutionField.setValue(null);
+        }
+        this.filteredInstitutions = filtered;
+    }
+    test(event) {
+        event.markAllAsTouched();
+    }
+
+    resetFormReference() {
+        this.formReferenceIn.reset();
+    }
+
+    markAllAsTouchedFormReference() {
+        this.formReferenceIn.markAllAsTouched();
+    }
+    
 }

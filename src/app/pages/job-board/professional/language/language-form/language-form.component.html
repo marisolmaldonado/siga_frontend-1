@@ -125,15 +125,11 @@
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
                 <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
-                        class="p-button-success p-button-raised"></button>
+                    class="p-button-success p-button-raised"></button>
             </div>
             <div *ngIf="!idField.value" class="p-field p-col">
-                <button type="button" pButton pRipple
-                        label="Guardar"
-                        icon="pi pi-arrow-right"
-                        class="p-button-raised"
-                        (click)="onSubmit($event,true)"
-                ></button>
+                <button type="button" pButton pRipple label="Guardar" icon="pi pi-arrow-right" class="p-button-raised"
+                    (click)="onSubmit($event,true)"></button>
             </div>
         </div>
     </form>

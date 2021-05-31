@@ -39,9 +39,9 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
     sectors: Catalogue[];
 
     constructor(private formBuilder: FormBuilder,
-        private appHttpService: AppHttpService,
-        private sharedService: SharedService,
-        private messageService: MessageService) {
+                private appHttpService: AppHttpService,
+                private sharedService: SharedService,
+                public messageService: MessageService) {
 
     }
 

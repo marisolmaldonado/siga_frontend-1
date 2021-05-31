@@ -37,10 +37,10 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
     filteredParishes: any[];
 
     constructor(private formBuilder: FormBuilder,
-        private appHttpService: AppHttpService,
-        private sharedService: SharedService,
-        private messagePnService: MessagePnService,
-        private messageService: MessageService) {
+                private appHttpService: AppHttpService,
+                private sharedService: SharedService,
+                private messagePnService: MessagePnService,
+                public messageService: MessageService) {
         this.countries = [];
         this.provinces = [];
         this.cantons = [];

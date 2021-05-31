@@ -30,21 +30,22 @@ export class ReferenceListComponent implements OnInit {
     dialogViewFiles: boolean;
     files: File[];
     paginatorFiles: Paginator;
+    colsCourse: Col[];
 
     constructor(private messageService: MessageService,
         private spinnerService: NgxSpinnerService,
         private jobBoardHttpService: JobBoardHttpService) {
             this.resetPaginatorReferences();
-            this.resetPaginatorFiles();
+           // this.resetPaginatorFiles();
     }
 
    resetPaginatorReferences() {
         this.paginatorIn = {current_page: 1, per_page: 5};
     }
 
-    resetPaginatorFiles() {
-        this.paginatorFiles = {current_page: 1, per_page: 5};
-    }
+   // resetPaginatorFiles() {
+   //     this.paginatorFiles = {current_page: 1, per_page: 5};
+  //  }
 
     ngOnInit(): void {
     }
@@ -114,7 +115,7 @@ export class ReferenceListComponent implements OnInit {
         this.paginatorOut.emit(this.paginatorIn);
     }
 
-    deletReferences(reference = null) {
+    delete7References(reference = null) {
         this.messageService.questionDelete({})
             .then((result) => {
                 if (result.isConfirmed) {

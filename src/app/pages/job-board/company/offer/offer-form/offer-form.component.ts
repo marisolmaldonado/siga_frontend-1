@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MessageService} from '../../../../../services/app/message.service';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MessageService} from '../../../../../pages/shared/services/message.service';
+import {MessageService as MessagePnService} from 'primeng/api';
+
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
 import {AppHttpService} from '../../../../../services/app/app-http.service';
@@ -39,7 +41,8 @@ export class OfferFormComponent implements OnInit {
                 private messageService: MessageService,
                 private spinnerService: NgxSpinnerService,
                 private appHttpService: AppHttpService,
-                private jobBoardHttpService: JobBoardHttpService) {
+                private jobBoardHttpService: JobBoardHttpService,
+                private messagePnService: MessagePnService) {
     }
 
     ngOnInit(): void {
@@ -58,9 +61,6 @@ export class OfferFormComponent implements OnInit {
     }
     get vacanciesField() {
         return this.formOfferIn.get('vacancies');
-    }
-    get descriptionField() {
-        return this.formOfferIn.get('description');
     }
     get aditionalInformationField() {
         return this.formOfferIn.get('aditional_information');
@@ -101,10 +101,40 @@ export class OfferFormComponent implements OnInit {
     get locationField() {
         return this.formOfferIn.get('location');
     }
+    get activitiesField() {
+        return this.formOfferIn.get('activities') as FormArray;
+    }
+    get requirementsField() {
+        return this.formOfferIn.get('requirements') as FormArray;
+    }
+
+    addActivities(){
+        this.activitiesField.push(this.formBuilder.control(null, Validators.required));
+    }
+    removeActivities(activity){
+        this.activitiesField.removeAt(activity);
+    }
+    addRequirements(){
+        this.requirementsField.push(this.formBuilder.control(null, Validators.required));
+    }
+    removeRequirements(requirement){
+        this.requirementsField.removeAt(requirement);
+    }
 
     // Submit Form
+    /**
+     * codigo mandar con la empresa (de donde saco?)
+     * actividades y requerimientos sin arrays de strings como deberia llenar el uuario?
+     * campo remuneration debe validaarse como numerico en html?
+     * campo email como le valido el email
+     * 
+     * 
+     * 
+     * 
+     */
     onSubmit(event: Event, flag = false) {
         event.preventDefault();
+        console.log(this.formOfferIn.valid);
         if (this.formOfferIn.valid) {
             if (this.idField.value) {
                 this.updateOffer(this.formOfferIn.value);
@@ -229,6 +259,16 @@ export class OfferFormComponent implements OnInit {
                 filtered.push(contractType);
             }
         }
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.contractTypeField.setValue(null);
+        }
         this.filteredContracTypes = filtered;
     }
 
@@ -239,6 +279,16 @@ export class OfferFormComponent implements OnInit {
             if (position.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(position);
             }
+        }
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.positionField.setValue(null);
         }
         this.filteredPositions = filtered;
     }
@@ -251,8 +301,17 @@ export class OfferFormComponent implements OnInit {
                 filtered.push(sector);
             }
         }
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.sectorField.setValue(null);
+        }
         this.filteredSectors = filtered;
-        console.log(this.filteredSectors);
     }
 
     filterWorkingDay(event) {
@@ -262,6 +321,16 @@ export class OfferFormComponent implements OnInit {
             if (workingDay.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(workingDay);
             }
+        }
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.workingDayField.setValue(null);
         }
         this.filteredWorkingDays = filtered;
     }
@@ -274,6 +343,16 @@ export class OfferFormComponent implements OnInit {
                 filtered.push(experienceTime);
             }
         }
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.experienceTimeField.setValue(null);
+        }
         this.filteredExperienceTimes = filtered;
     }
 
@@ -285,6 +364,16 @@ export class OfferFormComponent implements OnInit {
                 filtered.push(trainingHour);
             }
         }
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.trainingHoursField.setValue(null);
+        }
         this.filteredTrainingHours = filtered;
     }
 
@@ -295,6 +384,16 @@ export class OfferFormComponent implements OnInit {
             if (location.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
                 filtered.push(location);
             }
+        }
+        if (filtered.length === 0) {
+            this.messagePnService.clear();
+            this.messagePnService.add({
+                severity: 'error',
+                summary: 'Por favor seleccione un tipo del listado',
+                detail: 'En el caso de no existir comuníquese con el administrador!',
+                life: 5000
+            });
+            this.locationField.setValue(null);
         }
         this.filteredlocations = filtered;
     }
