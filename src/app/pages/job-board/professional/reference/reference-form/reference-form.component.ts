@@ -22,6 +22,7 @@ export class ReferenceFormComponent implements OnInit {
     @Output() displayOut = new EventEmitter<boolean>();
     filteredTypes: any[];
     types: Catalogue[];
+    institutions: Catalogue[];
 
     constructor(private formBuilder: FormBuilder,
         private messageService: MessageService,

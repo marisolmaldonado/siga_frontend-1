@@ -2,15 +2,26 @@
 <div class="p-fluid">
     <form [formGroup]="formReferenceIn" (ngSubmit)="onSubmit($event)">
        
-        <div class="p-formgrid p-grid">
-            <div class="p-field p-col">
-                <label for="institution">Institucion:</label>
-                <input id="institution" name="institution" pInputText formControlName="institution" />
-                <div *ngIf="institutionField.errors && institutionField.touched">
-                    <small *ngIf="institutionField.hasError('required')" id="institution-help-1" class="p-error">
-                        {{messageService.fieldRequired}}
-                    </small>
-                </div>
+        <div class="p-field">
+            <label for="institution">
+                <i class="p-error">*</i> Institución:
+                <i *ngIf="institutionField.valid" class="pi pi-check-circle icon-valid"></i>
+                <i *ngIf="institutionField.invalid && (institutionField.touched || institutionField.dirty)"
+                    class="pi pi-times-circle icon-invalid"></i>
+            </label>
+            <p-autoComplete id="institution" name="institution" formControlName="institution"
+                [suggestions]="filteredInstitutions" (completeMethod)="filterInstitution($event)" field="name"
+                [dropdown]="true">
+                <ng-template let-institution pTemplate="item">
+                    <div class="country-item">
+                        <div>{{institution.name}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <div *ngIf="institutionField.invalid && (institutionField.touched || institutionField.dirty)">
+                <small *ngIf="institutionField.errors?.required" id="institution-help-1" class="p-error">
+                    {{messageService.fieldRequired}}
+                </small>
             </div>
         </div>
         <div class="p-formgrid p-grid">
