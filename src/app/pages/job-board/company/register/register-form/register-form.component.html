@@ -2,7 +2,7 @@
 <div class="p-fluid">
   <form [formGroup]="formRegisterIn" (ngSubmit)="onSubmit()">
     <div formGroupName="user">
-      <p-card header="Datos de Usuario">
+      <div class="card">
         <div class="p-formgrid p-grid">
           <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
             <label for="username">
@@ -127,9 +127,9 @@
             </small>
           </div>
         </div>
-      </p-card>
+      </div>
     </div>
-    <p-card header="Datos de la Compañía">
+    <div class="card">
       <div class="p-formgrid p-grid">
         <div class="p-field p-xl-4 p-lg-4 p-md-4 p-sm-12">
           <label for="personType">
@@ -259,7 +259,7 @@
           </div>
         </div>
       </div>
-    </p-card>
+    </div>
       <div class="p-field p-xl-2 p-lg-2 p-md-2 p-sm-12">
         <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
           class="p-button-success p-button-raised"></button>

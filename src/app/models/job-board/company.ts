@@ -13,6 +13,7 @@ export interface Company {
     comercial_activities?:string[];
     web?:string;
     professionals?: Professional;
+    pivot?: Pivot;
     type?: Catalogue;
     identficationType?:Catalogue;
     activityType?:Catalogue;
@@ -21,4 +22,10 @@ export interface Company {
     status?:Status;
     user?:User;
 
+}
+export interface Pivot {
+    company_id: number;
+    professional_id: number;
+    created_at: string;
+    updated_at: string;
 }

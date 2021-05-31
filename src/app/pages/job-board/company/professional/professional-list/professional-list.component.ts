@@ -13,6 +13,7 @@ import {HttpParams} from '@angular/common/http';
   styleUrls: ['./professional-list.component.scss']
 })
 export class ProfessionalListComponent implements OnInit {
+
   @Input() professionalsIn: Company[];
   @Input() paginatorIn: Paginator;
   @Input() formProfessionalIn: FormGroup;
@@ -29,9 +30,12 @@ export class ProfessionalListComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: NgxSpinnerService,
     private jobBoardHttpService: JobBoardHttpService
-  ) { }
+  ) { 
+
+  }
 
   ngOnInit() {
+
   }
 
   pageChange(event) {
@@ -39,10 +43,25 @@ export class ProfessionalListComponent implements OnInit {
     this.paginatorOut.emit(this.paginatorIn);
   }
 
+
+
   selectProfessional(professional: Company) {
-    this.selectedProfessional = professional;
-    console.log(this.selectedProfessional);
+    this.messageService.questionDelete({})
+            .then((result) => {
+              if(result.isConfirmed){
+                this.selectedProfessional = professional;
+                let params = new HttpParams().append('professional_id', this.selectedProfessional.pivot.professional_id.toString());
+                this.jobBoardHttpService.get('company/detach', params).subscribe(response => {
+                 response['data'];
+                  console.log(response);
+                  this.spinnerService.hide();
+                }, error => {
+                  this.spinnerService.hide();
+                  this.messageService.error(error);
+                });
+              }
+            });
+
   }
-  deleteProfessional(){
-  }
+  
 }
