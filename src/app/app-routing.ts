@@ -14,23 +14,19 @@ import {AuthGuard} from './shared/guards/auth.guard';
             {
                 path: '', component: AppMainComponent,
                 children: [
-                    {path: '', redirectTo: '/job-board-web/web', pathMatch: 'full'},
+                    {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
                     {
                         path: 'dashboard',
                         loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
                         canActivate: [AuthGuard]
                     },
                     {
-                        path: 'job-board',
-                        loadChildren: () => import('./pages/job-board/job-board.module').then(m => m.JobBoardModule),
+                        path: 'user-administration',
+                        loadChildren: () => import('./pages/user-administration/user-administration.module')
+                            .then(m => m.UserAdministrationModule),
                         canActivate: [AuthGuard]
                     }
                 ]
-            },
-            {
-                path: 'job-board-web',
-                component: AppBlankComponent,
-                loadChildren: () => import('./pages/job-board/job-board.module').then(m => m.JobBoardModule)
             },
             {
                 path: 'auth',

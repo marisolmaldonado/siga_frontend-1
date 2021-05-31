@@ -27,6 +27,7 @@ import { LocationComponent } from './components/location/location.component';
 import { SkeletonComponent } from './components/skeleton/skeleton.component';
 import { UploadFilesComponent } from './components/file/upload-files/upload-files.component';
 import { ViewFilesComponent } from './components/file/view-files/view-files.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 // Pipes
 import { ExtensionsPipe } from './pipes/extensions.pipe';
@@ -67,6 +68,7 @@ import { CardModule } from 'primeng/card';
         // Pipes
         ExtensionsPipe,
         MonthsPipe,
+        DialogComponent,
     ],
     exports: [
         DateComponent,
@@ -75,6 +77,7 @@ import { CardModule } from 'primeng/card';
         SkeletonComponent,
         UploadFilesComponent,
         ViewFilesComponent,
+        DialogComponent,
     ],
     providers: [ConfirmationService, MessageService]
 })
