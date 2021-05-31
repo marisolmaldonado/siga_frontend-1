@@ -63,10 +63,10 @@ export class WebOfferComponent implements OnInit {
             .append('page', String(paginator.current_page))
             .append('per_page', String(paginator.per_page));
 
-        const rutaFiltro = this.auth ? 'private-offers' : 'public-offers';
-
+        const routeFilter = this.auth ? 'private-offers' : 'public-offers';
+        console.log(routeFilter);
         this.spinnerService.show();
-        this.jobBoardHttpService.get('web-offer/' + rutaFiltro, params).subscribe(
+        this.jobBoardHttpService.get('web-offer/public-offers', params).subscribe(
             response => {
                 this.spinnerService.hide();
                 this.offers = response['data'];
