@@ -198,3 +198,27 @@
 .icon-invalid {
   color: red;
 }
+
+.p-field input.ng-pristine.ng-invalid.ng-touched {
+  border: solid 1px red;
+}
+
+.p-field textarea.ng-pristine.ng-invalid.ng-touched {
+  border: solid 1px red;
+}
+
+.p-field input.ng-valid.ng-touched.ng-dirty {
+  border: solid 1px green;
+}
+
+.p-field textarea.ng-valid.ng-touched.ng-dirty {
+  border: solid 1px green;
+}
+
+.p-field .ng-invalid.ng-touched .p-autocomplete-input {
+  border: solid 1px red;
+}
+
+.p-field .ng-valid.ng-touched.ng-dirty .p-autocomplete-input {
+  border: solid 1px green;
+}

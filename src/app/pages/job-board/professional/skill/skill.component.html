@@ -17,6 +17,7 @@
                     [skillsIn]="skills"
                     [formSkillIn]="formSkill"
                     (skillsOut)="skills=$event"
+                    (paginatorAdd)="paginator.total = paginator.total + $event"
                     (displayOut)="skillDialog=$event">
             </app-skill-form>
         </p-dialog>
