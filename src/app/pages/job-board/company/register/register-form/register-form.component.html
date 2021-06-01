@@ -19,8 +19,8 @@
                   </label>
                   <input id="username" formControlName="username" pInputText>
                   <div *ngIf="usernameField.errors && (usernameField.touched || usernameField.dirty)">
-                    <small *ngIf="usernameField.hasError('required')" id="user-help-1" class="p-error">
-                      El campo es obligatorio.
+                    <small *ngIf="usernameField.errors?.required" id="user-help-1" class="p-error">
+                      {{messageService.fieldRequired}}
                     </small>
                   </div>
                 </div>
@@ -94,8 +94,8 @@
                   <p-password id="password" formControlName="password" [feedback]="false" [toggleMask]="true">
                   </p-password>
                   <div *ngIf="passwordField.errors && (passwordField.touched || passwordField.dirty)">
-                    <small *ngIf="passwordField.hasError('required')" id="password-help-1" class="p-error">
-                      El campo es obligatorio.
+                    <small *ngIf="passwordField.errors?.required" id="password-help-1" class="p-error">
+                      {{messageService.fieldRequired}}
                     </small>
                     <small *ngIf="passwordField.errors?.noPasswordMatch" id="password-help-1" class="p-error">
                       {{messageService.fieldNoPasswordMatch}}
