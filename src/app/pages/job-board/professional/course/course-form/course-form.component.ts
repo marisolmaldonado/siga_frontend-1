@@ -257,16 +257,16 @@ export class CourseFormComponent implements OnInit {
                 filtered.push(area);
             }
         }
-        // if (filtered.length === 0) {
-        //     this.messagePnService.clear();
-        //     this.messagePnService.add({
-        //         severity: 'error',
-        //         summary: 'Por favor seleccione un tipo del listado',
-        //         detail: 'En el caso de no existir comuníquese con el administrador!',
-        //         life: 5000
-        //     });
-        //     this.areaField.setValue(null);
-        // }
+         if (filtered.length === 0) {
+             this.messagePnService.clear();
+             this.messagePnService.add({
+                 severity: 'error',
+                 summary: 'Por favor seleccione un tipo del listado',
+                 detail: 'En el caso de no existir comuníquese con el administrador!',
+                 life: 5000
+             });
+             this.areaField.setValue(null);
+         }
         this.filteredAreas = filtered;
     }
     test(event) {

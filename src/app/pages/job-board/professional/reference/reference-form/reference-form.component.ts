@@ -47,7 +47,6 @@ export class ReferenceFormComponent implements OnInit {
         return this.formReferenceIn.get('professional');
     }
 
-
     get institutionField() {
         return this.formReferenceIn.get('institution');
     }

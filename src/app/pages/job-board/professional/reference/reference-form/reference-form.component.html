@@ -7,19 +7,19 @@
                 <i class="p-error">*</i> Institución:
                 <i *ngIf="institutionField.valid" class="pi pi-check-circle icon-valid"></i>
                 <i *ngIf="institutionField.invalid && (institutionField.touched || institutionField.dirty)"
-                    class="pi pi-times-circle icon-invalid"></i>
+                   class="pi pi-times-circle icon-invalid"></i>
             </label>
-            <p-autoComplete id="institution" name="institution" formControlName="institution"
-                [suggestions]="filteredInstitutions" (completeMethod)="filterInstitution($event)" field="name"
-                [dropdown]="true">
-                <ng-template let-institution pTemplate="item">
+            <p-autoComplete id="institution" name="institution" formControlName="institution" [suggestions]="filteredInstitutions"
+                            (completeMethod)="filterInstitution($event)" field="institution" [dropdown]="true">
+                <ng-template let-type pTemplate="item">
                     <div class="country-item">
                         <div>{{institution.name}}</div>
                     </div>
                 </ng-template>
             </p-autoComplete>
             <div *ngIf="institutionField.invalid && (institutionField.touched || institutionField.dirty)">
-                <small *ngIf="institutionField.errors?.required" id="institution-help-1" class="p-error">
+                <small *ngIf="institutionField.errors?.required"
+                       id="institution-help-1" class="p-error">
                     {{messageService.fieldRequired}}
                 </small>
             </div>
