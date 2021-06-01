@@ -37,6 +37,7 @@ import {CompanyComponent} from './company.component';
 import {OfferComponent} from "./offer/offer.component";
 import {OfferFormComponent} from "./offer/offer-form/offer-form.component";
 import {OfferListComponent} from "./offer/offer-list/offer-list.component";
+import {CalendarModule} from 'primeng/calendar';
 
 @NgModule({
     imports: [
@@ -71,6 +72,7 @@ import {OfferListComponent} from "./offer/offer-list/offer-list.component";
         CardModule,
         SkeletonModule,
         RippleModule,
+        CalendarModule,
     ],
     declarations: [
         CompanyComponent,

@@ -1,31 +1,47 @@
-{{formOfferIn.value|json}}
+[{{formOfferIn.value|json}}
 <div class="p-fluid">
     <form [formGroup]="formOfferIn" (ngSubmit)="onSubmit($event)">
         <div class="p-grid">
-            <p-card class="p-lg-6 p-md-12 p-cm-12">
-                <div class="p-field">
-                    <label for="vacancies">
-                        <i class="p-error">*</i> Vacantes:
-                        <i *ngIf="vacanciesField.valid" class="pi pi-check-circle icon-valid"></i>
-                        <i *ngIf="vacanciesField.invalid && (vacanciesField.touched || vacanciesField.dirty)"
-                            class="pi pi-times-circle icon-invalid"></i>
-                    </label>
-                    <input pInputText id="vacancies" 
-                        formControlName="vacancies"
-                        placeholder="Cuantos vacantes para la oferta Ej. 5" 
-                        maxlength="13" />
-                    <div *ngIf="vacanciesField.errors && (vacanciesField.touched || vacanciesField.dirty)">
-                        <small *ngIf="vacanciesField.hasError('required')" 
-                                id="description-help-1" 
-                                class="p-error">
-                            {{messageService.fieldRequired}}
-                        </small>
+            <p-card class="p-xl-6 p-lg-6 p-md-12 p-sm-12">
+                <div class="p-formgrid p-grid">
+                    <div class="p-lg-6 p-md-6 p-sm-12">
+                        <div class="p-field">
+                            <label for="vacancies">
+                                <i class="p-error">*</i> Vacantes:
+                                <i *ngIf="vacanciesField.valid" class="pi pi-check-circle icon-valid"></i>
+                                <i *ngIf="vacanciesField.invalid && (vacanciesField.touched || vacanciesField.dirty)"
+                                    class="pi pi-times-circle icon-invalid"></i></label>
+                                <!--QUITAR EXREESION REGULAR DEL REQUERIMIENTO Y LOS MENSAJES DE NUMBER-->
+                            <p-inputNumber id="vacancies" 
+                                        formControlName="vacancies"
+                                        placeholder="Vacantes para la oferta Ej. 5"
+                                        mode="decimal" 
+                                        [showButtons]="true"
+                                        [min]="0" 
+                                        [max]="1000">
+                            </p-inputNumber>
+                            <div *ngIf="vacanciesField.invalid && (vacanciesField.touched || vacanciesField.dirty)">
+                                <!-- MODIFICAR TODOS LOS ERRORES-->
+                                <small *ngIf="vacanciesField.errors?.required" 
+                                        id="vacancies-help-1" 
+                                        class="p-error">
+                                    {{messageService.fieldRequired}}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-lg-6 p-md-6 p-sm-12">
+                        <div *ngIf="idField.value" class="p-field">
+                            <label for="vacancies">Codigo:</label>
+                            <input pInputText id="code" formControlName="code">
+                        </div>
                     </div>
                 </div>
                 <div class="p-field">
-                    <label for="aditional_information">Informacion adicional</label>
+                    <label for="aditional_information">Información adicional</label>
                     <textarea pInputTextarea id="aditional_information" 
                             formControlName="aditional_information"
+                            autoResize="autoResize"
                             rows="4">
                     </textarea>
                 </div>
@@ -39,10 +55,10 @@
                     <input pInputText id="contact_name" 
                         formControlName="contact_name" 
                         placeholder="Ej. Mariana López"
-                        maxlength="13" />
+                         />
                     <div *ngIf="contactNameField.errors && (contactNameField.touched || contactNameField.dirty)">
-                        <small *ngIf="contactNameField.hasError('required')" 
-                                id="description-help-1" 
+                        <small *ngIf="contactNameField.errors?.required" 
+                                id="contact_name-help-1" 
                                 class="p-error">
                             {{messageService.fieldRequired}}
                         </small>
@@ -57,60 +73,57 @@
                     </label>
                     <input pInputText id="contact_email" 
                         formControlName="contact_email"
-                        placeholder="Ej. ejemplo@ejemplo.com" 
-                        maxlength="13" />
+                        placeholder="Ej. ejemplo@ejemplo.com"/>
                     <div *ngIf="contactEmailField.errors && (contactEmailField.touched || contactEmailField.dirty)">
-                        <small *ngIf="contactEmailField.hasError('required')" 
-                                id="description-help-1" 
+                        <small *ngIf="contactEmailField.errors?.required" 
+                                id="contact_email-help-1" 
                                 class="p-error">
                             {{messageService.fieldRequired}}
                         </small>
                         <small *ngIf="contactEmailField.hasError('email')" 
-                            id="description-help-2" 
+                            id="contact_email-help-2" 
                             class="p-error">
                             {{messageService.fieldEmail}}
                         </small>
                     </div>
                 </div>
-                <div class="p-field">
-                    <label for="contact_phone">Telefno del contacto</label>
-                    <input pInputText id="contact_phone" 
-                        formControlName="contact_phone"
-                        placeholder="Incluir extension Ej. 02-24738" 
-                        maxlength="13" />
-                </div>
-                <div class="p-field">
-                    <label for="contact_cellphone">Celular del contacto</label>
-                    <input pInputText id="contact_cellphone" 
-                        formControlName="contact_cellphone"
-                        placeholder="Incluir extension Ej. +593-504172422" 
-                        maxlength="13" />
-                </div>
-                <div formArrayName="activities">
-                    <div>
-                        <button pButton pRipple type="button" 
-                                label="Añadir Activities"
-                                iconPos="right" 
-                                icon="pi pi-plus"
-                                class="p-button-success p-button-raised" 
-                                (click)="addActivities()">
-                        </button>
-                      </div>
-                    <div *ngFor="let activities of activitiesField.controls; let nameActivity = index">
-                        <div class="p-fluid p-formgrid p-grid">
-                            <div class="p-field p-xl-11 p-lg-11 p-md-6 p-sm-12">
-                                <input pInputText id="activities" [formControlName]="nameActivity">
+                <div class="p-formgrid p-grid">
+                    <div class="p-lg-6 p-md-6 p-sm-12">
+                        <div class="p-field">
+                            <label for="contact_phone">
+                                <i class="p-error">*</i> Teléfono del contacto:
+                                <i *ngIf="contactPhoneField.valid" class="pi pi-check-circle icon-valid"></i>
+                                <i *ngIf="contactPhoneField.invalid && (contactPhoneField.touched || contactPhoneField.dirty)"
+                                    class="pi pi-times-circle icon-invalid"></i>
+                            </label>
+                            <input pInputText id="contact_phone" 
+                                formControlName="contact_phone"
+                                placeholder="Incluir extension Ej. 02-24738" 
+                                 />
+                            <div *ngIf="contactPhoneField.errors && (contactPhoneField.touched || contactPhoneField.dirty)">
+                                <small *ngIf="contactPhoneField.errors?.required" 
+                                        id="contact_phone-help-1" 
+                                        class="p-error">
+                                    {{messageService.fieldRequired}}
+                                </small>
                             </div>
-                            <div class="p-field p-xl-1 p-lg-1 p-md-1 p-sm-12">
-                                <button pButton pRipple type="button"
-                                        icon="pi pi-trash"
-                                        class="p-button-danger p-button-rounded"
-                                        (click)="removeActivities(nameActivity)">
-                                </button>
-                            </div>
-                            <div *ngIf="activitiesField.errors && (activitiesField.touched || activitiesField.dirty)">
-                                <small *ngIf="activitiesField.hasError('required')" 
-                                        id="activities-help-1" 
+                        </div>
+                    </div>
+                    <div class="p-lg-6 p-md-6 p-sm-12">
+                        <div class="p-field">
+                            <label for="contact_cellphone">
+                                <i class="p-error">*</i> Celular del contacto:
+                                <i *ngIf="contactCellphoneField.valid" class="pi pi-check-circle icon-valid"></i>
+                                <i *ngIf="contactCellphoneField.invalid && (contactCellphoneField.touched || contactCellphoneField.dirty)"
+                                    class="pi pi-times-circle icon-invalid"></i>
+                            </label>
+                            <input pInputText id="contact_cellphone" 
+                                formControlName="contact_cellphone"
+                                placeholder="Incluir extension Ej. +593-504172422" 
+                                 />
+                            <div *ngIf="contactCellphoneField.errors && (contactCellphoneField.touched || contactCellphoneField.dirty)">
+                                <small *ngIf="contactCellphoneField.errors?.required" 
+                                        id="contact_cellphone-help-1" 
                                         class="p-error">
                                     {{messageService.fieldRequired}}
                                 </small>
@@ -118,22 +131,108 @@
                         </div>
                     </div>
                 </div>
+                <div class="p-field">
+                    <label for="start_date">
+                        <i class="p-error">*</i> Fecha de Inicio:
+                        <i *ngIf="startDateField.valid" class="pi pi-check-circle icon-valid"></i>
+                        <i *ngIf="startDateField.invalid && (startDateField.touched || startDateField.dirty)"
+                            class="pi pi-times-circle icon-invalid"></i>
+                    </label>
+                    <app-date formControlName="start_date"
+                            id="start_date"> 
+                    </app-date>
+                    <div *ngIf="startDateField.errors && (startDateField.touched || startDateField.dirty)">
+                        <small *ngIf="startDateField.errors?.required" 
+                                id="start_date-help-1" 
+                                class="p-error">
+                            {{messageService.fieldRequired}}
+                        </small>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                <div class="p-field">
+                    <label for="end_date">Fecha Fin: </label>
+                    <app-date formControlName="end_date"
+                            id="end_date"> 
+                    </app-date>
+                </div>
+
+
+
+
+
+
+
+
+
+
+                
+                <div formArrayName="activities">
+                    <div>
+                        <button pButton pRipple type="button" 
+                                id="activities"
+                                label="Añadir Activities"
+                                iconPos="right" 
+                                icon="pi pi-plus"
+                                class="p-button-success p-button-raised" 
+                                (click)="addActivities()">
+                        </button>
+                      </div>
+                    <div *ngFor="let activities of activitiesField.controls; let i = index">
+                        <div class="p-fluid p-formgrid p-grid">
+                            <div class="p-field p-xl-11 p-lg-11 p-md-6 p-sm-12">
+                                <input pInputText [id]="'activity-'+ i" [formControlName]="i">
+                                <div *ngIf="activitiesField.invalid">
+                                    <small *ngIf="activitiesField.controls[i].errors?.required" 
+                                            id="activities-help-1"
+                                            class="p-error">
+                                        {{messageService.fieldRequired}}
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="p-field p-xl-1 p-lg-1 p-md-1 p-sm-12">
+                                <button pButton pRipple type="button"
+                                        icon="pi pi-trash"
+                                        class="p-button-danger p-button-rounded"
+                                        (click)="removeActivities(i)">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </p-card>
-            <p-card class="p-lg-6 p-md-12 p-cm-12">
+            <p-card class="p-xl-6 p-lg-6 p-md-12 p-sm-12">
                 <div formArrayName="requirements">
                     <div>
                         <button pButton pRipple type="button" 
-                                label="Añadir Requerimientos"
+                                label="Añadir Requisitos"
                                 iconPos="right" 
                                 icon="pi pi-plus"
                                 class="p-button-success p-button-raised" 
                                 (click)="addRequirements()">
                         </button>
                       </div>
-                    <div *ngFor="let requirements of requirementsField.controls; let nameRequirements = index">
+                    <div *ngFor="let requirements of requirementsField.controls; let i = index">
                         <div class="p-fluid p-formgrid p-grid">
                             <div class="p-field p-xl-11 p-lg-11 p-md-6 p-sm-12">
-                                <input pInputText id="requirements" [formControlName]="nameRequirements">
+                                <input pInputText [id]="'requirements-'+ i" [formControlName]="i">
+                                <div *ngIf="requirementsField.invalid">
+                                    <small *ngIf="requirementsField.controls[i].errors?.required" 
+                                            id="requirements-help-1" 
+                                            class="p-error">
+                                        {{messageService.fieldRequired}}
+                                    </small>
+                                </div>
                             </div>
                             <div class="p-field p-xl-1 p-lg-1 p-md-1 p-sm-12">
                                 <button pButton pRipple type="button"
@@ -142,19 +241,12 @@
                                         (click)="removeRequirements(nameRequirements)">
                                 </button>
                             </div>
-                            <div *ngIf="requirementsField.errors && (requirementsField.touched || requirementsField.dirty)">
-                                <small *ngIf="requirementsField.hasError('required')" 
-                                        id="requirements-help-1" 
-                                        class="p-error">
-                                    {{messageService.fieldRequired}}
-                                </small>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="p-field">
                     <label for="remuneration">
-                        <i class="p-error">*</i> Remuneracion:
+                        <i class="p-error">*</i> Remuneración:
                         <i *ngIf="remunerationField.valid" class="pi pi-check-circle icon-valid"></i>
                         <i *ngIf="remunerationField.invalid && (remunerationField.touched || remunerationField.dirty)"
                             class="pi pi-times-circle icon-invalid"></i>
@@ -162,10 +254,10 @@
                     <input pInputText id="remuneration" 
                         formControlName="remuneration" 
                         placeholder="Ej. 500"
-                        maxlength="13" />
+                         />
                     <div *ngIf="remunerationField.errors && (remunerationField.touched || remunerationField.dirty)">
-                        <small *ngIf="remunerationField.hasError('required')" 
-                                id="description-help-1" 
+                        <small *ngIf="remunerationField.errors?.required" 
+                                id="remuneration-help-1" 
                                 class="p-error">
                             {{messageService.fieldRequired}}
                         </small>
@@ -173,7 +265,7 @@
                 </div>
                 <div class="p-field">
                     <label for="contract_type">
-                        <i class="p-error">*</i> Tipo Contrato:
+                        <i class="p-error">*</i> Tipo de Contrato:
                         <i *ngIf="contractTypeField.valid" class="pi pi-check-circle icon-valid"></i>
                         <i *ngIf="contractTypeField.invalid && (contractTypeField.touched || contractTypeField.dirty)"
                             class="pi pi-times-circle icon-invalid"></i>
@@ -199,7 +291,7 @@
                 </div>
                 <div class="p-field">
                     <label for="position">
-                        <i class="p-error">*</i> Posicón:
+                        <i class="p-error">*</i> Cargo o puesto:
                         <i *ngIf="positionField.valid" class="pi pi-check-circle icon-valid"></i>
                         <i *ngIf="positionField.invalid && (positionField.touched || positionField.dirty)"
                             class="pi pi-times-circle icon-invalid"></i>
@@ -247,12 +339,41 @@
                         </small>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <div class="p-field">
-                    LOCALIZACION
+                    <app-location-address [option]="3"
+                                          (formAddressOut)="formAddress=$event"
+                                          (formLocationOut)="setFormLocation($event)"
+                                          id="location" formControlName="location"></app-location-address>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <div class="p-field">
                     <label for="training_hours">
-                        <i class="p-error">*</i> Horas de entrenamiento:
+                        <i class="p-error">*</i> Horas de capacitación recibidas:
                         <i *ngIf="trainingHoursField.valid" class="pi pi-check-circle icon-valid"></i>
                         <i *ngIf="trainingHoursField.invalid && (trainingHoursField.touched || trainingHoursField.dirty)"
                             class="pi pi-times-circle icon-invalid"></i>
@@ -305,7 +426,7 @@
                 </div>
                 <div class="p-field">
                     <label for="working_day">
-                        <i class="p-error">*</i> Dia de trabajo:
+                        <i class="p-error">*</i> Modalidad de trabajo:
                         <i *ngIf="workingDayField.valid" class="pi pi-check-circle icon-valid"></i>
                         <i *ngIf="workingDayField.invalid && (workingDayField.touched || workingDayField.dirty)"
                             class="pi pi-times-circle icon-invalid"></i>

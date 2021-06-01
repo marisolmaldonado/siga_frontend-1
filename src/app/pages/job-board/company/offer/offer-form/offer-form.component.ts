@@ -37,12 +37,16 @@ export class OfferFormComponent implements OnInit {
     filteredlocations: any[];
     locations: Location[];
 
+    // BORRAR 
+    ofertaEjemplo: Offer;
+
     constructor(private formBuilder: FormBuilder,
                 private messageService: MessageService,
                 private spinnerService: NgxSpinnerService,
                 private appHttpService: AppHttpService,
                 private jobBoardHttpService: JobBoardHttpService,
                 private messagePnService: MessagePnService) {
+                    //this.ofertaEjemplo =   
     }
 
     ngOnInit(): void {
@@ -107,6 +111,12 @@ export class OfferFormComponent implements OnInit {
     get requirementsField() {
         return this.formOfferIn.get('requirements') as FormArray;
     }
+    get startDateField() {
+        return this.formOfferIn.get('start_date');
+    }
+    get endDateField() {
+        return this.formOfferIn.get('end_date');
+    }
 
     addActivities(){
         this.activitiesField.push(this.formBuilder.control(null, Validators.required));
@@ -127,7 +137,6 @@ export class OfferFormComponent implements OnInit {
      * actividades y requerimientos sin arrays de strings como deberia llenar el uuario?
      * campo remuneration debe validaarse como numerico en html?
      * campo email como le valido el email
-     * 
      * 
      * 
      * 
