@@ -9,6 +9,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { BreadcrumbService } from '../../../../shared/services/breadcrumb.service';
 import {MessageService} from '../../../shared/services/message.service';
 import { DateValidators } from "../../../shared/validators/date.validators";
+import { Institution } from './../../../../models/app/institution';
+
 
 @Component({
   selector: 'app-reference',
@@ -27,9 +29,9 @@ export class ReferenceComponent implements OnInit {
   constructor(private spinnerService: NgxSpinnerService,
     private messageService: MessageService,
     private formBuilder: FormBuilder,
-    private jobBoardHttpService: JobBoardHttpService) {
-
-    this.paginator = { current_page: 1, per_page: 2 };
+    private jobBoardHttpService: JobBoardHttpService,
+    private breadcrumbService: BreadcrumbService) {
+    this.paginator = { current_page: 1, per_page: 5 };
     this.references = [];
   }
 
@@ -51,24 +53,28 @@ export class ReferenceComponent implements OnInit {
     });
   }
 
-  // references of backend
-  getReferences(paginator: Paginator) {
-    const params = new HttpParams()
-      .append('page', paginator.current_page.toString())
-      .append('per_page', paginator.per_page.toString());
 
-    this.flagReferences = true;
-    // this.spinnerService.show();
-    this.jobBoardHttpService.get('references', params).subscribe(
-      response => {
-        // this.spinnerService.hide();
-        this.flagReferences = false;
-        this.references = response['data'];
-        this.paginator = response as Paginator;
-      }, error => {
-        // this.spinnerService.hide();
-        this.flagReferences = false;
-        this.messageService.error(error);
-      });
+    // reference of backend
+    getReferences(paginator: Paginator) {
+      const params = new HttpParams()
+          .append('professional_id', "1")
+          .append('page', paginator.current_page.toString())
+          .append('per_page', paginator.per_page.toString());
+
+      this.flagReferences = true;
+      // this.spinnerService.show();
+      this.jobBoardHttpService.get('references', params).subscribe(
+          response => {
+              // this.spinnerService.hide();
+              this.flagReferences = false;
+              this.references = response['data'];
+              this.paginator = response as Paginator;
+          }, error => {
+              // this.spinnerService.hide();
+              this.flagReferences = false;
+              this.messageService.error(error);
+          });
   }
 }
+
+
