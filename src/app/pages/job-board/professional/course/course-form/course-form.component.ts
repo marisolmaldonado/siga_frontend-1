@@ -45,8 +45,8 @@ export class CourseFormComponent implements OnInit {
     ngOnInit(): void {
         this.getTypes();
         this.getInstitution();
-        this.getCertificationType();
-        this.getArea();
+        this.getCertificationTypes();
+        this.getAreas();
     }
 
     // Fields of Form
@@ -125,7 +125,7 @@ export class CourseFormComponent implements OnInit {
             this.messageService.error(error);
         });
     }
-    getCertificationType() {
+    getCertificationTypes() {
         const params = new HttpParams().append('type', 'COURSE_CERTIFICATION_TYPE');
         this.appHttpService.getCatalogues(params).subscribe(response => {
             this.certificationTypes = response['data'];
@@ -133,7 +133,7 @@ export class CourseFormComponent implements OnInit {
             this.messageService.error(error);
         });
     }
-    getArea() {
+    getAreas() {
         const params = new HttpParams().append('type', 'COURSE_AREA');
         this.appHttpService.getCatalogues(params).subscribe(response => {
             this.areas = response['data'];
@@ -229,7 +229,7 @@ export class CourseFormComponent implements OnInit {
         }
         this.filteredInstitutions = filtered;
     }
-    filterCertificationType(event) {
+    filterCertificationTypes(event) {
         const filtered: any[] = [];
         const query = event.query;
         for (const certificationType of this.certificationTypes) {
@@ -249,26 +249,27 @@ export class CourseFormComponent implements OnInit {
         }
         this.filteredCertificationTypes = filtered;
     }
-    filterArea(event) {
-        const filtered: any[] = [];
-        const query = event.query;
-        for (const area of this.areas) {
-            if (area.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-                filtered.push(area);
-            }
+   // Filter area of experiences
+   filterArea(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const area of this.areas) {
+        if (area.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+            filtered.push(area);
         }
-         if (filtered.length === 0) {
-             this.messagePnService.clear();
-             this.messagePnService.add({
-                 severity: 'error',
-                 summary: 'Por favor seleccione un tipo del listado',
-                 detail: 'En el caso de no existir comuníquese con el administrador!',
-                 life: 5000
-             });
-             this.areaField.setValue(null);
-         }
-        this.filteredAreas = filtered;
     }
+     if (filtered.length === 0) {
+         this.messagePnService.clear();
+         this.messagePnService.add({
+             severity: 'error',
+             summary: 'Por favor seleccione un tipo del listado',
+             detail: 'En el caso de no existir comuníquese con el administrador!',
+             life: 5000
+         });
+         this.areaField.setValue(null);
+     }
+    this.filteredAreas = filtered;
+}
     test(event) {
         event.markAllAsTouched();
     }

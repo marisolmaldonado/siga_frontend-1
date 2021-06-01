@@ -38,7 +38,7 @@ export class ExperienceFormComponent implements OnInit {
 
     ngOnInit(): void {
         //this.getProfessional();
-        this.getArea();
+        this.getAreas();
     }
 
     // Fields of Form
@@ -115,7 +115,7 @@ export class ExperienceFormComponent implements OnInit {
     }
 
     // Types of catalogues
-    getArea() {
+    getAreas() {
         const params = new HttpParams().append('type', 'EXPERIENCE_AREA');
         this.appHttpService.getCatalogues(params).subscribe(response => {
             this.areas = response['data'];
@@ -126,7 +126,7 @@ export class ExperienceFormComponent implements OnInit {
     // getProfessional() {
     //     const params = new HttpParams().append('type', 'EXPERIENCE_PROFESSIONAL');
     //     this.appHttpService.getCatalogues(params).subscribe(response => {
-    //         this.areas = response['data'];
+    //         this.ares = response['data'];
     //     }, error => {
     //         this.messageService.error(error);
     //     });
@@ -185,16 +185,16 @@ export class ExperienceFormComponent implements OnInit {
                 filtered.push(area);
             }
         }
-        if (filtered.length === 0) {
-            this.messagePnService.clear();
-            this.messagePnService.add({
-                severity: 'error',
-                summary: 'Por favor seleccione un tipo del listado',
-                detail: 'En el caso de no existir comuníquese con el administrador!',
-                life: 5000
-            });
-            this.areaField.setValue(null);
-        }
+         if (filtered.length === 0) {
+             this.messagePnService.clear();
+             this.messagePnService.add({
+                 severity: 'error',
+                 summary: 'Por favor seleccione un tipo del listado',
+                 detail: 'En el caso de no existir comuníquese con el administrador!',
+                 life: 5000
+             });
+             this.areaField.setValue(null);
+         }
         this.filteredAreas = filtered;
     }
     // filterProfessional(event) {

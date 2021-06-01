@@ -13,17 +13,32 @@
                  </div>
              </div>
          </div>
-         <div class="p-formgrid p-grid">
-             <div class="p-field p-col">
-                 <label for="area">Área:</label>
-                 <input id="area" name="area" pInputText formControlname="area" />
-                 <div *ngIf="areaField.errors && areaField.touched">
-                     <small *ngIf="areaField.hasError('required')" id="area-help-1" class="p-error">
-                         {{messageService.fieldRequired}}
-                     </small>
-                 </div>
-             </div>
-         </div>
+  
+         <div class="p-field">
+            <label for="area">
+                <i class="p-error">*</i> Area:
+                <i *ngIf="areaField.valid" class="pi pi-check-circle icon-valid"></i>
+                <i *ngIf="areaField.invalid && (areaField.touched || areaField.dirty)"
+                    class="pi pi-times-circle icon-invalid"></i>
+            </label>
+            <p-autoComplete id="area" name="area" formControlName="area"
+                [suggestions]="filteredAreas" (completeMethod)="filterArea($event)" field="name"
+                [dropdown]="true">
+                <ng-template let-area pTemplate="item">
+                    <div class="country-item">
+                        <div>{{area.name}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <div *ngIf="areaField.invalid && (areaField.touched || areaField.dirty)">
+                <small *ngIf="areaField.errors?.required" id="area-help-1" class="p-error">
+                    {{messageService.fieldRequired}}
+                </small>
+            </div>
+        </div>
+
+
+
          <div class="p-field">
              <label for="description">
                  <i class="p-error">*</i> Descripción:
@@ -139,6 +154,7 @@
                  </small>
              </div>
          </div> -->
+         
          <div class="p-formgrid p-grid">
              <div class="p-field p-col">
                  <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"

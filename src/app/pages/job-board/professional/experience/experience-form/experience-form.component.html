@@ -14,11 +14,12 @@
                 <i *ngIf="areaField.invalid && (areaField.touched || areaField.dirty)"
                     class="pi pi-times-circle icon-invalid"></i>
             </label>
-            <p-autoComplete id="area" name="type" formControlName="area" [suggestions]="filteredAreas"
-                (completeMethod)="filterArea($event)" field="name" [dropdown]="true">
-                <ng-template let-type pTemplate="item">
+            <p-autoComplete id="area" name="area" formControlName="area"
+                [suggestions]="filteredAreas" (completeMethod)="filterArea($event)" field="name"
+                [dropdown]="true">
+                <ng-template let-area pTemplate="item">
                     <div class="country-item">
-                        <div>{{<area shape="" coords="" href="" alt="">.name}}</div>
+                        <div>{{area.name}}</div>
                     </div>
                 </ng-template>
             </p-autoComplete>
@@ -28,6 +29,12 @@
                 </small>
             </div>
         </div>
+
+
+
+
+
+
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="employer">Nombre Empledor:</label>
