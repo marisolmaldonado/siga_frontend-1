@@ -1,17 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 // servicios
-import {NgxSpinnerService} from 'ngx-spinner';
-import {MessageService} from '../../../shared/services/message.service';
-import {FormBuilder} from '@angular/forms';
-import {JobBoardHttpService} from '../../../../services/job-board/job-board-http.service';
-import {HttpParams} from '@angular/common/http';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageService } from '../../../shared/services/message.service';
+import { FormBuilder } from '@angular/forms';
+import { JobBoardHttpService } from '../../../../services/job-board/job-board-http.service';
+import { HttpParams } from '@angular/common/http';
 
 // Modelos
-import {Paginator} from '../../../../models/setting/paginator';
-import {Offer, Category, SearchParams} from '../../../../models/job-board/models.index';
-import {User} from '../../../../models/auth/user';
-import {AuthService} from '../../../../services/auth/auth.service';
+import { Paginator } from '../../../../models/setting/paginator';
+import { Offer, Category, SearchParams } from '../../../../models/job-board/models.index';
+import { User } from '../../../../models/auth/user';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
     selector: 'app-web-offer',
@@ -46,10 +46,10 @@ export class WebOfferComponent implements OnInit {
     };
 
     constructor(private spinnerService: NgxSpinnerService,
-                private messageService: MessageService,
-                private authService: AuthService,
-                private formBuilder: FormBuilder,
-                private jobBoardHttpService: JobBoardHttpService) {
+        private messageService: MessageService,
+        private authService: AuthService,
+        private formBuilder: FormBuilder,
+        private jobBoardHttpService: JobBoardHttpService) {
         this.auth = authService.getAuth();
     }
 
@@ -112,9 +112,9 @@ export class WebOfferComponent implements OnInit {
         for (const category of categories) {
             const nodeChildren = [];
             for (const child of category.children) {
-                nodeChildren.push({id: child.id, label: child.name});
+                nodeChildren.push({ id: child.id, label: child.name });
             }
-            treeData.push({id: category.id, label: category.name, children: nodeChildren});
+            treeData.push({ id: category.id, label: category.name, children: nodeChildren });
         }
         this.treeData = treeData;
     }
