@@ -42,9 +42,8 @@ export class OfferComponent implements OnInit {
     this.formOffer = this.formBuilder.group({
       // VERIFICAR CAMPOS Y SI TODOS SON REQUERIDOS Y CON EL MINIMO
         id: [null],
-        vacancies: [null],
-        //TRAER DE EMPRESA
-        code: [null],
+        vacancies: [null, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
+        code: [{value: null, disabled: true}],
         aditional_information: [null],
         contact_name: [null, Validators.required],
         contact_email: [null, [Validators.required, Validators.email]],
@@ -52,21 +51,21 @@ export class OfferComponent implements OnInit {
         contact_cellphone: [null, Validators.required],
         remuneration: [null, Validators.required],
         contract_type: [null, Validators.required],
-        position: [null],
+        position: [null, Validators.required],
         sector: [null],
         working_day: [null, Validators.required],
         experience_time: [null],
         training_hours: [null, Validators.required],
         location: [null],
         status: [null],
-        start_date: [null],
-        end_date: [null],
+        start_date: [null, Validators.required],
+        end_date: [{value: null, disabled: true}],
         activities: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
         requirements: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
-        //company: [null],
     });
 }
 
+<<<<<<< HEAD
     getOffers(paginator: Paginator) {
         const params = new HttpParams()
             //compania id de donde saaco?
@@ -84,5 +83,22 @@ export class OfferComponent implements OnInit {
                 this.messageService.error(error);
             });
     }
+=======
+  getOffers(paginator: Paginator) {
+    const params = new HttpParams()
+      .append('page', paginator.current_page.toString())
+      .append('per_page', paginator.per_page.toString());
+    this.flagOffers = true;
+    this.jobBoardHttpService.get('offers', params).subscribe(
+      response => {
+        this.flagOffers = false;
+        this.offers = response['data'];
+        this.paginator = response as Paginator;
+      }, error => {
+        this.flagOffers = false;
+        this.messageService.error(error);
+      });
+  }
+>>>>>>> u_6_tobar-nataly
 
 }

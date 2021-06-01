@@ -35,6 +35,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {RippleModule} from 'primeng/ripple';
 import {CompanyComponent} from './company.component';
 import {OfferComponent} from "./offer/offer.component";
+<<<<<<< HEAD
 import {ProfileComponent} from './profile/profile.component';
 import {ProfessionalComponent} from './professional/professional.component';
 import {RegisterComponent} from './register/register.component';
@@ -43,6 +44,11 @@ import {ProfileFormComponent} from './profile/profile-form/profile-form.componen
 import {ProfessionalListComponent} from './professional/professional-list/professional-list.component';
 import {OfferListComponent} from './offer/offer-list/offer-list.component';
 import {OfferFormComponent} from './offer/offer-form/offer-form.component';
+=======
+import {OfferFormComponent} from "./offer/offer-form/offer-form.component";
+import {OfferListComponent} from "./offer/offer-list/offer-list.component";
+import {CalendarModule} from 'primeng/calendar';
+>>>>>>> u_6_tobar-nataly
 
 @NgModule({
     imports: [
@@ -77,6 +83,7 @@ import {OfferFormComponent} from './offer/offer-form/offer-form.component';
         CardModule,
         SkeletonModule,
         RippleModule,
+        CalendarModule,
     ],
     declarations: [
         CompanyComponent,

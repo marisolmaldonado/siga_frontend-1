@@ -38,9 +38,11 @@ export class OfferListComponent implements OnInit {
 
     loadColsOffer() {
         this.colsOffer = [
-            {field: 'id', header: 'Id'},
-            {field: 'code', header: 'Codigo'},
+            {field: 'status', header: 'Estado'},
             {field: 'vacancies', header: 'Vacantes'},
+            {field: 'position', header: 'Cargo'},
+            {field: 'start_date', header: 'Fecha Inicio'},
+            {field: 'end_date', header: 'Fecha Fin'},
         ];
     }
 
@@ -65,6 +67,7 @@ export class OfferListComponent implements OnInit {
     }
 
     openEditFormOffer(offer: Offer) {
+        console.log(offer);
         this.formOfferIn.patchValue(offer);
         this.formOfferOut.emit(this.formOfferIn);
         this.displayOut.emit(true);
