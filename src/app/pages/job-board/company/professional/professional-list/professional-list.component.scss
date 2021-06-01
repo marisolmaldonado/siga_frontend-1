@@ -1,0 +1,137 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:600,300);
+ 
+$brown: #ff8000;
+$remove: #d14f4f;
+$info: #59b3fd;
+
+.card {
+  margin: 0 auto;
+  width: 240px;
+  margin-left: 20px;
+  margin-top: 15px;
+  border-style:outset;
+  border-color: rgb(114, 159, 255);
+  background: rgb(255, 253, 253);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 10px 10px 15px 0 rgba(0,0,0,0.3);
+  float: left;
+}
+
+.profile {
+  width: 190px;
+  text-align: center;
+  
+  .image {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    margin: 38px auto 0 auto;
+    
+    .circle-1 {
+      position: absolute;
+      box-sizing: border-box;
+      width: 76px;
+      height: 76px;
+      top: -3px;
+      left: -3px;
+      border-width: 1px;
+      border-style: solid;
+      border-color: $brown $brown $brown transparent;
+      border-radius: 50%;
+      transition: all 1.5s ease-in-out;
+    }
+    
+    .circle-2 {
+      @extend .circle-1;
+      width: 82px;
+      height: 82px;
+      top: -6px;
+      left: -6px;
+      border-color: $brown transparent $brown $brown;
+    }
+    
+    img {
+      display: block;
+      border-radius: 50%;
+      background: #F5E8DF;
+    }
+    
+    &:hover {
+      cursor: pointer;
+      
+      .circle-1 {
+        transform: rotate(360deg);
+      }
+      
+      .circle-2 {
+        transform: rotate(-360deg);
+      }
+      
+    }
+    
+  }
+  
+  .name {
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+  
+  .ci {
+    font-size: 13px;
+    line-height: 17px;
+  }
+  .phone {
+    font-size: 13px;
+    line-height: 17px;
+  }
+  .email {
+    font-size: 13px;
+    line-height: 17px;
+  }
+  
+  .actions {
+    margin-top: 33px;
+    
+    .info {
+      display: block;
+      width: 120px;
+      height: 30px;
+      margin: 0 auto 10px auto;
+      background: none;
+      border: 1px solid $info;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: 600;
+      box-sizing: border-box;
+      transition: all .3s ease-in-out;
+      color: $info;
+      
+      &:hover {
+        background: $info;
+        color: #fff;
+      }
+    }
+    .remove {
+        display: block;
+        width: 120px;
+        height: 30px;
+        margin: 0 auto 10px auto;
+        background: none;
+        border: 1px solid $remove;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: 600;
+        box-sizing: border-box;
+        transition: all .3s ease-in-out;
+        color: $remove;
+        
+        &:hover {
+          background: $remove;
+          color: #fff;
+        }
+      }
+  }
+
+}

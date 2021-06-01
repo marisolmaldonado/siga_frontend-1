@@ -21,7 +21,7 @@ export class ProfessionalListComponent implements OnInit {
   @Output() formProfessionalOut = new EventEmitter<FormGroup>();
   @Output() displayOut = new EventEmitter<boolean>();
   @Output() paginatorOut = new EventEmitter<Paginator>();
-  selectedProfessionals: any[];
+  Professionals: any[];
   selectedProfessional: Company;
   dialogUploadFiles: boolean;
   paginatorFiles: Paginator;
@@ -35,7 +35,6 @@ export class ProfessionalListComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   pageChange(event) {
@@ -45,7 +44,7 @@ export class ProfessionalListComponent implements OnInit {
 
 
 
-  selectProfessional(professional: Company) {
+  removeProfessional(professional: Company) {
     this.messageService.questionDelete({})
             .then((result) => {
               if(result.isConfirmed){
@@ -63,5 +62,5 @@ export class ProfessionalListComponent implements OnInit {
             });
 
   }
-  
+
 }

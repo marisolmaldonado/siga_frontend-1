@@ -23,7 +23,7 @@ export class ProfessionalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private jobBoardHttpService: JobBoardHttpService
   ) {
-    this.paginator = { current_page: 1, per_page: 3 };
+    this.paginator = { current_page: 1, per_page: 4 };
     this.professionals = [];
    }
 
