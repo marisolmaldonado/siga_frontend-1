@@ -3,27 +3,27 @@
     <form [formGroup]="formReferenceIn" (ngSubmit)="onSubmit($event)">
     
         <div class="p-field">
-             <label for="institution">
-                 <i class="p-error">*</i> Institución:
-                 <i *ngIf="institutionField.valid" class="pi pi-check-circle icon-valid"></i>
-                 <i *ngIf="institutionField.invalid && (institutionField.touched || institutionField.dirty)"
-                     class="pi pi-times-circle icon-invalid"></i>
-             </label>
-             <p-autoComplete id="institution" name="institution" formControlName="institution"
-                 [suggestions]="filteredInstitutions" (completeMethod)="filterInstitution($event)" field="name"
-                 [dropdown]="true">
-                 <ng-template let-institution pTemplate="item">
-                     <div class="country-item">
-                         <div>{{institution.name}}</div>
-                     </div>
-                 </ng-template>
-             </p-autoComplete>
-             <div *ngIf="institutionField.invalid && (institutionField.touched || institutionField.dirty)">
-                 <small *ngIf="institutionField.errors?.required" id="institution-help-1" class="p-error">
-                     {{messageService.fieldRequired}}
-                 </small>
-             </div>
-         </div>
+            <label for="institution">
+                <i class="p-error">*</i> Institución:
+                <i *ngIf="institutionField.valid" class="pi pi-check-circle icon-valid"></i>
+                <i *ngIf="institutionField.invalid && (institutionField.touched || institutionField.dirty)"
+                    class="pi pi-times-circle icon-invalid"></i>
+            </label>
+            <p-autoComplete id="institution" name="institution" formControlName="institution"
+                [suggestions]="filteredInstitutions" (completeMethod)="filterInstitution($event)" field="name"
+                [dropdown]="true">
+                <ng-template let-institution pTemplate="item">
+                    <div class="country-item">
+                        <div>{{institution.name}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <div *ngIf="institutionField.invalid && (institutionField.touched || institutionField.dirty)">
+                <small *ngIf="institutionField.errors?.required" id="institution-help-1" class="p-error">
+                    {{messageService.fieldRequired}}
+                </small>
+            </div>
+        </div>
          <div class="p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="position">Posición:</label>
@@ -41,6 +41,28 @@
                 <input id="contact_name" name="contact_name" pInputText formControlName="contact_name" />
                 <div *ngIf="contact_nameField.errors && contact_nameField.touched">
                     <small *ngIf="contact_nameField.hasError('required')" id="contact_name-help-1" class="p-error">
+                        {{messageService.fieldRequired}}
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="contact_phone">Número de contacto:</label>
+                <input id="contact_phone" name="contact_phone" pInputText formControlName="contact_phone" />
+                <div *ngIf="contact_phoneField.errors && contact_phoneField.touched">
+                    <small *ngIf="contact_phoneField.hasError('required')" id="contact_phone-help-1" class="p-error">
+                        {{messageService.fieldRequired}}
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="contact_email">Email de contacto:</label>
+                <input id="contact_email" name="contact_email" pInputText formControlName="contact_email" />
+                <div *ngIf="contact_emailField.errors && contact_emailField.touched">
+                    <small *ngIf="contact_emailField.hasError('required')" id="contact_email-help-1" class="p-error">
                         {{messageService.fieldRequired}}
                     </small>
                 </div>

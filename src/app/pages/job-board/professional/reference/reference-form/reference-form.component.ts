@@ -60,11 +60,11 @@ export class ReferenceFormComponent implements OnInit {
         return this.formReferenceIn.get('contact_name');
     }
 
-    get contactPhoneField() {
+    get contact_phoneField() {
         return this.formReferenceIn.get('contact_phone');
     }
 
-    get contactEmailField() {
+    get contact_emailField() {
         return this.formReferenceIn.get('contact_email');
     }
 
