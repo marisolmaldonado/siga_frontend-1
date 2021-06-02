@@ -81,7 +81,7 @@ export class SkillListComponent implements OnInit {
         this.displayOut.emit(true);
     }
 
-    openUploadFilesSkill() {
+    openUploadFilesSkill()  {
         this.dialogUploadFiles = true;
     }
 
