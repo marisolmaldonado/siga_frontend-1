@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup} from '@angular/forms';
 import { MessageService } from '../../../shared/services/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../../../../models/auth/user';
@@ -34,17 +34,11 @@ export class UserFormComponent implements OnInit {
   get idField() {
     return this.formUserIn.get('id');
   }
-  get usernameField() {
-    return this.formUserIn.get('username');
-  }
   get identificationField() {
     return this.formUserIn.get('identification');
   }
   get firstNameField() {
-    return this.formUserIn.get('first_name');
-  }
-  get secondNameField() {
-    return this.formUserIn.get('second_name');
+    return this.formUserIn.get('names');
   }
   get firstLastnameField() {
     return this.formUserIn.get('first_lastname');
@@ -54,15 +48,6 @@ export class UserFormComponent implements OnInit {
   }
   get emailField() {
     return this.formUserIn.get('email');
-  }
-  get passwordField() {
-    return this.formUserIn.get('password');
-  }
-  get phoneField() {
-    return this.formUserIn.get('phone');
-  }
-  get personalEmailField() {
-    return this.formUserIn.get('personal_email');
   }
 
   // Save in backend

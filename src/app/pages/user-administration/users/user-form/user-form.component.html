@@ -2,18 +2,6 @@
     <form [formGroup]="formUserIn" (ngSubmit)="onSubmit($event)">
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
-                <label for="username">Nombre de Usuario</label>
-                <input pInputText id="username" type="text" formControlName="username">
-                <div *ngIf="usernameField.errors && (usernameField.touched || usernameField.dirty)">
-                    <small *ngIf="usernameField.hasError('required')" id="username-help-1" class="p-error">
-                        El campo es obligatorio.
-                    </small>
-                    <small *ngIf="usernameField.hasError('minlength')" id="username-help-2" class="p-error">
-                        Mínimo de caracteres es {{usernameField.errors.minlength.requiredLength}}.
-                    </small>
-                </div>
-            </div>
-            <div class="p-field p-col">
                 <label for="identification">Identificación</label>
                 <input pInputText id="identification" type="text" formControlName="identification">
                 <div *ngIf="identificationField.errors && identificationField.touched">
@@ -25,19 +13,10 @@
         </div>
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
-                <label for="first_name">Primer Nombre</label>
-                <input pInputText id="first_name" type="text" formControlName="first_name">
+                <label for="first_name">Nombres</label>
+                <input pInputText id="first_name" type="text" formControlName="names">
                 <div *ngIf="firstNameField.errors && firstNameField.touched">
                     <small *ngIf="firstNameField.hasError('required')" id="first_name-help-1" class="p-error">
-                        El campo es obligatorio.
-                    </small>
-                </div>
-            </div>
-            <div class="p-field p-col">
-                <label for="second_name">Segundo Nombre</label>
-                <input pInputText id="second_name" type="text" formControlName="second_name">
-                <div *ngIf="secondNameField.errors && secondNameField.touched">
-                    <small *ngIf="secondNameField.hasError('required')" id="second_name-help-1" class="p-error">
                         El campo es obligatorio.
                     </small>
                 </div>
@@ -78,36 +57,11 @@
                     </small>
                 </div>
             </div>
-            <div class="p-field p-col">
-                <label for="password">Contraseña</label>
-                <p-password id="password" formControlName="password"></p-password>
-                <div *ngIf="passwordField.errors && passwordField.touched">
-                    <small *ngIf="passwordField.hasError('required')" id="password-help-1" class="p-error">
-                        El campo es obligatorio.
-                    </small>
-                </div>
-            </div>
+           
         </div>
         <div class="p-formgrid p-grid">
-            <div class="p-field p-col">
-                <label for="phone">Telefono</label>
-                <input pInputText id="phone" type="text" formControlName="phone">
-                <div *ngIf="phoneField.errors && phoneField.touched">
-                    <small *ngIf="phoneField.hasError('required')" id="phone-help-1" class="p-error">
-                        El campo es obligatorio.
-                    </small>
-                </div>
-            </div>
-            <div class="p-field p-col">
-                <label for="personal_email">Correo electrónico personal</label>
-                <input pInputText id="personal_email" type="text" formControlName="personal_email">
-                <div *ngIf="personalEmailField.errors && (personalEmailField.touched || personalEmailField.dirty)">
-                    <small *ngIf="personalEmailField.hasError('personal_email')" id="personal_email-help-1"
-                        class="p-error">
-                        Correo No valido
-                    </small>
-                </div>
-            </div>
+          
+           
         </div>
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
