@@ -6,6 +6,7 @@ import { Paginator } from '../../../../../models/setting/paginator';
 import { HttpParams } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageService } from 'src/app/pages/shared/services/message.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-professional-list',
@@ -20,7 +21,8 @@ export class ProfessionalListComponent implements OnInit {
   constructor(
     private jobBoardHttpService: JobBoardHttpService,
     private spinnerService: NgxSpinnerService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private authService: AuthService) {
       this.paginator = {current_page: 1, per_page: 9};
       this.professionals = [];
       this.body = {ids: null, search: null};
@@ -63,4 +65,27 @@ export class ProfessionalListComponent implements OnInit {
     this.getProfessionals(this.paginator, this.body);
   }
 
+  professionalAplied(professional: Professional): void {
+    const user = this.authService.getAuth();
+    
+    if (user) {
+      const params = new HttpParams()
+        .append('professional_id', professional.id.toString())
+        .append('user_id', user.id.toString());
+
+      this.spinnerService.show();
+      this.jobBoardHttpService.get('web-professional/apply-professional', params).subscribe(
+        response => {
+          this.spinnerService.hide();
+          this.messageService.success(response);
+        },
+        error => {
+          this.spinnerService.hide();
+          this.messageService.error(error);
+        }
+      );
+    } else {
+      console.error('Primero necesitas iniciar sesión');
+    }
+  }
 }

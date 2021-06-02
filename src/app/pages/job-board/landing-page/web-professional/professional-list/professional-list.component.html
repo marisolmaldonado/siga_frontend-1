@@ -15,8 +15,18 @@
                     </ng-template>
                     {{professional.about_me}}
                     <ng-template pTemplate="footer">
-                        <button pButton type="button" label="Más Información" class="p-button-info" icon="pi pi-info-circle" iconPos="left"></button>
-                        <button pButton type="button" label="Contactar" class="p-button-success" icon="pi pi-envelope" iconPos="left"></button>
+                        <button pButton type="button"
+                                label="Más Información"
+                                class="p-button-info"
+                                icon="pi pi-info-circle"
+                                iconPos="left"></button>
+                        
+                        <button pButton type="button"
+                                label="Contactar"
+                                class="p-button-success"
+                                icon="pi pi-envelope"
+                                iconPos="left"
+                                (click)="professionalAplied(professional)"></button>
                     </ng-template>
                 </p-card>
             </div>
