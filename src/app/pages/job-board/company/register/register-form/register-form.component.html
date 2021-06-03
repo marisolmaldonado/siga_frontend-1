@@ -65,7 +65,7 @@
                     <i *ngIf="identificationTypeField.invalid && (identificationTypeField.touched || identificationTypeField.dirty)"
                       class="pi pi-times-circle icon-invalid"></i>
                   </label>
-                  <p-autoComplete id="identificationType" formControlName="identificationType"
+                  <p-autoComplete id="identificationType" formControlName="identification_type"
                     [suggestions]="filteredidentificationTypes" (completeMethod)="filterIdentificationType($event)"
                     field="name" [dropdown]="true">
                     <ng-template let-type pTemplate="item">
@@ -147,7 +147,7 @@
                   <i *ngIf="personTypeField.invalid && (personTypeField.touched || personTypeField.dirty)"
                     class="pi pi-times-circle icon-invalid"></i>
                 </label>
-                <p-autoComplete id="personType" formControlName="personType" [suggestions]="filteredpersonType"
+                <p-autoComplete id="personType" formControlName="person_type" [suggestions]="filteredpersonType"
                   (completeMethod)="filterPersonType($event)" field="name" [dropdown]="true">
                   <ng-template let-type pTemplate="item">
                     <div class="country-item">
@@ -189,7 +189,7 @@
                   <i *ngIf="activityTypeField.invalid && (activityTypeField.touched || activityTypeField.dirty)"
                     class="pi pi-times-circle icon-invalid"></i>
                 </label>
-                <p-autoComplete id="activityType" formControlName="activityType" [suggestions]="filteredactivityType"
+                <p-autoComplete id="activityType" formControlName="activity_type" [suggestions]="filteredactivityType"
                   (completeMethod)="filterActivityType($event)" field="name" [dropdown]="true">
                   <ng-template let-type pTemplate="item">
                     <div class="country-item">

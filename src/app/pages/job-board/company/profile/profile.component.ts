@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { JobBoardHttpService } from '../../../../services/job-board/job-board-http.service';
 import { Company } from 'src/app/models/job-board/company';
-import { Paginator } from '../../../../models/setting/paginator';
-import { HttpParams } from '@angular/common/http';
-import { NgxSpinnerService } from 'ngx-spinner';
-import {MessageService} from '../../../shared/services/message.service'
 import { User } from 'src/app/models/auth/user';
 
 
@@ -16,9 +11,7 @@ import { User } from 'src/app/models/auth/user';
 })
 export class ProfileComponent implements OnInit {
 
-  paginator: Paginator;
-  professionals: Company[];
-  professional:Company;
+
   formCompany: FormGroup;
   formProfessional:FormGroup;
   company: Company;
@@ -27,10 +20,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-  ) {
-    this.paginator = { current_page: 1, per_page: 3 };
-    this.professionals = [];
-  }
+  ) { }
 
   ngOnInit(): void {
     this.buildFormCompany();
@@ -48,7 +38,7 @@ export class ProfileComponent implements OnInit {
       trade_name: [null, Validators.required],
       prefix:[null,Validators.required],
       comercial_activities: this.formBuilder.array([
-        this.formBuilder.control(null, Validators.required)
+        this.formBuilder.control([null, Validators.required])
       ]),
       web: [null, Validators.required],
       type: [null, Validators.required],

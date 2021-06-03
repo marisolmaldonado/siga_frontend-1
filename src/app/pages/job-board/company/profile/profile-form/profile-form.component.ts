@@ -75,11 +75,12 @@ export class ProfileFormComponent implements OnInit {
     return this.formCompanyIn.get('prefix');
   }
   get comercialActivitiesField() {
-    return this.formCompanyIn.get('comercial_activities')as FormArray;
+    return this.formCompanyIn.get("comercial_activities") as FormArray;
   }
 
+
   addComercialActivity(){
-      this.comercialActivitiesField.push(this.formBuilder.control(null,Validators.required));
+    this.comercialActivitiesField.push(this.formBuilder.control(null,Validators.required));
   }
   removeComercialActivity(index){
       this.comercialActivitiesField.removeAt(index);
@@ -130,6 +131,7 @@ export class ProfileFormComponent implements OnInit {
             this.spinnerService.hide();
             this.messageService.success(response);
             this.formCompanyIn.patchValue(response['data']);
+            console.log(response);
         }, error => {
             this.spinnerService.hide();
             this.messageService.error(error);

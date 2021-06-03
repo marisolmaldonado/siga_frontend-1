@@ -77,7 +77,7 @@ export class RegisterFormComponent implements OnInit {
     }
 
     get identificationTypeField() {
-        return this.formRegisterIn['controls']['user'].get('identificationType');
+        return this.formRegisterIn['controls']['user'].get('identification_type');
     }
 
     get tradeNameField() {
@@ -104,11 +104,11 @@ export class RegisterFormComponent implements OnInit {
     }
 
     get activityTypeField() {
-        return this.formRegisterIn.get('activityType');
+        return this.formRegisterIn.get('activity_type');
     }
 
     get personTypeField() {
-        return this.formRegisterIn.get('personType');
+        return this.formRegisterIn.get('person_type');
     }
 
     get dateField() {

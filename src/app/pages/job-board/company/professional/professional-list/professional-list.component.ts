@@ -51,7 +51,7 @@ export class ProfessionalListComponent implements OnInit {
                 this.selectedProfessional = professional;
                 let params = new HttpParams().append('professional_id', this.selectedProfessional.pivot.professional_id.toString());
                 this.jobBoardHttpService.get('company/detach', params).subscribe(response => {
-                 response['data'];
+                   response['data'];
                   console.log(response);
                   this.spinnerService.hide();
                 }, error => {

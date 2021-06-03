@@ -182,7 +182,7 @@
         </div>
       </div>
       <div formArrayName="comercial_activities">
-        <div *ngFor="let comercial_activity of comercialActivitiesField.controls; let i = index;">
+        <div *ngFor="let comercial_activity of comercialActivitiesField.controls let i = index;">
           <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-xl-11 p-lg-11 p-md-6 p-sm-12">
               <input id="comercialActivities" [formControlName]="i" pInputText>
@@ -200,6 +200,7 @@
           </div>
         </div>
       </div>
+      {{formCompanyIn.get("comercial_activities").value | json}}
     </p-card>
     <div class="p-formgrid p-grid">
       <div class="p-field p-col">
