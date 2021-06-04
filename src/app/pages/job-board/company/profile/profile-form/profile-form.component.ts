@@ -78,9 +78,8 @@ export class ProfileFormComponent implements OnInit {
     return this.formCompanyIn.get("comercial_activities") as FormArray;
   }
 
-
-  addComercialActivity(){
-    this.comercialActivitiesField.push(this.formBuilder.control(null,Validators.required));
+  addComercialActivity(data=null){
+    this.comercialActivitiesField.push(this.formBuilder.control(data,Validators.required));
   }
   removeComercialActivity(index){
       this.comercialActivitiesField.removeAt(index);
@@ -131,7 +130,13 @@ export class ProfileFormComponent implements OnInit {
             this.spinnerService.hide();
             this.messageService.success(response);
             this.formCompanyIn.patchValue(response['data']);
+            this.comercialActivitiesField.removeAt(0);
+            for(const comercialActivity of response['data']['comercial_activities']){
+              console.log(comercialActivity);
+              this.addComercialActivity(comercialActivity);
+            }
             console.log(response);
+            console.log(this.comercialActivitiesField.value);
         }, error => {
             this.spinnerService.hide();
             this.messageService.error(error);

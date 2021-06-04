@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import { Company } from 'src/app/models/job-board/company';
+import { Professional,Company } from 'src/app/models/job-board/models.index';
 import {Paginator} from '../../../../../models/setting/paginator';
 import {MessageService} from '../../../../shared/services/message.service'; 
 import {NgxSpinnerService} from 'ngx-spinner';
@@ -44,15 +44,13 @@ export class ProfessionalListComponent implements OnInit {
 
 
 
-  removeProfessional(professional: Company) {
+  deleteProfessional(id:string) {
     this.messageService.questionDelete({})
             .then((result) => {
               if(result.isConfirmed){
-                this.selectedProfessional = professional;
-                let params = new HttpParams().append('professional_id', this.selectedProfessional.pivot.professional_id.toString());
+                let params = new HttpParams().append('professional_id', id);
                 this.jobBoardHttpService.get('company/detach', params).subscribe(response => {
-                   response['data'];
-                  console.log(response);
+                  this.remove(id);
                   this.spinnerService.hide();
                 }, error => {
                   this.spinnerService.hide();
@@ -62,5 +60,12 @@ export class ProfessionalListComponent implements OnInit {
             });
 
   }
+
+  
+  remove(id) {
+   
+        this.professionalsIn = this.professionalsIn.filter(element => element.id !== id);
+        this.professionalsOut.emit(this.professionalsIn);
+}
 
 }
