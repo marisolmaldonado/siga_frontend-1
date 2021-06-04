@@ -1,10 +1,10 @@
-import { Component, forwardRef, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
-import { AppHttpService } from '../../../../services/app/app-http.service';
-import { Location } from '../../../../models/app/location';
-import { MessageService as MessagePnService } from 'primeng/api';
-import { MessageService } from '../../services/message.service';
-import { SharedService } from '../../services/shared.service';
+import {Component, forwardRef, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
+import {AppHttpService} from '../../../../services/app/app-http.service';
+import {Location} from '../../../../models/app/location';
+import {MessageService as MessagePnService} from 'primeng/api';
+import {MessageService} from '../../services/message.service';
+import {SharedService} from '../../services/shared.service';
 
 @Component({
     selector: 'app-location',
@@ -20,7 +20,7 @@ import { SharedService } from '../../services/shared.service';
 })
 
 export class LocationComponent implements OnInit, ControlValueAccessor {
-    @Input() option: number;
+    @Input() option = 1;
     @Output() formLocationOut = new EventEmitter<FormGroup>();
     formLocation: FormGroup;
     countries: Location[];
@@ -45,7 +45,6 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
         this.provinces = [];
         this.cantons = [];
         this.parishes = [];
-        this.option = 4;
     }
 
     ngOnInit(): void {
@@ -224,7 +223,7 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
 
     updateValue(field): void {
         if (this.formLocation.valid && field.value?.id) {
-            this.value = { id: field.value.id };
+            this.value = {id: field.value.id};
             this.onChange(this.value);
             // this.formLocationOut.emit(this.formLocation);
         }
