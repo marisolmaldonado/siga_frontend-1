@@ -11,15 +11,5 @@ export const LandingPageRouting: Routes = [
     {
         path: '',
         component: LandingPageComponent,
-        canActivate: [AuthGuard],
-        children: [{
-            path: 'professionals',
-            component: WebProfessionalComponent
-        },
-            {
-                path: 'offers',
-                component: WebOfferComponent
-            }
-        ]
     }
 ];

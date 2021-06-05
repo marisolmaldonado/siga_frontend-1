@@ -20,7 +20,7 @@ import {SharedService} from '../../services/shared.service';
 })
 
 export class LocationComponent implements OnInit, ControlValueAccessor {
-    @Input() option: number;
+    @Input() option = 1;
     @Output() formLocationOut = new EventEmitter<FormGroup>();
     formLocation: FormGroup;
     countries: Location[];
@@ -45,7 +45,6 @@ export class LocationComponent implements OnInit, ControlValueAccessor {
         this.provinces = [];
         this.cantons = [];
         this.parishes = [];
-        this.option = 4;
     }
 
     ngOnInit(): void {

@@ -1,10 +1,10 @@
 <p-toast></p-toast>
 <div class="p-fluid">
     <form [formGroup]="formAddress">
-        <app-location [option]="option" name="location" formControlName="location"
+        <app-location [option]="option" [header]="headerLocation" id="location" formControlName="location"
                       (formLocationOut)="emitFormLocation($event)"></app-location>
         <br>
-        <p-card header="Dirección:">
+        <p-card [header]="headerAddress+':  '">
             <div class="p-field">
                 <label><i class="p-error">*</i> Sector:
                     <i *ngIf="sectorField.valid" class="pi pi-check-circle icon-valid"></i>
