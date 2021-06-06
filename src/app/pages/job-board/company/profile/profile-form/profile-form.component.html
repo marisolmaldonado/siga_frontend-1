@@ -182,7 +182,11 @@
         </div>
       </div>
       <div formArrayName="comercial_activities">
+<<<<<<< HEAD
         <div *ngFor="let comercial_activity of comercialActivitiesField.controls let i = index;">
+=======
+        <div *ngFor="let comercial_activity of comercialActivitiesField.controls; let i = index;">
+>>>>>>> mod_6_jobboard
           <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-xl-11 p-lg-11 p-md-6 p-sm-12">
               <input id="comercialActivities" [formControlName]="i" pInputText>
@@ -200,7 +204,10 @@
           </div>
         </div>
       </div>
+<<<<<<< HEAD
       {{formCompanyIn.get("comercial_activities").value | json}}
+=======
+>>>>>>> mod_6_jobboard
     </p-card>
     <div class="p-formgrid p-grid">
       <div class="p-field p-col">

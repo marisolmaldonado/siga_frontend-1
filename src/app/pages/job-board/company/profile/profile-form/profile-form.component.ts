@@ -75,11 +75,19 @@ export class ProfileFormComponent implements OnInit {
     return this.formCompanyIn.get('prefix');
   }
   get comercialActivitiesField() {
+<<<<<<< HEAD
     return this.formCompanyIn.get("comercial_activities") as FormArray;
   }
 
   addComercialActivity(data=null){
     this.comercialActivitiesField.push(this.formBuilder.control(data,Validators.required));
+=======
+    return this.formCompanyIn.get('comercial_activities')as FormArray;
+  }
+
+  addComercialActivity(){
+      this.comercialActivitiesField.push(this.formBuilder.control(null,Validators.required));
+>>>>>>> mod_6_jobboard
   }
   removeComercialActivity(index){
       this.comercialActivitiesField.removeAt(index);
@@ -130,6 +138,7 @@ export class ProfileFormComponent implements OnInit {
             this.spinnerService.hide();
             this.messageService.success(response);
             this.formCompanyIn.patchValue(response['data']);
+<<<<<<< HEAD
             this.comercialActivitiesField.removeAt(0);
             for(const comercialActivity of response['data']['comercial_activities']){
               console.log(comercialActivity);
@@ -137,6 +146,8 @@ export class ProfileFormComponent implements OnInit {
             }
             console.log(response);
             console.log(this.comercialActivitiesField.value);
+=======
+>>>>>>> mod_6_jobboard
         }, error => {
             this.spinnerService.hide();
             this.messageService.error(error);

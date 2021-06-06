@@ -28,7 +28,9 @@ import { SharedService } from '../../services/shared.service';
 })
 
 export class LocationAddressComponent implements OnInit, ControlValueAccessor {
-    @Input() option: number;
+    @Input() option = 1;
+    @Input() headerLocation = 'Localización';
+    @Input() headerAddress = 'Dirección';
     @Output() formAddressOut = new EventEmitter<FormGroup>();
     @Output() formLocationOut = new EventEmitter<FormGroup>();
     formAddress: FormGroup;
@@ -40,7 +42,6 @@ export class LocationAddressComponent implements OnInit, ControlValueAccessor {
 
     constructor(private formBuilder: FormBuilder,
                 private appHttpService: AppHttpService,
-                private sharedService: SharedService,
                 public messageService: MessageService) {
 
     }

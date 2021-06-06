@@ -1,5 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+<<<<<<< HEAD
 import { Professional,Company } from 'src/app/models/job-board/models.index';
+=======
+import { Company } from 'src/app/models/job-board/company';
+>>>>>>> mod_6_jobboard
 import {Paginator} from '../../../../../models/setting/paginator';
 import {MessageService} from '../../../../shared/services/message.service'; 
 import {NgxSpinnerService} from 'ngx-spinner';
@@ -13,7 +17,10 @@ import {HttpParams} from '@angular/common/http';
   styleUrls: ['./professional-list.component.scss']
 })
 export class ProfessionalListComponent implements OnInit {
+<<<<<<< HEAD
 
+=======
+>>>>>>> mod_6_jobboard
   @Input() professionalsIn: Company[];
   @Input() paginatorIn: Paginator;
   @Input() formProfessionalIn: FormGroup;
@@ -21,7 +28,11 @@ export class ProfessionalListComponent implements OnInit {
   @Output() formProfessionalOut = new EventEmitter<FormGroup>();
   @Output() displayOut = new EventEmitter<boolean>();
   @Output() paginatorOut = new EventEmitter<Paginator>();
+<<<<<<< HEAD
   Professionals: any[];
+=======
+  selectedProfessionals: any[];
+>>>>>>> mod_6_jobboard
   selectedProfessional: Company;
   dialogUploadFiles: boolean;
   paginatorFiles: Paginator;
@@ -30,9 +41,13 @@ export class ProfessionalListComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: NgxSpinnerService,
     private jobBoardHttpService: JobBoardHttpService
+<<<<<<< HEAD
   ) { 
 
   }
+=======
+  ) { }
+>>>>>>> mod_6_jobboard
 
   ngOnInit() {
   }
@@ -42,6 +57,7 @@ export class ProfessionalListComponent implements OnInit {
     this.paginatorOut.emit(this.paginatorIn);
   }
 
+<<<<<<< HEAD
 
 
   deleteProfessional(id:string) {
@@ -68,4 +84,12 @@ export class ProfessionalListComponent implements OnInit {
         this.professionalsOut.emit(this.professionalsIn);
 }
 
+=======
+  selectProfessional(professional: Company) {
+    this.selectedProfessional = professional;
+    console.log(this.selectedProfessional);
+  }
+  deleteProfessional(){
+  }
+>>>>>>> mod_6_jobboard
 }
