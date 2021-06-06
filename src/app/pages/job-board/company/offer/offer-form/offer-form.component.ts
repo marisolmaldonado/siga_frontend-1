@@ -403,21 +403,16 @@ export class OfferFormComponent implements OnInit {
         if (this.startDateField.value != null) {
             let momentVariable = new Date(this.startDateField.value); 
             if ((momentVariable.getDate()+1) < 10 && (momentVariable.getMonth()+2) > 10) {
-                console.log(momentVariable);
                 let finalDate = momentVariable.getFullYear() + "-" + (momentVariable.getMonth()+2) + "-" + "0" + (momentVariable.getDate()+1);       
                 this.endDateField.patchValue(finalDate);
             } 
             if ((momentVariable.getMonth()+2) < 10 && (momentVariable.getDate()+1) > 10 ) {
-                console.log(momentVariable);
                 let finalDate = momentVariable.getFullYear() + "-" + "0" +(momentVariable.getMonth()+2) + "-" + (momentVariable.getDate()+1);      
                 this.endDateField.patchValue(finalDate);
             } else {
-                console.log(momentVariable);
-
                 let finalDate = momentVariable.getFullYear() + "-" + "0" +(momentVariable.getMonth()+2) + "-" + "0" + (momentVariable.getDate()+1);       
                 this.endDateField.patchValue(finalDate);
             }      
         }   
-        // 2020-02-03
     }
 }

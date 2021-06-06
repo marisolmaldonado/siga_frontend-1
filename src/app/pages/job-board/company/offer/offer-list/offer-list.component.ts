@@ -40,6 +40,9 @@ export class OfferListComponent implements OnInit {
     get activitiesField() {
         return this.formOfferIn.get('activities') as FormArray;
     }
+    get requirementsField() {
+        return this.formOfferIn.get('requirements') as FormArray;
+    }
 
     loadColsOffer() {
         this.colsOffer = [
@@ -74,16 +77,23 @@ export class OfferListComponent implements OnInit {
     openEditFormOffer(offer: Offer) {
         console.log(offer);
         this.formOfferIn.patchValue(offer);
-            this.activitiesField.removeAt(0);
+            this.activitiesField.clear();
+            this.requirementsField.clear();
             for(const activity of offer.activities){
               this.addActivities(activity);
             }
+            for(const requirement of offer.requirements){
+                this.addRequirements(requirement);
+              }
         this.formOfferOut.emit(this.formOfferIn);
         this.displayOut.emit(true);
     }
 
     addActivities(data = null){
         this.activitiesField.push(this.formBuilder.control(data, Validators.required));
+    }
+    addRequirements(data = null){
+        this.requirementsField.push(this.formBuilder.control(data, Validators.required));
     }
 
     paginateOffer(event) {

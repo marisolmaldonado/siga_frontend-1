@@ -61,7 +61,6 @@ export class OfferComponent implements OnInit {
       location: [null],
       status: [null],
       start_date: [null, Validators.required],
-      //end_date: [null],
       end_date: [{ value: null, disabled: true }],
       activities: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
       requirements: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
