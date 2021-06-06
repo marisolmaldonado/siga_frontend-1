@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {BreadcrumbService} from '../../../../shared/services/breadcrumb.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BreadcrumbService } from '../../../../shared/services/breadcrumb.service';
 import { HttpParams } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Offer } from '../../../../models/job-board/offer';
@@ -28,10 +28,10 @@ export class OfferComponent implements OnInit {
     private jobBoardHttpService: JobBoardHttpService,
     private breadcrumbService: BreadcrumbService) {
     this.breadcrumbService.setItems([
-        {label: 'Compania', routerLink: ['/job-board/company']},
-        {label: 'Oferta'}
+      { label: 'Compania', routerLink: ['/job-board/company'] },
+      { label: 'Oferta' }
     ]);
-    this.paginator = {current_page: 1, per_page: 2};
+    this.paginator = { current_page: 1, per_page: 2 };
     this.offers = [];
   }
 
@@ -43,29 +43,30 @@ export class OfferComponent implements OnInit {
   buildFormSkill() {
     this.formOffer = this.formBuilder.group({
       // VERIFICAR CAMPOS Y SI TODOS SON REQUERIDOS Y CON EL MINIMO
-        id: [null],
-        vacancies: [null, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
-        code: [{value: null, disabled: true}],
-        aditional_information: [null],
-        contact_name: [null, Validators.required],
-        contact_email: [null, [Validators.required, Validators.email]],
-        contact_phone: [null, Validators.required],
-        contact_cellphone: [null, Validators.required],
-        remuneration: [null, Validators.required],
-        contract_type: [null, Validators.required],
-        position: [null, Validators.required],
-        sector: [null],
-        working_day: [null, Validators.required],
-        experience_time: [null],
-        training_hours: [null, Validators.required],
-        location: [null],
-        status: [null],
-        start_date: [null, Validators.required],
-        end_date: [{value: null, disabled: true}],
-        activities: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
-        requirements: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
+      id: [null],
+      vacancies: [null, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
+      code: [{ value: null, disabled: true }],
+      aditional_information: [null],
+      contact_name: [null, Validators.required],
+      contact_email: [null, [Validators.required, Validators.email]],
+      contact_phone: [null],
+      contact_cellphone: [null],
+      remuneration: [null, Validators.required],
+      contract_type: [null, Validators.required],
+      position: [null, Validators.required],
+      sector: [null],
+      working_day: [null, Validators.required],
+      experience_time: [null],
+      training_hours: [null, Validators.required],
+      location: [null],
+      status: [null],
+      start_date: [null, Validators.required],
+      //end_date: [null],
+      end_date: [{ value: null, disabled: true }],
+      activities: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
+      requirements: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
     });
-}
+  }
 
   getOffers(paginator: Paginator) {
     const params = new HttpParams()
@@ -82,5 +83,4 @@ export class OfferComponent implements OnInit {
         this.messageService.error(error);
       });
   }
-
 }

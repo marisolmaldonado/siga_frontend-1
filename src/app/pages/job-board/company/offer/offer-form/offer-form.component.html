@@ -90,44 +90,18 @@
                 <div class="p-formgrid p-grid">
                     <div class="p-lg-6 p-md-6 p-sm-12">
                         <div class="p-field">
-                            <label for="contact_phone">
-                                <i class="p-error">*</i> Teléfono del contacto:
-                                <i *ngIf="contactPhoneField.valid" class="pi pi-check-circle icon-valid"></i>
-                                <i *ngIf="contactPhoneField.invalid && (contactPhoneField.touched || contactPhoneField.dirty)"
-                                    class="pi pi-times-circle icon-invalid"></i>
-                            </label>
+                            <label for="contact_phone"> Teléfono del contacto:</label>
                             <input pInputText id="contact_phone" 
                                 formControlName="contact_phone"
-                                placeholder="Incluir extension Ej. 02-24738" 
-                                 />
-                            <div *ngIf="contactPhoneField.errors && (contactPhoneField.touched || contactPhoneField.dirty)">
-                                <small *ngIf="contactPhoneField.errors?.required" 
-                                        id="contact_phone-help-1" 
-                                        class="p-error">
-                                    {{messageService.fieldRequired}}
-                                </small>
-                            </div>
+                                placeholder="Incluir extension Ej. 02-24738" />
                         </div>
                     </div>
                     <div class="p-lg-6 p-md-6 p-sm-12">
                         <div class="p-field">
-                            <label for="contact_cellphone">
-                                <i class="p-error">*</i> Celular del contacto:
-                                <i *ngIf="contactCellphoneField.valid" class="pi pi-check-circle icon-valid"></i>
-                                <i *ngIf="contactCellphoneField.invalid && (contactCellphoneField.touched || contactCellphoneField.dirty)"
-                                    class="pi pi-times-circle icon-invalid"></i>
-                            </label>
+                            <label for="contact_cellphone"> Celular del contacto:</label>
                             <input pInputText id="contact_cellphone" 
                                 formControlName="contact_cellphone"
-                                placeholder="Incluir extension Ej. +593-504172422" 
-                                 />
-                            <div *ngIf="contactCellphoneField.errors && (contactCellphoneField.touched || contactCellphoneField.dirty)">
-                                <small *ngIf="contactCellphoneField.errors?.required" 
-                                        id="contact_cellphone-help-1" 
-                                        class="p-error">
-                                    {{messageService.fieldRequired}}
-                                </small>
-                            </div>
+                                placeholder="Incluir extension Ej. +593-504172422" />
                         </div>
                     </div>
                 </div>
@@ -139,7 +113,8 @@
                             class="pi pi-times-circle icon-invalid"></i>
                     </label>
                     <app-date formControlName="start_date"
-                            id="start_date"> 
+                            id="start_date"
+                            (click)="calculateEndDate()"> 
                     </app-date>
                     <div *ngIf="startDateField.errors && (startDateField.touched || startDateField.dirty)">
                         <small *ngIf="startDateField.errors?.required" 
@@ -149,34 +124,12 @@
                         </small>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
                 <div class="p-field">
                     <label for="end_date">Fecha Fin: </label>
                     <app-date formControlName="end_date"
                             id="end_date"> 
                     </app-date>
                 </div>
-
-
-
-
-
-
-
-
-
-
-                
                 <div formArrayName="activities">
                     <div>
                         <button pButton pRipple type="button" 
@@ -339,38 +292,12 @@
                         </small>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <div class="p-field">
-                    <app-location-address [option]="3"
-                                          (formAddressOut)="formAddress=$event"
-                                          (formLocationOut)="setFormLocation($event)"
-                                          id="location" formControlName="location"></app-location-address>
+                    <app-location [option]="3"
+                                id="location" 
+                                formControlName="location">
+                    </app-location>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <div class="p-field">
                     <label for="training_hours">
                         <i class="p-error">*</i> Horas de capacitación recibidas:

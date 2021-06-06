@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {FormArray, FormGroup,  FormBuilder, Validators} from '@angular/forms';
 import {Col} from '../../../../../models/setting/col';
 import {Paginator} from '../../../../../models/setting/paginator';
 import {MessageService} from '../../../../../pages/shared/services/message.service';
@@ -28,12 +28,17 @@ export class OfferListComponent implements OnInit {
 
     constructor(private messageService: MessageService,
                 private spinnerService: NgxSpinnerService,
-                private jobBoardHttpService: JobBoardHttpService) {
+                private jobBoardHttpService: JobBoardHttpService,
+                private formBuilder: FormBuilder,) {
         this.resetPaginatorOffers();
     }
 
     ngOnInit(): void {
         this.loadColsOffer();
+    }
+
+    get activitiesField() {
+        return this.formOfferIn.get('activities') as FormArray;
     }
 
     loadColsOffer() {
@@ -69,8 +74,16 @@ export class OfferListComponent implements OnInit {
     openEditFormOffer(offer: Offer) {
         console.log(offer);
         this.formOfferIn.patchValue(offer);
+            this.activitiesField.removeAt(0);
+            for(const activity of offer.activities){
+              this.addActivities(activity);
+            }
         this.formOfferOut.emit(this.formOfferIn);
         this.displayOut.emit(true);
+    }
+
+    addActivities(data = null){
+        this.activitiesField.push(this.formBuilder.control(data, Validators.required));
     }
 
     paginateOffer(event) {
