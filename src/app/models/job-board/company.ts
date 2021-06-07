@@ -13,10 +13,7 @@ export interface Company {
     comercial_activities?:string[];
     web?:string;
     professionals?: Professional;
-<<<<<<< HEAD
     pivot?: Pivot;
-=======
->>>>>>> mod_6_jobboard
     type?: Catalogue;
     identficationType?:Catalogue;
     activityType?:Catalogue;
@@ -25,13 +22,11 @@ export interface Company {
     status?:Status;
     user?:User;
 
-<<<<<<< HEAD
 }
 export interface Pivot {
     company_id: number;
     professional_id: number;
     created_at: string;
     updated_at: string;
-=======
->>>>>>> mod_6_jobboard
+
 }

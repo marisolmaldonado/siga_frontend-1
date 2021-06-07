@@ -23,11 +23,9 @@ export class ProfessionalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private jobBoardHttpService: JobBoardHttpService
   ) {
-<<<<<<< HEAD
+
     this.paginator = { current_page: 1, per_page: 4 };
-=======
-    this.paginator = { current_page: 1, per_page: 3 };
->>>>>>> mod_6_jobboard
+
     this.professionals = [];
    }
 

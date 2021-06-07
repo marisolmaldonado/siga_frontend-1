@@ -22,10 +22,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private jobBoardHttpService: JobBoardHttpService,
-<<<<<<< HEAD
-=======
     private messageService: MessageService,
->>>>>>> mod_6_jobboard
+
   ) { }
 
   ngOnInit(): void{
@@ -42,14 +40,9 @@ export class RegisterComponent implements OnInit {
         email: [null, Validators.required],
         password: [null, Validators.required],
         password_confirmation: [null, Validators.required],
-<<<<<<< HEAD
         address: [null],
         identification_type: [null, Validators.required],
-=======
-        address: [null, Validators.required],
-        status: [null, Validators.required],
-        identificationType: [null, Validators.required],
->>>>>>> mod_6_jobboard
+
       },{validator:CustomValidators.passwordMatchValidator}),
       trade_name: [null, Validators.required],
       comercial_activities: this.formBuilder.array([
@@ -57,13 +50,9 @@ export class RegisterComponent implements OnInit {
       ]),
       web: [null, Validators.required],
       type: [null, Validators.required],
-<<<<<<< HEAD
       activity_type: [null, Validators.required],
       person_type: [null, Validators.required],
-=======
-      activityType: [null, Validators.required],
-      personType: [null, Validators.required],
->>>>>>> mod_6_jobboard
+
 
     });
     console.log(this.formRegister['controls']['user']);
