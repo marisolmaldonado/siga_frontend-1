@@ -6,6 +6,7 @@ import {MessageService} from '../../../../../pages/shared/services/message.servi
 import {NgxSpinnerService} from 'ngx-spinner';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
 import { Offer } from 'src/app/models/job-board/offer';
+import { Professional } from '../../../../../models/job-board/professional';
 import {HttpParams} from '@angular/common/http';
 
 @Component({
@@ -25,12 +26,16 @@ export class OfferListComponent implements OnInit {
     @Output() paginatorOut = new EventEmitter<Paginator>();
     colsOffer: Col[];
     selectedOffers: any[];
+    professionalsDialog: boolean;
+    paginator: Paginator;
+    professionals: Professional[];
 
     constructor(private messageService: MessageService,
                 private spinnerService: NgxSpinnerService,
                 private jobBoardHttpService: JobBoardHttpService,
                 private formBuilder: FormBuilder,) {
         this.resetPaginatorOffers();
+        this.paginator = { current_page: 1, per_page: 10 };
     }
 
     ngOnInit(): void {
@@ -75,7 +80,6 @@ export class OfferListComponent implements OnInit {
     }
 
     openEditFormOffer(offer: Offer) {
-        console.log(offer);
         this.formOfferIn.patchValue(offer);
             this.activitiesField.clear();
             this.requirementsField.clear();
@@ -149,11 +153,31 @@ export class OfferListComponent implements OnInit {
 
     }
 
-    // no se utiliza
     removeOffers(ids) {
         for (const id of ids) {
             this.offersIn = this.offersIn.filter(element => element.id !== id);
         }
         this.offersOut.emit(this.offersIn);
     } 
+
+    showProfessionals(offerId){
+        this.professionalsDialog = true;
+        this.getProfessionals(this.paginator, offerId);
+    }
+
+    getProfessionals(paginator: Paginator, offerId) {
+        const params = new HttpParams()
+          .append('page', paginator.current_page.toString())
+          .append('per_page', paginator.per_page.toString());
+        this.flagOffers = true;
+        this.jobBoardHttpService.get('offer/'+ offerId +'/proffesionals', params).subscribe(
+          response => {
+            this.flagOffers = false;
+            this.professionals = response['data'];
+            this.paginator = response as Paginator;
+          }, error => {
+            this.flagOffers = false;
+            this.messageService.error(error);
+          });
+      }
 }
