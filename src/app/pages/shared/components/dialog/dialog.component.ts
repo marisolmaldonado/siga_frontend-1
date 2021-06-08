@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import { UserAdministrationService } from '../../../../services/auth/user-administration.service';
+import { MessageService } from '../../../shared/services/message.service';
+import { HttpParams } from '@angular/common/http';
 import {Col} from '../../../../models/setting/col';
-import {Paginator} from '../../../../models/setting/paginator';
 import { Role } from 'src/app/models/auth/role';
 
 @Component({
@@ -14,11 +16,16 @@ export class DialogComponent implements OnInit {
   @Input() userRole: String;
   
   colsRole: Col[];
-  constructor() {
+  roles: Role[];
+  constructor(
+    private userAdministrationService: UserAdministrationService,
+    private messageService: MessageService,
+  ) {
   }
 
   ngOnInit(): void {
     this.loadColsUser();
+    this.getRoles();
   }
 
   loadColsUser() {
@@ -27,4 +34,15 @@ export class DialogComponent implements OnInit {
         {field: 'code', header: 'Código'},
       ];
   }
+
+  getRoles() {
+    const params = new HttpParams()
+    this.userAdministrationService.get('user-admin/roles', params).subscribe(
+        response => {
+            this.roles = response['data'];
+            console.log(this.roles);
+        }, error => {
+            this.messageService.error(error);
+        });
+}
   }

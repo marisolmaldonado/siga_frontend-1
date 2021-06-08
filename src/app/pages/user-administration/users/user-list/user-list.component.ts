@@ -137,7 +137,7 @@ getRoles(paginator: Paginator = null) {
   let params = new HttpParams().append('id', this.selectedUser.id.toString());
   this.userRole = this.selectedUser.partial_name;
   this.spinnerService.show();
-  this.userAdministrationService.get('user-admin/roles', params).subscribe(response => {
+  this.userAdministrationService.get('user-admin/rolesUser', params).subscribe(response => {
       this.spinnerService.hide();
       this.roles = response['data'];
       this.paginatorRoles = response as Paginator;
