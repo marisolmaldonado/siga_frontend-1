@@ -55,15 +55,15 @@ export class ReferenceFormComponent implements OnInit {
         return this.formReferenceIn.get('position');
     }
 
-    get contact_nameField() {
+    get contactNameField() {
         return this.formReferenceIn.get('contact_name');
     }
 
-    get contact_phoneField() {
+    get contactPhoneField() {
         return this.formReferenceIn.get('contact_phone');
     }
 
-    get contact_emailField() {
+    get contactEmailField() {
         return this.formReferenceIn.get('contact_email');
     }
 
@@ -72,7 +72,18 @@ export class ReferenceFormComponent implements OnInit {
     }
 
     // Submit Form
-    onSubmit(event: Event, flag = false) {
+    onSubmit(flag = false) {
+        if (this.formReferenceIn.valid) {
+            if (this.idField.value) {
+                this.updateReference(this.formReferenceIn.value);
+            } else {
+                this.storeReference(this.formReferenceIn.value, flag);
+            }
+        } else {
+            this.markAllAsTouchedFormReference();
+        }
+    }
+   /* onSubmit(event: Event, flag = false) {
         event.preventDefault();
         if (this.formReferenceIn.valid) {
             if (this.idField.value) {
@@ -83,7 +94,7 @@ export class ReferenceFormComponent implements OnInit {
         } else {
             this.formReferenceIn.markAllAsTouched();
         }
-    }
+    }*/
 
     // Types of catalogues
     getTypes() {
@@ -160,6 +171,7 @@ export class ReferenceFormComponent implements OnInit {
         }
         this.filteredTypes = filtered;
     }
+  
     filterInstitution(event) {
         const filtered: any[] = [];
         const query = event.query;
@@ -180,6 +192,7 @@ export class ReferenceFormComponent implements OnInit {
         }
         this.filteredInstitutions = filtered;
     }
+
     test(event) {
         event.markAllAsTouched();
     }

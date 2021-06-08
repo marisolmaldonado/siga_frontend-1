@@ -44,17 +44,16 @@ export class CourseComponent implements OnInit {
     buildFormCourse() {
         this.formCourse = this.formBuilder.group({
             id: [null],
-            name: [null, Validators.required],
-            description: [null, [Validators.required, Validators.minLength(10)]],
-            start_date: [null, Validators.required, DateValidators.valid],
-            end_date: [null, Validators.required, DateValidators.valid],
-            hours: [null, Validators.required],
             professional: [null, Validators.required],
             type: [null, Validators.required],
             institution: [null, Validators.required],
             certification_type: [null, Validators.required],
             area: [null, Validators.required],
-
+            name: [null, Validators.required],
+            description: [null, [Validators.required, Validators.minLength(10)]],
+            start_date: [null, Validators.required, DateValidators.valid],
+            end_date: [null, Validators.required, DateValidators.valid],
+            hours: [null, Validators.required],
         });
     }
 

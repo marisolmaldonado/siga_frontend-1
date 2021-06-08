@@ -229,7 +229,7 @@ export class CourseFormComponent implements OnInit {
         }
         this.filteredInstitutions = filtered;
     }
-    filterCertificationTypes(event) {
+    filterCertificationType(event) {
         const filtered: any[] = [];
         const query = event.query;
         for (const certificationType of this.certificationTypes) {

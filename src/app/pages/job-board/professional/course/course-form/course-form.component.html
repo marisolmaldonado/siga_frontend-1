@@ -107,7 +107,7 @@
                      class="pi pi-times-circle icon-invalid"></i>
              </label>
              <p-autoComplete id="certification_type" name="certificationType" formControlName="certification_type"
-                 [suggestions]="filteredCertificationTypes" (completeMethod)="filterType($event)" field="name"
+                 [suggestions]="filteredCertificationTypes" (completeMethod)="filterCertificationType($event)" field="name"
                  [dropdown]="true">
                  <ng-template let-certificationType pTemplate="item">
                      <div class="country-item">
@@ -140,7 +140,7 @@
                  </small>
              </div>
          </div>
-         <!-- <div class="p-field">
+          <div class="p-field">
              <label for="hours">
                  <i class="p-error">*</i> Horas:
                  <i *ngIf="hoursField.valid" class="pi pi-check-circle icon-valid"></i>
@@ -149,11 +149,11 @@
              </label>
              <input pInputText type="text" pKeyFilter="int">
              <div *ngIf="hoursField.invalid && (hoursField.touched || hoursField.dirty)">
-                 <small *ngIf="hoursField.errors?.required" id="hour-help-1" class="p-error">
+                 <small *ngIf="hoursField.errors?.required" id="hours-help-1" class="p-error">
                      {{messageService.fieldRequired}}
                  </small>
              </div>
-         </div> -->
+         </div> 
          
          <div class="p-formgrid p-grid">
              <div class="p-field p-col">

@@ -7,29 +7,31 @@
                 <i class="p-error">*</i> Institución:
                 <i *ngIf="institutionField.valid" class="pi pi-check-circle icon-valid"></i>
                 <i *ngIf="institutionField.invalid && (institutionField.touched || institutionField.dirty)"
-                   class="pi pi-times-circle icon-invalid"></i>
+                    class="pi pi-times-circle icon-invalid"></i>
             </label>
-            <p-autoComplete id="institution" name="institution" formControlName="institution" [suggestions]="filteredInstitutions"
-                            (completeMethod)="filterInstitution($event)" field="institution" [dropdown]="true">
-                <ng-template let-type pTemplate="item">
-                    <div class="country-item">
+            <p-autoComplete id="institution" name="institution" formControlName="institution"
+                [suggestions]="filteredInstitutions" (completeMethod)="filterInstitution($event)" field="name"
+                [dropdown]="true">
+                <ng-template let-institution pTemplate="institution">
+                    <div class="country-institution">
                         <div>{{institution.name}}</div>
                     </div>
                 </ng-template>
             </p-autoComplete>
             <div *ngIf="institutionField.invalid && (institutionField.touched || institutionField.dirty)">
-                <small *ngIf="institutionField.errors?.required"
-                       id="institution-help-1" class="p-error">
+                <small *ngIf="institutionField.errors?.required" id="institution-help-1" class="p-error">
                     {{messageService.fieldRequired}}
                 </small>
             </div>
         </div>
+
          <div class="p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="position">Posición:</label>
                 <input id="position" name="position" pInputText formControlName="position" />
                 <div *ngIf="positionField.errors && positionField.touched">
-                    <small *ngIf="positionField.hasError('required')" id="position-help-1" class="p-error">
+                    <small *ngIf="positionField.hasError('required')" 
+                    id="position-help-1" class="p-error">
                         {{messageService.fieldRequired}}
                     </small>
                 </div>
@@ -37,10 +39,11 @@
         </div>
          <div class="p-formgrid p-grid">
             <div class="p-field p-col">
-                <label for="contact_name">Nombre de contacto:</label>
-                <input id="contact_name" name="contact_name" pInputText formControlName="contact_name" />
-                <div *ngIf="contact_nameField.errors && contact_nameField.touched">
-                    <small *ngIf="contact_nameField.hasError('required')" id="contact_name-help-1" class="p-error">
+                <label for="contactName">Nombre de contacto:</label>
+                <input id="contactName" name="contactName" pInputText formControlName="contact_name" />
+                <div *ngIf="contactNameField.errors && contactNameField.touched">
+                    <small *ngIf="contactNameField.hasError('required')" 
+                    id="contact_name-help-1" class="p-error">
                         {{messageService.fieldRequired}}
                     </small>
                 </div>
@@ -48,10 +51,11 @@
         </div>
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
-                <label for="contact_phone">Número de contacto:</label>
-                <input id="contact_phone" name="contact_phone" pInputText formControlName="contact_phone" />
-                <div *ngIf="contact_phoneField.errors && contact_phoneField.touched">
-                    <small *ngIf="contact_phoneField.hasError('required')" id="contact_phone-help-1" class="p-error">
+                <label for="contactPhone">Número de contacto:</label>
+                <input id="contactPhone" name="contactPhone" pInputText formControlName="contact_phone" />
+                <div *ngIf="contactPhoneField.errors && contactPhoneField.touched">
+                    <small *ngIf="contactPhoneField.hasError('required')" 
+                    id="contact_phone-help-1" class="p-error">
                         {{messageService.fieldRequired}}
                     </small>
                 </div>
@@ -59,10 +63,11 @@
         </div>
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
-                <label for="contact_email">Email de contacto:</label>
-                <input id="contact_email" name="contact_email" pInputText formControlName="contact_email" />
-                <div *ngIf="contact_emailField.errors && contact_emailField.touched">
-                    <small *ngIf="contact_emailField.hasError('required')" id="contact_email-help-1" class="p-error">
+                <label for="contactEmail">Email de contacto:</label>
+                <input id="contactEmail" name="contactEmail" pInputText formControlName="contact_email" />
+                <div *ngIf="contactEmailField.errors && contactEmailField.touched">
+                    <small *ngIf="contactEmailField.hasError('required')" 
+                    id="contact_email-help-1" class="p-error">
                         {{messageService.fieldRequired}}
                     </small>
                 </div>
@@ -71,15 +76,11 @@
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
                 <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
-                        class="p-button-success p-button-raised"></button>
+                    class="p-button-success p-button-raised"></button>
             </div>
             <div *ngIf="!idField.value" class="p-field p-col">
-                <button type="button" pButton pRipple
-                        label="Guardar"
-                        icon="pi pi-arrow-right"
-                        class="p-button-raised"
-                        (click)="onSubmit($event,true)"
-                ></button>
+                <button type="button" pButton pRipple label="Guardar" icon="pi pi-arrow-right" class="p-button-raised"
+                    (click)="onSubmit($event,true)"></button>
             </div>
         </div>
     </form>

@@ -25,6 +25,7 @@ export class ExperienceFormComponent implements OnInit {
     // professionals: Catalogue[];
     filteredAreas: any[];
     areas: Catalogue[];
+   // filteredIsWorkings: any[];
     isWorking: boolean;
 
     constructor(private formBuilder: FormBuilder,
@@ -39,6 +40,7 @@ export class ExperienceFormComponent implements OnInit {
     ngOnInit(): void {
         //this.getProfessional();
         this.getAreas();
+       // this.getIsWorkings();
     }
 
     // Fields of Form
@@ -103,18 +105,15 @@ export class ExperienceFormComponent implements OnInit {
             this.formExperienceIn.markAllAsTouched();
         }
     }
-    working() {
+   /* getIsWorkings() {
         const params = new HttpParams().append('type', 'EXPERIENCE_IS-WORKING');
         this.appHttpService.getCatalogues(params).subscribe(response => {
-            this.isWorking = false;
+            this.isWorkings = response['data'];
             this.messageService.success(response);
         }, error => {
-            this.isWorking = false;
             this.messageService.error(error);
         });
-    }
-
-    // Types of catalogues
+    }*/
     getAreas() {
         const params = new HttpParams().append('type', 'EXPERIENCE_AREA');
         this.appHttpService.getCatalogues(params).subscribe(response => {
@@ -122,7 +121,9 @@ export class ExperienceFormComponent implements OnInit {
         }, error => {
             this.messageService.error(error);
         });
-    }
+    } 
+
+   
     // getProfessional() {
     //     const params = new HttpParams().append('type', 'EXPERIENCE_PROFESSIONAL');
     //     this.appHttpService.getCatalogues(params).subscribe(response => {
@@ -176,27 +177,48 @@ export class ExperienceFormComponent implements OnInit {
         this.experiencesOut.emit(this.experiencesIn);
     }
 
-    // Filter area of experiences
-    filterArea(event) {
-        const filtered: any[] = [];
-        const query = event.query;
-        for (const area of this.areas) {
-            if (area.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-                filtered.push(area);
-            }
+   // Filter area of experiences
+   filterArea(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const area of this.areas) {
+        if (area.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+            filtered.push(area);
         }
-         if (filtered.length === 0) {
-             this.messagePnService.clear();
-             this.messagePnService.add({
-                 severity: 'error',
-                 summary: 'Por favor seleccione un tipo del listado',
-                 detail: 'En el caso de no existir comuníquese con el administrador!',
-                 life: 5000
-             });
-             this.areaField.setValue(null);
-         }
-        this.filteredAreas = filtered;
     }
+     if (filtered.length === 0) {
+         this.messagePnService.clear();
+         this.messagePnService.add({
+             severity: 'error',
+             summary: 'Por favor seleccione un tipo del listado',
+             detail: 'En el caso de no existir comuníquese con el administrador!',
+             life: 5000
+         });
+         this.areaField.setValue(null);
+     }
+    this.filteredAreas = filtered;
+}
+
+/*filterIsWorking(event) {
+    const filtered: any[] = [];
+    const query = event.query;
+    for (const isWorking of this.isWorkings) {
+        if (isWorking.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+            filtered.push(isWorking);
+        }
+    }
+     if (filtered.length === 0) {
+         this.messagePnService.clear();
+         this.messagePnService.add({
+             severity: 'error',
+             summary: 'Por favor seleccione un tipo del listado',
+             detail: 'En el caso de no existir comuníquese con el administrador!',
+             life: 5000
+         });
+         this.areaField.setValue(null);
+     }
+    this.filteredWorkings= filtered;
+}*/
     // filterProfessional(event) {
     //     const filtered: any[] = [];
     //     const query = event.query;
@@ -217,12 +239,7 @@ export class ExperienceFormComponent implements OnInit {
     //     }
     //     this.filteredProfessionals = filtered;
     // }
-    showResponse() {
-        this.isWorking = true;
-    }
-
-
-    test(event) {
+      test(event) {
         event.markAllAsTouched();
     }
 
