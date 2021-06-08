@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup} from '@angular/forms';
+import { FormGroup} from '@angular/forms';
 import { MessageService } from '../../../shared/services/message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../../../../models/auth/user';
 import { UserAdministrationService } from '../../../../services/auth/user-administration.service';
-import { AppService } from '../../../../services/app/app.service';
-import { PasswordModule } from 'primeng/password';
+import { Role } from 'src/app/models/auth/role';
 
 
 @Component({
@@ -17,18 +16,19 @@ export class UserFormComponent implements OnInit {
 
   @Input() formUserIn: FormGroup;
   @Input() usersIn: User[];
+  @Input() rolesIn: Role[];
 
   @Output() usersOut = new EventEmitter<User[]>();
   @Output() displayOut = new EventEmitter<boolean>();
 
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
     private messageService: MessageService,
     private spinnerService: NgxSpinnerService,
-    private appHttpService: AppService,
     private userAdministrationService: UserAdministrationService) { }
 
   ngOnInit(): void {
+    console.log(this.rolesIn);
   }
   // Fields of Form
   get idField() {
@@ -49,6 +49,7 @@ export class UserFormComponent implements OnInit {
   get emailField() {
     return this.formUserIn.get('email');
   }
+
 
   // Save in backend
   storeUser(user: User, flag = false) {

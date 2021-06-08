@@ -84,13 +84,14 @@
 
 <p-dialog [(visible)]="dialogViewRoles"
           [style]="{width: '60%'}"
-          header="{{userRole}}"
+          header="{{userName}}"
           [modal]="true"
           styleClass="p-fluid"
           (onHide)="dialogViewRoles=false"
           position="center">
     <app-dialog
     [rolesIn]="roles"
-    [userRole]="userRole">
+    [rolesUser]="rolesUser"
+    [userName]="userName">
 </app-dialog>
 </p-dialog>

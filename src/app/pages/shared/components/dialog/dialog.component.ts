@@ -13,7 +13,8 @@ import { Role } from 'src/app/models/auth/role';
 export class DialogComponent implements OnInit {
 
   @Input() rolesIn: Role[];
-  @Input() userRole: String;
+  @Input() rolesUser: Role[];
+  @Input() userName: String;
   
   colsRole: Col[];
   roles: Role[];
@@ -25,7 +26,6 @@ export class DialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadColsUser();
-    this.getRoles();
   }
 
   loadColsUser() {
@@ -35,14 +35,5 @@ export class DialogComponent implements OnInit {
       ];
   }
 
-  getRoles() {
-    const params = new HttpParams()
-    this.userAdministrationService.get('user-admin/roles', params).subscribe(
-        response => {
-            this.roles = response['data'];
-            console.log(this.roles);
-        }, error => {
-            this.messageService.error(error);
-        });
-}
+
   }

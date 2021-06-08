@@ -14,6 +14,7 @@ import {MessageModule} from 'primeng/message';
 import {DropdownModule} from 'primeng/dropdown';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {SkeletonModule} from 'primeng/skeleton';
+import {MultiSelectModule} from 'primeng/multiselect';
 
 // My Components
 import {TooltipModule} from 'primeng/tooltip';
@@ -81,6 +82,7 @@ import { UserFormComponent } from './users/user-form/user-form.component';
         SkeletonModule,
         DividerModule,
         ListboxModule,
+        MultiSelectModule,
     ],
     declarations: [
         UserAdministrationComponent,

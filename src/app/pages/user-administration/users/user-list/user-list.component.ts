@@ -31,11 +31,12 @@ export class UserListComponent implements OnInit {
 
   selectedUsers: any[];
   selectedUser: User;
+  rolesUser: Role[];
   roles: Role[];
   colsUser: Col[];
   dialogViewRoles: boolean;
   paginatorRoles: Paginator;
-  userRole: String;
+  userName: String;
 
   constructor(private messageService: MessageService,
     private spinnerService: NgxSpinnerService,
@@ -45,6 +46,7 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadColsUser();
+    this.getRoles();
   }
 
   loadColsUser() {
@@ -82,11 +84,15 @@ resetPaginatorUsers() {
   sendUsers() {
     this.usersOut.emit(this.usersIn);
   }
+
   openNewFormUser() {
+    this.getRoles();
     this.formUserIn.reset();
     this.formUserOut.emit(this.formUserIn);
+    this.rolesOut.emit(this.roles);
     this.displayOut.emit(true);
   }
+
   openEditFormUser(user: User) {
     this.formUserIn.patchValue(user);
     this.formUserOut.emit(this.formUserIn);
@@ -130,23 +136,33 @@ selectUser(user: User) {
 }
 
 openViewRoles() {
-  this.getRoles();
+  this.getRolesUser();
 }
 
-getRoles(paginator: Paginator = null) {
+getRolesUser() {
   let params = new HttpParams().append('id', this.selectedUser.id.toString());
-  this.userRole = this.selectedUser.partial_name;
+  this.userName = this.selectedUser.partial_name;
   this.spinnerService.show();
   this.userAdministrationService.get('user-admin/rolesUser', params).subscribe(response => {
       this.spinnerService.hide();
-      this.roles = response['data'];
+      this.rolesUser = response['data'];
       this.paginatorRoles = response as Paginator;
       this.dialogViewRoles = true;
   }, error => {
       this.spinnerService.hide();
-      this.roles = [];
+      this.rolesUser = [];
       this.dialogViewRoles = true;
       this.messageService.error(error);
   });
+}
+
+getRoles() {
+  const params = new HttpParams()
+  this.userAdministrationService.get('user-admin/roles', params).subscribe(
+      response => {
+          this.roles = response['data'];
+      }, error => {
+          this.messageService.error(error);
+      });
 }
 }
