@@ -8,6 +8,7 @@ import { HttpParams } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BreadcrumbService } from '../../../shared/services/breadcrumb.service';
 import { MessageService } from '../../shared/services/message.service';
+import { Role } from 'src/app/models/auth/role';
 
 @Component({
     selector: 'app-users',
@@ -18,13 +19,13 @@ import { MessageService } from '../../shared/services/message.service';
 export class UserComponent implements OnInit {
     paginator: Paginator;
     users: User[];
+    roles: Role[];
     formUser: FormGroup;
     user: User;
     userDialog: boolean;
     flagUsers: boolean;
 
     constructor(
-        private spinnerService: NgxSpinnerService,
         private messageService: MessageService,
         private formBuilder: FormBuilder,
         private userAdministrationService: UserAdministrationService,
@@ -40,6 +41,7 @@ export class UserComponent implements OnInit {
 
     ngOnInit(): void {
         this.getUsers(this.paginator);
+        this.getRoles();
         this.buildFormUser();
     }
 
@@ -70,4 +72,15 @@ export class UserComponent implements OnInit {
                 this.messageService.error(error);
             });
     }
+
+    getRoles() {
+        const params = new HttpParams()
+        this.userAdministrationService.get('user-admin/roles', params).subscribe(
+            response => {
+                this.roles = response['data'];
+            }, error => {
+                this.messageService.error(error);
+            });
+      }
+      
 }

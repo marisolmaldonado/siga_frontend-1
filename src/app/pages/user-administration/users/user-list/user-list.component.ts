@@ -18,6 +18,7 @@ export class UserListComponent implements OnInit {
 
   @Input() flagUsers: boolean;
   @Input() usersIn: User[];
+  @Input() rolesIn: Role[];
   @Input() paginatorIn: Paginator;
   @Input() formUserIn: FormGroup;
   @Input() displayIn: boolean;
@@ -32,7 +33,6 @@ export class UserListComponent implements OnInit {
   selectedUsers: any[];
   selectedUser: User;
   rolesUser: Role[];
-  roles: Role[];
   colsUser: Col[];
   dialogViewRoles: boolean;
   paginatorRoles: Paginator;
@@ -46,7 +46,6 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadColsUser();
-    this.getRoles();
   }
 
   loadColsUser() {
@@ -86,10 +85,8 @@ resetPaginatorUsers() {
   }
 
   openNewFormUser() {
-    this.getRoles();
     this.formUserIn.reset();
     this.formUserOut.emit(this.formUserIn);
-    this.rolesOut.emit(this.roles);
     this.displayOut.emit(true);
   }
 
@@ -154,15 +151,5 @@ getRolesUser() {
       this.dialogViewRoles = true;
       this.messageService.error(error);
   });
-}
-
-getRoles() {
-  const params = new HttpParams()
-  this.userAdministrationService.get('user-admin/roles', params).subscribe(
-      response => {
-          this.roles = response['data'];
-      }, error => {
-          this.messageService.error(error);
-      });
 }
 }

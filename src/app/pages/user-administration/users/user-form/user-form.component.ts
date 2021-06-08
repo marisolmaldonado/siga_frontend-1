@@ -17,10 +17,10 @@ export class UserFormComponent implements OnInit {
   @Input() formUserIn: FormGroup;
   @Input() usersIn: User[];
   @Input() rolesIn: Role[];
-
   @Output() usersOut = new EventEmitter<User[]>();
   @Output() displayOut = new EventEmitter<boolean>();
 
+  selectedRoles: any[];
 
   constructor(
     private messageService: MessageService,
@@ -28,7 +28,6 @@ export class UserFormComponent implements OnInit {
     private userAdministrationService: UserAdministrationService) { }
 
   ngOnInit(): void {
-    console.log(this.rolesIn);
   }
   // Fields of Form
   get idField() {
@@ -109,4 +108,19 @@ export class UserFormComponent implements OnInit {
     }
     this.usersOut.emit(this.usersIn);
   }
+
+  saveRoles(role = null) {
+    if (role) {
+      this.selectedRoles = [];
+      this.selectedRoles.push(role);
+    }
+  const ids = this.selectedRoles.map(element => element.id);
+  this.userAdministrationService.store('user-admin/addRoles', ids)
+  .subscribe(response => {
+    this.messageService.success(response);
+    this.selectedRoles = [];
+    }, error => {
+    this.messageService.error(error);
+  });
+}
 }

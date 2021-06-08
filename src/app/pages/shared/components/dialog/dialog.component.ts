@@ -18,10 +18,8 @@ export class DialogComponent implements OnInit {
   
   colsRole: Col[];
   roles: Role[];
-  constructor(
-    private userAdministrationService: UserAdministrationService,
-    private messageService: MessageService,
-  ) {
+  
+  constructor() {
   }
 
   ngOnInit(): void {
