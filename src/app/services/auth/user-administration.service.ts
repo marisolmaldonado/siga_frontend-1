@@ -34,4 +34,9 @@ export class UserAdministrationService {
         return this.httpClient.put(url, {ids}, {params});
     }
 
+    add(url: string, ids, params = new HttpParams()) {
+        url = this.API_URL_AUTHENTICATION + url;
+        return this.httpClient.post(url, {ids}, {params});
+    }
+
 }

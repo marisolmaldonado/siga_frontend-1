@@ -43,6 +43,7 @@ import {UserAdministrationComponent} from './user-administration.component';
 import {UserComponent} from './users/user.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserFormComponent } from './users/user-form/user-form.component';
+import { UserEditFormComponent } from './users/user-edit-form/user-edit-form.component';
 
 
 @NgModule({
@@ -88,7 +89,8 @@ import { UserFormComponent } from './users/user-form/user-form.component';
         UserAdministrationComponent,
         UserComponent,
         UserListComponent,
-        UserFormComponent
+        UserFormComponent,
+        UserEditFormComponent
     ],
     providers: []
 })

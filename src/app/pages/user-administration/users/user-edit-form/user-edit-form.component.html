@@ -10,15 +10,6 @@
                     </small>
                 </div>
             </div>
-            <div class="p-field p-col">
-                <label for="roles">Asignar Rol</label>
-                <p-multiSelect [options]="rolesIn"  formControlName="roles" optionLabel="name" optionValue="id"></p-multiSelect>
-                <div *ngIf="rolesField.errors && rolesField.touched">
-                    <small *ngIf="rolesField.hasError('required')" id="roles-help-1" class="p-error">
-                        El campo es obligatorio.
-                    </small>
-                </div>
-            </div>
         </div>
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">

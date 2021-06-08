@@ -25,6 +25,7 @@ export class UserListComponent implements OnInit {
   @Output() usersOut = new EventEmitter<User[]>();
   @Output() formUserOut = new EventEmitter<FormGroup>();
   @Output() displayOut = new EventEmitter<boolean>();
+  @Output() displayEditOut = new EventEmitter<boolean>();
   @Output() paginatorOut = new EventEmitter<Paginator>();
   @Output() rolesOut = new EventEmitter<Role[]>();
   @Output() userRoleOut = new EventEmitter<String>();
@@ -93,7 +94,7 @@ resetPaginatorUsers() {
   openEditFormUser(user: User) {
     this.formUserIn.patchValue(user);
     this.formUserOut.emit(this.formUserIn);
-    this.displayOut.emit(true);
+    this.displayEditOut.emit(true);
   }
 
   deleteUsers(user = null) {

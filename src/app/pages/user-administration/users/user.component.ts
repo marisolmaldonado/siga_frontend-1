@@ -23,6 +23,7 @@ export class UserComponent implements OnInit {
     formUser: FormGroup;
     user: User;
     userDialog: boolean;
+    userEditDialog: boolean;
     flagUsers: boolean;
 
     constructor(
@@ -53,6 +54,7 @@ export class UserComponent implements OnInit {
             first_lastname: [null, [Validators.required]],
             second_lastname: [null, [Validators.required]],
             email: [null, [Validators.email, Validators.required]],
+            roles: [null, [Validators.required]],
         });
     }
 

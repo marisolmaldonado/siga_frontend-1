@@ -9,11 +9,9 @@
                 [flagUsers]="flagUsers"
                 (formUserOut)="formUser=$event"
                 (displayOut)="userDialog=$event"
+                (displayEditOut)="userEditDialog=$event"
                 (paginatorOut)="getUsers($event)">
             </app-user-list>
-        </p-tabPanel>
-        <p-tabPanel header="Asignar Roles" leftIcon="pi pi-shield">
-            roles
         </p-tabPanel>
         <p-tabPanel header="Permisos y Roles" leftIcon="pi pi-lock">
             permisos y roles
@@ -28,5 +26,15 @@
             (usersOut)="users=$event"
             (displayOut)="userDialog=$event">
         </app-user-form>
+    </p-dialog>
+    <p-dialog [(visible)]="userEditDialog" [style]="{width: '850px'}" header="Usuario" [modal]="true"
+        styleClass="p-fluid" (onHide)="userEditDialog=false">
+        <app-user-edit-form
+            [usersIn]="users"
+            [rolesIn]="roles" 
+            [formUserIn]="formUser" 
+            (usersOut)="users=$event"
+            (displayEditOut)="userEditDialog=$event">
+        </app-user-edit-form>
     </p-dialog>
 </div>

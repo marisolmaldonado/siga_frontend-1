@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup} from '@angular/forms';
 import { MessageService } from '../../../shared/services/message.service';
+import { HttpParams } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../../../../models/auth/user';
 import { UserAdministrationService } from '../../../../services/auth/user-administration.service';
@@ -25,7 +26,8 @@ export class UserFormComponent implements OnInit {
   constructor(
     private messageService: MessageService,
     private spinnerService: NgxSpinnerService,
-    private userAdministrationService: UserAdministrationService) { }
+    private userAdministrationService: UserAdministrationService) { 
+    }
 
   ngOnInit(): void {
   }
@@ -49,14 +51,15 @@ export class UserFormComponent implements OnInit {
     return this.formUserIn.get('email');
   }
 
+  get rolesField() {
+    return this.formUserIn.get('roles');
+  }
 
-  // Save in backend
   storeUser(user: User, flag = false) {
     this.spinnerService.show();
     this.userAdministrationService.store('user-admins', { user }).subscribe(response => {
       this.spinnerService.hide();
       this.messageService.success(response);
-      this.saveUser(response['data']);
       if (flag) {
         this.formUserIn.reset();
       } else {
@@ -69,44 +72,13 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  // Submit Form
   onSubmit(event: Event, flag = false) {
     event.preventDefault();
     if (this.formUserIn.valid) {
-      if (this.idField.value) {
-        this.updateUser(this.formUserIn.value);
-      } else {
         this.storeUser(this.formUserIn.value, flag);
-      }
     } else {
       this.formUserIn.markAllAsTouched();
     }
-  }
-
-  // Save in backend
-  updateUser(user: User) {
-    this.spinnerService.show();
-    this.userAdministrationService.update('user-admins/' + user.id, { user })
-      .subscribe(response => {
-        this.spinnerService.hide();
-        this.messageService.success(response);
-        this.saveUser(response['data']);
-        this.displayOut.emit(false);
-      }, error => {
-        this.spinnerService.hide();
-        this.messageService.error(error);
-      });
-  }
-
-  // Save in frontend
-  saveUser(user: User) {
-    const index = this.usersIn.findIndex(element => element.id === user.id);
-    if (index === -1) {
-      this.usersIn.push(user);
-    } else {
-      this.usersIn[index] = user;
-    }
-    this.usersOut.emit(this.usersIn);
   }
 
   saveRoles(role = null) {
@@ -114,13 +86,13 @@ export class UserFormComponent implements OnInit {
       this.selectedRoles = [];
       this.selectedRoles.push(role);
     }
-  const ids = this.selectedRoles.map(element => element.id);
-  this.userAdministrationService.store('user-admin/addRoles', ids)
-  .subscribe(response => {
-    this.messageService.success(response);
-    this.selectedRoles = [];
-    }, error => {
-    this.messageService.error(error);
-  });
-}
+    const ids = this.selectedRoles;
+    this.userAdministrationService.add('user-admin/addRoles', ids)
+    .subscribe(response => {
+      this.messageService.success(response);
+      this.selectedRoles = [];
+     }, error => {
+      this.messageService.error(error);
+    });
+  }
 }
