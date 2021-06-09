@@ -1,4 +1,4 @@
-  <p-table #dt [value]="rolesIn" [columns]="colsRole" [paginator]="false" [(selection)]="selectedUsers"
+<p-table #dt [value]="rolesIn" [columns]="colsRole" [paginator]="false" [(selection)]="selectedRoles"
   [rowHover]="true" [responsive]="true" dataKey="id" styleClass="p-datatable-customers"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
   <ng-template pTemplate="header" let-columns>
@@ -25,6 +25,7 @@
 </p-table><br>
 <p-footer>
   <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
-  class="p-button-success p-button-raised"></button>
+  class="p-button-success p-button-raised" (click)="setRoles()" 
+  [disabled]="!selectedRoles || !selectedRoles.length"></button>
 </p-footer>
 

@@ -38,6 +38,7 @@ export class UserListComponent implements OnInit {
   dialogViewRoles: boolean;
   paginatorRoles: Paginator;
   userName: String;
+  userId: String;
 
   constructor(private messageService: MessageService,
     private spinnerService: NgxSpinnerService,
@@ -140,6 +141,7 @@ openViewRoles() {
 getRolesUser() {
   let params = new HttpParams().append('id', this.selectedUser.id.toString());
   this.userName = this.selectedUser.partial_name;
+  this.userId = this.selectedUser.id.toString();
   this.spinnerService.show();
   this.userAdministrationService.get('user-admin/rolesUser', params).subscribe(response => {
       this.spinnerService.hide();

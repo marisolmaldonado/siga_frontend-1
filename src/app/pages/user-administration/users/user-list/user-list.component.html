@@ -92,6 +92,8 @@
     <app-dialog
     [rolesIn]="rolesIn"
     [rolesUser]="rolesUser"
-    [userName]="userName">
+    [userName]="userName"
+    [userId]="userId"
+    (displayOut)="dialogViewRoles=$event">
 </app-dialog>
 </p-dialog>
