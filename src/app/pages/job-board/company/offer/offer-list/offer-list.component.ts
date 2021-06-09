@@ -29,6 +29,7 @@ export class OfferListComponent implements OnInit {
     professionalsDialog: boolean;
     paginator: Paginator;
     professionals: Professional[];
+    flagProfessionals: boolean;
 
     constructor(private messageService: MessageService,
                 private spinnerService: NgxSpinnerService,
@@ -165,18 +166,18 @@ export class OfferListComponent implements OnInit {
         this.getProfessionals(this.paginator, offerId);
     }
 
-    getProfessionals(paginator: Paginator, offerId) {
+    getProfessionals(paginator: Paginator, offerId) {   
         const params = new HttpParams()
           .append('page', paginator.current_page.toString())
           .append('per_page', paginator.per_page.toString());
-        this.flagOffers = true;
+        this.flagProfessionals = true;
         this.jobBoardHttpService.get('offer/'+ offerId +'/proffesionals', params).subscribe(
           response => {
-            this.flagOffers = false;
+            this.flagProfessionals = false;
             this.professionals = response['data'];
             this.paginator = response as Paginator;
           }, error => {
-            this.flagOffers = false;
+            this.flagProfessionals = false;
             this.messageService.error(error);
           });
       }

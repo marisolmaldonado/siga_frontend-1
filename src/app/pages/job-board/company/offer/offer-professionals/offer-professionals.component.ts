@@ -10,6 +10,7 @@ import { Professional } from '../../../../../models/job-board/professional';
 })
 
 export class OfferProfessionalsComponent implements OnInit {
+    @Input() flagProfessionals: boolean;
     @Input() professionalsIn: Professional[];
     @Input() paginatorIn: Paginator;
     colsProfessionals: Col[];
@@ -24,13 +25,9 @@ export class OfferProfessionalsComponent implements OnInit {
     loadColsProfessionals() {
         this.colsProfessionals = [
             {field: 'identification', header: 'Cédula'},
-            {field: 'full_name', header: 'Nombres'},
-            {field: 'full_lastname', header: 'Apellidos'},
+            {field: 'first_name', header: 'Nombres'},
+            {field: 'first_lastname', header: 'Apellidos'},
             {field: 'email', header: 'Correo'},
         ];
-    }
-
-    test(){
-        console.log(this.professionalsIn);
     }
 }

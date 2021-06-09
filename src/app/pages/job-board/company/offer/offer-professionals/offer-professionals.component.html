@@ -1,64 +1,66 @@
-<p-table #dt 
-        [value]="professionalsIn" 
-        [columns]="colsProfessionals" 
-        [rows]="paginatorIn.per_page" 
-        [paginator]="false"
-        [rowHover]="true" 
-        dataKey="id" 
-        styleClass="p-datatable-customers"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
-        [showCurrentPageReport]="true">
-    <ng-template pTemplate="caption">
-        <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
-            <h5 class="p-m-0">Profesionales</h5>
-            <span class="p-input-icon-left">
-                <i class="pi pi-search" (click)="searchOffers($event,search.value)"></i>
-                <input pInputText #search type="text" (keyup)="searchOffers($event,$event.target.value)"
-                    placeholder="Buscar..." />
-            </span>
-        </div>
-    </ng-template>
-    <ng-template pTemplate="header" let-columns>
-        <tr>
-            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{col.header}}
-                <p-sortIcon [field]="col.field"></p-sortIcon>
-            </th>
-            <th style="text-align:center">
-                <button pButton pRipple type="button" id="btnOptions" icon="pi pi-cog" class="p-button-secondary"
-                    disabled>
-                </button>
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-columns="columns" let-rowData>
-        <!-- {{rowData.user|json}} --> 
-        <tr>
-            <td *ngFor="let col of columns">
-                {{rowData[col.field]?.name ? rowData[col.field]?.name : rowData[col.field]}}
-            </td>
-            <td style="text-align:center">
-                <button pButton pRipple type="button" 
-                        id="btnCurriculum" 
-                        pTooltip="Curriculum" 
-                        icon="pi pi-file"
-                        class="p-button-rounded p-button-warning" 
-                        (click)="openEditFormOffer(rowData)"></button>
-                <button pButton pRipple type="button" 
-                        id="btnContact" 
-                        pTooltip="Contactar" 
-                        icon="pi pi-comments"
-                        class="p-button-rounded p-button-info p-ml-2" 
-                        (click)="showProfessionals(rowData.id)"></button>
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="summary">
-        <div class="p-d-flex p-ai-center p-jc-between">
-            En total hay {{professionalsIn ? professionalsIn.length : 0 }} profesionales.
-        </div>
-    </ng-template>
-</p-table>
-<button pButton label="test" 
-                    (click)="test()">
-            </button>
+<app-skeleton *ngIf="flagProfessionals" [type]="'table'"></app-skeleton>
+<div class="card" [hidden]="flagProfessionals">
+    <p-table #dt [value]="professionalsIn" 
+            [columns]="colsProfessionals" 
+            [rows]="paginatorIn.per_page"
+            [paginator]="false" 
+            [rowHover]="true" 
+            dataKey="id" 
+            styleClass="p-datatable-customers"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+            [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+                <h5 class="p-m-0">Profesionales</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search" (click)="searchOffers($event,search.value)"></i>
+                    <input pInputText #search  
+                        type="text" 
+                        (keyup)="searchOffers($event,$event.target.value)"
+                        placeholder="Buscar..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+                <th style="text-align:center">
+                    <button pButton pRipple type="button" id="btnOptions" icon="pi pi-cog" class="p-button-secondary"
+                        disabled>
+                    </button>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-columns="columns" let-rowData>
+            <tr>
+                <td *ngFor="let col of columns">
+                    {{rowData.user[col.field]?.name ? rowData.user[col.field]?.name : rowData.user[col.field]}}
+                </td>
+                <td style="text-align:center">
+                    <button pButton pRipple 
+                            type="button" 
+                            id="btnCurriculum" 
+                            pTooltip="Curriculum" 
+                            icon="pi pi-file"
+                            class="p-button-rounded p-button-warning"></button>
+                    <button pButton pRipple 
+                            type="button" 
+                            id="btnContact" 
+                            pTooltip="Contactar" 
+                            icon="pi pi-comments"
+                            class="p-button-rounded p-button-info p-ml-2"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                En total hay {{professionalsIn ? professionalsIn.length : 0 }} profesionales.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<button pButton label="test" (click)="test()">
+</button>
