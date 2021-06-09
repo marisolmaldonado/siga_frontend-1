@@ -166,7 +166,7 @@ export class OfferListComponent implements OnInit {
         this.getProfessionals(this.paginator, offerId);
     }
 
-    getProfessionals(paginator: Paginator, offerId) {   
+    getProfessionals(paginator: Paginator, offerId) {
         const params = new HttpParams()
           .append('page', paginator.current_page.toString())
           .append('per_page', paginator.per_page.toString());

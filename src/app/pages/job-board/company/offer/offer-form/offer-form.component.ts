@@ -10,7 +10,7 @@ import {HttpParams} from '@angular/common/http';
 import {Catalogue} from '../../../../../models/app/catalogue';
 import { Offer } from 'src/app/models/job-board/offer';
 import { Status } from 'src/app/models/app/Status';
-import { NullTemplateVisitor } from '@angular/compiler';
+import { add, format } from 'date-fns';
 
 @Component({
     selector: 'app-offer-form',
@@ -400,19 +400,9 @@ export class OfferFormComponent implements OnInit {
     }
 
     calculateEndDate(){
-        if (this.startDateField.value != null) {
-            let momentVariable = new Date(this.startDateField.value); 
-            if ((momentVariable.getDate()+1) < 10 && (momentVariable.getMonth()+2) > 10) {
-                let finalDate = momentVariable.getFullYear() + "-" + (momentVariable.getMonth()+2) + "-" + "0" + (momentVariable.getDate()+1);       
-                this.endDateField.patchValue(finalDate);
-            } 
-            if ((momentVariable.getMonth()+2) < 10 && (momentVariable.getDate()+1) > 10 ) {
-                let finalDate = momentVariable.getFullYear() + "-" + "0" +(momentVariable.getMonth()+2) + "-" + (momentVariable.getDate()+1);      
-                this.endDateField.patchValue(finalDate);
-            } else {
-                let finalDate = momentVariable.getFullYear() + "-" + "0" +(momentVariable.getMonth()+2) + "-" + "0" + (momentVariable.getDate()+1);       
-                this.endDateField.patchValue(finalDate);
-            }      
-        }   
+        if(this.startDateField.valid){
+            const date = add(new Date(this.startDateField.value), {months:1, days:1});
+            this.endDateField.patchValue(format(date, 'yyyy-MM-dd'));
+        }
     }
 }

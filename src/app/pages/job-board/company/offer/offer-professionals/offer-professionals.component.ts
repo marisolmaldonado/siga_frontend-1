@@ -25,8 +25,7 @@ export class OfferProfessionalsComponent implements OnInit {
     loadColsProfessionals() {
         this.colsProfessionals = [
             {field: 'identification', header: 'Cédula'},
-            {field: 'first_name', header: 'Nombres'},
-            {field: 'first_lastname', header: 'Apellidos'},
+            {field: 'full_name', header: 'Nombres'},
             {field: 'email', header: 'Correo'},
         ];
     }
