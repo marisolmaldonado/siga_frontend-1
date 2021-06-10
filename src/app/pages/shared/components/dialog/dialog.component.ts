@@ -17,8 +17,7 @@ export class DialogComponent implements OnInit {
   @Input() userName: String;
   @Input() userId: String;
   @Output() displayOut = new EventEmitter<boolean>();
-  
-  selectedRoles: any[];
+
   colsRole: Col[];
   roles: any[];
   
@@ -40,17 +39,13 @@ export class DialogComponent implements OnInit {
       ];
   }
 
-  setRoles(user = null) {
-  if (user) {
-    this.selectedRoles = [];
-    this.selectedRoles.push(user);
-   }
-  const ids = this.selectedRoles.map(element => element.id);
+  setRoles() {
+  const ids = this.rolesUser.map(element => element.id);
     let params = new HttpParams().append('id', this.userId.toString());
   this.userAdministrationService.delete('user-admin/setRoles', ids, params)
     .subscribe(response => {
         this.messageService.success(response);
-        this.selectedRoles = [];
+        this.rolesUser = [];
         this.displayOut.emit(false);
       }, error => {
        this.messageService.error(error);
