@@ -1,8 +1,8 @@
 // Angular Router
-import {Routes} from '@angular/router';
-import {AuthGuard} from '../../../shared/guards/auth.guard';
-import {CompanyComponent} from './company.component';
-import {RegisterComponent} from './register/register.component';
+import { Routes } from '@angular/router';
+import { AuthGuard } from '../../../shared/guards/auth.guard';
+import { CompanyComponent } from './company.component';
+import { RegisterComponent } from './register/register.component';
 
 // My Components
 

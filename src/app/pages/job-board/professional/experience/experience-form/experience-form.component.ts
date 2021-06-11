@@ -9,6 +9,7 @@ import { HttpParams } from '@angular/common/http';
 import { Catalogue } from '../../../../../models/app/catalogue';
 import { MessageService as MessagePnService } from 'primeng/api';
 import { SharedService } from '../../../../shared/services/shared.service';
+import { Professional } from 'src/app/models/job-board/professional';
 
 @Component({
     selector: 'app-experience-form',
@@ -18,6 +19,7 @@ import { SharedService } from '../../../../shared/services/shared.service';
 
 export class ExperienceFormComponent implements OnInit {
     @Input() formExperienceIn: FormGroup;
+    @Input() formProfessionalIn: FormGroup;
     @Input() experiencesIn: Experience[];
     @Output() experiencesOut = new EventEmitter<Experience[]>();
     @Output() displayOut = new EventEmitter<boolean>();
@@ -103,8 +105,35 @@ export class ExperienceFormComponent implements OnInit {
             this.formExperienceIn.markAllAsTouched();
         }
     }
+    updateProfessional(professional: Professional) {
+        this.spinnerService.show();
+        this.jobBoardHttpService.update('professional/update', { professional })
+            .subscribe(response => {
+                this.spinnerService.hide();
+                this.messageService.success(response);
+                console.log(response);
+                this.displayOut.emit(false);
+            }, error => {
+                this.spinnerService.hide();
+                this.messageService.error(error);
+            });
+    }
+
+    getProfessional() {
+        this.spinnerService.show();
+        this.jobBoardHttpService.get('professional/show')
+            .subscribe(response => {
+                this.spinnerService.hide();
+                this.messageService.success(response);
+                this.formProfessionalIn.patchValue(response['data']);
+            }, error => {
+                this.spinnerService.hide();
+                this.messageService.error(error);
+            });
+    }
+
     working() {
-        const params = new HttpParams().append('type', 'EXPERIENCE_IS-WORKING');
+        const params = new HttpParams().append('type', 'EXPERIENCE_IS_WORKING');
         this.appHttpService.getCatalogues(params).subscribe(response => {
             this.isWorking = false;
             this.messageService.success(response);
@@ -185,16 +214,6 @@ export class ExperienceFormComponent implements OnInit {
                 filtered.push(area);
             }
         }
-        if (filtered.length === 0) {
-            this.messagePnService.clear();
-            this.messagePnService.add({
-                severity: 'error',
-                summary: 'Por favor seleccione un tipo del listado',
-                detail: 'En el caso de no existir comuníquese con el administrador!',
-                life: 5000
-            });
-            this.areaField.setValue(null);
-        }
         this.filteredAreas = filtered;
     }
     // filterProfessional(event) {
@@ -232,6 +251,8 @@ export class ExperienceFormComponent implements OnInit {
 
     markAllAsTouchedFormExperience() {
         this.formExperienceIn.markAllAsTouched();
+        this.formProfessionalIn.markAllAsTouched();
+
     }
 
 }

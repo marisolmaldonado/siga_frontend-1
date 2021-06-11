@@ -1,17 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {JobBoardHttpService} from '../../../../services/job-board/job-board-http.service';
-import {Professional} from '../../../../models/job-board/professional';
-import {Paginator} from '../../../../models/setting/paginator';
-import {HttpParams} from '@angular/common/http';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {MessageService} from '../../../shared/services/message.service';
-import {DateValidators} from '../../../shared/validators/date.validators';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { JobBoardHttpService } from '../../../../services/job-board/job-board-http.service';
+import { Professional } from '../../../../models/job-board/professional';
+import { Paginator } from '../../../../models/setting/paginator';
+import { HttpParams } from '@angular/common/http';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { MessageService } from '../../../shared/services/message.service';
+import { DateValidators } from '../../../shared/validators/date.validators';
 
 @Component({
     selector: 'app-profile',
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.scss']
+    templateUrl: './profiles.component.html',
+    styleUrls: ['./profiles.component.scss']
 })
 
 export class ProfessionalComponent implements OnInit {
@@ -28,7 +28,7 @@ export class ProfessionalComponent implements OnInit {
         private formBuilder: FormBuilder,
         private jobBoardHttpService: JobBoardHttpService) {
 
-        this.paginator = {current_page: 1, per_page: 2};
+        this.paginator = { current_page: 1, per_page: 2 };
         this.profiles = [];
     }
 

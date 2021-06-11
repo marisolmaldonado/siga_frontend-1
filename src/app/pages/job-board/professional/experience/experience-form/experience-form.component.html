@@ -1,12 +1,22 @@
-{{formExperienceIn.value|json}}
-<p-toast></p-toast>
+<!-- {{formExperienceIn.value|json}} -->
 <div class="p-fluid">
     <form [formGroup]="formExperienceIn" (ngSubmit)="onSubmit($event)">
-        <!-- <div class="p-field">
-            <app-location-address [option]="2" (formAddressOut)="formAddress=$event"
-                (formLocationOut)="setFormLocation($event)" id="address" name="address" formControlName="address">
-            </app-location-address>
-        </div> -->
+        <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
+            <label for="identificationType">
+                <i class="p-error">*</i> Area:
+                <i *ngIf="areaField.valid" class="pi pi-check-circle icon-valid"></i>
+                <i *ngIf="areaField.invalid && (areaField.touched || areaField.dirty)"
+                    class="pi pi-times-circle icon-invalid"></i>
+            </label>
+            <p-autoComplete id="identificationType" formControlName="identification_type" [suggestions]="filteredAreas"
+                (completeMethod)="filterArea($event)" field="name" [dropdown]="true">
+                <ng-template let-item pTemplate="item">
+                    <div class="country-item">
+                        <div>{{item.name}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+        </div>
         <div class="p-field">
             <label for="area">
                 <i class="p-error">*</i> Area:
@@ -18,15 +28,15 @@
                 (completeMethod)="filterArea($event)" field="name" [dropdown]="true">
                 <ng-template let-type pTemplate="item">
                     <div class="country-item">
-                        <div>{{<area shape="" coords="" href="" alt="">.name}}</div>
+                        <div>{{item.name}}</div>
                     </div>
                 </ng-template>
             </p-autoComplete>
-            <div *ngIf="areaField.invalid && (areaField.touched || areaField.dirty)">
+            <!-- <div *ngIf="areaField.invalid && (areaField.touched || areaField.dirty)">
                 <small *ngIf="areaField.errors?.required" id="area-help-1" class="p-error">
                     {{messageService.fieldRequired}}
                 </small>
-            </div>
+            </div> -->
         </div>
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
