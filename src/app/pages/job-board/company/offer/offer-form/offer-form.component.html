@@ -163,8 +163,6 @@
                         </div>
                     </div>
                 </div>
-            </p-card>
-            <p-card class="p-xl-6 p-lg-6 p-md-12 p-sm-12">
                 <div formArrayName="requirements">
                     <div>
                         <button pButton pRipple type="button" 
@@ -197,6 +195,8 @@
                         </div>
                     </div>
                 </div>
+            </p-card>
+            <p-card class="p-xl-6 p-lg-6 p-md-12 p-sm-12">
                 <div class="p-field">
                     <label for="remuneration">
                         <i class="p-error">*</i> Remuneración:
@@ -372,6 +372,32 @@
                     <div *ngIf="workingDayField.invalid && (workingDayField.touched || workingDayField.dirty)">
                         <small *ngIf="workingDayField.errors?.required" 
                                 id="working-day-help-1" 
+                                class="p-error">
+                            {{messageService.fieldRequired}}
+                        </small>
+                    </div>
+                </div>
+                <div class="p-field">
+                    <label for="status">
+                        <i class="p-error">*</i> Estado:
+                        <i *ngIf="statusField.valid" class="pi pi-check-circle icon-valid"></i>
+                        <i *ngIf="statusField.invalid && (statusField.touched || statusField.dirty)"
+                            class="pi pi-times-circle icon-invalid"></i>
+                    </label>
+                    <p-autoComplete id="status" formControlName="status"  
+                                    [suggestions]="filteredStatus"
+                                    (completeMethod)="filterStatus($event)" 
+                                    field="name" 
+                                    [dropdown]="true">
+                        <ng-template let-status pTemplate="item">
+                            <div class="country-item">
+                                <div>{{status.name}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+                    <div *ngIf="statusField.invalid && (statusField.touched || statusField.dirty)">
+                        <small *ngIf="statusField.errors?.required" 
+                                id="status-help-1" 
                                 class="p-error">
                             {{messageService.fieldRequired}}
                         </small>

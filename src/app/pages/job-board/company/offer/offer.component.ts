@@ -59,7 +59,7 @@ export class OfferComponent implements OnInit {
       experience_time: [null],
       training_hours: [null, Validators.required],
       location: [null],
-      status: [null],
+      status: [null, Validators.required],
       start_date: [null, Validators.required],
       end_date: [{ value: null, disabled: true }],
       activities: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
@@ -76,7 +76,6 @@ export class OfferComponent implements OnInit {
       response => {
         this.flagOffers = false;
         this.offers = response['data'];
-        console.log(this.offers);
         this.paginator = response as Paginator;
       }, error => {
         this.flagOffers = false;

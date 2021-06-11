@@ -196,10 +196,11 @@ export class OfferFormComponent implements OnInit {
             this.messageService.error(error);
         });
     }
-    // FALTA CREAR RUTA
+
     getStatus() {
-        const params = new HttpParams().append('type', 'STATUS_TYPE');
-        this.appHttpService.getCatalogues(params).subscribe(response => {
+        const params = new HttpParams()
+            .append('uri', '/job-board/company');
+        this.jobBoardHttpService.get('offer/status', params).subscribe(response => {
             this.status = response['data'];
         }, error => {
             this.messageService.error(error);
@@ -378,12 +379,13 @@ export class OfferFormComponent implements OnInit {
         }
         this.filteredTrainingHours = filtered;
     }
+
     filterStatus(event) {
         const filtered: any[] = [];
         const query = event.query;
         for (const status of this.status) {
             if (status.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-                filtered.push(location);
+                filtered.push(status);
             }
         }
         if (filtered.length === 0) {
@@ -398,6 +400,8 @@ export class OfferFormComponent implements OnInit {
         }
         this.filteredStatus = filtered;
     }
+
+
 
     calculateEndDate(){
         if(this.startDateField.valid){
