@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {Col} from '../../../../../models/setting/col';
 import {Paginator} from '../../../../../models/setting/paginator';
+import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
 import { Professional } from '../../../../../models/job-board/professional';
 
 @Component({
@@ -15,7 +16,7 @@ export class OfferProfessionalsComponent implements OnInit {
     @Input() paginatorIn: Paginator;
     colsProfessionals: Col[];
 
-    constructor() {
+    constructor(private jobBoardHttpService: JobBoardHttpService) {
     }
 
     ngOnInit(): void {
@@ -28,5 +29,10 @@ export class OfferProfessionalsComponent implements OnInit {
             {field: 'full_name', header: 'Nombres'},
             {field: 'email', header: 'Correo'},
         ];
+    }
+
+    contactProfessional(data){
+        //this.jobBoardHttpService.applyProfessional();
+        console.log(data);
     }
 }

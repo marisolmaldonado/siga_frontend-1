@@ -7,6 +7,7 @@ import {environment, WEB} from '../../../environments/environment';
 })
 
 export class JobBoardHttpService {
+
     API_URL_JOB_BOARD: string = environment.API_URL_JOB_BOARD;
 
     constructor(private httpClient: HttpClient) {
@@ -39,6 +40,14 @@ export class JobBoardHttpService {
 
     getFiles(url, params = new HttpParams()) {
         url = this.API_URL_JOB_BOARD + url;
+        return this.httpClient.get(url, {params});
+    }
+
+    applyProfessional(professional_id: number)
+    {
+        const url = this.API_URL_JOB_BOARD + 'web-professional/apply-professional';
+        const params = new HttpParams()
+            .append('professional_id', professional_id.toString());
         return this.httpClient.get(url, {params});
     }
 }

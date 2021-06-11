@@ -51,7 +51,8 @@
                             id="btnContact" 
                             label="Contactar"
                             icon="pi pi-comments"
-                            class="p-button-rounded p-button-info p-ml-2"></button>
+                            class="p-button-rounded p-button-info p-ml-2"
+                            (click)="contactProfessional(rowData)"></button>
                 </td>
             </tr>
         </ng-template>
@@ -62,5 +63,3 @@
         </ng-template>
     </p-table>
 </div>
-<button pButton label="test" (click)="test()">
-</button>

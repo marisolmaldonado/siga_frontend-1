@@ -76,6 +76,7 @@ export class OfferComponent implements OnInit {
       response => {
         this.flagOffers = false;
         this.offers = response['data'];
+        console.log(this.offers);
         this.paginator = response as Paginator;
       }, error => {
         this.flagOffers = false;
