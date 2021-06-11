@@ -14,6 +14,7 @@ import {HttpParams} from '@angular/common/http';
   styleUrls: ['./professional-list.component.scss']
 })
 export class ProfessionalListComponent implements OnInit {
+  @Input() flagProfessionals:boolean;
   @Input() professionalsIn: Company[];
   @Input() paginatorIn: Paginator;
   @Input() formProfessionalIn: FormGroup;

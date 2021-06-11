@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Company } from 'src/app/models/job-board/company';
-import { User } from 'src/app/models/auth/user';
 import { Paginator } from 'src/app/models/setting/paginator';
 
 
@@ -13,10 +12,8 @@ import { Paginator } from 'src/app/models/setting/paginator';
 export class ProfileComponent implements OnInit {
 
   formCompany: FormGroup;
-  formProfessional:FormGroup;
   company: Company;
   companyDialog: boolean;
-  user: User;
   paginator: Paginator;
 
   constructor(
@@ -31,7 +28,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.buildFormCompany();
   }
-  //Formulario de compañia//
+  //Formulario de Empresa//
   buildFormCompany() {
     this.formCompany = this.formBuilder.group({
       user: this.formBuilder.group({
@@ -45,7 +42,6 @@ export class ProfileComponent implements OnInit {
       prefix:[null,Validators.required],
       comercial_activities: this.formBuilder.array([
         this.formBuilder.control([null, Validators.required])
-    
       ]),
       web: [null, Validators.required],
       type: [null, Validators.required],

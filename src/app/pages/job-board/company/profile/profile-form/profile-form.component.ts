@@ -223,12 +223,6 @@ export class ProfileFormComponent implements OnInit {
     this.filteredActivityTypes = filtered;
   }
 
-  markAllAsTouchedFormSkill() {
-    this.formCompanyIn.markAllAsTouched();
-    this.formLocation.markAllAsTouched();
-    this.formAddress.markAllAsTouched();
-  }
-
   setFormLocation(event) {
     this.formLocation = event;
 }

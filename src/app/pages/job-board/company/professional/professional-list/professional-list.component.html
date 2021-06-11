@@ -1,24 +1,26 @@
+<app-skeleton *ngIf="flagProfessionals" [type]="'table'"></app-skeleton>
 <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info"
-        (click)="paginatorOut.emit(paginatorIn)"></button>
-<p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total"
-                 (onPageChange)="pageChange($event)"></p-paginator>
-
-  <div class="card"  *ngFor="let professional of professionalsIn">
-    <div class="profile">
-      <div class="image">
-        <div class="circle-1"></div>
-        <div class="circle-2"></div>
-        <img src="https://todobiografias.net/wp-content/uploads/2019/03/juninho-pernambucano.jpg" width="70" height="70" alt="Jessica Potter">
-      </div>   
-      <div class="name">{{professional.user.first_name}}&nbsp;{{professional.user.first_lastname}}</div>
-      <div class="ci">{{professional.user.identification}}</div>
-      <div class="phone">{{professional.user.phone}}</div>
-      <div class="email">{{professional.user.personal_email}}</div> 
-      <div class="actions">
-        <button pButton pRipple class="info" type="button"> Información</button>
-        <button pButton pRipple class="remove" type="button"
-        (click)="deleteProfessional(professional.pivot.professional_id)"> Descartar</button>
-      </div>
-    </div>
+  (click)="paginatorOut.emit(paginatorIn)">
+</button>
+<p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total" (onPageChange)="pageChange($event)">
+</p-paginator>
+<div class="card" [hidden]="flagProfessionals" *ngFor="let professional of professionalsIn">
+  <div class="cover-photo">
+    <img src="https://i.pinimg.com/originals/a5/4c/98/a54c980dc9a26b2ed995270d7b2b227c.jpg" class="profile">
   </div>
-
+  <div class="profile-name">{{professional.user.first_name}}&nbsp;{{professional.user.first_lastname}}</div>
+  <p class="about">Cédula</p>
+  <div class="cedula">{{professional.user.identification}}</div>
+  <p class="about">Teléfono</p>
+  <div class="telefono">{{professional.user.phone}}</div>
+  <p class="about">Correo</p>
+  <p class="correo">{{professional.user.personal_email}}</p>
+  <div class="p-field p-grid">
+    <button pButton pRipple class="msg-btn" type="button">
+      Información
+    </button>
+    <button pButton pRipple class="follow-btn" type="button" (click)="deleteProfessional(professional.pivot.professional_id)">
+      Eliminar
+    </button>
+  </div>
+</div>

@@ -114,12 +114,12 @@ export class RegisterFormComponent implements OnInit {
 
     }
 
-    get dateField() {
-        return this.formRegisterIn['controls']['user'].get('date');
+    get prefixField() {
+        return this.formRegisterIn.get('prefix');
     }
 
 
-  register(company: Company, flag = false) {
+  register(company: Company) {
     this.spinnerService.show();
     this.jobBoardHttpService.store('company/register', {company}).subscribe(response => {
         this.spinnerService.hide();
@@ -134,7 +134,7 @@ export class RegisterFormComponent implements OnInit {
 
 onSubmit(flag = false) {
     if (this.formRegisterIn.valid) {
-         this.register(this.formRegisterIn.value, flag);
+         this.register(this.formRegisterIn.value);
         }else {
             this.formRegisterIn.markAllAsTouched();
         }
@@ -216,6 +216,11 @@ onSubmit(flag = false) {
         }
         this.filteredactivityType = filtered;
     }
+    markAllAsTouchedFormRegister() {
+        this.formRegisterIn.markAllAsTouched();
+        this.formLocation.markAllAsTouched();
+        this.formAddress.markAllAsTouched();
+      }
 
     setFormLocation(event) {
         this.formLocation = event;

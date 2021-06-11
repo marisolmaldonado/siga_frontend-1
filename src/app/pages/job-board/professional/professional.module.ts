@@ -91,6 +91,7 @@ import {ProfileComponent} from '../company/profile/profile.component';
         ProfileComponent,
         SkillComponent,
         SkillFormComponent,
+        //SkillListComponent,
         CourseComponent,
         CourseFormComponent,
         CourseListComponent,

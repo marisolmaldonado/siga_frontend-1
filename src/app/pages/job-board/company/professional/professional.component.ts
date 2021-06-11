@@ -4,7 +4,6 @@ import { JobBoardHttpService } from '../../../../services/job-board/job-board-ht
 import { Company } from 'src/app/models/job-board/company';
 import { Paginator } from '../../../../models/setting/paginator';
 import { HttpParams } from '@angular/common/http';
-import { NgxSpinnerService } from 'ngx-spinner';
 import {MessageService} from '../../../shared/services/message.service'
 @Component({
   selector: 'app-professional',
@@ -17,8 +16,8 @@ export class ProfessionalComponent implements OnInit {
   professionals: Company[];
   professional:Company;
   formProfessional:FormGroup;
+  flagProfessionals:boolean;
   constructor(
-    private spinnerService: NgxSpinnerService,
     private messageService: MessageService,
     private formBuilder: FormBuilder,
     private jobBoardHttpService: JobBoardHttpService
@@ -47,15 +46,15 @@ export class ProfessionalComponent implements OnInit {
     const params = new HttpParams()
       .append('page', paginator.current_page.toString())
       .append('per_page', paginator.per_page.toString());
-    this.spinnerService.show();
+      this.flagProfessionals = true;
     this.jobBoardHttpService.get('company/professionals', params).subscribe(
       response => {
-        this.spinnerService.hide();
+       this.flagProfessionals = false;
         this.professionals = response['data'];
         console.log(this.professionals)
         this.paginator = response as Paginator;
       }, error => {
-        this.spinnerService.hide();
+        this.flagProfessionals = false;
         this.messageService.error(error);
       });
   }

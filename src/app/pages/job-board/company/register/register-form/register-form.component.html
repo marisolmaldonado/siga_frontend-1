@@ -1,4 +1,5 @@
-{{formRegisterIn.value|json}}
+<body>
+  {{formRegisterIn.value|json}}
 <div class="card1">
   <div class="p-text-center" style=" font-size: 25px; font-weight: 600;">
     SIGN UP
@@ -22,6 +23,9 @@
                     <small *ngIf="usernameField.errors?.required" id="user-help-1" class="p-error">
                       {{messageService.fieldRequired}}
                     </small>
+                    <small *ngIf="usernameField.errors?.noIdentificationMatch" id="user-help-1" class="p-error">
+                      {{messageService.fieldNoIdentificationMatch}}
+                    </small>
                   </div>
                 </div>
                 <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
@@ -35,6 +39,9 @@
                   <div *ngIf="identificationField.errors && (identificationField.touched || identificationField.dirty)">
                     <small *ngIf="identificationField.errors?.required" id="identification-help-1" class="p-error">
                       {{messageService.fieldRequired}}
+                    </small>
+                    <small *ngIf="identificationField.errors?.noIdentificationMatch" id="identification-help-1" class="p-error">
+                      {{messageService.fieldNoIdentificationMatch}}
                     </small>
                     <small *ngIf="identificationField.errors?.notAvaibleUser" id="identification-help-1"
                       class="p-error">
@@ -123,19 +130,13 @@
                       {{messageService.fieldNoPasswordMatch}}
                     </small>
                   </div>
-                  {{formRegisterIn['controls']['user'].get("password_confirmation").errors| json}}
                 </div>
               </div>
             </div>
             <div class="p-field">
-              <app-location-address [option]="2" (formAddressOut)="formAddress=$event"
-                (formLocationOut)="setFormLocation($event)" id="address" name="address" formControlName="address">
-              </app-location-address>
-              <div *ngIf="addressField.errors && (addressField.touched || addressField.dirty)">
-                <small *ngIf="addressField.errors?.required" id="address-help-1" class="p-error">
-                  {{messageService.fieldRequired}}
-                </small>
-              </div>
+                <app-location-address [option]="1" (formAddressOut)="formAddress=$event"
+                  (formLocationOut)="setFormLocation($event)" id="address" name="address" formControlName="address">
+                </app-location-address>
             </div>
           </div>
           <div class="card">
@@ -205,7 +206,7 @@
               </div>
             </div>
             <div class="p-formgrid p-grid">
-              <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
+              <div class="p-field p-xl-6 p-lg-6 p-md-12 p-sm-12">
                 <label for="tradename">
                   <i class="p-error">*</i> Nombre Comercial:
                   <i *ngIf="tradeNameField.valid" class="pi pi-check-circle icon-valid"></i>
@@ -219,23 +220,37 @@
                   </small>
                 </div>
               </div>
-              <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
-                <label for="web">
-                  <i class="p-error">*</i> Web:
-                  <i *ngIf="webField.valid" class="pi pi-check-circle icon-valid"></i>
-                  <i *ngIf="webField.invalid && (webField.touched || webField.dirty)"
+              <div class="p-field p-xl-6 p-lg-6 p-md-12 p-sm-12">
+                <label for="prefix">
+                  <i class="p-error">*</i>Prefijo:
+                  <i *ngIf="prefixField.valid" class="pi pi-check-circle icon-valid"></i>
+                  <i *ngIf="prefixField.invalid && (prefixField.touched || prefixField.dirty)"
                     class="pi pi-times-circle icon-invalid"></i>
                 </label>
-                <input id="web" formControlName="web" pInputText>
-                <div *ngIf="webField.errors && (webField.touched || webField.dirty)">
-                  <small *ngIf="webField.errors?.required" id="web-help-1" class="p-error">
+                <input id="prefix" formControlName="prefix" pInputText>
+                <div *ngIf="prefixField.errors && (prefixField.touched ||prefixField.dirty)">
+                  <small *ngIf="prefixField.errors?.required" id="prefix-help-1" class="p-error">
                     {{messageService.fieldRequired}}
                   </small>
                 </div>
               </div>
             </div>
+            <div class="p-field">
+              <label for="web">
+                <i class="p-error">*</i> Web:
+                <i *ngIf="webField.valid" class="pi pi-check-circle icon-valid"></i>
+                <i *ngIf="webField.invalid && (webField.touched || webField.dirty)"
+                  class="pi pi-times-circle icon-invalid"></i>
+              </label>
+              <input id="web" formControlName="web" pInputText>
+              <div *ngIf="webField.errors && (webField.touched || webField.dirty)">
+                <small *ngIf="webField.errors?.required" id="web-help-1" class="p-error">
+                  {{messageService.fieldRequired}}
+                </small>
+              </div>
+            </div>
             <div class="p-formgrid p-grid">
-              <div class="p-field p-xl-1 p-lg-1 p-md-1 p-sm-12">
+              <div class="p-field p-xl-2 p-lg-2 p-md-3 p-sm-12">
                 <label for="comercialActivities">
                   <i class="p-error">*</i> Actividades Comerciales:
                   <i *ngIf="comercialActivitiesField.valid" class="pi pi-check-circle icon-valid"></i>
@@ -269,11 +284,13 @@
               </div>
             </div>
           </div>
-          <div class="p-field p-xl-2 p-lg-2 p-md-2 p-sm-12">
+          <div class="p-field p-xl-3 p-lg-3 p-md-3 p-sm-12" style="display:inline-block;margin-left:35%;width:25%;">
             <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
-              class="p-button-success p-button-raised"></button>
+              class="p-button-success p-button-raised" ></button>
           </div>
         </form>
       </div>
     </div>
   </div>
+  </div>
+</body>
