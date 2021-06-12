@@ -62,7 +62,7 @@ import {SharedModule} from './pages/shared/shared.module';
         AppMenuComponent,
         AppMenuitemComponent,
         AppRightPanelComponent,
-        AppTopBarComponent,
+        AppTopBarComponent
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true},

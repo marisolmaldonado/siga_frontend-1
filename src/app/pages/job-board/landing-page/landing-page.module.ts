@@ -12,8 +12,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {DropdownModule} from 'primeng/dropdown';
 import {SkeletonModule} from 'primeng/skeleton';
 import {DataViewModule} from 'primeng/dataview';
-
-// My Components
+import {TabMenuModule} from 'primeng/tabmenu';
 import {TooltipModule} from 'primeng/tooltip';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ToastModule} from 'primeng/toast';
@@ -33,20 +32,21 @@ import {AccordionModule} from 'primeng/accordion';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {CardModule} from 'primeng/card';
 import {RippleModule} from 'primeng/ripple';
-import { OfferDataViewComponent } from './web-offer/offer-data-view/offer-data-view.component';
+import {SplitButtonModule} from 'primeng/splitbutton';
 
 // My Components
 import {SharedModule} from '../../shared/shared.module';
 import {LandingPageComponent} from './landing-page.component';
 import {WebOfferComponent} from './web-offer/web-offer.component';
 import {WebProfessionalComponent} from './web-professional/web-professional.component';
+import { OfferDataViewComponent } from './web-offer/offer-data-view/offer-data-view.component';
 import {TotalComponent} from './total/total.component';
 import {ProfessionalListComponent} from './web-professional/professional-list/professional-list.component';
 import {CategoryFilterComponent} from './web-professional/professional-list/category-filter/category-filter.component';
 import {FilterComponent} from './web-professional/professional-list/filter/filter.component';
 import { DataViewGridItemComponent } from './web-offer/offer-data-view/data-view-grid-item/data-view-grid-item.component';
 import { DataViewListItemComponent } from './web-offer/offer-data-view/data-view-list-item/data-view-list-item.component';
-
+import {DividerModule} from 'primeng/divider';
 
 @NgModule({
     imports: [
@@ -81,7 +81,10 @@ import { DataViewListItemComponent } from './web-offer/offer-data-view/data-view
         CardModule,
         SkeletonModule,
         RippleModule,
-        DataViewModule
+        DataViewModule,
+        TabMenuModule,
+        DividerModule,
+        SplitButtonModule
     ],
     declarations: [
         LandingPageComponent,

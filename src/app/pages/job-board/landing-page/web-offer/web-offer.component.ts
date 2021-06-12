@@ -27,8 +27,9 @@ export class WebOfferComponent implements OnInit {
     paginator: Paginator;
     treeData: any[];
     scrollHeight = '10px';
-
     selectedCategories: Category[];
+    items: object[];
+    displayModalFilter: boolean;
     searchParams: SearchParams = {
         searchCode: null,
         searchLocation: null,
@@ -61,6 +62,13 @@ export class WebOfferComponent implements OnInit {
     ngOnInit() {
         this.getOffers(this.paginator, this.failSearchParams);
         this.getCategories();
+        this.items = [
+            {
+                label: 'Más filtros', icon: 'pi pi-plus', command: () => {
+                    this.showModalFilter();
+                }
+            },
+        ];
     }
 
     getOffers(paginator: Paginator, searchParams: SearchParams) {
@@ -68,8 +76,9 @@ export class WebOfferComponent implements OnInit {
             .append('page', String(paginator.current_page))
             .append('per_page', String(paginator.per_page));
         const routeFilter = this.auth ? 'private-offers' : 'public-offers';
+        console.log(routeFilter);
         this.spinnerService.show();
-        this.jobBoardHttpService.store('web-offer/private-offers', searchParams, params).subscribe(
+        this.jobBoardHttpService.store(`web-offer/${routeFilter}`, searchParams, params).subscribe(
             response => {
                 this.spinnerService.hide();
                 this.offers = response['data'];
@@ -117,7 +126,7 @@ export class WebOfferComponent implements OnInit {
         this.treeData = treeData;
     }
 
-    categoriesSelected(): void {
+    filterForCategoriesSelected(): void {
         if (this.selectedCategories === undefined) {
             Swal.fire({
                 title: 'Sin categorías.',
@@ -137,6 +146,10 @@ export class WebOfferComponent implements OnInit {
     cleanSelectedCategories() {
         this.selectedCategories = undefined;
         this.getOffers(this.paginator, this.failSearchParams);
+    }
+
+    showModalFilter() {
+        this.displayModalFilter = true;
     }
 }
 

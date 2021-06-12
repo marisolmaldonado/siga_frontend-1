@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Offer} from '../../../../../models/job-board/offer';
 import {Paginator} from '../../../../../models/setting/paginator';
 import {JobBoardHttpService} from '../../../../../services/job-board/job-board-http.service';
@@ -7,6 +7,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {MessageService} from '../../../../shared/services/message.service';
 import {User} from '../../../../../models/auth/user';
 import {AuthService} from '../../../../../services/auth/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-offer-data-view',
@@ -18,10 +19,9 @@ export class OfferDataViewComponent implements OnInit {
     @Input() offers: Offer[];
     paginator: Paginator;
     auth: User;
+    moreInformation: Offer;
     displayButtonApply: boolean;
-    displayModalFilter: boolean;
-    displayMoreInformation: boolean;
-
+    displayModalMoreInformation: boolean;
 
     constructor(private spinnerService: NgxSpinnerService,
                 private messageService: MessageService,
@@ -32,6 +32,7 @@ export class OfferDataViewComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.test();
     }
 
     applyOffer(idOffer: string) {
@@ -48,11 +49,23 @@ export class OfferDataViewComponent implements OnInit {
             });
     }
 
-    showModalFilter() {
-        this.displayModalFilter = true;
+    showModalMoreInformation(offer) {
+        this.displayModalMoreInformation = true;
+        this.moreInformation = offer;
     }
 
-    showModalMoreInformation(offer: Offer) {
-        this.displayMoreInformation = true;
+    closeModalMoreInformation() {
+        this.displayModalMoreInformation = false;
+        this.moreInformation = null;
+    }
+
+    test() {
+        if (screen.width < 1024) {
+            console.log('Pequeña');
+        } else if (screen.width < 1280) {
+            console.log('Mediana');
+        } else {
+            console.log('Grande');
+        }
     }
 }
