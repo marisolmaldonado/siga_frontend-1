@@ -12,6 +12,7 @@ import {Paginator} from '../../../../models/setting/paginator';
 import {Offer, Category, SearchParams} from '../../../../models/job-board/models.index';
 import {User} from '../../../../models/auth/user';
 import {AuthService} from '../../../../services/auth/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-web-offer',
@@ -20,53 +21,64 @@ import {AuthService} from '../../../../services/auth/auth.service';
 })
 export class WebOfferComponent implements OnInit {
 
-    /*--------------------------------------------------*
-     * Atributos y variables.
-     *--------------------------------------------------*/
     offers: Offer[];
+    categories: Category[];
+    auth: User;
     paginator: Paginator;
     treeData: any[];
-    categories: Category[];
+    scrollHeight = '10px';
+    selectedCategories: Category[];
+    items: object[];
     displayModalFilter: boolean;
-    selectedCategories: any;
-    auth: User;
-
-    offerView: Offer;
-    displayMoreInformation: boolean;
-    failPaginator: any = {
-        per_page: '9',
-        current_page: '1',
+    searchParams: SearchParams = {
+        searchCode: null,
+        searchLocation: null,
+        searchProvince: null,
+        searchCanton: null,
+        searchPosition: null,
+        searchIDs: null
     };
+    offerView: Offer;
     failSearchParams: SearchParams = {
         searchCode: null,
         searchLocation: null,
         searchProvince: null,
         searchCanton: null,
         searchPosition: null,
+        searchIDs: null
     };
 
     constructor(private spinnerService: NgxSpinnerService,
                 private messageService: MessageService,
                 private authService: AuthService,
-                private formBuilder: FormBuilder,
                 private jobBoardHttpService: JobBoardHttpService) {
         this.auth = authService.getAuth();
+        this.paginator = {
+            per_page: 9,
+            current_page: 1,
+        };
     }
 
     ngOnInit() {
-        this.getOffers(this.failPaginator, this.failSearchParams);
+        this.getOffers(this.paginator, this.failSearchParams);
         this.getCategories();
+        this.items = [
+            {
+                label: 'Más filtros', icon: 'pi pi-plus', command: () => {
+                    this.showModalFilter();
+                }
+            },
+        ];
     }
 
     getOffers(paginator: Paginator, searchParams: SearchParams) {
         const params = new HttpParams()
             .append('page', String(paginator.current_page))
             .append('per_page', String(paginator.per_page));
-
         const routeFilter = this.auth ? 'private-offers' : 'public-offers';
         console.log(routeFilter);
         this.spinnerService.show();
-        this.jobBoardHttpService.get('web-offer/public-offers', params).subscribe(
+        this.jobBoardHttpService.store(`web-offer/${routeFilter}`, searchParams, params).subscribe(
             response => {
                 this.spinnerService.hide();
                 this.offers = response['data'];
@@ -77,28 +89,23 @@ export class WebOfferComponent implements OnInit {
             });
     }
 
-    applyOffer(idOffer: string) {
-        const params = new HttpParams()
-            .append('id', String(idOffer));
-        this.spinnerService.show();
-        this.jobBoardHttpService.get('web-offer/apply-offer', params).subscribe(
-            response => {
-                this.spinnerService.hide();
-                this.messageService.success(response);
-            }, error => {
-                this.spinnerService.hide();
-                this.messageService.error(error);
-            });
+    pageChange(event): void {
+        this.paginator.current_page = event.page + 1;
+        this.getOffers(this.paginator, this.failSearchParams);
     }
 
-    getCategories() {
+    getCategories(): void {
         this.spinnerService.show();
         this.jobBoardHttpService.get('web-offer/get-categories').subscribe(
             response => {
                 this.spinnerService.hide();
                 this.categories = response['data'];
                 this.modificationDataCategory(response['data']);
-                console.log(this.treeData);
+                if (this.scrollHeight === undefined || this.scrollHeight.length === 0) {
+                    this.scrollHeight = '10px';
+                } else {
+                    this.scrollHeight = '60vh';
+                }
             }, error => {
                 this.spinnerService.hide();
                 this.messageService.error(error);
@@ -106,7 +113,7 @@ export class WebOfferComponent implements OnInit {
             });
     }
 
-    modificationDataCategory(categories) {
+    modificationDataCategory(categories): void {
         const treeData = [];
 
         for (const category of categories) {
@@ -119,17 +126,30 @@ export class WebOfferComponent implements OnInit {
         this.treeData = treeData;
     }
 
-    test() {
-        console.log(this.selectedCategories);
+    filterForCategoriesSelected(): void {
+        if (this.selectedCategories === undefined) {
+            Swal.fire({
+                title: 'Sin categorías.',
+                text: 'Seleccione una categoría.',
+                icon: 'info'
+            });
+        } else {
+            const idsCategories = [];
+            for (const category of this.selectedCategories) {
+                idsCategories.push(category.id);
+            }
+            this.searchParams.searchIDs = idsCategories;
+            this.getOffers(this.paginator, this.searchParams);
+        }
+    }
+
+    cleanSelectedCategories() {
+        this.selectedCategories = undefined;
+        this.getOffers(this.paginator, this.failSearchParams);
     }
 
     showModalFilter() {
         this.displayModalFilter = true;
-    }
-
-    showModalMoreInformation(offer: Offer) {
-        this.displayMoreInformation = true;
-        this.offerView = offer;
     }
 }
 

@@ -41,4 +41,5 @@ export interface SearchParams {
     searchProvince?: string;
     searchCanton?: string;
     searchPosition?: string;
+    searchIDs?: Array<number>;
 }
