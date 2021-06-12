@@ -12,5 +12,5 @@ export interface Course {
     description?: Text;
     start_date?: Date;
     end_date?: Date;
-    hours?: string;
+    hours?: number;
 }

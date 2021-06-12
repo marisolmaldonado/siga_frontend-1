@@ -49,13 +49,46 @@
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
+                <th pSortableColumn=" professional">
+                    Profesional
+                    <p-sortIcon field=" professional"></p-sortIcon>
+                </th>
                 <th pSortableColumn="type">
                     Tipo
                     <p-sortIcon field="type"></p-sortIcon>
                 </th>
+                <th pSortableColumn=" institution">
+                    institucion
+                    <p-sortIcon field=" institution"></p-sortIcon>
+                </th>
+                <th pSortableColumn="certification_type">
+                    tipo de 
+                    certificado
+                    <p-sortIcon field="certification_type"></p-sortIcon>
+                </th>
+                <th pSortableColumn="area">
+                    Area
+                    <p-sortIcon field="area"></p-sortIcon>
+                </th>
+                <th pSortableColumn="name">
+                    Nombre
+                    <p-sortIcon field="name"></p-sortIcon>
+                </th>
                 <th pSortableColumn="description">
-                    Descripción
+                    descripcion
                     <p-sortIcon field="description"></p-sortIcon>
+                </th>
+                <th pSortableColumn="start_date">
+                    fecha de inicio 
+                    <p-sortIcon field="start_date"></p-sortIcon>
+                </th>
+                <th pSortableColumn="end_date">
+                    fecha de fin
+                    <p-sortIcon field="end_date"></p-sortIcon>
+                </th>
+                <th pSortableColumn="hours">
+                    horas
+                    <p-sortIcon field="hours"></p-sortIcon>
                 </th>
                 <th></th>
             </tr>
@@ -66,11 +99,35 @@
                     <p-tableCheckbox [value]="course"></p-tableCheckbox>
                 </td>
                 <td>
+                    {{course.professional}}
+                </td>
+                <td>
                     {{course.type.name}}
+                </td>
+                <td>
+                    {{course.institution}}
+                </td>  <td>
+                    {{course. certification_type}}
+                </td>
+                <td>
+                    {{course. area}}
+                </td>
+                <td>
+                    {{course.name}}
                 </td>
                 <td>
                     {{course.description}}
                 </td>
+                <td>
+                    {{course.start_date}}
+                </td>
+                <td>
+                    {{course.end_date}}
+                </td>
+                <td>
+                    {{course.hours}}
+                </td>
+
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning"
                         (click)="openEditFormCourse(course)"></button>
