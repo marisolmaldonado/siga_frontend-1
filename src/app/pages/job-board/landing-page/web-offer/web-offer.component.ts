@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 // servicios
 import {NgxSpinnerService} from 'ngx-spinner';
 import {MessageService} from '../../../shared/services/message.service';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {JobBoardHttpService} from '../../../../services/job-board/job-board-http.service';
 import {HttpParams} from '@angular/common/http';
 
@@ -21,54 +21,86 @@ import Swal from 'sweetalert2';
 })
 export class WebOfferComponent implements OnInit {
 
-    offers: Offer[];
-    categories: Category[];
     auth: User;
-    paginator: Paginator;
-    treeData: any[];
-    scrollHeight = '10px';
-    selectedCategories: Category[];
     items: object[];
+    offers: Offer[];
+    treeData: any[];
+    paginator: Paginator;
+    scrollHeight = '10px';
+    formCodeFilter: FormGroup;
+    formMoreFilters: FormGroup;
+    categories: Category[];
+    displayCodeFilter: boolean;
+    displayMoreFilters: boolean;
     displayModalFilter: boolean;
-    searchParams: SearchParams = {
-        searchCode: null,
-        searchLocation: null,
-        searchProvince: null,
-        searchCanton: null,
-        searchPosition: null,
-        searchIDs: null
-    };
-    offerView: Offer;
-    failSearchParams: SearchParams = {
-        searchCode: null,
-        searchLocation: null,
-        searchProvince: null,
-        searchCanton: null,
-        searchPosition: null,
-        searchIDs: null
-    };
+    selectedCategories: Category[];
+    searchParams: SearchParams;
+
+    formLocationIn: any;
 
     constructor(private spinnerService: NgxSpinnerService,
                 private messageService: MessageService,
                 private authService: AuthService,
+                private formBuilder: FormBuilder,
                 private jobBoardHttpService: JobBoardHttpService) {
         this.auth = authService.getAuth();
         this.paginator = {
             per_page: 9,
             current_page: 1,
         };
+        this.setDefaultParamsSearch();
     }
 
     ngOnInit() {
-        this.getOffers(this.paginator, this.failSearchParams);
+        this.buildForms();
+        this.getOffers(this.paginator, this.searchParams);
         this.getCategories();
         this.items = [
             {
-                label: 'Más filtros', icon: 'pi pi-plus', command: () => {
-                    this.showModalFilter();
+                label: 'Filtrar por código', icon: 'pi pi-percentage', command: () => {
+                    this.showModalFilter('code');
                 }
             },
+            {
+                label: 'Más filtros', icon: 'pi pi-plus', command: () => {
+                    this.showModalFilter('moreFilter');
+                }
+            }
         ];
+    }
+
+    buildForms() {
+        this.formMoreFilters = this.formBuilder.group({
+            ids: [null],
+            position: [null],
+            wideField: [null],
+            specificField: [null],
+            province: [null],
+            canton: [null],
+        });
+        this.formCodeFilter = this.formBuilder.group({
+            code: [null],
+        });
+    }
+
+    filterForCode() {
+        const params: SearchParams = this.searchParams;
+
+        params.searchCode = this.formCodeFilter.value.code;
+        this.getOffers(this.paginator, params);
+        this.displayModalFilter = false;
+    }
+
+    filterForMore() {
+        const params: SearchParams = this.searchParams;
+
+        params.searchPosition = this.formMoreFilters.value.position;
+        params.searchProvince = this.formMoreFilters.value.province;
+        params.searchCanton = this.formMoreFilters.value.canton;
+        params.searchWideField = this.formMoreFilters.value.wideField;
+        params.searchSpecificField = this.formMoreFilters.value.specificField;
+        this.getOffers(this.paginator, params);
+        this.displayModalFilter = false;
     }
 
     getOffers(paginator: Paginator, searchParams: SearchParams) {
@@ -76,7 +108,6 @@ export class WebOfferComponent implements OnInit {
             .append('page', String(paginator.current_page))
             .append('per_page', String(paginator.per_page));
         const routeFilter = this.auth ? 'private-offers' : 'public-offers';
-        console.log(routeFilter);
         this.spinnerService.show();
         this.jobBoardHttpService.store(`web-offer/${routeFilter}`, searchParams, params).subscribe(
             response => {
@@ -89,9 +120,9 @@ export class WebOfferComponent implements OnInit {
             });
     }
 
-    pageChange(event): void {
-        this.paginator.current_page = event.page + 1;
-        this.getOffers(this.paginator, this.failSearchParams);
+    pageChange(currentPage): void {
+        this.paginator.current_page = currentPage.page + 1;
+        this.getOffers(this.paginator, this.searchParams);
     }
 
     getCategories(): void {
@@ -135,21 +166,47 @@ export class WebOfferComponent implements OnInit {
             });
         } else {
             const idsCategories = [];
+            const search: SearchParams = this.searchParams;
+
             for (const category of this.selectedCategories) {
                 idsCategories.push(category.id);
             }
-            this.searchParams.searchIDs = idsCategories;
-            this.getOffers(this.paginator, this.searchParams);
+            search.searchIDs = idsCategories;
+
+            this.getOffers(this.paginator, search);
         }
     }
 
     cleanSelectedCategories() {
+        this.setDefaultParamsSearch();
         this.selectedCategories = undefined;
-        this.getOffers(this.paginator, this.failSearchParams);
+        this.getOffers(this.paginator, this.searchParams);
     }
 
-    showModalFilter() {
+    showModalFilter(typeFilter) {
+        if (typeFilter === 'code') {
+            this.displayCodeFilter = true;
+            this.displayMoreFilters = false;
+        }
+        if (typeFilter === 'moreFilter') {
+            this.displayMoreFilters = true;
+            this.displayCodeFilter = false;
+        }
         this.displayModalFilter = true;
     }
-}
 
+    setDefaultParamsSearch() {
+        this.searchParams = {
+            searchCode: null,
+            searchProvince: null,
+            searchCanton: null,
+            searchPosition: null,
+            searchIDs: null
+        };
+    }
+
+    test(event) {
+        this.formLocationIn = event;
+        console.log(JSON.stringify(this.formLocationIn));
+    }
+}

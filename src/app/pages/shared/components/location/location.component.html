@@ -1,7 +1,8 @@
 <p-toast></p-toast>
 <div class="p-fluid">
     <form [formGroup]="formLocation">
-        <p-card header="Localización:">
+        <div>
+            <h3>Localización:</h3>
             <div class="p-formgrid p-grid">
                 <div class="p-field p-xl-6 p-lg-6 p-md-6 p-sm-12">
                     <p-autoComplete formControlName="country" [suggestions]="filteredCountries"
@@ -84,6 +85,6 @@
                     </div>
                 </div>
             </div>
-        </p-card>
+        </div>
     </form>
 </div>

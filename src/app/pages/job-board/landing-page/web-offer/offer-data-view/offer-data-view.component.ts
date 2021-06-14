@@ -17,10 +17,11 @@ import {Router} from '@angular/router';
 export class OfferDataViewComponent implements OnInit {
 
     @Input() offers: Offer[];
-    paginator: Paginator;
     auth: User;
+    paginator: Paginator;
     moreInformation: Offer;
     displayButtonApply: boolean;
+    displayMaxeableButton: boolean;
     displayModalMoreInformation: boolean;
 
     constructor(private spinnerService: NgxSpinnerService,

@@ -25,58 +25,58 @@
 </div>
 
 <p-dialog header="Más filtros" [(visible)]="displayModalFilter" [modal]="true"
-          [maximizable]="true" [draggable]="false" [resizable]="false">
+          [maximizable]="false" [draggable]="false" [resizable]="false">
 
-    <div class="p-fluid">
-        <div class="p-formgrid p-grid">
-            <div class="p-field p-col">
-<!--                <label for="code">Código:</label>-->
-                <h3>Código:</h3>
-                <input id="code" type="text" pInputText pKeyFilter="int" placeholder="1231654">
-                <small id="username-help">Si busca por el código, se desabilita los demas filtros.</small>
+    <div *ngIf="displayMoreFilters" class="p-fluid">
+        <form [formGroup]="formMoreFilters" (submit)="filterForMore()">
+            <div class="p-formgrid">
+                <div class="p-field p-col">
+                    <h3>Cargo:</h3>
+                    <input id="position" type="text" formControlName="position" pInputText placeholder="cargo"/>
+                </div>
             </div>
+<!--            <div class="p-formgrid p-grid">-->
+<!--                <div class="p-field p-col">-->
+<!--                    <h3>Campo Amplio:</h3>-->
+<!--                    <p-dropdown id="parentCategory" placeholder="Campo amplio" formControlName="wideField"-->
+<!--                                optionLabel="parentCategory" [showClear]="true"></p-dropdown>-->
+<!--                </div>-->
 
-            <div class="p-field p-col">
-<!--                <label for="position">Cargo:</label>-->
-                <h3>Cargo:</h3>
-                <input id="position" type="text" pInputText placeholder="cargo"/>
-            </div>
-        </div>
-<!--        <div class="p-formgrid p-grid">-->
-<!--            <div class="p-field p-col">-->
-<!--                <label for="region">Provincia:</label>-->
-<!--                &lt;!&ndash;[options]="cities" [(ngModel)]="selectedCity1"&ndash;&gt;-->
-<!--                <p-dropdown id="region" placeholder="Selecciona tu provincia." optionLabel="region"-->
-<!--                            styleClass="p-col-12"-->
-<!--                            [showClear]="true"></p-dropdown>-->
+<!--                <div class="p-field p-col">-->
+<!--                    <h3>Campo Específico:</h3>-->
+<!--                    <p-dropdown id="specificCategory" placeholder="Campo especifico." formControlName="specificField"-->
+<!--                                optionLabel="specificCategory" [showClear]="true"></p-dropdown>-->
+<!--                </div>-->
 <!--            </div>-->
+            <app-location [option]="3" (formLocationOut)="test($event)"></app-location>
 
-<!--            <div class="p-field p-col">-->
-<!--                <label for="subregion">Cantón:</label>-->
-<!--                <p-dropdown id="subregion" placeholder="Selecciona tu ciudad " optionLabel="subregion"-->
-<!--                            [showClear]="true"></p-dropdown>-->
-<!--            </div>-->
-<!--        </div>-->
-        <app-location></app-location>
-        <div class="p-formgrid p-grid">
-            <div class="p-field p-col">
-                <label for="parentCategory">Campo Amplio:</label>
-                <p-dropdown id="parentCategory" placeholder="Campo amplio" optionLabel="parentCategory"
-                            [showClear]="true"></p-dropdown>
+            <div class="p-dialog-footer">
+                <p-button type="submit" icon="pi pi-filter" label="Filtrar"
+                          class="p-button-text"></p-button>
+                <p-button icon="pi pi-times" styleClass="p-button-secondary" (click)="displayModalFilter=false"
+                          label="Cerrar"></p-button>
+                <p-button icon="pi pi-times" styleClass="p-button-secondary"
+                          label="test"></p-button>
             </div>
-
-            <div class="p-field p-col">
-                <label for="specificCategory">Campo Específico:</label>
-                <p-dropdown id="specificCategory" placeholder="Campo especifico." optionLabel="specificCategory"
-                            [showClear]="true"></p-dropdown>
-            </div>
-        </div>
+        </form>
     </div>
 
-    <ng-template pTemplate="footer">
-        <p-button icon="pi pi-filter" (click)="displayModalFilter=false" label="Filtrar"
-                  class="p-button-text"></p-button>
-        <p-button icon="pi pi-times" styleClass="p-button-secondary" (click)="displayModalFilter=false"
-                  label="Cerrar"></p-button>
-    </ng-template>
+    <div *ngIf="displayCodeFilter" class="p-fluid">
+        <form [formGroup]="formCodeFilter" (submit)="filterForCode()">
+            <div class="p-field">
+                <h3>Código:</h3>
+                <p-inputNumber mode="decimal" autocomplete="off"
+                               [useGrouping]="false" formControlName="code">
+                </p-inputNumber>
+            </div>
+
+            <div class="p-dialog-footer">
+                <p-button type="submit" icon="pi pi-filter" label="Filtrar"
+                          class="p-button-text"></p-button>
+                <p-button icon="pi pi-times" styleClass="p-button-secondary" (click)="displayModalFilter=false"
+                          label="Cerrar"></p-button>
+            </div>
+        </form>
+    </div>
+
 </p-dialog>
