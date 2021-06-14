@@ -1,5 +1,4 @@
 <body>
-  {{formRegisterIn.value|json}}
 <div class="card1">
   <div class="p-text-center" style=" font-size: 25px; font-weight: 600;">
     SIGN UP
@@ -18,10 +17,16 @@
                     <i *ngIf="usernameField.invalid && (usernameField.touched || usernameField.dirty)"
                       class="pi pi-times-circle icon-invalid"></i>
                   </label>
-                  <input id="username" formControlName="username" pInputText>
+                  <input id="username" formControlName="username" placeholder="cédula o pasaporte" pInputText>
                   <div *ngIf="usernameField.errors && (usernameField.touched || usernameField.dirty)">
                     <small *ngIf="usernameField.errors?.required" id="user-help-1" class="p-error">
                       {{messageService.fieldRequired}}
+                    </small>
+                    <small *ngIf="usernameField.errors?.minLength" id="user-help-1" class="p-error">
+                      {{messageService.fieldMinLength}}
+                    </small>
+                    <small *ngIf="usernameField.errors?.maxLength" id="user-help-1" class="p-error">
+                      {{messageService.fieldMaxLength}}
                     </small>
                     <small *ngIf="usernameField.errors?.noIdentificationMatch" id="user-help-1" class="p-error">
                       {{messageService.fieldNoIdentificationMatch}}
@@ -35,7 +40,7 @@
                     <i *ngIf="identificationField.invalid && (identificationField.touched || identificationField.dirty)"
                       class="pi pi-times-circle icon-invalid"></i>
                   </label>
-                  <input id="identification" formControlName="identification" pInputText>
+                  <input id="identification" formControlName="identification" placeholder="cédula o pasaporte" pInputText>
                   <div *ngIf="identificationField.errors && (identificationField.touched || identificationField.dirty)">
                     <small *ngIf="identificationField.errors?.required" id="identification-help-1" class="p-error">
                       {{messageService.fieldRequired}}
@@ -62,6 +67,9 @@
                   <div *ngIf="emailField.errors && (emailField.touched || emailField.dirty)">
                     <small *ngIf="emailField.errors?.required" id="email-help-1" class="p-error">
                       {{messageService.fieldRequired}}
+                    </small>
+                    <small *ngIf="emailField.errors?.email" id="email-help-1" class="p-error">
+                      {{messageService.fieldEmail}}
                     </small>
                   </div>
                 </div>

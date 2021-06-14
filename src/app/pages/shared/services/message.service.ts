@@ -86,9 +86,6 @@ export class MessageService {
     get fieldNoPasswordMatch(): string {
         return 'Las contraseñas no coinciden.';
     }
-    get fieldNoIdentificationMatch(): string {
-        return 'el nombre y la identificacion deben coincidir';
-    }
 
     paginatorTotalRegisters(paginator): string {
         return 'En total hay ' + (paginator?.total ? paginator.total : 0) + ' registros.';

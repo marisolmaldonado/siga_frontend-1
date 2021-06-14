@@ -27,9 +27,9 @@ export class RegisterComponent implements OnInit {
   buildFormRegister() {
     this.formRegister = this.formBuilder.group({
       user: this.formBuilder.group({
-        username: [null, Validators.required],
+        username: [null, [Validators.required,Validators.minLength(10),Validators.maxLength(15)]],
         identification: [null, Validators.required,Validations.validateIdentification(this.jobBoardHttpService)],
-        email: [null, Validators.required],
+        email: [null, [Validators.required,Validators.email]],
         password: [null, Validators.required],
         password_confirmation: [null, Validators.required],
         address: [null],
