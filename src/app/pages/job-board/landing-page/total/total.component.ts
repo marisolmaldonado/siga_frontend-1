@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { JobBoardHttpService } from 'src/app/services/job-board/job-board-http.service';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageService } from 'src/app/pages/shared/services/message.service';
 
 @Component({
@@ -15,9 +14,10 @@ export class TotalComponent implements OnInit {
   totalOffers: number;
   totalProfessionals: number;
 
+  flagTotal: boolean;
+
   constructor(
     private jobBoardHttpService: JobBoardHttpService,
-    private spinnerService: NgxSpinnerService,
     private messageService: MessageService) {
       this.totalCompanies = 0;
       this.totalOffers = 0;
@@ -29,15 +29,15 @@ export class TotalComponent implements OnInit {
   }
 
   getTotal(): void {
-    this.spinnerService.show();
+    this.flagTotal = true;
     this.jobBoardHttpService.get('web-professional/total').subscribe(
       response => {
-        this.spinnerService.hide();
+        this.flagTotal = false;
         this.totalCompanies = response['data']['totalCompanies'];
         this.totalOffers = response['data']['totalOffers'];
         this.totalProfessionals = response['data']['totalProfessionals'];
       }, error => {
-        this.spinnerService.hide();
+        this.flagTotal = false;
         this.messageService.error(error);
       }
     );

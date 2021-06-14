@@ -42,11 +42,12 @@ import {WebProfessionalComponent} from './web-professional/web-professional.comp
 import { OfferDataViewComponent } from './web-offer/offer-data-view/offer-data-view.component';
 import {TotalComponent} from './total/total.component';
 import {ProfessionalListComponent} from './web-professional/professional-list/professional-list.component';
-import {CategoryFilterComponent} from './web-professional/professional-list/category-filter/category-filter.component';
-import {FilterComponent} from './web-professional/professional-list/filter/filter.component';
 import { DataViewGridItemComponent } from './web-offer/offer-data-view/data-view-grid-item/data-view-grid-item.component';
 import { DataViewListItemComponent } from './web-offer/offer-data-view/data-view-list-item/data-view-list-item.component';
 import {DividerModule} from 'primeng/divider';
+import {CategoryFilterComponent} from './web-professional/category-filter/category-filter.component';
+import {FilterComponent} from './web-professional/filter/filter.component';
+
 
 @NgModule({
     imports: [

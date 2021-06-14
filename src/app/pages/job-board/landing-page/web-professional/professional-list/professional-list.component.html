@@ -1,27 +1,34 @@
-<div class="p-grid">
-    <div class="p-col-4">
-        <app-category-filter (selectedCategoriesEmitter)="getSelectedCategories($event)"></app-category-filter>
-    </div>
-    <div class="p-col-8">
-        <app-filter (searchEmitter)="getSearch($event)"></app-filter>
-        <br>
-        <p-paginator [rows]="paginator.per_page" [totalRecords]="paginator.total" (onPageChange)="pageChange($event)"></p-paginator>
-        <br>
-        <div class="p-grid">
-            <div class="p-col-4" *ngFor="let professional of professionals">
-                <p-card>
-                    <ng-template pTemplate="title" *ngFor="let academicFormation of professional.academic_formations">
-                        {{academicFormation.professional_degree.name}}
-                    </ng-template>
-                    {{professional.about_me}}
-                    <ng-template pTemplate="footer">
-                        <button pButton type="button" label="Más Información" class="p-button-info" icon="pi pi-info-circle" iconPos="left"></button>
-                        <button pButton type="button" label="Contactar" class="p-button-success" icon="pi pi-envelope" iconPos="left"></button>
-                    </ng-template>
-                </p-card>
-            </div>
+<p-paginator 
+    [rows]="paginatorIn.per_page"
+    [totalRecords]="paginatorIn.total"
+    (onPageChange)="pageChange($event)">
+</p-paginator>
+
+<app-skeleton *ngIf="flagProfessionals" [type]="'rectangle'"></app-skeleton>
+
+<div class="card" [hidden]="flagProfessionals">
+    <div class="p-grid">
+        <div class="p-col-4" *ngFor="let professional of professionalsIn">
+            <p-card>
+                <ng-template pTemplate="title" *ngFor="let academicFormation of professional.academic_formations">
+                    {{academicFormation.professional_degree.name}}
+                </ng-template>
+                {{professional.about_me}}
+                <ng-template pTemplate="footer" *ngIf="loggedIn()">
+                    <button pButton type="button"
+                            label="Más Información"
+                            class="p-button-info"
+                            icon="pi pi-info-circle"
+                            iconPos="left"></button>
+                    
+                    <button pButton type="button"
+                            label="Contactar"
+                            class="p-button-success"
+                            icon="pi pi-envelope"
+                            iconPos="left"
+                            (click)="professionalAplied(professional)"></button>
+                </ng-template>
+            </p-card>
         </div>
     </div>
 </div>
-
-

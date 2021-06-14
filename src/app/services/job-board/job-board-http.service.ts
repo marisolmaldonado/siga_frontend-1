@@ -78,4 +78,13 @@ export class JobBoardHttpService {
         url = this.API_URL_JOB_BOARD + url;
         return this.httpClient.get(url, {params});
     }
+
+    applyProfessional(professional_id: number)
+    {
+        const url = this.API_URL_JOB_BOARD + 'web-professional/apply-professional';
+        const params = new HttpParams()
+            .append('professional_id', professional_id.toString());
+
+        return this.httpClient.get(url, {params});
+    }
 }

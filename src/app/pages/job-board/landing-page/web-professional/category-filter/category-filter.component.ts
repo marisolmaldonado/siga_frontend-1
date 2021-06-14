@@ -1,8 +1,9 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { JobBoardHttpService } from 'src/app/services/job-board/job-board-http.service';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+
 import { Category } from 'src/app/models/job-board/category';
 import { TreeNode } from 'primeng/api';
-import { NgxSpinnerService } from 'ngx-spinner';
+
+import { JobBoardHttpService } from 'src/app/services/job-board/job-board-http.service';
 import { MessageService } from 'src/app/pages/shared/services/message.service';
 
 @Component({
@@ -12,16 +13,17 @@ import { MessageService } from 'src/app/pages/shared/services/message.service';
 })
 export class CategoryFilterComponent implements OnInit {
 
-  @Output() selectedCategoriesEmitter = new EventEmitter<number[]>();
+  @Input() bodyIn: any;
+  @Output() bodyOut = new EventEmitter<any>();
   
   categories: Category[];
   selectedCategories: number[];
   treeNode: TreeNode[];
   selectedTreeNodes: TreeNode[];
+  flagCategories: boolean;
   
   constructor(
     private jobBoardHttpService: JobBoardHttpService,
-    private spinnerService: NgxSpinnerService,
     private messageService: MessageService) {
       this.categories = [];
       this.treeNode = [];
@@ -34,14 +36,14 @@ export class CategoryFilterComponent implements OnInit {
   }
 
   getFilterCategories(): void {
-    this.spinnerService.show();
+    this.flagCategories = true;
     this.jobBoardHttpService.get('web-professional/filter-categories').subscribe(
       response => {
-        this.spinnerService.hide();
+        this.flagCategories = false;
         this.categories = response['data'];
         this.treeNode = this.categoryToTreeNode(this.categories);
       }, error => {
-        this.spinnerService.hide();
+        this.flagCategories = false;
         this.messageService.error(error);
       }
     );
@@ -74,7 +76,8 @@ export class CategoryFilterComponent implements OnInit {
       });
     });
 
-    this.selectedCategoriesEmitter.emit(this.selectedCategories);
+    this.bodyIn.ids = this.selectedCategories;
+    this.bodyOut.emit(this.bodyIn);
   }
 
   nodeUnselect(event): void {
@@ -90,9 +93,11 @@ export class CategoryFilterComponent implements OnInit {
     });
 
     if (this.selectedCategories.length > 0) {
-      this.selectedCategoriesEmitter.emit(this.selectedCategories);
+      this.bodyIn.ids = this.selectedCategories;
+      this.bodyOut.emit(this.bodyIn);
     } else {
-      this.selectedCategoriesEmitter.emit(null);
+      this.bodyIn.ids = null;
+      this.bodyOut.emit(this.bodyIn);
     }
   }
 

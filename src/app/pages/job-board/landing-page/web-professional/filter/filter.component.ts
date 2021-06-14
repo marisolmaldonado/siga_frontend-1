@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -8,19 +8,22 @@ import { FormControl } from '@angular/forms';
 })
 export class FilterComponent implements OnInit {
 
-  @Output() searchEmitter = new EventEmitter<string>();
+  @Input() bodyIn: any;
+  @Output() bodyOut = new EventEmitter<any>();
+
   searchControl = new FormControl();
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   getSearch(): void {
     if (this.searchControl.value == '') {
-      this.searchEmitter.emit(null);
+      this.bodyIn.search = null;
+      this.bodyOut.emit(this.bodyIn);
     } else {
-      this.searchEmitter.emit(this.searchControl.value);
+      this.bodyIn.search = this.searchControl.value;
+      this.bodyOut.emit(this.bodyIn);
     }
   }
 
