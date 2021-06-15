@@ -35,8 +35,8 @@ export class WebOfferComponent implements OnInit {
     displayModalFilter: boolean;
     selectedCategories: Category[];
     searchParams: SearchParams;
+    location: any;
 
-    formLocationIn: any;
 
     constructor(private spinnerService: NgxSpinnerService,
                 private messageService: MessageService,
@@ -75,8 +75,6 @@ export class WebOfferComponent implements OnInit {
             position: [null],
             wideField: [null],
             specificField: [null],
-            province: [null],
-            canton: [null],
         });
         this.formCodeFilter = this.formBuilder.group({
             code: [null],
@@ -95,10 +93,13 @@ export class WebOfferComponent implements OnInit {
         const params: SearchParams = this.searchParams;
 
         params.searchPosition = this.formMoreFilters.value.position;
-        params.searchProvince = this.formMoreFilters.value.province;
-        params.searchCanton = this.formMoreFilters.value.canton;
-        params.searchWideField = this.formMoreFilters.value.wideField;
-        params.searchSpecificField = this.formMoreFilters.value.specificField;
+        if (!(this.location.value.country === null)) {
+            params.searchProvince = this.location.value.province.id;
+            params.searchCanton = this.location.value.canton.id;
+        }
+        // params.searchWideField = this.formMoreFilters.value.wideField;
+        // params.searchSpecificField = this.formMoreFilters.value.specificField;
+
         this.getOffers(this.paginator, params);
         this.displayModalFilter = false;
     }
@@ -205,8 +206,8 @@ export class WebOfferComponent implements OnInit {
         };
     }
 
-    test(event) {
-        this.formLocationIn = event;
-        console.log(JSON.stringify(this.formLocationIn));
+    locationOut(event) {
+        this.location = event;
+        console.log(JSON.stringify(this.location));
     }
 }

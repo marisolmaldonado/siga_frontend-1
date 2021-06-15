@@ -6,7 +6,6 @@ import {Router} from '@angular/router';
 import {MessageService} from '../../pages/shared/services/message.service';
 
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -15,8 +14,8 @@ export class JobBoardHttpService {
     API_URL_JOB_BOARD: string = environment.API_URL_JOB_BOARD;
 
     constructor(private httpClient: HttpClient,
-        private router: Router,
-        private messageService: MessageService) {
+                private router: Router,
+                private messageService: MessageService) {
     }
 
     getProfessional(about_me: string, params = new HttpParams()) {
@@ -38,7 +37,7 @@ export class JobBoardHttpService {
         const url = environment.API_URL_AUTHENTICATION + 'module/menus';
         return this.httpClient.get(url, {params});
     }
-    
+
     getReference(params = new HttpParams()) {
         const url = environment.API_URL_AUTHENTICATION + 'module/menus';
         return this.httpClient.get(url, {params});
@@ -48,9 +47,10 @@ export class JobBoardHttpService {
         url = this.API_URL_JOB_BOARD + url;
         return this.httpClient.get(url, {params});
     }
+
     verifyIdentification(identification) {
-        const params = new HttpParams().append('identification',identification);
-        const url = this.API_URL_JOB_BOARD +'company/verify';
+        const params = new HttpParams().append('identification', identification);
+        const url = this.API_URL_JOB_BOARD + 'company/verify';
         return this.httpClient.get(url, {params});
     }
 
@@ -79,8 +79,7 @@ export class JobBoardHttpService {
         return this.httpClient.get(url, {params});
     }
 
-    applyProfessional(professional_id: number)
-    {
+    applyProfessional(professional_id: number) {
         const url = this.API_URL_JOB_BOARD + 'web-professional/apply-professional';
         const params = new HttpParams()
             .append('professional_id', professional_id.toString());

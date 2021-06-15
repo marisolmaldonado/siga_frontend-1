@@ -48,15 +48,13 @@
 <!--                                optionLabel="specificCategory" [showClear]="true"></p-dropdown>-->
 <!--                </div>-->
 <!--            </div>-->
-            <app-location [option]="3" (formLocationOut)="test($event)"></app-location>
+            <app-location [option]="3" (formLocationOut)="locationOut($event)" formControlName="location"></app-location>
 
             <div class="p-dialog-footer">
                 <p-button type="submit" icon="pi pi-filter" label="Filtrar"
                           class="p-button-text"></p-button>
                 <p-button icon="pi pi-times" styleClass="p-button-secondary" (click)="displayModalFilter=false"
                           label="Cerrar"></p-button>
-                <p-button icon="pi pi-times" styleClass="p-button-secondary"
-                          label="test"></p-button>
             </div>
         </form>
     </div>
