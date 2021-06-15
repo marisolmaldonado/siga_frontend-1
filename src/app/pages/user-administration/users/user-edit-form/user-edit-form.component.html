@@ -2,13 +2,13 @@
     <form [formGroup]="formUserIn" (ngSubmit)="onSubmit($event)">
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
-                <label for="identification">Identificación</label>
+                <label for="identification">Identificación:</label>
                 <input pInputText id="identification" type="text" formControlName="identification">
                 <div *ngIf="identificationField.errors && identificationField.touched">
                     <small *ngIf="identificationField.hasError('required')" id="identification-help-1" class="p-error">
                         El campo es obligatorio.
                     </small>
-                </div>
+                </div> 
             </div>
         </div>
         <div class="p-formgrid p-grid">
@@ -24,7 +24,7 @@
         </div>
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
-                <label for="first_lastname">Primer Apellido</label>
+                <label for="first_lastname">Primer Apellido:</label>
                 <input pInputText id="first_lastname" type="text" formControlName="first_lastname">
                 <div *ngIf="firstLastnameField.errors && firstLastnameField.touched">
                     <small *ngIf="firstLastnameField.hasError('required')" id="first_lastname-help-1" class="p-error">
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="p-field p-col">
-                <label for="second_lastname">Segundo Apellido</label>
+                <label for="second_lastname">Segundo Apellido:</label>
                 <input pInputText id="second_lastname" type="text" formControlName="second_lastname">
                 <div *ngIf="secondLastnameField.errors && secondLastnameField.touched">
                     <small *ngIf="secondLastnameField.hasError('required')" id="second_lastname-help-1" class="p-error">
@@ -44,7 +44,7 @@
         </div>
         <div class="p-formgrid p-grid">
             <div class="p-field p-col">
-                <label for="email">Correo electrónico</label>
+                <label for="email">Correo electrónico:</label>
                 <input pInputText id="email" type="text" formControlName="email">
                 <div *ngIf="emailField.errors && emailField.touched">
                     <small *ngIf="emailField.hasError('required')" id="email-help-1" class="p-error">

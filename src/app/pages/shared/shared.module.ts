@@ -33,6 +33,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { ExtensionsPipe } from './pipes/extensions.pipe';
 import { MonthsPipe } from './pipes/months.pipe';
 import { CardModule } from 'primeng/card';
+import { PermissionComponent } from './components/permission/permission.component';
 
 @NgModule({
     imports: [
@@ -69,6 +70,7 @@ import { CardModule } from 'primeng/card';
         ExtensionsPipe,
         MonthsPipe,
         DialogComponent,
+        PermissionComponent,
     ],
     exports: [
         DateComponent,
@@ -78,6 +80,7 @@ import { CardModule } from 'primeng/card';
         UploadFilesComponent,
         ViewFilesComponent,
         DialogComponent,
+        PermissionComponent,
     ],
     providers: [ConfirmationService, MessageService]
 })

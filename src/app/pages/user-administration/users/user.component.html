@@ -4,17 +4,26 @@
             <app-user-list
                 [usersIn]="users"
                 [rolesIn]="roles"
-                [paginatorIn]="paginator"
+                [paginatorUserIn]="paginatorUser"
                 [formUserIn]="formUser"
                 [flagUsers]="flagUsers"
                 (formUserOut)="formUser=$event"
                 (displayOut)="userDialog=$event"
                 (displayEditOut)="userEditDialog=$event"
-                (paginatorOut)="getUsers($event)">
+                (paginatorUserOut)="getUsers($event)">
             </app-user-list>
         </p-tabPanel>
-        <p-tabPanel header="Permisos y Roles" leftIcon="pi pi-lock">
-            permisos y roles
+        <p-tabPanel header="Roles y Permisos" leftIcon="pi pi-lock">
+            <app-roles-list
+            [rolesIn]="rolesP"
+            [permissionsIn]="permissions"
+            [paginatorRoleIn]="paginatorRole"
+            [formRoleIn]="formRole"
+            [flagRoles]="flagRoles"
+            (formRoleOut)="formRole=$event"
+            (displayRoleEditOut)="roleEditDialog=$event"
+            (paginatorRoleOut)="getRolesP($event)">
+            </app-roles-list>
         </p-tabPanel>
     </p-tabView>
     <p-dialog [(visible)]="userDialog" [style]="{width: '850px'}" header="Usuario" [modal]="true"
@@ -31,10 +40,18 @@
         styleClass="p-fluid" (onHide)="userEditDialog=false">
         <app-user-edit-form
             [usersIn]="users"
-            [rolesIn]="roles" 
             [formUserIn]="formUser" 
             (usersOut)="users=$event"
             (displayEditOut)="userEditDialog=$event">
         </app-user-edit-form>
+    </p-dialog>
+    <p-dialog [(visible)]="roleEditDialog" [style]="{width: '650px'}" header="Rol" [modal]="true"
+    styleClass="p-fluid" (onHide)="roleEditDialog=false">
+        <app-roles-edit-form
+            [rolesIn]="roles" 
+            [formRoleIn]="formRole" 
+            (rolesOut)="roles=$event"
+            (displayRoleEditOut)="roleEditDialog=$event">
+        </app-roles-edit-form>
     </p-dialog>
 </div>

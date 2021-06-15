@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import { UserAdministrationService } from '../../../../services/auth/user-administration.service';
-import { MessageService } from '../../../shared/services/message.service';
+import { MessageService } from '../../services/message.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import { HttpParams } from '@angular/common/http';
 import {Col} from '../../../../models/setting/col';
@@ -9,7 +9,7 @@ import { Role } from 'src/app/models/auth/role';
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.css']
+  styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent implements OnInit {
 

@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserAdministrationService } from '../../../../services/auth/user-administration.service';
 import { FormGroup } from '@angular/forms';
 import { MessageService } from '../../../shared/services/message.service';
-import { Role } from 'src/app/models/auth/role';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from 'src/app/models/auth/user';
 
@@ -15,7 +14,6 @@ export class UserEditFormComponent implements OnInit {
 
   @Input() formUserIn: FormGroup;
   @Input() usersIn: User[];
-  @Input() rolesIn: Role[];
   @Output() usersOut = new EventEmitter<User[]>();
   @Output() displayEditOut = new EventEmitter<boolean>();
 
@@ -60,22 +58,22 @@ export class UserEditFormComponent implements OnInit {
     }
   }
 
-    // Save in backend
-    updateUser(user: User) {
-      this.spinnerService.show();
-      this.userAdministrationService.update('user-admins/' + user.id, { user })
-        .subscribe(response => {
-          this.spinnerService.hide();
-          this.messageService.success(response);
-          this.saveUser(response['data']);
-          this.displayEditOut.emit(false);
-        }, error => {
-          this.spinnerService.hide();
-          this.messageService.error(error);
-        });
-    }
+  // Save in backend
+  updateUser(user: User) {
+    this.spinnerService.show();
+    this.userAdministrationService.update('user-admins/' + user.id, { user })
+       .subscribe(response => {
+         this.spinnerService.hide();
+         this.messageService.success(response);
+         this.saveUser(response['data']);
+         this.displayEditOut.emit(false);
+       }, error => {
+         this.spinnerService.hide();
+         this.messageService.error(error);
+       });
+  }
 
-      // Save in frontend
+  // Save in frontend
   saveUser(user: User) {
     const index = this.usersIn.findIndex(element => element.id === user.id);
     if (index === -1) {

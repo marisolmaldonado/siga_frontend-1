@@ -19,14 +19,14 @@ export class UserListComponent implements OnInit {
   @Input() flagUsers: boolean;
   @Input() usersIn: User[];
   @Input() rolesIn: Role[];
-  @Input() paginatorIn: Paginator;
+  @Input() paginatorUserIn: Paginator;
   @Input() formUserIn: FormGroup;
   @Input() displayIn: boolean;
   @Output() usersOut = new EventEmitter<User[]>();
   @Output() formUserOut = new EventEmitter<FormGroup>();
   @Output() displayOut = new EventEmitter<boolean>();
   @Output() displayEditOut = new EventEmitter<boolean>();
-  @Output() paginatorOut = new EventEmitter<Paginator>();
+  @Output() paginatorUserOut = new EventEmitter<Paginator>();
   @Output() rolesOut = new EventEmitter<Role[]>();
   @Output() userRoleOut = new EventEmitter<String>();
 
@@ -59,14 +59,14 @@ export class UserListComponent implements OnInit {
   }
 
   paginateUser(event) {
-    this.paginatorIn.current_page = event.page + 1;
-    this.paginatorOut.emit(this.paginatorIn);
+    this.paginatorUserIn.current_page = event.page + 1;
+    this.paginatorUserOut.emit(this.paginatorUserIn);
     
   }
 
-resetPaginatorUsers() {
-  this.paginatorIn = {current_page: 1, per_page: 5};
-}
+  resetPaginatorUsers() {
+    this.paginatorUserIn = {current_page: 1, per_page: 5};
+  }
   
   searchUsers(event, search) {
     if (event.type === 'click' || event.keyCode === 13 || search.length === 0) {
@@ -86,13 +86,13 @@ resetPaginatorUsers() {
     this.usersOut.emit(this.usersIn);
   }
 
-  openNewFormUser() {
+  openNewUserForm() {
     this.formUserIn.reset();
     this.formUserOut.emit(this.formUserIn);
     this.displayOut.emit(true);
   }
 
-  openEditFormUser(user: User) {
+  openEditUserForm(user: User) {
     this.formUserIn.patchValue(user);
     this.formUserOut.emit(this.formUserIn);
     this.displayEditOut.emit(true);

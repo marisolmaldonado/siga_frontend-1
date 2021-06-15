@@ -1,11 +1,11 @@
     <p-toolbar styleClass="p-mb-4">
         <ng-template pTemplate="left">
             <button pButton pRipple label="Nuevos" icon="pi pi-plus" class="p-button-success p-mr-2 p-mb-2"
-                (click)="openNewFormUser()"></button>
+                (click)="openNewUserForm()"></button>
             <button pButton pRipple label="Eliminar" icon="pi pi-trash" class="p-button-danger p-mr-2 p-mb-2"
                 (click)="deleteUsers()" [disabled]="!selectedUsers || !selectedUsers.length"></button>
             <button pButton pRipple label="Actualizar" icon="pi pi-refresh" class="p-button-info"
-                (click)="paginatorOut.emit(paginatorIn)"></button>
+                (click)="paginatorUserOut.emit(paginatorUserIn)"></button>
         </ng-template>
         <ng-template pTemplate="right">
             <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help p-mb-2"
@@ -14,7 +14,7 @@
     </p-toolbar>
     <app-skeleton *ngIf="flagUsers" [type]="'user-admin'"></app-skeleton>
     <div class="card" [hidden]="flagUsers">
-    <p-paginator [rows]="paginatorIn.per_page" [totalRecords]="paginatorIn.total" (onPageChange)="paginateUser($event)">
+    <p-paginator [rows]="paginatorUserIn.per_page" [totalRecords]="paginatorUserIn.total" (onPageChange)="paginateUser($event)">
     </p-paginator>
     <p-table #dt [value]="usersIn" [columns]="colsUser" [paginator]="false" [(selection)]="selectedUsers"
         [rowHover]="true" [responsive]="true" dataKey="id" styleClass="p-datatable-customers"
@@ -58,7 +58,7 @@
                 </td>
                 <td style="text-align:center">
                     <button pButton pRipple type="button" id="btnEdit" pTooltip="Editar" icon="pi pi-pencil"
-                        class="p-button-rounded p-button-warning" (click)="openEditFormUser(rowData)"></button>
+                        class="p-button-rounded p-button-warning" (click)="openEditUserForm(rowData)"></button>
                     <button pButton pRipple type="button" id="btnDelete" pTooltip="Eliminar" icon="pi pi-trash"
                         class="p-button-rounded p-button-danger p-ml-2" (click)="deleteUsers(rowData)"></button>
                     <button pButton pRipple type="button" id="btnAttach" pTooltip="Administrar Roles"
@@ -69,7 +69,7 @@
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="p-d-flex p-ai-center p-jc-between">
-                En total hay {{paginatorIn?.total ? paginatorIn.total : 0 }} registros.
+                En total hay {{paginatorUserIn?.total ? paginatorUserIn.total : 0 }} registros.
             </div>
         </ng-template>
         <ng-template pTemplate="emptymessage" let-columns>
@@ -95,5 +95,5 @@
     [userName]="userName"
     [userId]="userId"
     (displayOut)="dialogViewRoles=$event">
-</app-dialog>
+    </app-dialog>
 </p-dialog>

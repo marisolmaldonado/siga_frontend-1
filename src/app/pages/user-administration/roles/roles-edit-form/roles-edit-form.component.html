@@ -1,0 +1,36 @@
+<div class="p-fluid">
+    <form [formGroup]="formRoleIn" (ngSubmit)="onSubmit($event)">
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="identification">Nombre:</label>
+                <input pInputText id="name" type="text" formControlName="name">
+                <div *ngIf="nameField.errors && nameField.touched">
+                    <small *ngIf="nameField.hasError('required')" id="name-help-1" class="p-error">
+                        El campo es obligatorio.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="first_name">Código:</label>
+                <input pInputText id="code" type="text" formControlName="code">
+                <div *ngIf="codeField.errors && codeField.touched">
+                    <small *ngIf="codeField.hasError('required')" id="code-help-1" class="p-error">
+                        El campo es obligatorio.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col">
+                <button type="submit" pButton pRipple label="Guardar y Salir" icon="pi pi-save"
+                    class="p-button-success p-button-raised"></button>
+            </div>
+            <div *ngIf="!idField.value" class="p-field p-col">
+                <button type="button" pButton pRipple label="Guardar" icon="pi pi-arrow-right" class="p-button-raised"
+                    (click)="onSubmit($event,true)"></button>
+            </div>
+        </div>
+    </form>
+</div>
