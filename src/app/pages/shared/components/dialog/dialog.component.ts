@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import { UserAdministrationService } from '../../../../services/auth/user-administration.service';
 import { MessageService } from '../../../shared/services/message.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 import { HttpParams } from '@angular/common/http';
 import {Col} from '../../../../models/setting/col';
 import { Role } from 'src/app/models/auth/role';
@@ -24,7 +25,8 @@ export class DialogComponent implements OnInit {
   
   constructor(
     private userAdministrationService: UserAdministrationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private spinnerService: NgxSpinnerService,
   ) {
   }
 
@@ -42,8 +44,10 @@ export class DialogComponent implements OnInit {
   setRoles() {
   const ids = this.rolesUser.map(element => element.id);
     let params = new HttpParams().append('id', this.userId.toString());
-  this.userAdministrationService.delete('user-admin/setRoles', ids, params)
+    this.spinnerService.show();
+  this.userAdministrationService.set('user-admin/setRoles', ids, params)
     .subscribe(response => {
+      this.spinnerService.hide();
         this.messageService.success(response);
         this.rolesUser = [];
         this.displayOut.emit(false);
