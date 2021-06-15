@@ -31,7 +31,7 @@ export class OfferComponent implements OnInit {
       { label: 'Compania', routerLink: ['/job-board/company'] },
       { label: 'Oferta' }
     ]);
-    this.paginator = { current_page: 1, per_page: 2 };
+    this.paginator = { current_page: 1, per_page: 10 };
     this.offers = [];
   }
 
@@ -76,7 +76,6 @@ export class OfferComponent implements OnInit {
       response => {
         this.flagOffers = false;
         this.offers = response['data'];
-        console.log(this.offers);
         this.paginator = response as Paginator;
       }, error => {
         this.flagOffers = false;

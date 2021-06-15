@@ -140,6 +140,7 @@ export class OfferListComponent implements OnInit {
                 if (result.isConfirmed) {
                     const ids = this.selectedOffers.map(element => element.id);
                     this.spinnerService.show();
+                    console.log(ids);
                     this.jobBoardHttpService.delete('offer/delete', {ids})
                         .subscribe(response => {
                             this.spinnerService.hide();

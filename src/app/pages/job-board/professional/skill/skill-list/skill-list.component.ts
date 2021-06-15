@@ -118,7 +118,6 @@ export class SkillListComponent implements OnInit {
                         this.selectedSkills = [];
                         this.selectedSkills.push(skill);
                     }
-
                     const ids = this.selectedSkills.map(element => element.id);
                     this.spinnerService.show();
                     this.jobBoardHttpService.delete('skill/delete', ids)

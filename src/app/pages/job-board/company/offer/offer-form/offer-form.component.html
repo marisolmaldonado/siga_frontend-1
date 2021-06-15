@@ -10,7 +10,6 @@
                                 <i *ngIf="vacanciesField.valid" class="pi pi-check-circle icon-valid"></i>
                                 <i *ngIf="vacanciesField.invalid && (vacanciesField.touched || vacanciesField.dirty)"
                                     class="pi pi-times-circle icon-invalid"></i></label>
-                                <!--QUITAR EXREESION REGULAR DEL REQUERIMIENTO Y LOS MENSAJES DE NUMBER-->
                             <p-inputNumber id="vacancies" 
                                         formControlName="vacancies"
                                         placeholder="Vacantes para la oferta Ej. 5"
@@ -20,7 +19,6 @@
                                         [max]="1000">
                             </p-inputNumber>
                             <div *ngIf="vacanciesField.invalid && (vacanciesField.touched || vacanciesField.dirty)">
-                                <!-- MODIFICAR TODOS LOS ERRORES-->
                                 <small *ngIf="vacanciesField.errors?.required" 
                                         id="vacancies-help-1" 
                                         class="p-error">
