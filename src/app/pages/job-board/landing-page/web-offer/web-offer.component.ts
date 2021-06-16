@@ -13,6 +13,7 @@ import {Offer, Category, SearchParams} from '../../../../models/job-board/models
 import {User} from '../../../../models/auth/user';
 import {AuthService} from '../../../../services/auth/auth.service';
 import Swal from 'sweetalert2';
+import {Location} from '../../../../models/app/location';
 
 @Component({
     selector: 'app-web-offer',
@@ -35,8 +36,14 @@ export class WebOfferComponent implements OnInit {
     displayModalFilter: boolean;
     selectedCategories: Category[];
     searchParams: SearchParams;
-    location: any;
+    infoLocationOut: any;
+    wideCategories: any[];
+    specificCategories: any[];
+    filteredWideCategory: any[];
+    filteredSpecificCategory: any[];
 
+    vale: any;
+    onChange: (value: any) => void;
 
     constructor(private spinnerService: NgxSpinnerService,
                 private messageService: MessageService,
@@ -81,29 +88,39 @@ export class WebOfferComponent implements OnInit {
         });
     }
 
-    filterForCode() {
-        const params: SearchParams = this.searchParams;
-
-        params.searchCode = this.formCodeFilter.value.code;
-        this.getOffers(this.paginator, params);
-        this.displayModalFilter = false;
+    setDefaultParamsSearch() {
+        this.searchParams = {
+            searchCode: null,
+            searchProvince: null,
+            searchCanton: null,
+            searchPosition: null,
+            searchIDs: null
+        };
     }
 
-    filterForMore() {
-        const params: SearchParams = this.searchParams;
+    pageChange(currentPage): void {
+        this.paginator.current_page = currentPage.page + 1;
+        this.getOffers(this.paginator, this.searchParams);
+    }
 
-        params.searchPosition = this.formMoreFilters.value.position;
-        if (!(this.location.value.country === null)) {
-            params.searchProvince = this.location.value.province.id;
-            params.searchCanton = this.location.value.canton.id;
+    showModalFilter(typeFilter) {
+        if (typeFilter === 'code') {
+            this.displayCodeFilter = true;
+            this.displayMoreFilters = false;
         }
-        // params.searchWideField = this.formMoreFilters.value.wideField;
-        // params.searchSpecificField = this.formMoreFilters.value.specificField;
-
-        this.getOffers(this.paginator, params);
-        this.displayModalFilter = false;
+        if (typeFilter === 'moreFilter') {
+            this.displayMoreFilters = true;
+            this.displayCodeFilter = false;
+        }
+        this.displayModalFilter = true;
     }
 
+    locationOut(event) {
+        this.infoLocationOut = event;
+        console.log(this.infoLocationOut);
+    }
+
+    // ----------------------- get data -----------------------
     getOffers(paginator: Paginator, searchParams: SearchParams) {
         const params = new HttpParams()
             .append('page', String(paginator.current_page))
@@ -119,11 +136,6 @@ export class WebOfferComponent implements OnInit {
                 this.spinnerService.hide();
                 console.log(error);
             });
-    }
-
-    pageChange(currentPage): void {
-        this.paginator.current_page = currentPage.page + 1;
-        this.getOffers(this.paginator, this.searchParams);
     }
 
     getCategories(): void {
@@ -156,9 +168,34 @@ export class WebOfferComponent implements OnInit {
             treeData.push({id: category.id, label: category.name, children: nodeChildren});
         }
         this.treeData = treeData;
+        this.fillCategoriesFields();
     }
 
-    filterForCategoriesSelected(): void {
+    // ----------------------- filters -----------------------
+    filterForCode() {
+        const params: SearchParams = this.searchParams;
+
+        params.searchCode = this.formCodeFilter.value.code;
+        this.getOffers(this.paginator, params);
+        this.displayModalFilter = false;
+    }
+
+    filterForMore() {
+        const params: SearchParams = this.searchParams;
+
+        params.searchPosition = this.formMoreFilters.value.position;
+        if (!(this.infoLocationOut.value.country === null)) {
+            params.searchProvince = this.infoLocationOut.value.province.id;
+            params.searchCanton = this.infoLocationOut.value.canton.id;
+        }
+        // params.searchWideField = this.formMoreFilters.value.wideField;
+        // params.searchSpecificField = this.formMoreFilters.value.specificField;
+
+        this.getOffers(this.paginator, params);
+        this.displayModalFilter = false;
+    }
+
+    filterForCategories(): void {
         if (this.selectedCategories === undefined) {
             Swal.fire({
                 title: 'Sin categorías.',
@@ -184,30 +221,41 @@ export class WebOfferComponent implements OnInit {
         this.getOffers(this.paginator, this.searchParams);
     }
 
-    showModalFilter(typeFilter) {
-        if (typeFilter === 'code') {
-            this.displayCodeFilter = true;
-            this.displayMoreFilters = false;
+    fillCategoriesFields() {
+        const wideField: any[] = [];
+
+        for (const wideCategory of this.treeData) {
+            wideField.push(wideCategory);
         }
-        if (typeFilter === 'moreFilter') {
-            this.displayMoreFilters = true;
-            this.displayCodeFilter = false;
-        }
-        this.displayModalFilter = true;
+
+        this.wideCategories = wideField;
     }
 
-    setDefaultParamsSearch() {
-        this.searchParams = {
-            searchCode: null,
-            searchProvince: null,
-            searchCanton: null,
-            searchPosition: null,
-            searchIDs: null
-        };
+    filterWideField(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const wideCategory of this.wideCategories) {
+            if (wideCategory.label.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(wideCategory);
+            }
+        }
+
+        this.filteredWideCategory = filtered;
     }
 
-    locationOut(event) {
-        this.location = event;
-        console.log(JSON.stringify(this.location));
+    // registerOnChange(fn: any): void {
+    //     this.onChange = fn;
+    // }
+
+    // updateValue(field): void {
+    //     if (this.formMoreFilters.valid && field.value?.label) {
+    //         this.vale = {id: field.value.label};
+    //         this.onChange(this.vale);
+    //         // this.formLocationOut.emit(this.formLocation);
+    //     }
+    // }
+
+    get wideField() {
+        return this.formMoreFilters.get('wideField');
     }
 }

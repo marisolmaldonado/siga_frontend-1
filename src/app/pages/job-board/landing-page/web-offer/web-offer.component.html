@@ -5,7 +5,7 @@
         <div class="card p-shadow-2">
             <h4>Filtrado por categorias.</h4>
             <p-splitButton label="Filtrar" icon="pi pi-filter"
-                           (onClick)="filterForCategoriesSelected()" styleClass="p-mb-2 p-mr-2"
+                           (onClick)="filterForCategories()" styleClass="p-mb-2 p-mr-2"
                            [model]="items"></p-splitButton>
             <p-button icon="pi pi-filter-slash" label="Limpiar" styleClass="p-mb-2"
                       (click)="cleanSelectedCategories()"></p-button>
@@ -35,20 +35,29 @@
                     <input id="position" type="text" formControlName="position" pInputText placeholder="cargo"/>
                 </div>
             </div>
-<!--            <div class="p-formgrid p-grid">-->
-<!--                <div class="p-field p-col">-->
-<!--                    <h3>Campo Amplio:</h3>-->
-<!--                    <p-dropdown id="parentCategory" placeholder="Campo amplio" formControlName="wideField"-->
-<!--                                optionLabel="parentCategory" [showClear]="true"></p-dropdown>-->
-<!--                </div>-->
+            <div class="p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <h3>Campo Amplio:</h3>
+                    <p-autoComplete formControlName="wideField" [suggestions]="filteredWideCategory"
+                                    [dropdown]="true" field="wideCategories"
+                                    (completeMethod)="filterWideField($event)"
+                                    placeholder="* Categoria padre">
+                        <ng-template let-parentCategory pTemplate="item">
+                            <div class="country-item">
+                                <div>{{parentCategory.label}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
 
-<!--                <div class="p-field p-col">-->
-<!--                    <h3>Campo Específico:</h3>-->
-<!--                    <p-dropdown id="specificCategory" placeholder="Campo especifico." formControlName="specificField"-->
-<!--                                optionLabel="specificCategory" [showClear]="true"></p-dropdown>-->
-<!--                </div>-->
-<!--            </div>-->
-            <app-location [option]="3" (formLocationOut)="locationOut($event)" formControlName="location"></app-location>
+                </div>
+
+                <div class="p-field p-col">
+                    <h3>Campo Específico:</h3>
+                    <p-dropdown id="specificCategory" placeholder="Campo especifico." formControlName="specificField"
+                                optionLabel="specificCategories" [showClear]="true"></p-dropdown>
+                </div>
+            </div>
+            <app-location [option]="3" (formLocationOut)="locationOut($event)"></app-location>
 
             <div class="p-dialog-footer">
                 <p-button type="submit" icon="pi pi-filter" label="Filtrar"
