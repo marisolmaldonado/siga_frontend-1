@@ -13,6 +13,7 @@ import {Language} from '../../models/job-board/language';
 import {Professional} from '../../models/job-board/professional';
 import {Reference} from '../../models/job-board/reference';
 import {Skill} from '../../models/job-board/skill';
+import {Category} from '../../models/job-board/category';
 
 @Injectable({
     providedIn: 'root'
@@ -35,6 +36,7 @@ export class JobBoardService {
         localStorage.removeItem('professional');
         localStorage.removeItem('reference');
         localStorage.removeItem('skill');
+        localStorage.removeItem('category');
 
     }
     setUrlAvatar(url: string) {
@@ -62,6 +64,9 @@ export class JobBoardService {
     getSkill(): Skill {
         return localStorage.getItem('skill') ? JSON.parse(localStorage.getItem('skill')) : null;
     }
+    getCategory(): Category {
+        return localStorage.getItem('category') ? JSON.parse(localStorage.getItem('category')) : null;
+    }
     setCourse(course) {
         localStorage.setItem('course', JSON.stringify(course));
     }
@@ -80,7 +85,9 @@ export class JobBoardService {
     setSkill(skill) {
         localStorage.setItem('skill', JSON.stringify(skill));
     }
-  
-    
+
+    setCategory(category) {
+        localStorage.setItem('category', JSON.stringify(category));
+    }
 
     }

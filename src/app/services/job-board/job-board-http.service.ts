@@ -48,6 +48,12 @@ export class JobBoardHttpService {
         url = this.API_URL_JOB_BOARD + url;
         return this.httpClient.get(url, {params});
     }
+
+    getCategory(params= new HttpParams()) {
+        const url = environment.API_URL_AUTHENTICATION + 'category/' + 'module/menus';
+        return this.httpClient.get(url, {params});
+    }
+    
     verifyIdentification(identification) {
         const params = new HttpParams().append('identification',identification);
         const url = this.API_URL_JOB_BOARD +'company/verify';
