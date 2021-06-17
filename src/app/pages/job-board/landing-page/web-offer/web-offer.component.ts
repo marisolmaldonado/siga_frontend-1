@@ -42,9 +42,6 @@ export class WebOfferComponent implements OnInit {
     filteredWideCategory: any[];
     filteredSpecificCategory: any[];
 
-    vale: any;
-    onChange: (value: any) => void;
-
     constructor(private spinnerService: NgxSpinnerService,
                 private messageService: MessageService,
                 private authService: AuthService,
@@ -117,7 +114,6 @@ export class WebOfferComponent implements OnInit {
 
     locationOut(event) {
         this.infoLocationOut = event;
-        console.log(this.infoLocationOut);
     }
 
     // ----------------------- get data -----------------------
@@ -134,6 +130,7 @@ export class WebOfferComponent implements OnInit {
                 this.paginator = response as any;
             }, error => {
                 this.spinnerService.hide();
+                this.messageService.error(error);
                 console.log(error);
             });
     }
@@ -168,7 +165,7 @@ export class WebOfferComponent implements OnInit {
             treeData.push({id: category.id, label: category.name, children: nodeChildren});
         }
         this.treeData = treeData;
-        this.fillCategoriesFields();
+        this.loadWideField();
     }
 
     // ----------------------- filters -----------------------
@@ -182,14 +179,36 @@ export class WebOfferComponent implements OnInit {
 
     filterForMore() {
         const params: SearchParams = this.searchParams;
-
         params.searchPosition = this.formMoreFilters.value.position;
-        if (!(this.infoLocationOut.value.country === null)) {
-            params.searchProvince = this.infoLocationOut.value.province.id;
-            params.searchCanton = this.infoLocationOut.value.canton.id;
+        if (this.infoLocationOut.value.country != null) {
+            if (this.infoLocationOut.value.province != null) {
+                if (this.infoLocationOut.value.province.id) {
+                    params.searchProvince = this.infoLocationOut.value.province.id;
+                }
+            }
+
+            if (this.infoLocationOut.value.canton != null) {
+                if (this.infoLocationOut.value.canton.id) {
+                    params.searchCanton = this.infoLocationOut.value.canton.id;
+                }
+            }
         }
-        // params.searchWideField = this.formMoreFilters.value.wideField;
-        // params.searchSpecificField = this.formMoreFilters.value.specificField;
+
+        if (this.formMoreFilters.value.wideField != null) {
+            if (this.formMoreFilters.value.wideField.id) {
+                const searchIdCategory = [];
+                searchIdCategory.push(this.formMoreFilters.value.wideField.id);
+                params.searchIdCategory = searchIdCategory;
+            }
+        }
+
+        if (this.formMoreFilters.value.specificField != null) {
+            if (this.formMoreFilters.value.specificField.id) {
+                const searchParentCategory = [];
+                searchParentCategory.push(this.formMoreFilters.value.specificField.id);
+                params.searchParentCategory = searchParentCategory;
+            }
+        }
 
         this.getOffers(this.paginator, params);
         this.displayModalFilter = false;
@@ -221,7 +240,7 @@ export class WebOfferComponent implements OnInit {
         this.getOffers(this.paginator, this.searchParams);
     }
 
-    fillCategoriesFields() {
+    loadWideField() {
         const wideField: any[] = [];
 
         for (const wideCategory of this.treeData) {
@@ -243,19 +262,37 @@ export class WebOfferComponent implements OnInit {
         this.filteredWideCategory = filtered;
     }
 
-    // registerOnChange(fn: any): void {
-    //     this.onChange = fn;
-    // }
+    updateSpecificField(parent) {
+        let filtered: any[] = [];
+        for (const node of this.treeData) {
+            if (parent.value.id === node.id) {
+                filtered = node.children;
+            }
+        }
+        this.specificCategories = filtered;
+    }
 
-    // updateValue(field): void {
-    //     if (this.formMoreFilters.valid && field.value?.label) {
-    //         this.vale = {id: field.value.label};
-    //         this.onChange(this.vale);
-    //         // this.formLocationOut.emit(this.formLocation);
-    //     }
-    // }
+    filterSpecificField(event) {
+        const filtered: any[] = [];
+        const query = event.query;
+        for (const specificCategory of this.specificCategories) {
+            if (specificCategory.label.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+                filtered.push(specificCategory);
+            }
+        }
+
+        this.filteredSpecificCategory = filtered;
+    }
+
+    getSpecificField(parent) {
+        console.log(parent.value.id);
+    }
 
     get wideField() {
         return this.formMoreFilters.get('wideField');
+    }
+
+    get specificField() {
+        return this.formMoreFilters.get('specificField');
     }
 }

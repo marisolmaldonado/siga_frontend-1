@@ -39,9 +39,11 @@
                 <div class="p-field p-col">
                     <h3>Campo Amplio:</h3>
                     <p-autoComplete formControlName="wideField" [suggestions]="filteredWideCategory"
-                                    [dropdown]="true" field="wideCategories"
+                                    [dropdown]="true" field="label"
                                     (completeMethod)="filterWideField($event)"
-                                    placeholder="* Categoria padre">
+                                    (onSelect)="updateSpecificField(wideField)"
+                                    (onKeyUp)="updateSpecificField(wideField)"
+                                    placeholder="Campo amplio">
                         <ng-template let-parentCategory pTemplate="item">
                             <div class="country-item">
                                 <div>{{parentCategory.label}}</div>
@@ -53,8 +55,18 @@
 
                 <div class="p-field p-col">
                     <h3>Campo Específico:</h3>
-                    <p-dropdown id="specificCategory" placeholder="Campo especifico." formControlName="specificField"
-                                optionLabel="specificCategories" [showClear]="true"></p-dropdown>
+                    <p-autoComplete formControlName="specificField" [suggestions]="filteredSpecificCategory"
+                                    [dropdown]="true" field="label"
+                                    (completeMethod)="filterSpecificField($event)"
+                                    (onSelect)="getSpecificField(specificField)"
+                                    (onKeyUp)="getSpecificField(specificField)"
+                                    placeholder="Campo específico">
+                        <ng-template let-specificCategory pTemplate="item">
+                            <div class="country-item">
+                                <div>{{specificCategory.label}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
                 </div>
             </div>
             <app-location [option]="3" (formLocationOut)="locationOut($event)"></app-location>
