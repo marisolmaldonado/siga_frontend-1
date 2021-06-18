@@ -11,6 +11,7 @@ import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/inputtext';
 import {DropdownModule} from 'primeng/dropdown';
 import {SkeletonModule} from 'primeng/skeleton';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
 
 // My Components
 import {TooltipModule} from 'primeng/tooltip';
@@ -68,6 +69,7 @@ import { CategoryComponent } from './category/category.component';
         CardModule,
         SkeletonModule,
         RippleModule,
+        BreadcrumbModule,
     ],
     declarations: [
         JobBoardComponent,

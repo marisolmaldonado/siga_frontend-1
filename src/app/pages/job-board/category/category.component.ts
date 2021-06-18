@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -16,21 +17,30 @@ export class CategoryComponent implements OnInit {
   paginator: Paginator;
   categories:Category;
   formCategory:FormGroup;
-  skillDialog: boolean;
-  flagSkills: boolean;
-
+  items:any;
+  data:Category;
   constructor(private spinnerService: NgxSpinnerService,
               private messageService: MessageService,
               private formBuilder: FormBuilder,
               private jobBoardHttpService: JobBoardHttpService,
              ) {
-      this.paginator = {current_page: 1, per_page: 2};
+      this.paginator = {current_page: 1, per_page: 10};
      
   }
 
   ngOnInit(): void {
-    this.getCategories();
+    this.getCategories(this.paginator);
       this.buildFormCategory();
+      this.items = [
+        {label:'Categories'},
+        {label:'Sports'},
+        {label:'Football'},
+        {label:'Countries'},
+        {label:'Spain'},
+        {label:'F.C. Barcelona'},
+        {label:'Squad'},
+        {label:'Lionel Messi', url: 'https://en.wikipedia.org/wiki/Lionel_Messi'}
+    ];
   }
 
 buildFormCategory() {
@@ -40,13 +50,16 @@ buildFormCategory() {
       code: [null, Validators.required],
       name: [null, Validators.required],
       icon: [null, Validators.required],
-      children: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
+     // children: this.formBuilder.array([this.formBuilder.control(null, Validators.required)]),
 
   });
 }
 
-getCategories(){
+getCategories(paginator: Paginator){
   this.spinnerService.show();
+  const params = new HttpParams()
+            .append('page', paginator.current_page.toString())
+            .append('per_page', paginator.per_page.toString());
   this.jobBoardHttpService.get('categories').subscribe(
     response=>{
       this.spinnerService.hide();
