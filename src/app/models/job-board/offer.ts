@@ -37,8 +37,10 @@ export interface Offer {
 
 export interface SearchParams {
     searchCode?: string;
-    searchLocation?: string;
+    searchIDs: Array<number>;
     searchProvince?: string;
     searchCanton?: string;
     searchPosition?: string;
+    searchIdCategory?: Array<number>;
+    searchParentCategory?: Array<number>;
 }

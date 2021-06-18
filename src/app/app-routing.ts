@@ -14,7 +14,7 @@ import {AuthGuard} from './shared/guards/auth.guard';
             {
                 path: '', component: AppMainComponent,
                 children: [
-                    {path: '', redirectTo: '/job-board-web/web', pathMatch: 'full'},
+                    // {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
                     {
                         path: 'dashboard',
                         loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),

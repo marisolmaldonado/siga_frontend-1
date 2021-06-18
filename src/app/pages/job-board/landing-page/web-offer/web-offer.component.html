@@ -1,158 +1,101 @@
-<h1>Conteo de empresas y más</h1>
-
 <hr>
 
 <div class="p-grid">
-    <div class="p-col-12 p-md-12 p-lg-3">
-        <div class="card">
+    <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-3">
+        <div class="card p-shadow-2">
             <h4>Filtrado por categorias.</h4>
-            <p-button icon="pi pi-filter" label="Filtrar por categorias" styleClass="p-mb-2"
-                      (click)="test()"></p-button>
-            <p-tree [value]="treeData" [virtualScroll]="true" scrollHeight="50vh" [virtualNodeHeight]="33" selectionMode="checkbox" [(selection)]="selectedCategories" [filter]="true"></p-tree>
+            <p-splitButton label="Filtrar" icon="pi pi-filter"
+                           (onClick)="filterForCategories()" styleClass="p-mb-2 p-mr-2"
+                           [model]="items"></p-splitButton>
+            <p-button icon="pi pi-filter-slash" label="Limpiar" styleClass="p-mb-2"
+                      (click)="cleanSelectedCategories()"></p-button>
+
+            <p-tree [value]="treeData" [virtualScroll]="true" [scrollHeight]="scrollHeight" [virtualNodeHeight]="33"
+                    selectionMode="checkbox" [(selection)]="selectedCategories" [filter]="true"></p-tree>
         </div>
     </div>
-    <div class="p-col-12 p-md-12 p-lg-9">
-        <div class="card">
-            <p-dataView #filterBy [value]="offers" [paginator]="false" filterBy="requirements" layout="grid">
-                <ng-template pTemplate="header">
-                    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-                        <!--<p-dropdown placeholder="Sort By Price" styleClass="p-mb-2 p-mb-md-0"></p-dropdown>-->
-                        <p-button icon="pi pi-filter" label="Filtros" styleClass="p-mb-2"
-                                  (click)="showModalFilter()"></p-button>
-                        <span class="p-input-icon-left p-mb-2 p-mb-md-0">
-                            <i class="pi pi-search"></i>
-                            <input type="search" pInputText placeholder="Buscar"
-                                   (input)="filterBy.filter($event.target.value)">
-                        </span>
-                        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-                    </div>
-                </ng-template>
-                <ng-template let-offer pTemplate="listItem">
-                    <div class="p-col-12">
-                        <div class="offer-list-item">
-                            <div class="offer-list-detail">
-                                <div class="offer-name">{{ offer.position.name  }}</div>
-                                <div class="offer-description">{{ offer.requirements }}</div>
-                                <i class="pi pi-globe offer-category-icon"></i>
-                                <span class="offer-category">
-                                        {{ offer.location.region }}, {{ offer.location.subregion }}</span>
-                            </div>
-                            <div class="offer-list-action">
-                                <p-button icon="pi pi-check" label="Aplicar" styleClass="p-col-12"
-                                          [style]="{'width': '100%'}"></p-button>
-                                <p-button icon="pi pi-eye" label="Ver más" styleClass="p-button-secondary p-col-12"
-                                          [style]="{'width': '100%'}"
-                                          (click)="showModalMoreInformation(offer);"></p-button>
-                                <div class="p-col-12">
-                                    <i class="pi pi-users offer-category-icon"></i>
-                                    <span [class]="'offer-badge'">{{ offer.vacancies }} vacantes</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </ng-template>
-                <ng-template let-offer pTemplate="gridItem">
-                    <div class="p-col-12 p-md-4">
-                        <div class="offer-grid-item card">
-                            <div class="offer-grid-item-top">
-                                <div>
-                                    <i class="pi pi-globe offer-category-icon"></i>
-                                    <span class="offer-category">
-                                        {{ offer.location.region }}, {{ offer.location.subregion }}</span>
-                                </div>
-                                <!--<span [class]="'offer-badge'">status</span>-->
-                                <div>
-                                    <i class="pi pi-users offer-category-icon"></i>
-                                    <span [class]="'offer-badge'">{{ offer.vacancies }} vacantes</span>
-                                </div>
-                            </div>
-                            <div class="offer-grid-item-content p-mt-2">
-                                <div class="offer-name">{{ offer.position.name }}</div>
-                                <div class="offer-description">{{ offer.requirements }}</div>
-                            </div>
-                            <div class="offer-grid-item-bottom">
-                                <p-button label="Aplicar" icon="pi pi-check" styleClass="p-col-12"
-                                          (click)="applyOffer(offer.id);"></p-button>
-                                <p-button label="Ver más" icon="pi pi-eye" (click)="showModalMoreInformation(offer);"
-                                          styleClass="p-button-secondary p-col-12"></p-button>
-                            </div>
-                        </div>
-                    </div>
-                </ng-template>
-            </p-dataView>
+    <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-9">
+        <div class="card p-mt-0 p-shadow-2">
+            <p-paginator [rows]="paginator.per_page"
+                         [totalRecords]="paginator.total"
+                         (onPageChange)="pageChange($event)"></p-paginator>
+            <app-offer-data-view [offers]="offers"></app-offer-data-view>
         </div>
-
     </div>
 </div>
 
-<p-dialog header="Filtros" [(visible)]="displayModalFilter" [modal]="true"
-          [maximizable]="true" [draggable]="false" [resizable]="false">
+<p-dialog header="Más filtros" [(visible)]="displayModalFilter" [modal]="true"
+          [maximizable]="false" [draggable]="false" [resizable]="false">
 
-    <div class="p-fluid">
-        <div class="p-formgrid p-grid">
-            <div class="p-field p-col">
-                <label for="code">Código:</label>
-                <input id="code" type="text" pInputText pKeyFilter="int" placeholder="1231654">
-                <small id="username-help">Si busca por el código, se desabilita los demas filtros.</small>
+    <div *ngIf="displayMoreFilters" class="p-fluid">
+        <form [formGroup]="formMoreFilters" (submit)="filterForMore()">
+            <div class="p-formgrid">
+                <div class="p-field p-col">
+                    <h3>Cargo:</h3>
+                    <input id="position" type="text" formControlName="position" pInputText placeholder="cargo"/>
+                </div>
             </div>
+            <div class="p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <h3>Campo Amplio:</h3>
+                    <p-autoComplete formControlName="wideField" [suggestions]="filteredWideCategory"
+                                    [dropdown]="true" field="label"
+                                    (completeMethod)="filterWideField($event)"
+                                    (onSelect)="updateSpecificField(wideField)"
+                                    (onKeyUp)="updateSpecificField(wideField)"
+                                    placeholder="Campo amplio">
+                        <ng-template let-parentCategory pTemplate="item">
+                            <div class="country-item">
+                                <div>{{parentCategory.label}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
 
-            <div class="p-field p-col">
-                <label for="position">Cargo:</label>
-                <input id="position" type="text" pInputText placeholder="cargo"/>
-            </div>
-        </div>
-        <div class="p-formgrid p-grid">
-            <div class="p-field p-col">
-                <label for="region">Provincia:</label>
-                <!--[options]="cities" [(ngModel)]="selectedCity1"-->
-                <p-dropdown id="region" placeholder="Selecciona tu provincia." optionLabel="region" styleClass="p-col-12"
-                            [showClear]="true"></p-dropdown>
-            </div>
+                </div>
 
-            <div class="p-field p-col">
-                <label for="subregion">Cantón:</label>
-                <p-dropdown id="subregion" placeholder="Selecciona tu ciudad " optionLabel="subregion"
-                            [showClear]="true"></p-dropdown>
+                <div class="p-field p-col">
+                    <h3>Campo Específico:</h3>
+                    <p-autoComplete formControlName="specificField" [suggestions]="filteredSpecificCategory"
+                                    [dropdown]="true" field="label"
+                                    (completeMethod)="filterSpecificField($event)"
+                                    (onSelect)="getSpecificField(specificField)"
+                                    (onKeyUp)="getSpecificField(specificField)"
+                                    placeholder="Campo específico">
+                        <ng-template let-specificCategory pTemplate="item">
+                            <div class="country-item">
+                                <div>{{specificCategory.label}}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
+                </div>
             </div>
-        </div>
-        <div class="p-formgrid p-grid">
-            <div class="p-field p-col">
-                <label for="parentCategory">Campo Amplio:</label>
-                <p-dropdown id="parentCategory" placeholder="Campo amplio" optionLabel="parentCategory"
-                            [showClear]="true"></p-dropdown>
-            </div>
+            <app-location [option]="3" (formLocationOut)="locationOut($event)"></app-location>
 
-            <div class="p-field p-col">
-                <label for="specificCategory">Campo Específico:</label>
-                <p-dropdown id="specificCategory" placeholder="Campo especifico." optionLabel="specificCategory"
-                            [showClear]="true"></p-dropdown>
+            <div class="p-dialog-footer">
+                <p-button type="submit" icon="pi pi-filter" label="Filtrar"
+                          class="p-button-text"></p-button>
+                <p-button icon="pi pi-times" styleClass="p-button-secondary" (click)="displayModalFilter=false"
+                          label="Cerrar"></p-button>
             </div>
-        </div>
-
+        </form>
     </div>
 
-    <ng-template pTemplate="footer">
-            <p-button icon="pi pi-check" (click)="displayModalFilter=false" label="Yes" class="p-button-text"></p-button>
-        <p-button icon="pi pi-times" (click)="displayModalFilter=false" label="No"></p-button>
-    </ng-template>
+    <div *ngIf="displayCodeFilter" class="p-fluid">
+        <form [formGroup]="formCodeFilter" (submit)="filterForCode()">
+            <div class="p-field">
+                <h3>Código:</h3>
+                <p-inputNumber mode="decimal" autocomplete="off"
+                               [useGrouping]="false" formControlName="code">
+                </p-inputNumber>
+            </div>
+
+            <div class="p-dialog-footer">
+                <p-button type="submit" icon="pi pi-filter" label="Filtrar"
+                          class="p-button-text"></p-button>
+                <p-button icon="pi pi-times" styleClass="p-button-secondary" (click)="displayModalFilter=false"
+                          label="Cerrar"></p-button>
+            </div>
+        </form>
+    </div>
+
 </p-dialog>
-
-<p-dialog header="Godfather I" [(visible)]="displayMoreInformation" [modal]="true" [style]="{width: '50vw'}"
-          [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
-
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat
-        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-    <ng-template pTemplate="footer">
-        <p-button icon="pi pi-check" (click)="displayMoreInformation=false" label="Yes"
-                  class="p-button-text"></p-button>
-        <p-button icon="pi pi-times" (click)="displayMoreInformation=false" label="No"></p-button>
-    </ng-template>
-</p-dialog>
-
-
-

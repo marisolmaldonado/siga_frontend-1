@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 <div class="p-fluid">
     <form [formGroup]="formAddress">
-        <app-location [option]="option" [header]="headerLocation" id="location" formControlName="location"
+        <app-location [option]="option" [header]="headerLocation" id="location" formControlName="infoLocationOut"
                       (formLocationOut)="emitFormLocation($event)"></app-location>
         <br>
         <p-card [header]="headerAddress+':  '">
